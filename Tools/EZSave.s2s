@@ -1,0 +1,672 @@
+' EZSave: Help us save the .smr files quickly and some other interesting on-line stuff. @HH20140828
+' Added on-line threshold recorder and threshold auto-pilot @HH20150709
+
+var pathname$;
+var monkey%:=6 ,cell%, repetition%, lastCell%, lastRep%; 'changed for Qiaoqiao LBY20170102
+var SD, mean, numSD, setStatus%:= 1;
+var thresholdInWaveMark:=-1; ' Real threshold  (thresholdInWaveMark) = HCursor1 (thresholdInCursor) - mean;
+var thresholdInCursor, prevHC1; 'HCursor1
+var vh%;  'view handle
+var a%:=0;
+var overdraw%:=1;
+var thresholdChan%:=401, thresholdArr[1]; ' Save on-line thresholds 
+
+' Threshold auto-pilot
+var thresAPEnable%:=0, thresAPUnit%:= 1, thresAPToEnable%:=0; ' Which unit for the threshold to AP up 
+var thresAPChan%:= 811, thresAPValue, thresAPRatio:=2.3, thresAPType%:= 0, thresAPWinBefore:=5;  
+var thresAPStartValue;
+
+var CurrentTime$,curHour%;
+
+' Decide who is doing experiment according to the schedule.
+CurrentTime$:=Time$(1);
+curHour% := Val(Mid$(CurrentTime$,1,Instr(CurrentTime$,":")));
+PrintLog(curHour%);
+if curHour%>=12 then  ' Afternoon, HH and Polo
+    monkey%:=5;
+else                 ' Morning, YXF and Ringbell
+    monkey%:=5;
+endif
+
+DoToolbar();	
+ResetSS%();
+Halt;
+
+'-------------------------------------------------------------
+Func DoToolbar()   				'Toolbar function
+
+GetFileInfo%();  ' Locate the directory and load the last filename
+
+ToolbarClear();     			'Remove any old buttons
+
+ToolbarSet(0, " ", Idle%);		'Idle routine
+ToolbarSet(-1, "Quit||Esc");   		'Quits the script
+ToolbarSet(2, "Close",CloseAll%);
+ToolbarSet(4, "Abort|0x7b|F12", Abort%);   	'Link to Abort function
+ToolbarSet(5, "Stop|0x7a|F11 ", Stop%);   	'Link to Stop function
+ToolbarSet(6, "Restart|0x79|F10", Reset%);   	'Link to Reset function
+ToolbarSet(7, "Start|0x78|F9  ", Start%);   	'Link to Start function
+ToolbarSet(10, "-R|0x77|F8  ", Rminus%);
+ToolbarSet(11, "+R|0x76|F7  ", Rplus%);
+ToolbarSet(13, "-C|0x75|F6  ", Cminus%);
+ToolbarSet(14, "+C|0x74|F5  ", Cplus%);
+ToolbarSet(15, "== Save and Next ==|0x73|F4 ", SaveAndNext%);   	'Link to Abort function
+ToolbarSet(16, "Folder|0x72|F3",OpenFolder%);
+'ToolbarSet(21, " Change Threshold (F2)|0x71|F2 ",ChangeThreshold%(0,0,0,0,0));
+ToolbarSet(17, "Monkey",SelectMonkey%);
+ToolbarSet(18, "6 SD", Set6SD%);
+ToolbarSet(19, "3 SD", Set3SD%);
+ToolbarSet(20,"Overdraw",OverDraw15%);
+ToolbarSet(22,"ON / OFF |0x71|F2",AutoPilotSwitch%);
+ToolbarSet(23,"AutoPilot",AutoPilotSet%);
+ToolbarSet(25,"Electrode",Electrode%);
+ToolbarMouse(-1, -1, 17, 17, MouseDown%, MouseUp%, MouseMove%);    'HH20140831
+Toolbar("", 1023);   ' User can access all the menus (1023). HH1
+
+return 1;
+end;
+
+func Electrode%()
+
+DlgCreate("Electrode Control",35,1);
+DlgButton(0,"&Cancel");
+DlgButton(1," UP ",Electrode_Up%,1,1);
+DlgButton(2,"DOWN",Electrode_Down%,1,2);
+DlgButton(3,"Back to Home",Electrode_BackToHome%,1,3);
+DlgButton(4,"=== Stop ===",Electrode_Stop%,1,4);
+DlgAllow(1023,Idle%,APChange%);
+DlgShow();
+
+ToolbarMouse(-1, -1, 17, 17, MouseDown%, MouseUp%, MouseMove%);    'Have to reactivat mouse
+
+return 1;
+end
+
+func Electrode_Down%()
+SampleKey("a");
+return 1;
+end
+
+func Electrode_Up%()
+SampleKey("b");
+return 1;
+end
+
+func Electrode_BackToHome%()
+SampleKey("c");
+return 1;
+end
+
+func Electrode_Stop%()
+SampleKey("z");
+return 1;
+end
+
+func AutoPilotSwitch%()
+if thresAPEnable% = 0 then
+    thresAPEnable%:= 1;
+    thresAPToEnable%:=1;
+else
+    thresAPEnable%:= 0;
+endif
+
+return 1;
+end
+
+func AutoPilotSet%()
+
+DlgCreate("Auto Pilot Options",40,1);
+DlgButton(0,"&Cancel");
+DlgCheck(1,"&Enable auto pilot");
+DlgInteger(2,"Unit to follow",1,10,0,0,1);
+DlgList(3,"What to follow","RMS|SD|Peak");
+DlgSlider(4,"Follow ratio",0.1,5,-1,3);
+DlgSlider(5,"Monitor window",0.1,15,-1,3);
+DlgAllow(1023,Idle%,APChange%);
+DlgShow(thresAPEnable%, thresAPUnit%, thresAPType%, thresAPRatio, thresAPWinBefore); 
+
+ToolbarMouse(-1, -1, 17, 17, MouseDown%, MouseUp%, MouseMove%);    'Have to reactivat mouse
+
+return 1;
+end;
+
+func APChange%(item%)
+
+if item% >= 1 then
+    var v:= DlgValue(item%);
+    
+    docase
+    case item% = 1 then
+        thresAPEnable%:= v;
+        if thresAPEnable% then 
+            thresAPToEnable%:=1;
+        endif
+    case item% = 2 then
+        thresAPUnit%:= v;
+        view(vh%);
+        MarkMask(thresAPChan%, 0, 0, -1); 'Exclude all
+        MarkMask(thresAPChan%, 0, 1, thresAPUnit%);
+    case item% = 3 then
+        thresAPType%:= v;
+    case item% = 4 then
+        thresAPRatio:= v;
+    case item% = 5 then
+        thresAPWinBefore := v;
+    endcase;
+endif
+
+DlgValue(4,thresAPRatio);
+
+return 1;
+end;
+
+func ResetSS%()
+
+if SampleStatus()=2 then  ' Already begun, get threshold
+    View(SampleHandle(0));
+    
+    if SSOpen(0)>0 then view(SSOpen(0)).FileClose(); endif; ' First close existing Spike Shape windows to reset PCA
+    SSOpen(1,0);
+    thresholdInWaveMark := HCursor(2);
+    
+    View(SampleHandle(0));
+    if not HCursorExists(1) then HCursorNew(1); endif;
+    thresholdInCursor:=thresholdInWaveMark+mean;
+    prevHC1:=  thresholdInCursor;
+    HCursor(1, thresholdInCursor, 1);
+    HCursorLabel(4,1,"Spike Threshold %p");
+    HCursorLabelPos(1,10);
+endif;
+
+return 1;
+end;
+
+func OverDraw15%()
+overdraw%:= -overdraw%;
+
+var yh,yl;
+View(SampleHandle(0));
+
+if overdraw% > 0 then
+    yh := YHigh(1);
+    yl := YLow(1);
+    
+    ChanColourSet(1, 1,0.6,0.6,0.6);   'Set channel colour
+    ChanShow(5);
+    ChanOrder(1, 0, 5);   'Move selected channels
+    YAxisLock(1, 1, 0);             ' Set group y axis lock
+    ChanOrder(5, 0, 1);   'Move selected channels
+    'ChanSelect(5, 1);
+    'Optimise(-3); 'Selected channels
+    'ChanSelect(-3, 0);
+    
+    ChanWeight(5, 2.79868);   'Change channel weight
+    ChanWeight(1, 2.79868);   'Change channel weight
+    ChanWeight(3, 0.118421);   'Change channel weight
+    ChanWeight(4, 0.0986842);   'Change channel weight
+    
+    YRange(5,yl,yh);
+    
+else
+    yh := YHigh(5);
+    yl := YLow(5);
+    
+    ChanColourSet(1, 1,0,0.501961,0);   'Set default channel colour
+    ChanOrder(809,1,5);
+    YAxisLock(1,1,0);             ' Set group y axis lock
+    
+    ChanWeight(809, 0.785714);   'Change channel weight
+    ChanWeight(5, 0.150427);   'Change channel weight
+    ChanWeight(1, 3.64444);   'Change channel weight
+    ChanWeight(401, 3.64444);   'Change channel weight
+    ChanWeight(803, 0.928571);   'Change channel weight
+    
+    ChanWeight(5,0.1);
+    'ChanHide(5);
+    
+    'ChanSelect(5, 1);
+    'ChanOrder(1, 0, -3);   'Move selected channels
+    'ChanSelect(-3, 0);
+    YRange(1,yl,yh);
+ 
+endif
+
+YAxisLock(1, 1,0);             ' Set group y axis lock
+
+return 1;
+end;
+
+func MouseDown%(currenth%, chan%, x, y, flags%)
+'PrintLog("Down: chan=%2d, x=%g, y= %g, flags% = %d\n", chan%, x, y, flags%);
+return 1;
+'return 19+1024; 'cursor 19 + a line linking start to end
+end;
+
+func MouseMove%(currenth%, chan%, x, y, flags%)
+'PrintLog("Move: chan=%2d, x=%g, y= %g, flags% = %d\n", chan%, x, y, flags%);
+'HCursor(1,y);
+return 0;       'keep same cursor as for the mouse down
+end;
+
+func MouseUp%(currenth%, chan%, x, y, flags%)
+'PrintLog("Up: chan=%2d, x=%g, y= %g, flags% = %d\n", chan%, x, y, flags%);
+if currenth% = SampleHandle(0) then
+    SetThreshold%(View(currenth%).HCursor(1));
+endif;
+
+return 1;       'do not close the toolbar
+end;
+
+
+'-------------------------------------------------------------
+Func Start%()   	'Button 2 START SAMPLING routine
+var vSS%;
+ToolbarMouse(-1, -1, 17, 17, MouseDown%, MouseUp%, MouseMove%);    'HH20140831
+
+if SampleStatus()= -1 then         ' To avoid "SampleStatus()=0: A time view is ready to sample, but it has not been told to start yet"
+    vh% := FileNew(0,3);			'HH20130829  To use the same configuration as "Record_C"
+    view(vh%); '.WindowTitle$("Unsaved");   ' vh% is global. HH1
+else
+    vh% := SampleHandle(0);
+endif;
+
+SampleStart();		'Start sampling
+SampleWrite(1);
+
+View(vh%);
+
+if SSOpen(0)>0 then view(SSOpen(0)).FileClose(); endif; ' First close existing Spike Shape windows to reset PCA
+vSS%:= SSOpen(1, 1); 'Open Edit Wavemark spike shape dialog
+'Window(0.144509, 24,33.237, 101.419);
+thresholdInWaveMark := view(vSS%).HCursor(2);
+
+View(vh%);
+
+if not HCursorExists(1) then HCursorNew(1); endif;
+thresholdInCursor:=thresholdInWaveMark+mean;
+prevHC1:=  thresholdInCursor;
+HCursor(1, thresholdInCursor, 1);
+HCursorLabel(4,1,"Spike Threshold %p");
+HCursorLabelPos(1,10);
+
+ResetSS%();
+'StateRecording%();
+return 1;  			'This leaves toolbar active
+end;
+
+
+'-------------------------------------------------------------
+Func SaveAndNext%()   		'Button 3 STOP SAMPLING routine
+var test%;
+
+SampleStop();		'Stop sampling
+
+test% := FrontView(vh%);
+if test%<0 then 
+	Message("Error with FrontView in StopSave"); 
+	PrintLog("ViewKind = %d for errant window handle", ViewKind(vh%) );
+	Halt; 
+endif;
+
+' Save threshold chan
+View(vh%);
+ChanSave(thresholdChan%,29);
+ChanShow(29);
+ChanDelete(thresholdChan%);
+ChanSelect(29, 1);
+ChanOrder(1, 0, 29);   'Move selected channels
+ChanSelect(29, 0);
+ChanColourSet(29, 1,1,0.752941,1); 
+
+FilePathSet(pathname$);
+if FileSaveAs(Print$("m%dc%dr%d.smr",monkey%,cell%,repetition%), -1) =0 then   ' Sucess
+    'lastCell%:= cell%;
+    'lastRep% := repetition%;
+    'repetition%+=1;
+    'FileClose(1);
+    
+    if SSOpen(0)>0 then view(SSOpen(0)).FileClose(); endif; ' Close Spike Shape windows
+    
+    GetFileInfo%();
+    UpdateMessage%();
+    
+    'Start next file
+    Start%();
+else
+	Message("Error with saving data. Please check!!!");     
+endif;
+
+return 1;  			'This leaves toolbar active
+end;
+
+
+Func Stop%()   		'Button 3 STOP SAMPLING routine
+if Query%()=0 then return 1; endif;
+
+SampleStop();		'Stop sampling
+
+'StateNoRecording%();
+return 1;  			'This leaves toolbar active
+end;
+
+Func Reset%()   'Button 4 RESET SAMPLING routine
+if Query%()=0 then return 1; endif;
+
+SampleReset();  				'Reset sampling
+SampleStart();		'Start sampling
+SampleWrite(1);	
+
+SetThreshold%(thresholdInCursor);
+ResetSS%();
+
+'DoToolbar(); ' To keep shortcuts active
+
+'StateNoRecording%();
+ToolbarMouse(-1, -1, 17, 17, MouseDown%, MouseUp%, MouseMove%);    'HH20140831
+
+return 1;  'This leaves toolbar active
+end;
+
+Func Abort%()   'Button 5 ABORT SAMPLING routine
+if Query%()=0 then return 1; endif;
+
+SampleAbort();					'Abort sampling 
+'StateNoRecording%();
+
+return 1;  'This leaves toolbar active
+end;  
+
+'-------------------------------------------------------------
+Func Rminus%()
+repetition% := max(repetition%-1,1);
+UpdateMessage%();
+return 1;  'This leaves toolbar active
+end;
+
+Func Rplus%()
+repetition%+=1;
+UpdateMessage%();
+return 1;  'This leaves toolbar active
+end;
+
+Func Cminus%()
+cell% := max(cell%-1,1);
+repetition%:=1;
+UpdateMessage%();
+return 1;  'This leaves toolbar active
+end;
+
+Func Cplus%()
+cell%+=1;
+repetition%:=1;
+UpdateMessage%();
+return 1;  'This leaves toolbar active
+end;
+
+Func StateRecording%()
+ToolbarEnable(4, 1);
+ToolbarEnable(5, 1);
+ToolbarEnable(6, 1);
+ToolbarEnable(7, 0);
+ToolbarEnable(15, 1);
+ToolbarEnable(2, 0);
+ToolbarEnable(22, 1);
+ToolbarEnable(23, 1);
+return 1;
+end;
+
+Func StateNoRecording%()
+ToolbarEnable(4, 0);
+ToolbarEnable(5, 0);
+ToolbarEnable(6, 0);
+ToolbarEnable(7, 1);
+ToolbarEnable(15, 0);
+ToolbarEnable(2, 1);
+ToolbarEnable(22, 0);
+ToolbarEnable(23, 0);
+return 1;
+end;
+
+'-------------------------------------------------------------
+'Idle routine: Check the state of a flag variable which indicates whether
+'disk writing should be turned on or off.  
+Func UpdateMessage%()
+var info$, set$:="";
+info$ := Print$("Next file >>> %s m%dc%dr%d.smr <<<  last file: m%dc%dr%d.smr | SD = %.3f (Thres = %.1f SD)",pathname$,monkey%,cell%,repetition%,monkey%,lastCell%,lastRep%,SD,numSD);
+
+if thresAPEnable% then 
+    set$:="| Auto-piloting";    
+else if setStatus% then
+    set$:="| Set";
+    endif
+endif
+
+info$:=Print$("%s %s",info$,set$);
+ToolbarText(info$);
+return 1;
+end;
+
+Func Query%()
+
+DlgCreate("Abort and lose data",85,1);
+DlgText("You may lose data if you continue!!\nDO NOT blame me if it happens :)\nAre you sure?",0,1);
+DlgButton(1,"&Yes");
+DlgButton(0,"--- &No ---");
+return DlgShow();
+
+end;
+
+Func SelectMonkey%()
+var oldMonkey%:= monkey%;
+Dlgcreate("Select Monkey",55,1);
+DlgList(1,"Monkey No.","0|1|2|3|4|5|6|7|8|9|10");
+DlgShow(monkey%);
+
+ToolbarMouse(-1, -1, 17, 17, MouseDown%, MouseUp%, MouseMove%);    'Have to reactivat mouse
+'DoToolbar();
+
+if GetFileInfo%() = -1 then 
+    Message("We've got a new monkey, or are you kidding me?");
+    monkey%:=oldMonkey%;
+    return 1; 
+endif;
+
+UpdateMessage%();
+
+return 1;
+end;
+
+Func GetFileInfo%()
+var names$[10000];
+var nFiles%, i%, maxCell%:=1, maxRep%:=1, curCell%, curRep%;
+var posC%, posR%, posDot%;
+
+pathname$:= Print$("Z:\\CED_Data\\m%d\\",monkey%);
+if FilePathSet(pathname$)<0 then return -1 endif;
+nFiles%:= FileList(names$[],0,Print$("m%dc*r*",monkey%));
+
+for i% := 0 to nFiles%-1 do
+    posC%:= InStr(names$[i%],"c");
+    posR%:= InStr(names$[i%],"r");
+    posDot%:= InStr(names$[i%],".");
+    curCell% := Val(Mid$(names$[i%],posC%+1,posR%-posC%-1));
+    curRep% := Val(Mid$(names$[i%],posR%+1,posDot%-posR%-1));
+    
+    if curCell% > maxCell% then 
+        maxCell%:= curCell%;           
+        maxRep% := curRep%;
+    endif
+    
+    if curCell% = maxCell% then
+        if curRep% > maxRep% then
+            maxRep% := curRep%;
+        endif
+    endif
+    
+next;
+
+lastCell%:= maxCell%;
+lastRep% := maxRep%;
+
+cell%:=lastCell%;
+repetition%:=lastRep%+1;
+
+return 1;
+end;
+
+
+Func CloseAll%()
+if Query%()=0 then return 1; endif;
+
+FileClose(-1,-1);
+return 1;
+end
+
+Func OpenFolder%()
+ProgRun(Print$("cmd /c explorer %s",pathname$));
+return 1;
+end
+
+Func SetThreshold%(levelInCursor)
+var markh%;
+
+thresholdInCursor:= levelInCursor;
+prevHC1:=  thresholdInCursor;
+thresholdInWaveMark:= thresholdInCursor-mean;
+
+
+View(SampleHandle(0));
+HCursor(1,thresholdInCursor);    ' Sychronize
+
+markh%:=SSOpen(1, 0); 'Open Edit Wavemark spike shape dialog
+View(markh%).HCursor(2, thresholdInWaveMark); 'Set Wavemark trigger level
+
+setStatus%:=1;
+PrintLog("Real threshold in wavemark changed to %f\n",thresholdInWaveMark);        
+
+return 1;
+end
+
+Func Set3SD%()
+SetThreshold%(3*SD + mean);
+return 1;
+end
+
+Func Set6SD%()
+SetThreshold%(6*SD + mean);
+return 1;
+end
+
+Func Idle%()        
+
+if SampleStatus()=2 then    ' Recording has begun
+    
+    StateRecording%();
+    
+    ' Calculate Noise level
+    View(SampleHandle(0));
+    SD := ChanMeasure(1,12,XLow(),XHigh());
+    mean:= ChanMeasure(1,2,XLow(),XHigh());
+    thresholdInCursor := View(SampleHandle(0)).HCursor(1);
+    
+    if HCursor(1) < mean then HCursor(1,mean) ;endif;   ' HCursor should not be lower than 0
+    
+    if SD<>0 then numSD := (thresholdInCursor-mean)/SD; endif;
+   
+    if thresholdInCursor <> prevHC1 then
+        setStatus%:=0;
+    endif;
+    
+    if thresholdInWaveMark <0 then ' Initiate
+        view(SampleHandle(0));
+        thresholdInWaveMark:= view(SSOpen(1,0)).HCursor(2);
+        
+    endif
+    
+    
+    ' Synchronize threshold @HH20140831
+    if viewkind(FocusHandle())= 11 and InStr(view(FocusHandle()).WindowTitle$(),"WaveMark") then   'Wavemark
+        
+        view(FocusHandle());
+        thresholdInWaveMark := HCursor(2);
+        thresholdInCursor:= thresholdInWaveMark + mean;
+        
+        View(SampleHandle(0)).HCursor(1,thresholdInCursor);
+        prevHC1:=  thresholdInCursor;
+        
+    endif;
+    
+    ' Save threshold level. HH20150709
+    thresholdArr[0]:= thresholdInWaveMark + mean;
+    view(SampleHandle(0));
+    
+    if view(SampleHandle(0)).ChanKind(401) <= 0 then 
+        'view(SampleHandle(0)).ChanNew(thresholdChan%,9,0,0.01);  ' This makes the file size blow up...
+        thresholdChan%:= view(SampleHandle(0)).MemChan(1,0,0.2);   ' Have to cache in memory chan and then save it
+        view(SampleHandle(0)).ChanTitle$(thresholdChan%,"Online-Thres"); 
+        view(SampleHandle(0)).ChanShow(thresholdChan%); 
+        view(SampleHandle(0)).ChanSelect(thresholdChan%, 1);
+        view(SampleHandle(0)).ChanOrder(1, 0, -3);   'Move selected channels
+        view(SampleHandle(0)).ChanSelect(thresholdChan%, 0);
+        view(SampleHandle(0)).ChanColourSet(thresholdChan%, 1,1,0.752941,1); 
+    endif;
+    
+    view(SampleHandle(0)).ChanWriteWave(thresholdChan%,thresholdArr,MaxTime());
+    
+    ' Threshold auto piloting
+    if thresAPEnable% then
+        docase
+        case thresAPType% = 0 then  ' RMS
+            thresAPValue := view(SampleHandle(0)).ChanMeasure(thresAPChan%,11,MaxTime()-thresAPWinBefore,MaxTime()); ' RMS
+        case thresAPType% = 1 then ' SD
+            thresAPValue := view(SampleHandle(0)).ChanMeasure(thresAPChan%,12,MaxTime()-thresAPWinBefore,MaxTime()); ' SD
+        case thresAPType% = 2 then 'Peak
+            thresAPValue := view(SampleHandle(0)).ChanMeasure(thresAPChan%,14,MaxTime()-thresAPWinBefore,MaxTime());
+        endcase
+        
+        if thresAPToEnable% then ' Switch from disable to enable
+            if thresAPValue = 0 then
+                Sound("S*",0x0001);
+                thresAPEnable% := 0;
+                thresAPToEnable%:= 0;
+            else
+                thresAPRatio:= thresholdInWaveMark / thresAPValue; ' Save current ratio
+                thresAPToEnable%:=0;
+                thresAPStartValue:= thresAPValue;' Cache the initial value
+                'DlgValue(4,thresAPRatio);
+            endif
+        endif
+    endif
+    
+    if thresAPEnable% then  ' Recheck if AP is still enabled
+        if thresAPValue < 0.85 * thresAPStartValue then' Alarm if amplitude is critical
+            ChanColourSet(1,0,1,1,0.501961);
+            ChanColourSet(5,0,1,1,0.501961);
+            'Sound("S*",0x0001);
+        else
+            ChanColourSet(1,0,1,1,1);
+            ChanColourSet(5,0,1,1,1);
+        endif
+        
+        if thresAPValue > SD then
+            thresholdInWaveMark:= thresAPValue * thresAPRatio;
+            if SSOpen(0)<=0 then SSOpen(1,0); endif; 
+            view(view(SampleHandle(0)).SSOpen(0)).HCursor(2,thresholdInWaveMark);   
+            view(SampleHandle(0)).HCursor(1,thresholdInWaveMark + mean);
+        endif
+    else
+            ChanColourSet(1,0,1,1,1);
+            ChanColourSet(5,0,1,1,1);        
+    endif
+
+else        
+    StateNoRecording%();
+endif;
+
+
+'PrintLog("FocusHandle = %d(%d), View = %d(%d), FrontView = %d(%d), handle% = %d(%d)\n",FocusHandle(),viewkind(FocusHandle()),view(),viewkind(view()),FrontView(),viewkind(FrontView()), SampleHandle(0),ViewKind(SampleHandle(0)));
+
+UpdateMessage%();
+return 1;  'This leaves toolbar active
+end;  
+
