@@ -1,5 +1,4 @@
 function [good_data, outputChan] = PackData(good_data,fName)
-
 TEMPO_Defs;
 
 %Load sorted spikes data

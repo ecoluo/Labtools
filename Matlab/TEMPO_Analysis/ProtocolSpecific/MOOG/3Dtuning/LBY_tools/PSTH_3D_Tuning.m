@@ -1,7 +1,6 @@
 %% plot figures - PSTH
 %
 global PSTH;
-
 % % ------ fig.20 plot PSTH for each trial and raster plot across directions ------%
 % %{ 
 for k = 1:length(unique_stimType)
@@ -144,10 +143,10 @@ for k = 1:length(unique_stimType)
     switch Protocol
         case DIRECTION_TUNING_3D
             ss = [str2, '_T'];
-            saveas(20+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Translation\' ss], 'emf');
+            saveas(20+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'pdf');
         case ROTATION_TUNING_3D
             ss = [str2, '_R'];
-            saveas(20+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Rotation\' ss], 'emf');
+            saveas(20+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'pdf');
     end
 end
 %}
@@ -253,10 +252,10 @@ for k = 1:length(unique_stimType)
     set(gcf,'paperpositionmode','auto');
     if Protocol == DIRECTION_TUNING_3D
         ss = [str3, '_T'];
-        saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Translation\' ss], 'emf');
+        saveas(30+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'pdf');
     elseif Protocol == ROTATION_TUNING_3D
         ss = [str3, '_R'];
-        saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Rotation\' ss], 'emf');
+        saveas(30+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'pdf');
     end
 
 end
@@ -370,10 +369,10 @@ for k = 1:length(unique_stimType)
     set(gcf,'paperpositionmode','auto');
     if Protocol == DIRECTION_TUNING_3D
         ss = [str3, '_T'];
-        saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Translation\' ss], 'emf');
+        saveas(30+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'pdf');
     elseif Protocol == ROTATION_TUNING_3D
         ss = [str3, '_R'];
-        saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Rotation\' ss], 'emf');
+        saveas(30+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'pdf');
     end
 
 end
@@ -494,10 +493,10 @@ end
 %     set(gcf,'paperpositionmode','auto');
 %     if Protocol == DIRECTION_TUNING_3D
 %         ss = [str3, '_T'];
-%         saveas(40+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Translation\' ss], 'emf');
+%         saveas(40+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'pdf');
 %     elseif Protocol == ROTATION_TUNING_3D
 %         ss = [str3, '_R'];
-%         saveas(40+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Rotation\' ss], 'emf');
+%         saveas(40+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'pdf');
 %     end
 %     
 % end
@@ -605,10 +604,10 @@ end
 %     set(gcf,'paperpositionmode','auto');
 %     if Protocol == DIRECTION_TUNING_3D
 %         ss = [str3, '_T'];
-%         saveas(60+k,['Z:\LBY\Recording data\Polo\',PSTH.monkey,'\Translation\' ss], 'emf');
+%         saveas(60+k,['Z:\LBY\Recording data\Polo\',PSTH.monkey,'\Translation\' ss], 'pdf');
 %     elseif Protocol == ROTATION_TUNING_3D
 %         ss = [str3, '_R'];
-%         saveas(60+k,['Z:\LBY\Recording data\Polo\',PSTH.monkey,'\Rotation\' ss], 'emf');
+%         saveas(60+k,['Z:\LBY\Recording data\Polo\',PSTH.monkey,'\Rotation\' ss], 'pdf');
 %     end
 %     
 % end
@@ -701,10 +700,10 @@ end
 % %     set(gcf,'paperpositionmode','auto');
 % %     if Protocol == DIRECTION_TUNING_3D
 % %         ss = [str3, '_T'];
-% %         saveas(50+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Translation\' ss], 'emf');
+% %         saveas(50+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'pdf');
 % %     elseif Protocol == ROTATION_TUNING_3D
 % %         ss = [str3, '_R'];
-% %         saveas(50+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Rotation\' ss], 'emf');
+% %         saveas(50+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'pdf');
 % %     end
 % end
 %}

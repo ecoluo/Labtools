@@ -5,7 +5,6 @@
 %--	defines in TEMPO_Defs.m are needed to access the data from good/bad_data.  GCD, starting 12/25/99
 %----------------------------------------------------------------------------------------------------------
 function	[return_value, good_data, bad_data, newChans] = LoadTEMPOData(PATH,FILE)
-
 global listtext num_recorded_spike_channels
 
 TEMPO_Defs;		%reads in some definitions that we need
@@ -32,11 +31,8 @@ end
 % and extra 2: Ele = -90 & 90;
 % order: stim_type azimuth elevation amplitude coherence
 rescue_from_CED = {   % FileName   Protocol   Conditions   Headings  Coherence Duration Amplitude
-    'Z:\Data\MOOG\Qiaoqiao\raw\m6c605r1.htb','3DT',[1 2],[0:45:315,-45:45:45], nan, 1500,0.11;
-    'Z:\Data\MOOG\Qiaoqiao\raw\m6c617r2.htb','3DR',[1],[0:45:315,-45:45:45], nan, 1500,8;
-%     'Z:\Data\MOOG\Polo\raw\m5c77r2.htb','HD',[1 2 3],[-8 -4 -2 -1 0 1 2 4 8], 35;
-%     'Z:\Data\MOOG\Polo\raw\m5c91r1.htb','MemSac', nan, 0:45:350, nan;
-%     'Z:\Data\MOOG\Messi\raw\m10c102r5.htb','DelSac',nan, 0:45:350, nan;
+    '/ion/gu_lab/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c605r1.htb','3DT',[1 2],[0:45:315,-45:45:45], nan, 1500,0.11;
+    '/ion/gu_lab/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c617r2.htb','3DR',[1],[0:45:315,-45:45:45], nan, 1500,8;
     };
 
 ff = 1;
@@ -55,6 +51,7 @@ else
     %% Read htb START (normal condition)
     
     %disp('opening  HTB file...');
+    filename
     fid = HTBOPEN(filename);            % Open the HTB file
     if (fid == -1)		%file could not be opened
         return_value = -1;
@@ -363,11 +360,11 @@ end
 %% Load CED spike sorting data %%
 
 return_value = 1;		%indicates completed OK
-
 %add by AHC 02-22-06
-fa = find(PATH == '\');
-sName = ['Z:\Data\MOOG', PATH(fa(3):fa(4)), 'Analysis\SortedSpikes2\', FILE(1:length(FILE) - 4),'.mat'];
+fa = find(PATH == '/');
+sName = ['/ion/gu_lab/byliu/Z/Data/MOOG', PATH(fa(7):fa(8)), 'Analysis/sortedspikes2/', FILE(1:length(FILE) - 4),'.mat'];
 if (exist(sName,'file'))
+    
     [good_data SortedChannel] = PackData(good_data,sName);%get the Spike2 sorted data
     if SortedChannel >0
         disp('Loading Spike2 sorted data!');

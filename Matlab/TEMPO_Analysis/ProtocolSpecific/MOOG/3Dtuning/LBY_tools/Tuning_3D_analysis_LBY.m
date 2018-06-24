@@ -16,8 +16,7 @@
 
 function Tuning_3D_analysis_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, ~, StopOffset, PATH, FILE, batch_flag)
 
-tic;
-
+tic
 global PSTH3Dmodel PSTH;
 PSTH3Dmodel = [];PSTH = [];
 
@@ -142,6 +141,7 @@ FixInT = find(event_in_bin == IN_FIX_WIN_CD);
 
 % spike data
 % 5000*260 (for 5 repetitions)
+
 spike_data = squeeze(data.spike_data(SpikeChan,:,real_trials)); % sipke data in 5000ms for each trial
 spike_data( spike_data > 100 ) = 1; % something is absolutely wrong, recorrect to 1
 spon_spk_data = squeeze(data.spike_data(SpikeChan,:,spon_trials));
@@ -471,12 +471,12 @@ for k = 1:length(unique_stimType)
     PSTH.sig(k) = sum(PSTH.sigTrue{k}(:)); % sig No.of directions
 end
 %}
-toc;
 %% plot figures
 %
 % k=1,2,3
 % j= -90,-45,0,45,90 (up->down)
 % i=0 45 90 135 180 225 270 315
+set(0,'DefaultFigureVisible', 'off') 
 
 % 270-225-180-135-90-45-0-315-270 for figures
 iAzi = [7 6 5 4 3 2 1 8 7];
@@ -499,7 +499,7 @@ markers = {
 Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+719-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+1074-PSTH_onT+timeStep)/timeStep];
 % preferDirectionOfTime;
 % CosineTuningPlot;
-PSTH_3D_Tuning; % plot PSTHs across sessions;
+% PSTH_3D_Tuning; % plot PSTHs across sessions;
 % Contour_3D_Tuning; % plot countour figures;
 % Contour_3D_Tuning_GIF; % plot countour figures(PD across time);
 
@@ -516,7 +516,7 @@ models_color = {'k','g'};
 reps = 20;
 % reps = 5;
 for k = 1:length(unique_stimType)
-    % for k = 1
+%     for k = 1
     if PSTH.respon_sigTrue(k) == 1
         models_fitting(models,models_color,FILE, Protocol,k,meanSpon,PSTH.spk_data_bin_mean_rate{k}(:,:,stimOnBin:stimOffBin),PSTH.spk_data_count_mean_rate_all{k},PSTH.spon_spk_data_bin_mean_rate(stimOnBin:stimOffBin),nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,unique_duration);
         
@@ -606,7 +606,7 @@ for k = 1:length(unique_stimType)
         PSTH3Dmodel{k} = nan;
     end
 end
-% toc;
+
 %}
 %% Data Saving
 
