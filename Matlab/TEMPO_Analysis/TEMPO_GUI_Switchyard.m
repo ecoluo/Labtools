@@ -144,7 +144,7 @@ switch(action)
             nchan = good_chan_num(1); %good_data.htb_header{SPIKE_DB}.nchannels;
             popup_text = [];
             
-            gcfdata.non_zero_spk_chan =  find(sum(sum(good_data.spike_data,2),3) > 0); %  HH20150207
+            gcfdata.non_zero_spk_chan =  find(sum(sum(good_data.spike_data,2),3) > 0); %  HH20150207 find non-empty channels
             
             guidata(gcbf,gcfdata);
             
@@ -331,7 +331,7 @@ switch(action)
         %for each selected trial, find all of the non-zero elements of event_data; these are the code values
         %then sprintf them to a string and display them in the console window.
         num_trials = size(select_data.event_data, 3);
-        for (i = 1:num_trials)
+        for i = 1:num_trials
             tt = find( select_data.event_data(1,:,i) ~= 0 );
             str1 = sprintf('%d ', select_data.event_data(1,tt,i));
             str2 = sprintf('Trial #%4d: ', i);
@@ -386,7 +386,7 @@ switch(action)
         
         
         num_trials = size(select_data.event_data, 3);
-        for (i = 1:num_trials)
+        for i = 1:num_trials
             cond = conditions(end,i);
             str1 = sprintf('%6.3f ', UniqueConds(cond + 1,1:end - 1 )    );
             str2 = sprintf('Trial #%4d: %3d / ', i, cond);

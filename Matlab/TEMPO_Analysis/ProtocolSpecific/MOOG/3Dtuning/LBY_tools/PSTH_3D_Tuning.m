@@ -3,7 +3,7 @@
 global PSTH;
 
 % % ------ fig.20 plot PSTH for each trial and raster plot across directions ------%
-% %{ 
+%{ 
 for k = 1:length(unique_stimType)
     figure(20+k);
     set(gcf,'pos',[0 0 1900 1000]);
@@ -166,7 +166,7 @@ for k = 1:length(unique_stimType)
             errorbar(PSTH.spk_data_bin_mean_rate{k}(j,iAzi(i),:),PSTH.spk_data_bin_mean_rate_ste{k}(j,iAzi(i),:),'color','k');
             hold on;
             for n = 1:size(markers,1)
-                plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',1.5);
+                plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',3);
                 hold on;
             end
             set(gca,'ylim',[0 max(PSTH.maxSpkRealBinMean(k)+PSTH.maxSpkRealBinMeanSte(k),PSTH.maxSpkSponBinMean+PSTH.maxSpkSponBinMeanSte)],'xlim',[1 nBins(1,1)]);
@@ -182,7 +182,7 @@ for k = 1:length(unique_stimType)
     errorbar(PSTH.spk_data_bin_mean_rate{k}(1,iAzi(5),:),PSTH.spk_data_bin_mean_rate_ste{k}(1,iAzi(5),:),'color','k');
     hold on;
     for n = 1:size(markers,1)
-        plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',1.5);
+        plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',3);
         hold on;
     end
     set(gca,'ylim',[0 max(PSTH.maxSpkRealBinMean(k)+PSTH.maxSpkRealBinMeanSte(k),PSTH.maxSpkSponBinMean+PSTH.maxSpkSponBinMeanSte)],'xlim',[1 nBins(1,1)]);
@@ -193,7 +193,7 @@ for k = 1:length(unique_stimType)
     errorbar(PSTH.spk_data_bin_mean_rate{k}(5,iAzi(5),:),PSTH.spk_data_bin_mean_rate_ste{k}(5,iAzi(5),:),'color','k');
     hold on;
     for n = 1:size(markers,1)
-        plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',1.5);
+        plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',3);
         hold on;
     end
     set(gca,'ylim',[0 max(PSTH.maxSpkRealBinMean(k)+PSTH.maxSpkRealBinMeanSte(k),PSTH.maxSpkSponBinMean+PSTH.maxSpkSponBinMeanSte)],'xlim',[1 nBins(1,1)]);
@@ -206,7 +206,7 @@ for k = 1:length(unique_stimType)
     errorbar(PSTH.spon_spk_data_bin_mean_rate,PSTH.spon_spk_data_bin_mean_rate_ste,'color','k');
     hold on;
     for n = 1:size(markers,1)
-        plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',1.5);
+        plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',3);
         hold on;
     end
     set(gca,'ylim',[0 max(PSTH.maxSpkRealBinMean(k)+PSTH.maxSpkRealBinMeanSte(k),PSTH.maxSpkSponBinMean+PSTH.maxSpkSponBinMeanSte)],'xlim',[1 nBins(1,1)]);
@@ -251,12 +251,15 @@ for k = 1:length(unique_stimType)
     % to save the figures
     str3 = [str, '_PSTH_',stimType{k}];
     set(gcf,'paperpositionmode','auto');
+    
     if Protocol == DIRECTION_TUNING_3D
         ss = [str3, '_T'];
-        saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Translation\' ss], 'emf');
+%         saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Translation\' ss], 'emf');
+         saveas(30+k,['Z:\LBY\Recording data\Position cell\' ss], 'emf');
     elseif Protocol == ROTATION_TUNING_3D
         ss = [str3, '_R'];
-        saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Rotation\' ss], 'emf');
+%         saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Rotation\' ss], 'emf');
+         saveas(30+k,['Z:\LBY\Recording data\Position cell\' ss], 'emf');
     end
 
 end
@@ -396,7 +399,7 @@ end
 %             plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(j,iAzi(i),:)),'color','k','linewidth',2);
 %             hold on;
 % %                         for n = 1:length(PSTH.peak{k})
-% %                             plot([PSTH.peak{k}(n) PSTH.peak{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',1.5);
+% %                             plot([PSTH.peak{k}(n) PSTH.peak{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',3);
 % %                             hold on;
 % %                         end
 %             for n = 1:size(markers,1)
@@ -415,7 +418,7 @@ end
 %     plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(1,iAzi(5),:)),'color','k','linewidth',2);
 %     hold on;
 % %         for n = 1:length(PSTH.peak{k})
-% %             plot([PSTH.peak{k}(n) PSTH.peak{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',1.5);
+% %             plot([PSTH.peak{k}(n) PSTH.peak{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',3);
 % %             hold on;
 % %         end
 %     for n = 1:size(markers,1)
@@ -430,7 +433,7 @@ end
 %     plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(5,iAzi(5),:)),'color','k','linewidth',2);
 %     hold on;
 % %         for n = 1:length(PSTH.peak{k})
-% %             plot([PSTH.peak{k}(n) PSTH.peak{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',1.5);
+% %             plot([PSTH.peak{k}(n) PSTH.peak{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',3);
 % %             hold on;
 % %         end
 %     for n = 1:size(markers,1)
@@ -519,7 +522,7 @@ end
 %             plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(j,iAzi(i),:)),'color','k','linewidth',2);
 %             hold on;
 %             for n = 1:length(PSTH.peak_DS{k})
-%                 plot([PSTH.peak_DS{k}(n) PSTH.peak_DS{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',1.5);
+%                 plot([PSTH.peak_DS{k}(n) PSTH.peak_DS{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',3);
 %                 hold on;
 %             end
 %             set(gca,'ylim',[0 max(PSTH.maxSpkRealBinMean(k)+PSTH.maxSpkRealBinMeanSte(k),PSTH.maxSpkSponBinMean+PSTH.maxSpkSponBinMeanSte)],'xlim',[1 nBins(1,1)]);
@@ -534,7 +537,7 @@ end
 %     plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(1,iAzi(5),:)),'color','k','linewidth',2);
 %     hold on;
 %     for n = 1:length(PSTH.peak_DS{k})
-%         plot([PSTH.peak_DS{k}(n) PSTH.peak_DS{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',1.5);
+%         plot([PSTH.peak_DS{k}(n) PSTH.peak_DS{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',3);
 %         hold on;
 %     end
 %     set(gca,'ylim',[0 max(PSTH.maxSpkRealBinMean(k)+PSTH.maxSpkRealBinMeanSte(k),PSTH.maxSpkSponBinMean+PSTH.maxSpkSponBinMeanSte)],'xlim',[1 nBins(1,1)]);
@@ -545,7 +548,7 @@ end
 %     plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(5,iAzi(5),:)),'color','k','linewidth',2);
 %     hold on;
 %     for n = 1:length(PSTH.peak_DS{k})
-%         plot([PSTH.peak_DS{k}(n) PSTH.peak_DS{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',1.5);
+%         plot([PSTH.peak_DS{k}(n) PSTH.peak_DS{k}(n)], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',peakColor{n},'linewidth',3);
 %         hold on;
 %     end
 %     set(gca,'ylim',[0 max(PSTH.maxSpkRealBinMean(k)+PSTH.maxSpkRealBinMeanSte(k),PSTH.maxSpkSponBinMean+PSTH.maxSpkSponBinMeanSte)],'xlim',[1 nBins(1,1)]);
@@ -626,7 +629,7 @@ end
 %     for j = 2:length(unique_elevation)-1
 %         for i = 1:length(unique_azimuth)+1
 %             subplot(5,9,i+(j-1)*9);
-%             plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(j,iAzi(i),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',1.5);
+%             plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(j,iAzi(i),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',3);
 %             hold on;
 %             plot([1 nBins(1,1)],[0 0],':k','linewidth',0.5);
 %             hold on;
@@ -640,7 +643,7 @@ end
 %     end
 %     % 2 extra conditions
 %     subplot(5,9,5+(1-1)*9);
-%     plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(1,iAzi(5),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',1.5);
+%     plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(1,iAzi(5),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',3);
 %     hold on;
 %     plot([1 nBins(1,1)],[0 0],':k','linewidth',0.5);
 %     hold on;
@@ -652,7 +655,7 @@ end
 %     axis off;
 % 
 %     subplot(5,9,5+(5-1)*9);
-%     plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(5,iAzi(5),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',1.5);
+%     plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(5,iAzi(5),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',3);
 %     hold on;
 %     plot([1 nBins(1,1)],[0 0],':k','linewidth',0.5);
 %     hold on;

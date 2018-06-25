@@ -20,15 +20,15 @@ end
 % Reopen the file
 fclose(fid);
 fid = fopen(batch_filename);
-line = fgetl(fid);
+line = fgetl(fid); % read-in the first line
 
 % Clear persistent variable "XlsData" in SaveResult.m in case I have changed xls file between calls of BATCH_GUI. HH20150724
 clear SaveResult;
 
 % Preparation for speed-up version of "xlswrite1.m"
 global Excel;
-% File='Z:\Data\MOOG\Results\Result_LBY.xlsm'; 
-File='Z:\Data\MOOG\Results\Result_MST.xlsm'; 
+File='Z:\Data\MOOG\Results\Result_LBY.xlsm'; 
+% File='Z:\Data\MOOG\Results\Result_MST.xlsm'; 
 try
     Excel = actxGetRunningServer('Excel.Application');  % Use the current server
 catch
@@ -37,8 +37,8 @@ end
 
 isopen = xls_check_if_open(File,'');
 if ~isopen  % Open file
-%     winopen('Z:\Data\MOOG\Results\Result_LBY.xlsm');
-winopen('Z:\Data\MOOG\Results\Result_MST.xlsm');
+    winopen('Z:\Data\MOOG\Results\Result_LBY.xlsm');
+% winopen('Z:\Data\MOOG\Results\Result_MST.xlsm');
 end
 
 % invoke(Excel.Workbooks,'Open',File); % There is not need for this because "isopen" has ensured that it has been opened.
@@ -48,7 +48,7 @@ errors = 0;
 
 progressbar('Batch Numer'); lineNum = 0;
 
-while (line ~= -1)
+while (line ~= -1) % not at the end
     
     %pause;
     % format for batch files
@@ -64,7 +64,7 @@ while (line ~= -1)
         end
         
         spaces = isspace(line);
-        space_index = find(spaces);
+        space_index = find(spaces); % use this index to find every parameter
         
         %get path / file
         PATH = line(1:space_index(1) - 1);
@@ -189,8 +189,8 @@ while (line ~= -1)
                 
                 %get spikechannels & sync code flags
                 
-                if (i + 9 - 1 < length(space_index) )
-                    %if there are sync pulse value
+                if (i + 9 - 1 < length(space_index) ) %if there are sync pulse value
+                    
                     SpikeChan = line(space_index(i+7) + 1:space_index(i+8) - 1);
                     SpikeChan = str2num(SpikeChan);
                     SpikeChan2 = line(space_index(i+8) + 1:space_index(i+9) - 1);
@@ -208,7 +208,7 @@ while (line ~= -1)
                 %load data file
                 [return_val, g_data, b_data] = LoadTEMPOData(PATH,FILE);
                 
-                if return_val == -999 && SpikeChan >= 5
+                if return_val == -999 && SpikeChan >= 5 % Not match htb & spike2
                     % I throw an error message only when we are in batch mode and we DO use the offline spike2 data. 
                     error('Htb & spike2 files not matched ...');  
                 end
@@ -233,7 +233,7 @@ while (line ~= -1)
                 %analyze data
                 batch_flag = ori_filename;
                 
-                if SpikeChan == 999
+                if SpikeChan == 999 % for what?
                     chan_proc = size(select_data.spike_data);
                     if chan_proc > 2
                         SpikeChan = chan_proc(1)
@@ -319,8 +319,7 @@ else
         mkdir(outpath);
     end
     
-    %ÔÝÊ±×¢ÊÍµô LBY170330
-%     copyfile(batch_filename,[outpath ori_filename]);
+%     copyfile(batch_filename,[outpath ori_filename]); % I don't want this copy
 end
 
 

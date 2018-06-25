@@ -130,7 +130,7 @@ for m_inx = 1:length(models)
     text(1,10,'Spontaneous','fontsize',30);
     FileNameTemp = num2str(FILE);
     %     FileNameTemp =  FileNameTemp(1:end-4);
-    str = FileNameTemp;
+    str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
     str1 = [FileNameTemp,'  ',models{m_inx},' model_','    ',stimType{stimTypeInx}];
     text(60,0,str1,'fontsize',24);
     eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_',models{m_inx},';']);
@@ -196,12 +196,13 @@ for m_inx = 1:length(models)
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];
-        saveas(100+m_inx,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning_models\Translation\' ss], 'emf');
-% saveas(100+m_inx,['Z:\LBY\Recording data\Zebulon\MSTd\Models\' ss], 'emf'); % for MSTd 
-        
+%         saveas(100+m_inx,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning_models\Translation\' ss], 'emf');
+saveas(100+m_inx,['Z:\LBY\Recording data\Position cell Models\' ss], 'emf');
+
     elseif Protocol == 112
         ss = [str3, '_R'];
-        saveas(100+m_inx,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning_models\Rotation\' ss], 'emf');
+%         saveas(100+m_inx,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning_models\Rotation\' ss], 'emf');
+        saveas(100+m_inx,['Z:\LBY\Recording data\Position cell Models\' ss], 'emf');
     end
 end
 %}
@@ -234,7 +235,7 @@ for m_inx = 1:length(models)
     end
     FileNameTemp = num2str(FILE);
     %     FileNameTemp =  FileNameTemp(1:end-4);
-    str = FileNameTemp;
+    str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
     str1 = [FileNameTemp,'  ',models{m_inx},' model_','    ',stimType{stimTypeInx}];
     text(40,4,str1,'fontsize',18);
     eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_',models{m_inx},';']);
@@ -290,7 +291,7 @@ switch Protocol
 end
 FileNameTemp = num2str(FILE);
 %     FileNameTemp =  FileNameTemp(1:end-4);
-str = FileNameTemp;
+str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
 str1 = [FileNameTemp,'  ',components{inx},' model_','    ',stimType{stimTypeInx}];
 text(40,4,str1,'fontsize',18);
 eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_VAJ;']);
@@ -347,7 +348,7 @@ switch Protocol
 end
 FileNameTemp = num2str(FILE);
 %     FileNameTemp =  FileNameTemp(1:end-4);
-str = FileNameTemp;
+str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
 str1 = [FileNameTemp,'  VAJ model_','    ',stimType{stimTypeInx}];
 text(40,4,str1,'fontsize',18);
 eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_VAJ;']);
@@ -408,7 +409,7 @@ switch Protocol
 end
 FileNameTemp = num2str(FILE);
 %     FileNameTemp =  FileNameTemp(1:end-4);
-str = FileNameTemp;
+str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
 str1 = [FileNameTemp,'  VA model_','    ',stimType{stimTypeInx}];
 text(50,14,str1,'fontsize',18);
 eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_VA;']);
@@ -525,7 +526,7 @@ figure(150+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
 %     text(10,2,'Spontaneous','fontsize',30);
     FileNameTemp = num2str(FILE);
     %     FileNameTemp =  FileNameTemp(1:end-4);
-    str = FileNameTemp;
+    str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
     str1 = [FileNameTemp,'  VA model ',components{m_inx},'  ',stimType{stimTypeInx}];
     text(40,20,str1,'fontsize',18);
     eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_VA;']);
@@ -599,7 +600,7 @@ switch Protocol
 end
 FileNameTemp = num2str(FILE);
 %     FileNameTemp =  FileNameTemp(1:end-4);
-str = FileNameTemp;
+str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
 str1 = [FileNameTemp,'  VAJ model_','    ',stimType{stimTypeInx}];
 text(50,14,str1,'fontsize',18);
 eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_VAJ;']);
@@ -716,7 +717,7 @@ figure(170+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
 %     text(10,2,'Spontaneous','fontsize',30);
     FileNameTemp = num2str(FILE);
     %     FileNameTemp =  FileNameTemp(1:end-4);
-    str = FileNameTemp;
+    str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
     str1 = [FileNameTemp,'  VAJ model ',components{m_inx},'  ',stimType{stimTypeInx}];
     text(40,20,str1,'fontsize',18);
     eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_VAJ;']);
@@ -795,7 +796,7 @@ switch Protocol
 end
 FileNameTemp = num2str(FILE);
 %     FileNameTemp =  FileNameTemp(1:end-4);
-str = FileNameTemp;
+str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
 str1 = [FileNameTemp,'  VA model_','    ',stimType{stimTypeInx}];
 text(50,14,str1,'fontsize',18);
 eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_VA;']);
@@ -868,7 +869,7 @@ switch Protocol
 end
 FileNameTemp = num2str(FILE);
 %     FileNameTemp =  FileNameTemp(1:end-4);
-str = FileNameTemp;
+str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
 str1 = [FileNameTemp,'  VAP model_','    ',stimType{stimTypeInx}];
 text(50,14,str1,'fontsize',18);
 eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_VAP;']);
@@ -985,7 +986,7 @@ figure(200+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
 %     text(10,2,'Spontaneous','fontsize',30);
     FileNameTemp = num2str(FILE);
     %     FileNameTemp =  FileNameTemp(1:end-4);
-    str = FileNameTemp;
+    str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
     str1 = [FileNameTemp,'  VAP model ',components{m_inx},'  ',stimType{stimTypeInx}];
     text(40,20,str1,'fontsize',18);
     eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_VAP;']);
@@ -1059,7 +1060,7 @@ switch Protocol
 end
 FileNameTemp = num2str(FILE);
 %     FileNameTemp =  FileNameTemp(1:end-4);
-str = FileNameTemp;
+str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
 str1 = [FileNameTemp,'  PVAJ model_','    ',stimType{stimTypeInx}];
 text(50,14,str1,'fontsize',18);
 eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_PVAJ;']);
@@ -1176,7 +1177,7 @@ figure(220+m_inx);clf;set(gcf,'pos',[0 0 2100 1000]);
 %     text(10,2,'Spontaneous','fontsize',30);
     FileNameTemp = num2str(FILE);
     %     FileNameTemp =  FileNameTemp(1:end-4);
-    str = FileNameTemp;
+    str = [FileNameTemp, '_',num2str(SpikeChan),'_'];
     str1 = [FileNameTemp,'  PVAJ model ',components{m_inx},'  ',stimType{stimTypeInx}];
     text(40,20,str1,'fontsize',18);
     eval(['R_squared = ','PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_PVAJ;']);
