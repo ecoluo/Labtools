@@ -247,7 +247,7 @@ set(gcf,'paperpositionmode','auto');
 saveas(103,'Z:\LBY\Population Results\Partial_RSquared_Distribution','emf');
 %}
 %%%%%%%%%%%%%%%%%%%  R_squared distribution  %%%%%%%%%%%%%%%%%%%%%%
-% %{
+%{
 xR2 = 0.05:0.1:0.75;
 
 % figures
@@ -459,7 +459,7 @@ SetFigure(25);
 %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight for VA model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% %{
+%{
 xRatio = -2:0.4:2;
 
 figure(110);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -539,7 +539,7 @@ SetFigure(25);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight(V&A, normalized) for VAJ model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% %{
+%{
 xRatio = -2:0.4:2;
 
 figure(111);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -616,8 +616,8 @@ suptitle('VAJ model');
 SetFigure(25);
 %}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weightof (V&A, normalized) for VA model vs.VAJ model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight of (V&A, normalized) for VA model vs.VAJ model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%{
 
 figure(112);set(gcf,'pos',[60 70 1000 800]);clf;
 [~,h_subplot] = tight_subplot(2,2,0.2,0.15);
@@ -838,7 +838,7 @@ SetFigure(25);
 %}
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Weight vs. R2 (VA model) %%%%%%%%%%%%%%%%%%%%%%%%
-% %{
+%{
 figure(108);set(gcf,'pos',[60 70 1200 800]);clf;
 [~,h_subplot] = tight_subplot(2,3,[0.2 0.2],0.15);
 
@@ -1175,9 +1175,73 @@ hold off;
 SetFigure(25);
 %}
 
+%%%%%%%%% plot ratio of wV/wA (VA model) %%%%%%%%%
+
+% %{
+
+figure(116);set(gcf,'pos',[60 70 700 400]);clf;
+% [~,h_subplot] = tight_subplot(2,2,[0.2 0.1],0.15);
+
+T_vesti_w = squeeze(cell2mat(struct2cell(T_wVA_vesti)))';
+T_vesti_ratio = log(T_vesti_w(:,1)./T_vesti_w(:,2));
+T_vis_w = squeeze(cell2mat(struct2cell(T_wVA_vis)))';
+T_vis_ratio = log(T_vis_w(:,1)./T_vis_w(:,2));
+R_vesti_w = squeeze(cell2mat(struct2cell(R_wVA_vesti)))';
+R_vesti_ratio = log(R_vesti_w(:,1)./R_vesti_w(:,2));
+R_vis_w = squeeze(cell2mat(struct2cell(R_wVA_vis)))';
+R_vis_ratio = log(R_vis_w(:,1)./R_vis_w(:,2));
 
 
 
+T_vesti_r2 = RSquared_T_vesti(:,5)';
+T_vis_r2 = RSquared_T_vis(:,5)';
+T_vesti_ratio = T_vesti_ratio(~isnan(T_vesti_ratio));
+T_vis_ratio = T_vis_ratio(~isnan(T_vis_ratio));
+T_vesti_r2 = T_vesti_r2(~isnan(T_vesti_r2));
+T_vis_r2 = T_vis_r2(~isnan(T_vis_r2));
+
+R_vesti_r2 = RSquared_R_vesti(:,5)';
+R_vis_r2 = RSquared_R_vis(:,5)';
+R_vesti_ratio = R_vesti_ratio(~isnan(R_vesti_ratio));
+R_vis_ratio = R_vis_ratio(~isnan(R_vis_ratio));
+R_vesti_r2 = R_vesti_r2(~isnan(R_vesti_r2));
+R_vis_r2 = R_vis_r2(~isnan(R_vis_r2));
+
+T_vesti_ratio(T_vesti_r2<0.7) = [];
+T_vis_ratio(T_vis_r2<0.7) = [];
+R_vesti_ratio(R_vesti_r2<0.7) = [];
+R_vis_ratio(R_vis_r2<0.7) = [];
+
+x = -2:0.25:2;
+for ii = 1:length(x)
+    
+    p_T_vesti(ii) = sum(logical(T_vesti_ratio<x(ii)))/length(T_vesti_ratio);
+    p_T_vis(ii) = sum(logical(T_vis_ratio<x(ii)))/length(T_vis_ratio);
+    p_R_vesti(ii) = sum(logical(R_vesti_ratio<x(ii)))/length(R_vesti_ratio);
+    p_R_vis(ii) = sum(logical(R_vis_ratio<x(ii)))/length(R_vis_ratio);
+    
+end
+
+
+axes;hold on;
+plot(x,p_T_vesti,'-o','color',colorDBlue,'linewidth',3);
+plot(x,p_R_vesti,'-^','color',colorLBlue,'linewidth',3);
+plot(x,p_T_vis,'-^','color',colorDRed,'linewidth',3);
+plot(x,p_R_vis,'-^','color',colorLRed,'linewidth',3);
+
+plot([x(1) x(end)],[0.5 0.5],'--','color',colorLGray);
+plot([0 0],[0 1],'--','color',colorLGray);
+% title('T-vestibular');
+% xlim([-2 2]);
+% set(gca,'xscal','log');
+axis on;
+hold off;
+xlabel('log(wV/wA)');
+ylabel('Proportion of cells');
+
+SetFigure(25);
+
+%}
 
 
 

@@ -29,7 +29,7 @@ maxZ = 250;   % Drawing range (in 100 um)
 movDis = 150; % Maximum travel distance of the microdriver (in 100 um)
 
 V = ones(30,25,maxZ + 30,3);  % Matrix to be rendered. The z-resolution = 100 um.
-Qiaoqiao_right_AP0 = 13; % For MRI alignment. This controls MRI-AP alignment so will affect all monkeys, whereas "AP0" of each monkey below only affects AP-Grid alignment.  HH20150918
+Qiaoqiao_right_AP0 = 14; % For MRI alignment. This controls MRI-AP alignment so will affect all monkeys, whereas "AP0" of each monkey below only affects AP-Grid alignment.  HH20150918
 Polo_right_AP0 = 14; % For MRI alignment. This controls MRI-AP alignment so will affect all monkeys, whereas "AP0" of each monkey below only affects AP-Grid alignment.  HH20150918
 
 %% Define our area types here
@@ -63,7 +63,7 @@ switch monkey_hemis{monkey_hemi}
         % Header
         toPlotTypes3D = [GM PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
         toPlotTypes_zview = [GM PCC RSC IPS B3a];    % Which area types do we want to plot ?
-        gridRange = [15 31; -3 16];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [15 31; 0 16];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 6;
         hemisphere = 2;  % L = 1, R = 2
         AP0 =  Qiaoqiao_right_AP0; % 6;
@@ -203,7 +203,7 @@ switch monkey_hemis{monkey_hemi}
             }';
         
         MRI_path = 'Z:\Data\MOOG\Qiaoqiao\Mapping\MRI\QiaoqiaoOutput\forDrawMapping\';
-        MRI_offset = {[-110 105]-1,[-350 700], [0 0]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        MRI_offset = {[-93 93]-0.2,[-455 615], [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
         
         %}
@@ -216,7 +216,7 @@ switch monkey_hemis{monkey_hemi}
         % Header
         toPlotTypes3D = [GM PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
         toPlotTypes_zview = [GM PCC RSC IPS B3a];    % Which area types do we want to plot ?
-        gridRange = [10 26; -3 16];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [10 26; 0 16];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 6;
         hemisphere = 1;  % L = 1, R = 2
         AP0 =  Qiaoqiao_right_AP0; % 6;
@@ -270,7 +270,7 @@ switch monkey_hemis{monkey_hemi}
             {80,[15,5],[2.4 0],[GM 11 27;PCC 41 51;PCC 59 68;]};
             {81,[16,7],[2.4 0],[GM 9 28;PCC 40 65;]};
             {82,[15,3],[2.4 0],[GM 10 27;PCC 38 72;]};
-            {83,[15,7],[2.4 0],[GM 7.3 23;PCC 38 49;PCC 77 80;]};
+            {83,[15,7],[2.4 0],[GM 7.3 23;PCC 38 49;IPS 77 80;]};
             {83,[19,3],[2.4 0],[PCC 40 51;PCC 57 60;]};
             {84,[20,5],[2.3 0],[GM 0 23;B3a 32 43;PCC 73 86;]};
             {84,[17,2],[2.3 0],[PCC 42 53;PCC 63 71;]};
@@ -294,9 +294,9 @@ switch monkey_hemis{monkey_hemi}
             {97,[18,8],[2.5 0],[GM 6 26;PCC 44 65;]};
             {97,[18,9],[2.5 0],[GM 8 13;GM 22 27;PCC 38 47;]};
             {98,[17,8],[2.5 0],[GM 15 24;PCC 32 60;]};
-            {99,[15,8],[2.55 0],[GM 6 10;PCC 38 45;GM 63 85;]};
-            {99,[15,9],[2.55 0],[PCC 12 25;PCC 32 50;GM 62 95;]};
-            {100,[15,10],[2.55 0],[GM 0 8;PCC 59 68;GM 76 87;]};
+            {99,[15,8],[2.55 0],[GM 6 10;PCC 38 45;IPS 63 85;]};
+            {99,[15,9],[2.55 0],[PCC 12 25;PCC 32 50;IPS 62 95;]};
+            {100,[15,10],[2.55 0],[GM 0 8;IPS 59 68;IPS 76 87;]};
             {101,[16,9],[2.55 0],[GM 5 27;PCC 30 50;]};
             {101,[16,10],[2.55 0],[GM 0 16;PCC 30 35;]};
             {102,[15,11],[2.55 0],[IPS 52 72;IPS 78 85;]};
@@ -311,7 +311,7 @@ switch monkey_hemis{monkey_hemi}
             }';
         
         MRI_path = 'Z:\Data\MOOG\Qiaoqiao\Mapping\MRI\QiaoqiaoOutput\forDrawMapping\';
-        MRI_offset = {[-110 105]+1,[-350 700]+25, [0 0]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        MRI_offset = {[-93 93]+1.5,[-455 615]+20, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
         
         %}
@@ -399,7 +399,7 @@ switch monkey_hemis{monkey_hemi}
         % Header
         toPlotTypes3D = [ MST VIP MT LIP AUD];    % Which area types do we want to plot in 3D plot?
         toPlotTypes_zview = [MST VIP MT LIP AUD];    % Which area types do we want to plot ?
-        gridRange = [1 16; 1 22];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [1 16; 0 22];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 5;
         hemisphere = 2;  % L = 1, R = 2
         AP0 =  7; % 6;
@@ -507,7 +507,7 @@ switch monkey_hemis{monkey_hemi}
         % Header
         toPlotTypes3D = [GM PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
         toPlotTypes_zview = [GM PCC RSC IPS B3a];    % Which area types do we want to plot ?
-        gridRange = [6 31; 1 22];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [6 31; 0 22];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 5;
         hemisphere = 2;  % L = 1, R = 2
 %         AP0 =  10; % 6;
@@ -562,13 +562,13 @@ switch monkey_hemis{monkey_hemi}
             {0,[19,7],[2.55 0],[PCC 45 51;PCC 65 87;]} % 20180608
             {0,[21,10],[2.55 0],[PCC 45 65;PCC 78 95;]} % 20180608
             {0,[21,11],[2.55 0],[PCC 78 95;]} % 20180608
-            {0,[21,12],[2.55 0],[IPS 40 71;GM 105 140;]} % 20180608
-            {0,[21,13],[2.55 0],[GM 45 58;IPS 67 83;GM 114 145;]} % 20180612
-            {0,[21,14],[2.55 0],[GM 10 24;IPS 83 110;GM 125 136;]} % 20180612
-            {0,[21,15],[2.55 0],[GM 15 20;IPS 100 123.5;GM 129 140;]} % 20180612
-            {0,[21,16],[2.55 0],[GM 20 30;IPS 68 101.5;GM 111 127;]} % 20180615
-            {0,[21,17],[2.55 0],[GM 13 23;IPS 64 80;GM 100 123;]} % 20180615
-            {0,[17,6],[2.65 0],[GM 10 26;PCC 42 60;IPS 90 120;]} % 20180621
+            {0,[21,12],[2.55 0],[PCC 40 71;IPS 105 140;]} % 20180608
+            {0,[21,13],[2.55 0],[GM 45 58;GM 67 83;IPS 114 145;]} % 20180612
+            {0,[21,14],[2.55 0],[GM 10 24;IPS 83 110;IPS 125 136;]} % 20180612
+            {0,[21,15],[2.55 0],[GM 15 20;IPS 100 123.5;IPS 129 140;]} % 20180612
+            {0,[21,16],[2.55 0],[GM 20 30;IPS 68 101.5;IPS 111 127;]} % 20180615
+            {0,[21,17],[2.55 0],[GM 13 23;IPS 64 80;IPS 100 123;]} % 20180615
+            {0,[17,6],[2.65 0],[GM 10 26;PCC 42 60;PCC 90 120;]} % 20180621
             {0,[17,9],[2.65 0],[PCC 29 40;IPS 106 138;]} % 20180621
             {0,[16,6],[2.95 0],[IPS 74 93;]} % 20180621
             
@@ -579,7 +579,7 @@ switch monkey_hemis{monkey_hemi}
             {110,[11,5],[2.25 0],[GM 3.6 19;GM 36 56;PCC 63 115]}
             {111,[14,6],[2.25 0],[GM 9.5 23;GM 33 48;PCC 72 94;PCC 103 123]}
 %             {112,[9,5],[2.25 0],[GM 33.5 44;GM 68 80;GM 11500 13100]}
-            {113,[22,8],[2.45 0],[GM 47 58]}
+            {113,[22,8],[2.45 0],[B3a 47 58]}
             {114,[20,6],[2.45 0],[GM 10 30;PCC 61 73;]}
             {115,[23,6],[2.55 0],[B3a 6 12;PCC 50 67;PCC 79 96;]}
             {116,[24,8],[2.55 0],[B3a 9 16;PCC 64 85;PCC 94 108;]}
@@ -604,7 +604,7 @@ switch monkey_hemis{monkey_hemi}
             {132,[28,4],[2.55 0],[GM 15 26;PCC 75 105;]} 
             {133,[28,5],[2.55 0],[PCC 60 81;]} 
             {134,[24,6],[2.55 0],[PCC 75 92;PCC 107 128;]} 
-            {135,[23,5],[2.55 0],[B3a 10 26;PCC 68 81;PCC 97 109;RSC 111 122;]} 
+            {135,[23,5],[2.55 0],[B3a 10 26;PCC 68 81;PCC 97 109;PCC 111 122;]} 
             {136,[23,7],[2.55 0],[B3a 11 35;PCC 69 82;PCC 100 115;]} 
             {137,[23,6],[2.55 0],[B3a 9 20;]} 
             {138,[23,4],[2.65 0],[PCC 11 53;PCC 72 81;]} 
@@ -612,17 +612,17 @@ switch monkey_hemis{monkey_hemi}
             {139,[21,5],[2.55 0],[B3a 22 40;PCC 77 92;PCC 103 115;]} 
             {140,[19,8],[2.65 0],[PCC 10 15;PCC 40 54;PCC 75 95;]} 
             {141,[19,5],[2.85 0],[PCC 29 39;PCC 45 68;RSC 130 141;]} 
-            {142,[18,5],[2.85 0],[PCC 36 49;PCC 60 82;IPS 99 148;]} 
+            {142,[18,5],[2.85 0],[PCC 36 49;PCC 60 82;PCC 99 148;]} 
             {143,[18,7],[2.55 0],[GM 12 46;PCC 63 77.5;IPS 105 132;]} 
             {144,[17,8],[2.65 0],[GM 12 33;PCC 46 58;]} 
-            {145,[17,7],[2.65 0],[GM 9 39;PCC 51 71;GM 140 156;]} 
+            {145,[17,7],[2.65 0],[GM 9 39;PCC 51 71;RSC 140 156;]} 
             {146,[17,5],[2.85 0],[GM 13 26;PCC 39 46;]} 
 
             }';
         
         MRI_path = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\';
 %         MRI_offset = {[-100 100],[-200 720]-5, [0 -0.1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
-        MRI_offset = {[-100 100],[-200 720]-5, [0 -0.1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        MRI_offset = {[-105 103]+3,[-355 715]+40, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
         
         %}
@@ -931,7 +931,8 @@ try
         %         fileNo = xSelect + Qiaoqiao_right_AP0 - AP0;
         %     end
     end
-    MRI = imread([MRI_path num2str(fileNo) '.bmp']);
+%     MRI = imread([MRI_path num2str(fileNo) '.bmp']);
+MRI = imread([MRI_path num2str(fileNo) '.jpg']);
     %     h_MRI = image(MRI_offset{1}+xSelect*MRI_offset{3}(1), MRI_offset{2} + xSelect*MRI_offset{3}(2),MRI);
     % previous MRI figure shows the same for two hemispheres, thus I changed to
     % correct it.
