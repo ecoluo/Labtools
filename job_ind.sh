@@ -11,6 +11,8 @@
 ###################$ -pe openmpi 17 # Moved to submit_job_ind
 #$ -S /bin/sh
 #$ -V
+#$ -m abes
+#$ -M byliu@ion.ac.cn
 
 # Modify these to put the stdout and stderr files in the right place for your system.
 ##$ -o ~/job-nobackup.$JOB_ID.$TASK_ID.out
