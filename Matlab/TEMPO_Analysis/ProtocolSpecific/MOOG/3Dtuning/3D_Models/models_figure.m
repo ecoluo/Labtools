@@ -24,7 +24,7 @@ stimType{1}='Vestibular';
 stimType{2}='Visual';
 stimType{3}='Combined';
 
-% 270-225-180-135-90-45-0-315-270 for figures
+% 270-225-180-135-90-45-0-315 for figures
 % iAzi = [7 6 5 4 3 2 1 8 7];
 iAzi = [7 6 5 4 3 2 1 8];
 xAzi = 1:8;
@@ -145,35 +145,35 @@ for m_inx = 1:length(models)
     text(0,6,['Spon mean FR(Hz): ',num2str(meanSpon)],'fontsize',15);
     
     if strcmp(models{m_inx},'VA')
-        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(21);
-        wA = 1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(21);
+        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(12);
+        wA = 1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(12);
         text(70,15,['wV =  ',num2str(wV)],'fontsize',24);
         text(70,10,['wA =  ',num2str(wA)],'fontsize',24);
     end
     if strcmp(models{m_inx},'VAJ')
-        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(29)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(30));
-        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(29))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(30));
-        wJ = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(30);
+        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(15)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16));
+        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(15))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16));
+        wJ = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16);
         text(70,15,['wV =  ',num2str(wV)],'fontsize',24);
         text(70,10,['wA =  ',num2str(wA)],'fontsize',24);
         text(70,5,['wJ =  ',num2str(wJ)],'fontsize',24);
     end
     if strcmp(models{m_inx},'VAP')
-        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(29)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(30));
-        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(29))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(30));
-        wP = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(30);
+        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(15)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16));
+        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(15))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16));
+        wP = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16);
         text(70,15,['wV =  ',num2str(wV)],'fontsize',24);
         text(70,10,['wA =  ',num2str(wA)],'fontsize',24);
         text(70,5,['wP =  ',num2str(wP)],'fontsize',24);
     end
     if strcmp(models{m_inx},'PVAJ')
-        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(29)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(30));
-        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(29))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(30));
-        wJ = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(30);
-        wP = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(30);
+        wV = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(20));
+        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21);
+        wJ =  PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22);
+        wP = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21))*PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(20);
         text(70,15,['wV =  ',num2str(wV)],'fontsize',24);
         text(70,10,['wA =  ',num2str(wA)],'fontsize',24);
-        text(70,5,['wJ =  ',num2str(wP)],'fontsize',24);
+        text(70,5,['wJ =  ',num2str(wJ)],'fontsize',24);
         text(70,0,['wP =  ',num2str(wP)],'fontsize',24);
     end
     
@@ -569,7 +569,7 @@ end
 %}
 
 % ------ fig.160 plot V,A,J spatial tuning for VAJ models (Contour, use fitted data) ------%
-%{
+% %{
 if sum(ismember(models,'VAJ')) ~= 0
 components = {'V','A','J'};
 figure(160);clf;set(gcf,'pos',[20 200 1800 600]);
@@ -631,7 +631,7 @@ end
 
 
 % ------ fig.170 plot V,A,J for VAJ model (PSTH) ------%
-%{
+% %{
 if sum(ismember(models,'VAJ')) ~= 0
 components = {'V','A','J'};
 color_com = {'r',colorDBlue,colorDOrange};
@@ -1033,7 +1033,7 @@ end
 if sum(ismember(models,'PVAJ')) ~= 0
 components = {'V','A','J','P'};
 figure(210);clf;set(gcf,'pos',[20 220 1800 600]);
-[~,h_subplot] = tight_subplot(1,3,0.05,0.3);
+[~,h_subplot] = tight_subplot(1,4,0.05,0.3);
 for inx = 1:length(components)
     
     axes(h_subplot(inx));
@@ -1090,11 +1090,11 @@ end
 %} 
 
 
-% ------ fig.220 plot V,A,P for PVAJ model (PSTH) ------%
+% ------ fig.220 plot V,A,J,P for PVAJ model (PSTH) ------%
 % %{
 if sum(ismember(models,'PVAJ')) ~= 0
 components = {'V','A','J','P'};
-color_com = {'r',colorDBlue,colorDOrange};
+color_com = {'r',colorDBlue,colorDOrange,colorDGray};
 for m_inx = 1:length(components)
 %     figure(220+m_inx);clf;set(gcf,'pos',[20+(m_inx-1)*910 220 900 500]);
 figure(220+m_inx);clf;set(gcf,'pos',[0 0 2100 1000]);

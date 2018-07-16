@@ -13,9 +13,10 @@ sprintf('Fitting PVAJ model...')
 %-- initialize global using parameters
 
 % spatial parameters
-u_azi = [0 45 90 135 180 225 270 315]'*pi/180;
-u_ele = [-90 -45 0 45 90]'*pi/180;
+u_azi = [0 45 90 135 180 225 270 315]';
+u_ele = [-90 -45 0 45 90]';
 s_data = [u_ele;u_azi]; % transform to this form for fitting
+
 % time parameters
 time = (1: (stimOffBin - stimOnBin +1))' /(stimOffBin - stimOnBin +1)*duration/1000;
 st_data = [u_ele;u_azi;time]; % transform to this form for fitting
@@ -32,199 +33,117 @@ temporal_data = squeeze(mean(mean(PSTH_data(:,:,:),1),2)); % PSTH data according
 spatial_data = permute(spatial_data,[2 1]);
 y_data = permute(PSTH_data, [2 1 3]); % transform to azi*ele*timebin
 
-i_gauss_time = pos_func([mu sig],time);
-gauss_time = vel_func([mu sig],time);
-d_gauss_time = acc_func([mu sig],time);
-d2_gauss_time = jerk_func([mu sig],time);
+% normalise temporal profile
+t_A = max(temporal_data) - min(temporal_data);
+temporal_data = temporal_data/t_A;
 
-u1 = i_gauss_time;
-p1 = (u1'*gauss_time)/(u1'*u1);
-u2 = gauss_time - p1*u1;
-p21 = (u1'*d_gauss_time)/(u1'*u1);
-p22 = (u2'*d_gauss_time)/(u2'*u2);
-u3 = d_gauss_time - p21*u1 - p22*u2;
-p31 = (u1'*d2_gauss_time)/(u1'*u1);
-p32 = (u2'*d2_gauss_time)/(u2'*u2);
-p33 = (u3'*d2_gauss_time)/(u3'*u3);
-u4 = d2_gauss_time - p31*u1 - p32*u2 - p33*u3;
-
-t_psth = y_data - baseline;
-p_s_profile = zeros([length(u_azi), length(u_ele)]);
-v_s_profile = zeros([length(u_azi), length(u_ele)]);
-a_s_profile = zeros([length(u_azi), length(u_ele)]);
-j_s_profile = zeros([length(u_azi), length(u_ele)]);
-
-for j=1:length(u_ele),
-    for i=1:length(u_azi),
-        t_profile = squeeze(t_psth(i,j,:));
-        coeff = (pinv([u1 u2 u3 u4])*squeeze(t_profile));
-        p_s_profile(i,j) = coeff(1) - ...
-            coeff(2)*p1 + ...
-            coeff(3)*(-p21+p22*p1) + ...
-            coeff(4)*(-p31+p32*p1+p33*(p21-p22*p1));
-        
-        v_s_profile(i,j) = coeff(2) - coeff(3)*p22 + ...
-            coeff(4)*(-p32+p33*p22);
-        
-        a_s_profile(i,j) = coeff(3) - coeff(4)*p33;
-        
-        j_s_profile(i,j) = coeff(4);
-    end
-end
-
-% normalise time and spatial profile
-p_DC = (min(p_s_profile(:))+max(p_s_profile(:)))/2;
-p_A = (max(p_s_profile(:))-min(p_s_profile(:)))/2;
-p_space_profile = p_s_profile-p_DC;
-p_space_profile = p_space_profile/p_A;
-
-v_DC = (min(v_s_profile(:))+max(v_s_profile(:)))/2;
-v_A = (max(v_s_profile(:))-min(v_s_profile(:)))/2;
-v_space_profile = v_s_profile-v_DC;
-v_space_profile = v_space_profile/v_A;
-
-a_DC = (min(a_s_profile(:))+max(a_s_profile(:)))/2;
-a_A = (max(a_s_profile(:))-min(a_s_profile(:)))/2;
-a_space_profile = a_s_profile-a_DC;
-a_space_profile = a_space_profile/a_A;
-
-j_DC = (min(j_s_profile(:))+max(j_s_profile(:)))/2;
-j_A = (max(j_s_profile(:))-min(j_s_profile(:)))/2;
-j_space_profile = j_s_profile-j_DC;
-j_space_profile = j_space_profile/j_A;
+% normalise spatial profile(range[-1,1])
+s_DC = (max(spatial_data(:)) + min(spatial_data(:)))/2;
+s_A = (max(spatial_data(:)) - min(spatial_data(:)))/2;
+spatial_data = (spatial_data - s_DC)/s_A;
 
 %optimisation parameters for profile fits
 options = optimset('Display', 'off', 'MaxIter', 5000);
 
-%% fit velocity spatial profile
-%-- 1st, fit spatial profile1
-
-LB = [0.001 0 -pi/2];
-UB = [10 2*pi pi/2];
-
-[~, max_idx] = max(v_space_profile(:));
-[max_idx_a, max_idx_e] = ind2sub(size(v_space_profile), max_idx);
-
-param = [0.01 u_azi(max_idx_a) u_ele(max_idx_e)];
-recon_p = lsqcurvefit('cos_tuning', param,  s_data, ...
-    p_space_profile(:), LB, UB, options);
-p_n = recon_p(1);
-p_a_0 = recon_p(2);
-p_e_0 = recon_p(3);
-
-param = [0.01 u_azi(max_idx_a) u_ele(max_idx_e)];
-recon_v = lsqcurvefit('cos_tuning', param,  s_data, ...
-    v_space_profile(:), LB, UB, options);
-v_n = recon_v(1);
-v_a_0 = recon_v(2);
-v_e_0 = recon_v(3);
-
-param = [0.01 u_azi(max_idx_a) u_ele(max_idx_e)];
-recon_v = lsqcurvefit('cos_tuning', param,  s_data, ...
-    a_space_profile(:), LB, UB, options);
-a_n = recon_v(1);
-a_a_0 = recon_v(2);
-a_e_0 = recon_v(3);
-
-param = [0.01 u_azi(max_idx_a) u_ele(max_idx_e)];
-recon_v = lsqcurvefit('cos_tuning', param,  s_data, ...
-    j_space_profile(:), LB, UB, options);
-j_n = recon_v(1);
-j_a_0 = recon_v(2);
-j_e_0 = recon_v(3);
-
-
-%%
-
-p_DC = p_DC/v_A;
-v_DC = v_DC/v_A;
-a_DC = a_DC/a_A;
-j_DC = j_DC/j_A;
-
-%Fit linear parameters
-A = p_A+v_A+a_A+j_A;
-R_0 = baseline;
-w_p = p_A/(p_A+v_A);
-w_a = a_A/(p_A+v_A+a_A);
-w_j = j_A/A;
-
 %% fit PVAJ model
-mu_t = mu;
-sig_t = sig;
+
+R_0 = baseline;
+A = t_A*s_A;
+mu_0 = mu;
+v_n = 1;
+a_n = 1;
+j_n = 1;
+p_n = 1;
+[~, max_idx] = max(spatial_data(:));
+[max_idx_e, max_idx_a] = ind2sub(size(spatial_data), max_idx);
+v_e_0 = u_ele(max_idx_e);
+a_e_0 = u_ele(max_idx_e);
+j_e_0 = u_ele(max_idx_e);
+p_e_0 = u_ele(max_idx_e);
+v_a_0 = u_azi(max_idx_a);
+a_a_0 = u_azi(max_idx_a);
+j_a_0 = u_azi(max_idx_a);
+p_a_0 = u_azi(max_idx_a);
+v_DC = 0.5;
+a_DC = 0.5;
+j_DC = 0.5;
+p_DC = 0.5;
+wv = 0.25;
+wj = 0.25;
+wp = 0.25;
 
 %Inital fits
-param = [A, ...     %1
-    R_0, ...   %2
-    mu_t, ...  %3
-    p_n, ...   %4
-    p_a_0, ... %5
-    p_e_0, ... %6
-    p_DC, ...  %7
-    v_n, ...   %8
-    v_a_0, ... %9
-    v_e_0, ... %10
-    v_DC, ...  %11
-    a_n, ...   %12
-    a_a_0, ... %13
-    a_e_0, ... %14
-    a_DC, ...  %15
-    j_n, ...   %16
-    j_a_0, ... %17
-    j_e_0, ... %18
-    j_DC, ...  %19
-    w_p, ...   %20
-    w_a, ...   &21
-    w_j];      %22
+param = [A, ...       %1
+    R_0, ...     %2
+    mu_0, ...    %3
+    v_n, ...       %4
+    v_a_0, ...     %5
+    v_e_0, ...     %6
+    v_DC,... %7
+    a_n, ...           %8
+    a_a_0, ...         %9
+    a_e_0, ...         %10
+    a_DC, ...%11
+    j_n, ...       %12
+    j_a_0, ...     %13
+    j_e_0, ...     %14
+    j_DC,... %15
+    p_n, ...       %16
+    p_a_0, ...     %17
+    p_e_0, ...     %18
+    p_DC,... %19
+    wv,... %20
+    wj,... %21
+    wp];                %22
 
 init_param = zeros(reps+1, length(param));
 init_param(1,:) = param;
 
-LB = [0.25*A, ...  %1  A
-    0, ...           %2  R_0
-    mu-0.1, ...           %3  mu_t
-    0.001, ...       %4  p_n
-    0, ...           %5  p_a_0
-    -pi/2, ...       %6  p_e_0
-    0, ...           %7  p_DC
-    0.001, ...       %8  v_n
-    0, ...           %9  v_a_0
-    -pi/2, ...       %10 v_e_0
-    0, ...           %11 v_DC
-    0.001, ...       %12 a_n
-    0, ...           %13 a_a_0
-    -pi/2, ...       %14 a_e_0
-    0, ...           %15 a_DC
-    0.001, ...       %16 j_n
-    0, ...           %17 j_a_0
-    -pi/2, ...       %18 j_e_0
-    0, ...           %19 j_DC
-    0, ...           %20 w_p
-    0, ...           %21 w_a
-    0];              %22 w_j
+LB = [0.25*A, ...`  %1  A
+    0, ...          %2  R_0
+    mu, ...       %3  mu_t
+    0.001, ...      %4  n
+    0, ...          %5  a_0
+    -90, ...      %6  e_0
+    0,...          %7 v_DC
+    0.001, ...      %8 a_n
+    0, ...          %9 a_a_0
+    -90, ...      %10 a_e_0
+    0, ...         %11 a_DC
+    0.001, ...      %12  j_n
+    0, ...          %13  j_a_0
+    -90, ...      %14  j_e_0
+    0,...          %15 j_DC
+    0.001, ...      %16  j_n
+    0, ...          %17  j_a_0
+    -90, ...      %18  j_e_0
+    0,...          %19 j_DC
+    0,...           %20 wV
+    0,...           %21 wV
+    0];             %22 wJ
 
-UB = [4*A, ...     %1  A
-    300, ...         %2  R_0
-    mu+0.1, ...         %3  mu_t
-    10, ...          %4  p_n
-    2*pi, ...        %5  p_a_0
-    pi/2, ...        %6  p_e_0
-    1, ...           %7  p_DC
-    10, ...          %8  v_n
-    2*pi, ...        %9  v_a_0
-    pi/2, ...        %10 v_e_0
-    1, ...           %11 v_DC
-    10, ...          %12 a_n
-    2*pi, ...        %13 a_a_0
-    pi/2, ...        %14 a_e_0
-    1, ...           %15 a_DC
-    10, ...          %16 j_n
-    2*pi, ...        %17 j_a_0
-    pi/2, ...        %18 j_e_0
-    1, ...           %19 j_D
-    1, ...           %20 w_p
-    1, ...           %21 w_a
-    1];              %22 w_j
-
+UB = [4*A, ...      %1  A
+    300, ...        %2  R_0
+    mu+0.2, ...      %3  mu_t
+    10, ...         %4  n
+    360, ...       %5  a_0
+    90, ...       %6  e_0
+    1,...          %7 v_DC
+    10, ...        %8 a_n
+    360, ...      %9 a_a_0
+    90, ...      %10 a_e_0
+    1, ...         %11 a_DC
+    10, ...        %12 a_n
+    360, ...      %13 a_a_0
+    90, ...      %14 a_e_0
+    1, ...         %15 a_DC
+    10, ...        %16 a_n
+    360, ...      %17 a_a_0
+    90, ...      %18 a_e_0
+    1, ...         %19 a_DC
+    1, ...         %20 wV
+    1, ...         %21 wV
+    1];            %22 wJ
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));
@@ -270,19 +189,19 @@ respon = PVAJ_Model(modelFitPara_PVAJ,st_data);
 modelFitRespon_PVAJ = respon;
 
 
-modelFit_PVAJ.V = PVAJ_V_Com(modelFitPara_VAJ([1:6,20:22]),st_data);
-modelFit_PVAJ.A = PVAJ_A_Com(modelFitPara_VAJ([1:4,13:20,29,30]),st_data);
-modelFit_PVAJ.J = PVAJ_J_Com(modelFitPara_VAJ([1:4,21:28,29,30]),st_data);
-modelFit_PVAJ.P = PVAJ_P_Com(modelFitPara_VAJ([1:4,21:28,29,30]),st_data);
+modelFit_PVAJ.V = PVAJ_V_Com(modelFitPara_PVAJ([1:7,20:22]),st_data);
+modelFit_PVAJ.A = PVAJ_A_Com(modelFitPara_PVAJ([1:3,8:11,20:22]),st_data);
+modelFit_PVAJ.J = PVAJ_J_Com(modelFitPara_PVAJ([1:3,12:15,20:22]),st_data);
+modelFit_PVAJ.P = PVAJ_P_Com(modelFitPara_PVAJ([1:3,16:19,20:22]),st_data);
 
 % model fit spatial tuning
-modelFit_PVAJ_spatial.V = cos_tuning(modelFitPara_PVAJ(4:6),st_data(1:13));
-modelFit_PVAJ_spatial.A = cos_tuning(modelFitPara_PVAJ(12:14),st_data(1:13));
-modelFit_PVAJ_spatial.J = cos_tuning(modelFitPara_PVAJ(16:18),st_data(1:13));
-modelFit_PVAJ_spatial.P = cos_tuning(modelFitPara_PVAJ(21:28),st_data(1:13));
+modelFit_PVAJ_spatial.V = cos_tuning(modelFitPara_PVAJ(4:7),st_data(1:13));
+modelFit_PVAJ_spatial.A = cos_tuning(modelFitPara_PVAJ(8:11),st_data(1:13));
+modelFit_PVAJ_spatial.J = cos_tuning(modelFitPara_PVAJ(12:15),st_data(1:13));
+modelFit_PVAJ_spatial.P = cos_tuning(modelFitPara_PVAJ(16:19),st_data(1:13));
 %% analysis
 data_num = 26*nBins;
-para_num = 18;
+para_num = 22;
 BIC_PVAJ = BIC_fit(data_num,rss_PVAJ,para_num);
 TSS = sum((PSTH_data(:) - mean(PSTH_data(:))).^2);
 RSquared_PVAJ = 1 - rss_PVAJ/TSS;
