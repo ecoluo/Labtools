@@ -6,9 +6,9 @@
 % function popul_load_data(FnameCode, Protocol)
 
 %% load data
-clear all;
+
 tic;
-% clear all;
+clear all;
 
 global PSTH;
 
@@ -65,8 +65,7 @@ switch FnameCode
                 for ii = 1:length(filename)
                     % load PSTH data
                     temp = load([pathname{Protocol} '\' filename(ii).name]);
-                    QQ_3DTuning_R(ii).monkey = str2double(filename(ii).name(strfind(filename(ii).name,'m')+1:strfind(filename(ii).name,'c')-1));
-                    QQ_3DTuning_R(ii).name = str2double(filename(ii).name(strfind(filename(ii).name,'c')+1:strfind(filename(ii).name,'r')-1));
+                    QQ_3DTuning_R(ii).name = str2double(filename(ii).name(4:6));
                     QQ_3DTuning_R(ii).ch = temp.result.SpikeChan;
                     QQ_3DTuning_R(ii).stimType = temp.result.unique_stimType;
                     QQ_3DTuning_R(ii).duration = temp.result.unique_duration;
@@ -94,10 +93,10 @@ end
 
 % save the data
 
-cd('Z:\Data\TEMPO\BATCH\MSTd_3DTuning');
+cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning');
 switch Protocol
     case 1
-        save('PSTH_OriData.mat','QQ_3DTuning_T','');
+        save('PSTH_OriData.mat','QQ_3DTuning_T');
     case 2
         save('PSTH_OriData.mat','QQ_3DTuning_R','-append');
     case 3

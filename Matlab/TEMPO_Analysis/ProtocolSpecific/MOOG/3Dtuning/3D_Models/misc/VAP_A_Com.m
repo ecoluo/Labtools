@@ -10,22 +10,20 @@ u_ele = st_data(1:5);
 u_azi = st_data(6:13);
 t = st_data(14:end);
 
-stim_sig = sqrt(sqrt(2))/6;
 
 %time profile
-acc_time = acc_func(a(3:4), t);
-% acc_time = acc_func([a(3) a(4) a(end)], t);
+acc_time = acc_func(a(3), t);
 
 %spatial profiles
-ele_azi = d_cos_tuning(a(5:12), [u_ele; u_azi]);
+ele_azi = cos_tuning(a(4:7), [u_ele; u_azi]);
 ele_azi = reshape(ele_azi, length(u_azi), length(u_ele));
 
 %compute results
 r = zeros(size(ele_azi,1), size(ele_azi,2), length(acc_time));
 for i=1:size(r,1),
     for j=1:size(r,2),
-        rr = (1-a(13))*(1-a(14))*a(1)*ele_azi(i,j)*acc_time + a(2);
-%         rr(find(rr<0))  = 0;
+        rr = (1-a(8))*(1-a(9))*a(1)*ele_azi(i,j)*acc_time + a(2);
+        rr(find(rr<0))  = 0;
         r(i,j,:) = rr;
     end
 end

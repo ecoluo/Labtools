@@ -5,7 +5,7 @@
 clear all;
 colorDefsLBY;
 duration = 1.5; % unit in s
-num_sigs = 4.5;
+num_sigs = 2;
 amp = 0.11; % unit in m
 step = 0.0005;
 t = 0:step:duration;
@@ -137,14 +137,17 @@ saveas(gcf,'Z:\LBY\Population Results\Gaussian_curves_all','emf');
 figure(3);clf;
 set(gcf,'name','Gaussian Curve','pos',[200 200 1200 700]);
 axes('pos',[0.2,0.2,0.6,0.6]);
-[h,hLine1,hLine2] = plotyy(t(1:length(t)-1),veloc,t(1:length(t)-2),accel);
+[h,hLines] = plotyyy(t(1:length(t)-1),veloc,t(1:length(t)-2),accel,t,pos);
 
-set(hLine1,'LineStyle','-','color','r','linewidth',4);
-set(hLine2,'LineStyle','-','color',colorDBlue,'linewidth',4);
+set(hLines(1),'LineStyle','-','color','r','linewidth',4);
+set(hLines(2),'LineStyle','-','color',colorDBlue,'linewidth',4);
+set(hLines(3),'LineStyle','-','color','k','linewidth',4);
 set(h(1),'yColor','r');
 set(h(2),'yColor',colorDBlue);
+set(h(3),'yColor','k');
 ylabel(h(1),'Velocity (m/s) ');
 ylabel(h(2),'Acceleration (m/s^2) ');
+ylabel(h(3),'Position (m) ');
 xlabel('Time (s)');
 % title('Time profile');
 SetFigure(25);

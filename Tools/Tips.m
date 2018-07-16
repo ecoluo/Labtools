@@ -7,12 +7,6 @@ dbup
 % ∑µªÿ…œ≤„workspace
 dbdown
 
-%{
-
-
-
-%}
-
 % link axes
 
 ax(1) = subplot(1,2,1);

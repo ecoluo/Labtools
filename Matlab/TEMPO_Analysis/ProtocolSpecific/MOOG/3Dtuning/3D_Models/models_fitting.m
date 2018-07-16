@@ -6,7 +6,7 @@
 
 
 
-function models_fitting(models,models_color,FILE, Protocol,stimTypeInx,meanSpon,PSTH_data,spatial_data,temp_spon,nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,duration)
+function models_fitting(models,models_color,FILE,SpikeChan, Protocol,stimTypeInx,meanSpon,PSTH_data,spatial_data,temp_spon,nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,duration)
 
 global PSTH PSTH3Dmodel;
 

@@ -4,7 +4,8 @@
 function respon = acc_func(a,t)
 
 mu = a(1);
-sig = a(2);
+% sig = a(2);
+sig = sqrt(sqrt(2))/6;
 % b = a(end); % add for threshold LBY20180105
 
 % Original

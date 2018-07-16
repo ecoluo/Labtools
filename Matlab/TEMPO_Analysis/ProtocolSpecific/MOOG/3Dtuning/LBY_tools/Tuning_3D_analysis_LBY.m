@@ -163,7 +163,7 @@ tOffset2 = 100; % in ms, time after stim off
 % tOffset2 = 000; % in ms
 
 if strcmp(PSTH.monkey ,'MSTd') == 1
-    delay = 50; % in ms, MSTd, 1806
+    delay = 115; % in ms, MSTd, 1806
     %for MSTd delay is 100 ms
     aMax = 770; % in ms, peak acceleration time, measured time
     aMin = 1250; % in ms, trough acceleration time, measured time
@@ -296,6 +296,10 @@ for k = 1:length(unique_stimType)
     [Azi, Ele, Amp] = vectorsum(squeeze(PSTH.spk_data_vector{k}(:,:)));
     preferDire{k} = [Azi, Ele, Amp];
     
+    % calculate the differences between every direction and the preferred direction
+    azis = reshape(repmat([0 45 90 135 180 225 270 315],5,1),[],1);
+    eles = repmat([-90 -45 0 45 90],1,8)';
+    pre_diff{k} = angleDiff(azis,eles,ones(1,40),ones(1,40)*preferDire{k}(1),ones(1,40)*preferDire{k}(2),ones(1,40));
     
 end
 
@@ -502,111 +506,122 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 % PSTH_3D_Tuning; % plot PSTHs across sessions;
 % Contour_3D_Tuning; % plot countour figures;
 % Contour_3D_Tuning_GIF; % plot countour figures(PD across time);
-
+% spatial_tuning;
 %% models nalysis
-%{
+% %{
 % models = {'VA','VO','AO'};
 % models = {'VO','AO','VA','VJ','AJ','VAJ'};
-models = {'VAJ','VA'};
+models = {'PO'};
 % models = {'VAJ','VA'};
 % models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};
 % models_color = {colorDGreen,'k'};
-% models_color = {'k'};
-models_color = {'k','g'};
+models_color = {'k'};
+% models_color = {'k','g'};
 reps = 20;
 % reps = 5;
+<<<<<<< HEAD
 for k = 1:length(unique_stimType)
 %     for k = 1
     if PSTH.respon_sigTrue(k) == 1
         models_fitting(models,models_color,FILE, Protocol,k,meanSpon,PSTH.spk_data_bin_mean_rate{k}(:,:,stimOnBin:stimOffBin),PSTH.spk_data_count_mean_rate_all{k},PSTH.spon_spk_data_bin_mean_rate(stimOnBin:stimOffBin),nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,unique_duration);
+=======
+% for k = 1:length(unique_stimType)
+        for k = 1
+    %         if PSTH.respon_sigTrue(k) == 1
+    models_fitting(models,models_color,FILE,SpikeChan, Protocol,k,meanSpon,PSTH.spk_data_bin_mean_rate{k}(:,:,stimOnBin:stimOffBin),PSTH.spk_data_count_mean_rate_all{k},PSTH.spon_spk_data_bin_mean_rate(stimOnBin:stimOffBin),nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,unique_duration);
+    
+    if sum(ismember(models,'PVAJ')) ~= 0
+>>>>>>> refs/remotes/origin/master
         
-        if sum(ismember(models,'PVAJ')) ~= 0
-            
-            PSTH3Dmodel{k}.PVAJ_wP = (1-PSTH3Dmodel{k}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{k}.modelFitPara_PVAJ(21))*PSTH3Dmodel{k}.modelFitPara_PVAJ(20);
-            PSTH3Dmodel{k}.PVAJ_wV = (1-PSTH3Dmodel{k}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{k}.modelFitPara_PVAJ(21))*(1-PSTH3Dmodel{k}.modelFitPara_PVAJ(20));
-            PSTH3Dmodel{k}.PVAJ_wA = (1-PSTH3Dmodel{k}.modelFitPara_PVAJ(22))*PSTH3Dmodel{k}.modelFitPara_PVAJ(21);
-            PSTH3Dmodel{k}.PVAJ_wJ = PSTH3Dmodel{k}.modelFitPara_PVAJ(22);
-            
-        elseif sum(ismember(models,'PVAJ')) == 0
-            PSTH3Dmodel{k}.PVAJ_wV = nan;
-            PSTH3Dmodel{k}.PVAJ_wA = nan;
-            PSTH3Dmodel{k}.PVAJ_wJ = nan;
-            PSTH3Dmodel{k}.PVAJ_wP = nan;
-        end
+        PSTH3Dmodel{k}.PVAJ_wP = (1-PSTH3Dmodel{k}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{k}.modelFitPara_PVAJ(21))*PSTH3Dmodel{k}.modelFitPara_PVAJ(20);
+        PSTH3Dmodel{k}.PVAJ_wV = (1-PSTH3Dmodel{k}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{k}.modelFitPara_PVAJ(21))*(1-PSTH3Dmodel{k}.modelFitPara_PVAJ(20));
+        PSTH3Dmodel{k}.PVAJ_wA = (1-PSTH3Dmodel{k}.modelFitPara_PVAJ(22))*PSTH3Dmodel{k}.modelFitPara_PVAJ(21);
+        PSTH3Dmodel{k}.PVAJ_wJ = PSTH3Dmodel{k}.modelFitPara_PVAJ(22);
         
-        if sum(ismember(models,'VAJ')) ~= 0
-            if sum(ismember(models,'AJ')) ~= 0
-                PSTH3Dmodel{k}.VAJ_R2V = ((PSTH3Dmodel{k}.RSquared_VAJ)^2 - (PSTH3Dmodel{k}.RSquared_AJ)^2)/(1-(PSTH3Dmodel{k}.RSquared_AJ)^2);
-            else
-                PSTH3Dmodel{k}.VAJ_R2V = nan;
-            end
-            if sum(ismember(models,'VJ')) ~= 0
-                PSTH3Dmodel{k}.VAJ_R2A = ((PSTH3Dmodel{k}.RSquared_VAJ)^2 - (PSTH3Dmodel{k}.RSquared_VJ)^2)/(1-(PSTH3Dmodel{k}.RSquared_VJ)^2);
-            else
-                PSTH3Dmodel{k}.VAJ_R2A = nan;
-            end
-            if sum(ismember(models,'VA')) ~= 0
-                PSTH3Dmodel{k}.VAJ_R2J = ((PSTH3Dmodel{k}.RSquared_VAJ)^2 - (PSTH3Dmodel{k}.RSquared_VA)^2)/(1-(PSTH3Dmodel{k}.RSquared_VA)^2);
-            else
-                PSTH3Dmodel{k}.VAJ_R2J = nan;
-            end
-            PSTH3Dmodel{k}.VAJ_wV = PSTH3Dmodel{k}.modelFitPara_VAJ(29)*(1-PSTH3Dmodel{k}.modelFitPara_VAJ(30));
-            PSTH3Dmodel{k}.VAJ_wA = (1-PSTH3Dmodel{k}.modelFitPara_VAJ(29))*(1-PSTH3Dmodel{k}.modelFitPara_VAJ(30));
-            PSTH3Dmodel{k}.VAJ_wJ = PSTH3Dmodel{k}.modelFitPara_VAJ(30);
-        elseif sum(ismember(models,'VAJ')) == 0
-            PSTH3Dmodel{k}.VAJ_wV = nan;
-            PSTH3Dmodel{k}.VAJ_wA = nan;
-            PSTH3Dmodel{k}.VAJ_wJ = nan;
-        end
-        
-        if sum(ismember(models,'VAP')) ~= 0
-            if sum(ismember(models,'AP')) ~= 0
-                PSTH3Dmodel{k}.VAP_R2V = ((PSTH3Dmodel{k}.RSquared_VAP)^2 - (PSTH3Dmodel{k}.RSquared_AP)^2)/(1-(PSTH3Dmodel{k}.RSquared_AP)^2);
-            else
-                PSTH3Dmodel{k}.VAP_R2V = nan;
-            end
-            if sum(ismember(models,'VP')) ~= 0
-                PSTH3Dmodel{k}.VAP_R2A = ((PSTH3Dmodel{k}.RSquared_VAP)^2 - (PSTH3Dmodel{k}.RSquared_VP)^2)/(1-(PSTH3Dmodel{k}.RSquared_VP)^2);
-            else
-                PSTH3Dmodel{k}.VAP_R2A = nan;
-            end
-            if sum(ismember(models,'VA')) ~= 0
-                PSTH3Dmodel{k}.VAP_R2P = ((PSTH3Dmodel{k}.RSquared_VAP)^2 - (PSTH3Dmodel{k}.RSquared_VA)^2)/(1-(PSTH3Dmodel{k}.RSquared_VA)^2);
-            else
-                PSTH3Dmodel{k}.VAP_R2P = nan;
-            end
-            PSTH3Dmodel{k}.VAP_wV = PSTH3Dmodel{k}.modelFitPara_VAP(29)*(1-PSTH3Dmodel{k}.modelFitPara_VAP(30));
-            PSTH3Dmodel{k}.VAP_wA = (1-PSTH3Dmodel{k}.modelFitPara_VAP(29))*(1-PSTH3Dmodel{k}.modelFitPara_VAP(30));
-            PSTH3Dmodel{k}.VAP_wP = PSTH3Dmodel{k}.modelFitPara_VAP(30);
-        elseif sum(ismember(models,'VAP')) == 0
-            PSTH3Dmodel{k}.VAP_wV = nan;
-            PSTH3Dmodel{k}.VAP_wA = nan;
-            PSTH3Dmodel{k}.VAP_wP = nan;
-        end
-        
-        if sum(ismember(models,'VA')) ~= 0
-            PSTH3Dmodel{k}.VA_wV = PSTH3Dmodel{k}.modelFitPara_VA(21);
-            PSTH3Dmodel{k}.VA_wA = 1-PSTH3Dmodel{k}.modelFitPara_VA(21);
-            if sum(ismember(models,'AO')) ~= 0
-                PSTH3Dmodel{k}.VA_R2V = ((PSTH3Dmodel{k}.RSquared_VA)^2 - (PSTH3Dmodel{k}.RSquared_AO)^2)/(1-(PSTH3Dmodel{k}.RSquared_AO)^2);
-            else
-                PSTH3Dmodel{k}.VA_R2A = nan;
-            end
-            if sum(ismember(models,'VO')) ~= 0
-                PSTH3Dmodel{k}.VA_R2A = ((PSTH3Dmodel{k}.RSquared_VA)^2 - (PSTH3Dmodel{k}.RSquared_VO)^2)/(1-(PSTH3Dmodel{k}.RSquared_VO)^2);
-            else
-                PSTH3Dmodel{k}.VA_R2V = nan;
-            end
-        elseif sum(ismember(models,'VA')) == 0
-            PSTH3Dmodel{k}.VA_wV = nan;
-            PSTH3Dmodel{k}.VA_wA = nan;
-        end
-        
-    else
-        PSTH3Dmodel{k} = nan;
+    elseif sum(ismember(models,'PVAJ')) == 0
+        PSTH3Dmodel{k}.PVAJ_wV = nan;
+        PSTH3Dmodel{k}.PVAJ_wA = nan;
+        PSTH3Dmodel{k}.PVAJ_wJ = nan;
+        PSTH3Dmodel{k}.PVAJ_wP = nan;
     end
+    
+    if sum(ismember(models,'VAJ')) ~= 0
+        if sum(ismember(models,'AJ')) ~= 0
+            PSTH3Dmodel{k}.VAJ_R2V = ((PSTH3Dmodel{k}.RSquared_VAJ)^2 - (PSTH3Dmodel{k}.RSquared_AJ)^2)/(1-(PSTH3Dmodel{k}.RSquared_AJ)^2);
+        else
+            PSTH3Dmodel{k}.VAJ_R2V = nan;
+        end
+        if sum(ismember(models,'VJ')) ~= 0
+            PSTH3Dmodel{k}.VAJ_R2A = ((PSTH3Dmodel{k}.RSquared_VAJ)^2 - (PSTH3Dmodel{k}.RSquared_VJ)^2)/(1-(PSTH3Dmodel{k}.RSquared_VJ)^2);
+        else
+            PSTH3Dmodel{k}.VAJ_R2A = nan;
+        end
+        if sum(ismember(models,'VA')) ~= 0
+            PSTH3Dmodel{k}.VAJ_R2J = ((PSTH3Dmodel{k}.RSquared_VAJ)^2 - (PSTH3Dmodel{k}.RSquared_VA)^2)/(1-(PSTH3Dmodel{k}.RSquared_VA)^2);
+        else
+            PSTH3Dmodel{k}.VAJ_R2J = nan;
+        end
+        PSTH3Dmodel{k}.VAJ_wV = PSTH3Dmodel{k}.modelFitPara_VAJ(15)*(1-PSTH3Dmodel{k}.modelFitPara_VAJ(16));
+        PSTH3Dmodel{k}.VAJ_wA = (1-PSTH3Dmodel{k}.modelFitPara_VAJ(15))*(1-PSTH3Dmodel{k}.modelFitPara_VAJ(16));
+        PSTH3Dmodel{k}.VAJ_wJ = PSTH3Dmodel{k}.modelFitPara_VAJ(16);
+    elseif sum(ismember(models,'VAJ')) == 0
+        PSTH3Dmodel{k}.VAJ_wV = nan;
+        PSTH3Dmodel{k}.VAJ_wA = nan;
+        PSTH3Dmodel{k}.VAJ_wJ = nan;
+    end
+    
+    if sum(ismember(models,'VAP')) ~= 0
+        if sum(ismember(models,'AP')) ~= 0
+            PSTH3Dmodel{k}.VAP_R2V = ((PSTH3Dmodel{k}.RSquared_VAP)^2 - (PSTH3Dmodel{k}.RSquared_AP)^2)/(1-(PSTH3Dmodel{k}.RSquared_AP)^2);
+        else
+            PSTH3Dmodel{k}.VAP_R2V = nan;
+        end
+        if sum(ismember(models,'VP')) ~= 0
+            PSTH3Dmodel{k}.VAP_R2A = ((PSTH3Dmodel{k}.RSquared_VAP)^2 - (PSTH3Dmodel{k}.RSquared_VP)^2)/(1-(PSTH3Dmodel{k}.RSquared_VP)^2);
+        else
+            PSTH3Dmodel{k}.VAP_R2A = nan;
+        end
+        if sum(ismember(models,'VA')) ~= 0
+            PSTH3Dmodel{k}.VAP_R2P = ((PSTH3Dmodel{k}.RSquared_VAP)^2 - (PSTH3Dmodel{k}.RSquared_VA)^2)/(1-(PSTH3Dmodel{k}.RSquared_VA)^2);
+        else
+            PSTH3Dmodel{k}.VAP_R2P = nan;
+        end
+        PSTH3Dmodel{k}.VAP_wV = PSTH3Dmodel{k}.modelFitPara_VAP(15)*(1-PSTH3Dmodel{k}.modelFitPara_VAP(16));
+        PSTH3Dmodel{k}.VAP_wA = (1-PSTH3Dmodel{k}.modelFitPara_VAP(15))*(1-PSTH3Dmodel{k}.modelFitPara_VAP(16));
+        PSTH3Dmodel{k}.VAP_wP = PSTH3Dmodel{k}.modelFitPara_VAP(16);
+    elseif sum(ismember(models,'VAP')) == 0
+        PSTH3Dmodel{k}.VAP_wV = nan;
+        PSTH3Dmodel{k}.VAP_wA = nan;
+        PSTH3Dmodel{k}.VAP_wP = nan;
+    end
+    
+    if sum(ismember(models,'VA')) ~= 0
+        PSTH3Dmodel{k}.VA_wV = PSTH3Dmodel{k}.modelFitPara_VA(12);
+        PSTH3Dmodel{k}.VA_wA = 1-PSTH3Dmodel{k}.modelFitPara_VA(12);
+        if sum(ismember(models,'AO')) ~= 0
+            PSTH3Dmodel{k}.VA_R2V = ((PSTH3Dmodel{k}.RSquared_VA)^2 - (PSTH3Dmodel{k}.RSquared_AO)^2)/(1-(PSTH3Dmodel{k}.RSquared_AO)^2);
+        else
+            PSTH3Dmodel{k}.VA_R2A = nan;
+        end
+        if sum(ismember(models,'VO')) ~= 0
+            PSTH3Dmodel{k}.VA_R2A = ((PSTH3Dmodel{k}.RSquared_VA)^2 - (PSTH3Dmodel{k}.RSquared_VO)^2)/(1-(PSTH3Dmodel{k}.RSquared_VO)^2);
+        else
+            PSTH3Dmodel{k}.VA_R2V = nan;
+        end
+    elseif sum(ismember(models,'VA')) == 0
+        PSTH3Dmodel{k}.VA_wV = nan;
+        PSTH3Dmodel{k}.VA_wA = nan;
+    end
+    
+    %         else
+    %             PSTH3Dmodel{k} = nan;
 end
+<<<<<<< HEAD
 
+=======
+% end
+% toc;
+>>>>>>> refs/remotes/origin/master
 %}
 %% Data Saving
 

@@ -13,12 +13,13 @@ sprintf('Fitting PO model...')
 %-- initialize global using parameters
 
 % spatial parameters
-u_Pzi = [0 45 90 135 180 225 270 315]'*pi/180;
-u_ele = [-90 -45 0 45 90]'*pi/180;
-s_data = [u_ele;u_Pzi]; % transform to this form for fitting
+u_azi = [0 45 90 135 180 225 270 315]';
+u_ele = [-90 -45 0 45 90]';
+s_data = [u_ele;u_azi]; % transform to this form for fitting
+
 % time parameters
 time = (1: (stimOffBin - stimOnBin +1))' /(stimOffBin - stimOnBin +1)*duration/1000;
-st_data = [u_ele;u_Pzi;time]; % transform to this form for fitting
+st_data = [u_ele;u_azi;time]; % transform to this form for fitting
 
 % fitting initial parameters
 sig = sqrt(sqrt(2))/6;
@@ -32,169 +33,100 @@ temporal_data = squeeze(mean(mean(PSTH_data(:,:,:),1),2)); % PSTH data posording
 spatial_data = permute(spatial_data,[2 1]);
 y_data = permute(PSTH_data, [2 1 3]); % transform to azi*ele*timebin
 
-% check if the response is excitory or inhibitory
-d_gauss_time = pos_func([mu sig],time);
-corrcoeff_vel = xcorr(d_gauss_time, temporal_data, 'coeff');
-[~,max_val] = max(abs(corrcoeff_vel));
+% check if the response is excitory or inhibitory and normalize sign
+gauss_time = pos_func([mu sig],time); % theoretical time profile
+[corrcoeff_vel,lags] = xcorr(gauss_time, temporal_data,20, 'coeff');
+neg_lags_idx = lags < 0;
+neg_lags = lags(neg_lags_idx);
+[~,max_val] = max(abs(corrcoeff_vel(neg_lags_idx)));
+delay_i = neg_lags(max_val);
+peak_i = find(time >= mu, 1, 'first')-1;
+
+% find the initial mu
+mu_0 = time(peak_i - delay_i);
+
 if corrcoeff_vel(max_val) < 0,
     temporal_data = -temporal_data;
     spatial_data = -spatial_data;
 end
 
-% normalise time and spatial profile
-t_P = max(temporal_data) - min(temporal_data);
+% normalise temporal profile
+t_A = max(temporal_data) - min(temporal_data);
+temporal_data = temporal_data/t_A;
+
+% normalise spatial profile(range[-1,1])
 s_DC = (max(spatial_data(:)) + min(spatial_data(:)))/2;
-s_P = (max(spatial_data(:)) - min(spatial_data(:)))/2;
-temporal_data = temporal_data/t_P;
-spatial_data = (spatial_data - s_DC)/s_P;
+s_A = (max(spatial_data(:)) - min(spatial_data(:)))/2;
+spatial_data = (spatial_data - s_DC)/s_A;
 
 %optimisation parameters for profile fits
 options = optimset('Display', 'off', 'MaxIter', 5000);
 
-%% initial fitting before fitting model
-%-- 1st, fit time profile
-mu_t = mu;
-sig_t = sig;
+%% fitting model
+%-- 1st, fit spatial profile
 
-LB = [pos_max 0.5*sig];
-UB = [pos_min 2*sig];
-recon_t = lsqcurvefit('pos_func', [mu_t sig_t], ...
-    time, temporal_data, LB, UB, options);
-obj.mu_t = recon_t(1);
-obj.sig_t = recon_t(2);
-
-%-- 2nd, fit spatial profile1
-
-LB = [0.001 0 -pi/2];
-UB = [10 2*pi pi/2];
+% %{
+LB = [0.001 0 -90 0];
+UB = [10 360 90 2];
 
 [~, max_idx] = max(spatial_data(:));
-[max_idx_P, max_idx_e] = ind2sub(size(spatial_data), max_idx);
+[max_idx_e, max_idx_a] = ind2sub(size(spatial_data), max_idx);
 
-param = [0.01 u_Pzi(max_idx_P) u_ele(max_idx_e)];
+param = [0.01 u_ele(max_idx_e) u_azi(max_idx_a) 0.5];
+%}
+
+%{
+LB = [0.001 0 -90];
+UB = [10 360 90];
+
+[~, max_idx] = max(spatial_data(:));
+[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
+
+param = [0.01 u_ele(max_idx_a) u_azi(max_idx_e)];
+%}
 recon_v = lsqcurvefit('cos_tuning', param,  s_data, ...
     spatial_data(:), LB, UB, options);
 n = recon_v(1);
 a_0 = recon_v(2);
 e_0 = recon_v(3);
+DC = recon_v(4);
 
-%Initialise spatial tuning function error
-ele_Pzi = cos_tuning(recon_v, s_data);
-ele_Pzi = reshape(ele_Pzi, length(u_Pzi), length(u_ele));
-spatial_data2 = spatial_data - ele_Pzi;
-
-% normalise time and spatial profile
-s_DC2 = (max(spatial_data2(:)) + min(spatial_data2(:)))/2;
-s_P2 = (max(spatial_data2(:)) - min(spatial_data2(:)))/2;
-spatial_data2 = (spatial_data2 - s_DC2)/s_P2;
-
-
-%-- 3rd, fit spatial profile2
-[~, max_idx] = max(spatial_data2(:));
-[max_idx_P, max_idx_e] = ind2sub(size(spatial_data2), max_idx);
-param = [0.01 u_Pzi(max_idx_P) u_ele(max_idx_e)];
-recon_v = lsqcurvefit('cos_tuning', param,  s_data, ...
-    spatial_data2(:), LB, UB, options);
-n2 = recon_v(1);
-
-[x0, y0, z0] = sph2cart(a_0, e_0, 1);
-[x1, y1, z1] = sph2cart(recon_v(2), recon_v(3), 1);
-v1 = [1 0 0] - [x0 y0 z0];
-v2 = [x1 y1 z1] - [x0 y0 z0];
-ang = acos(v1*v2'/(norm(v1)*norm(v2)));
-
-elim = pi/3;
-if ang < elim,
-    ang = elim;
-end
-if ang > 2*pi-elim,
-    ang = 2*pi-elim;
-end
-a2_0 = ang;
-e2_0 = recon_v(3)-e_0;
-
-
-
-
-
-%-- 4th, fit total spatial profile
-
-% initialize fitting
-% Inital fits
-param = [n, ...   %1
-    a_0, ... %2
-    e_0, ... %3
-    n2, ...  %4
-    a2_0, ...%5
-    e2_0, ...%6
-    s_P2, ...%7
-    s_DC2];    %8
-
-LB = [0.001 0 -pi/2 0.001 0 elim 0 -2];
-UB = [10 2*pi pi/2  10 pi 2*pi-elim 1 2];
-
-recon_v = lsqcurvefit('d_cos_tuning', param, s_data, ...
-    spatial_data(:), LB, UB, options);
-
-n    = recon_v(1);
-a_0  = recon_v(2);
-e_0  = recon_v(3);
-n2   = recon_v(4);
-a2_0 = recon_v(5);
-e2_0 = recon_v(6);
-s_P2 = recon_v(7);
-s_DC2  = recon_v(8);
-
-%Fit linear parameters
-A = t_P*s_P;
 R_0 = baseline;
-s_DC = s_DC/s_P;
+A = t_A*s_A;
 
-%% fit PO model
+%-- 2nd, fit PO model
 
 %Inital fits
-param = [A, ...       %1
+param = [A, ...  %1
     R_0, ...     %2
-    mu_t, ...    %3
-    sig_t, ...   %4
-    n, ...       %5
-    a_0, ...     %6
-    e_0, ...     %7
-    n2, ...      %8
-    a2_0, ...    %9
-    e2_0, ...    %10
-    s_P2, ...    %11
-    s_DC+s_DC2]; %12
+    mu_0, ...    %3
+    n, ...       %4
+    a_0, ...     %5
+    e_0, ...     %6
+    DC,...       %7
+    ];
 
 
 init_param = zeros(reps+1, length(param));
 init_param(1,:) = param;
 
-LB = [0.25*A, ...`%1  A
-    0, ...          %2  R_0
-    mu-0.1, ...      %3  mu_t
-    0.5*sig, ...%4  sig_t
-    0.001, ...      %5  n
-    0, ...          %6  a_0
-    -pi/2, ...      %7  e_0
-    0.001, ...      %8  n2
-    0, ...          %9  a2_0
-    elim, ...       %10 e2_0
-    0, ...          %11 s_P2
-    -2]; ...        %12 DC
+LB = [0.25*A, ...`  %1  A amplitude
+    0, ...          %2  R_0 baseline
+    mu, ...         %3  mu_0
+    0.001, ...      %4  n
+    0, ...          %5  a_0
+    -90, ...      %6  e_0
+    0,...       %7
+    ];
     
-UB = [4*A, ...    %1  A
+UB = [4*A, ...      %1  A
     300, ...        %2  R_0
-    mu+0.1, ...        %3  mu_t
-    2*sig, ... %4  sig_t
-    10, ...         %5  n
-    2*pi, ...       %6  a_0
-    pi/2, ...       %7  e_0
-    10, ...         %8  n2
-    pi, ...         %9  a2_0
-    2*pi-elim, ...  %10 e2_0
-    1, ...          %11 s_P2
-    2];             %12 DC
+    mu+0.2, ...     %3  mu_0
+    10, ...         %4  n
+    360, ...       %5  a_0
+    90, ...       %6  e_0
+    1,...       %7
+    ];
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));
@@ -243,7 +175,7 @@ modelFit_PO = [];
 modelFit_PO_spatial = [];
 %% analysis
 data_num = 26*nBins;
-para_num = 6;
+para_num = 7;
 BIC_PO = BIC_fit(data_num,rss_PO,para_num);
 TSS = sum((PSTH_data(:) - mean(PSTH_data(:))).^2);
 RSquared_PO = 1 - rss_PO/TSS;
