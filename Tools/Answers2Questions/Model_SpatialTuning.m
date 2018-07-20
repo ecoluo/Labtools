@@ -1,9 +1,9 @@
 % LBY 20180105
 
-%{
+% %{
 % close all;
 clear all;
-theta =-pi:0.1:pi;
+theta =0:0.1:pi;
 nn = 0.1:0.2:1;
 x = cos(theta);
 pc = 0;

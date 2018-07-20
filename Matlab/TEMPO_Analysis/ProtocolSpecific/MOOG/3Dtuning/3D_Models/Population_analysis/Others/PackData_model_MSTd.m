@@ -11,8 +11,9 @@ cd('Z:\Data\TEMPO\BATCH\MSTd_3DTuning');
 load('Z:\Data\TEMPO\BATCH\MSTd_3DTuning\PSTH_OriData.mat');
 Monkey = 'Que';
 % models = {'VO','AO','VA','VJ','AJ','VAJ','PVAJ'};
-models = {'VO','AO','VJ','AJ','VA','VAJ'};
+% models = {'VO','AO','VJ','AJ','VA','VAJ'};
 % models = {'VO','AO','VA','VAJ'};
+models = {'VA','VAJ'};
 global PSTH3Dmodel PSTH;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% for Translation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,11 +56,11 @@ for cell_inx = 1:length(QQ_3DTuning_T)
         T_spatial_VA_vesti(cell_inx).A([1 5],2:end) = 0;
         [T_preDir_VA_vesti(cell_inx).V(1) T_preDir_VA_vesti(cell_inx).V(2) T_preDir_VA_vesti(cell_inx).V(3)] = vectorsum(T_spatial_VA_vesti(cell_inx).V);
         [T_preDir_VA_vesti(cell_inx).A(1) T_preDir_VA_vesti(cell_inx).A(2) T_preDir_VA_vesti(cell_inx).A(3)] =  vectorsum(T_spatial_VA_vesti(cell_inx).A);
-        T_VA_n_vesti(cell_inx).V =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(5);
-        T_VA_n_vesti(cell_inx).A =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(10);
-        T_VAJ_n_vesti(cell_inx).V =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(5);
-        T_VAJ_n_vesti(cell_inx).A =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(13);
-        T_VAJ_n_vesti(cell_inx).J =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(21);
+        T_VA_n_vesti(cell_inx).V =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(4);
+        T_VA_n_vesti(cell_inx).A =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(8);
+        T_VAJ_n_vesti(cell_inx).V =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(4);
+        T_VAJ_n_vesti(cell_inx).A =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(8);
+        T_VAJ_n_vesti(cell_inx).J =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(12);
         
         
         for m_inx = 1:length(models)
@@ -137,11 +138,11 @@ for cell_inx = 1:length(QQ_3DTuning_T)
         T_spatial_VA_vis(cell_inx).A([1 5],2:end) = 0;
         [T_preDir_VA_vis(cell_inx).V(1) T_preDir_VA_vis(cell_inx).V(2) T_preDir_VA_vis(cell_inx).V(3)] =  vectorsum(T_spatial_VA_vis(cell_inx).V);
         [T_preDir_VA_vis(cell_inx).A(1) T_preDir_VA_vis(cell_inx).A(2) T_preDir_VA_vis(cell_inx).A(3)] =  vectorsum(T_spatial_VA_vis(cell_inx).A);
-        T_VA_n_vis(cell_inx).V =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(5);
-        T_VA_n_vis(cell_inx).A =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(10);
-        T_VAJ_n_vis(cell_inx).V =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(5);
-        T_VAJ_n_vis(cell_inx).A =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(13);
-        T_VAJ_n_vis(cell_inx).J =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(21);
+        T_VA_n_vis(cell_inx).V =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(4);
+        T_VA_n_vis(cell_inx).A =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(8);
+        T_VAJ_n_vis(cell_inx).V =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(4);
+        T_VAJ_n_vis(cell_inx).A =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(8);
+        T_VAJ_n_vis(cell_inx).J =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(12);
         
         
         for m_inx = 1:length(models)

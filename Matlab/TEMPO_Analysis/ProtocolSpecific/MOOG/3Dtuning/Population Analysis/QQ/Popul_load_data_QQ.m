@@ -14,7 +14,7 @@ global PSTH;
 
 FnameCode = 2;
 % Protocol: 1->translation, 2-> rotation, 3->dark T, 4->dark R
-Protocol = 2;
+Protocol = 1;
 
 
 pathname = {'Z:\Data\TEMPO\BATCH\QQ_T';'Z:\Data\TEMPO\BATCH\QQ_R';'Z:\Data\TEMPO\BATCH\QQ_T_Dark';'Z:\Data\TEMPO\BATCH\QQ_R_Dark';};

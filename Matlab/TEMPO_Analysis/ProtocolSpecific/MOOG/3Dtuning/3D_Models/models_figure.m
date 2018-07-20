@@ -151,17 +151,17 @@ for m_inx = 1:length(models)
         text(70,10,['wA =  ',num2str(wA)],'fontsize',24);
     end
     if strcmp(models{m_inx},'VAJ')
-        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(15)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16));
-        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(15))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16));
-        wJ = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16);
+        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(17));
+        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(17));
+        wJ = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(17);
         text(70,15,['wV =  ',num2str(wV)],'fontsize',24);
         text(70,10,['wA =  ',num2str(wA)],'fontsize',24);
         text(70,5,['wJ =  ',num2str(wJ)],'fontsize',24);
     end
     if strcmp(models{m_inx},'VAP')
-        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(15)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16));
-        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(15))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16));
-        wP = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16);
+        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(17));
+        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(17));
+        wP = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(17);
         text(70,15,['wV =  ',num2str(wV)],'fontsize',24);
         text(70,10,['wA =  ',num2str(wA)],'fontsize',24);
         text(70,5,['wP =  ',num2str(wP)],'fontsize',24);
@@ -1097,7 +1097,7 @@ components = {'V','A','J','P'};
 color_com = {'r',colorDBlue,colorDOrange,colorDGray};
 for m_inx = 1:length(components)
 %     figure(220+m_inx);clf;set(gcf,'pos',[20+(m_inx-1)*910 220 900 500]);
-figure(220+m_inx);clf;set(gcf,'pos',[0 0 2100 1000]);
+figure(220+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     [~,h_subplot] = tight_subplot(5,9,0.04,0.15);
     
     for j = 2:length(unique_elevation)-1
