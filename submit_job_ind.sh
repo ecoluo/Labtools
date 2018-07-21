@@ -1,6 +1,4 @@
-#! /bin/bash
-
-# Bash script for sumbitting matlab jobs to an SGE cluster queue.
+sh script for sumbitting matlab jobs to an SGE cluster queue.
 # This is the script you run from the command line to submit the jobs.
 # By David Black-Schaffer, June 2007.
 # Permission to use and modify this script is granted.
@@ -122,3 +120,4 @@ echo "Total number of nodes: "$totalNode
 echo "Total number of CPUs: "$totalCPU
 echo " "  
 qstat
+

@@ -8,7 +8,7 @@
 
 function [modelFitRespon_JO, modelFit_JO, modelFit_JO_spatial, modelFitPara_JO, BIC_JO, RSquared_JO, rss_JO, time] = fitJO(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting JO model...')
+% sprintf('Fitting JO model...')
 
 %-- initialize global using parameters
 
@@ -70,7 +70,7 @@ LB = [0.001 0 -90 0];
 UB = [10 360 90 2];
 
 [~, max_idx] = max(spatial_data(:));
-[max_idx_e, max_idx_a] = ind2sub(size(spatial_data), max_idx);
+[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
 
 param = [0.01 u_ele(max_idx_e) u_azi(max_idx_a) 0.5];
 %}

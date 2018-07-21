@@ -8,7 +8,7 @@
 
 function [modelFitRespon_AP,modelFit_AP, modelFit_AP_spatial, modelFitPara_AP, BIC_AP, RSquared_AP, rss_AP, time] = fitAP(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting AP model...')
+% sprintf('Fitting AP model...')
 
 %-- initialize global using parameters
 
@@ -53,7 +53,7 @@ mu_0 = mu;
 a_n = 1;
 p_n = 1;
 [~, max_idx] = max(spatial_data(:));
-[max_idx_e, max_idx_a] = ind2sub(size(spatial_data), max_idx);
+[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
 a_e_0 = u_ele(max_idx_e);
 p_e_0 = u_ele(max_idx_e);
 a_a_0 = u_azi(max_idx_a);

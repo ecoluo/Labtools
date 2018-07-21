@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VA,modelFit_VA, modelFit_VA_spatial, modelFitPara_VA, BIC_VA, RSquared_VA, rss_VA, time] = fitVA(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VA model...')
+% sprintf('Fitting VA model...')
 
 %-- initialize global using parameters
 
@@ -55,7 +55,7 @@ mu_0 = mu;
 v_n = 1;
 a_n = 1;
 [~, max_idx] = max(spatial_data(:));
-[max_idx_e, max_idx_a] = ind2sub(size(spatial_data), max_idx);
+[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
 v_e_0 = u_ele(max_idx_e);
 a_e_0 = u_ele(max_idx_e);
 v_a_0 = u_azi(max_idx_a);

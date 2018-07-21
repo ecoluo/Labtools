@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VAJ,modelFit_VAJ, modelFit_VAJ_spatial, modelFitPara_VAJ, BIC_VAJ, RSquared_VAJ, rss_VAJ, time] = fitVAJ(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VAJ model...')
+% sprintf('Fitting VAJ model...')
 
 %-- initialize global using parameters
 
@@ -55,7 +55,7 @@ v_n = 1;
 a_n = 1;
 j_n = 1;
 [~, max_idx] = max(spatial_data(:));
-[max_idx_e, max_idx_a] = ind2sub(size(spatial_data), max_idx);
+[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
 v_e_0 = u_ele(max_idx_e);
 a_e_0 = u_ele(max_idx_e);
 j_e_0 = u_ele(max_idx_e);
@@ -180,7 +180,7 @@ modelFit_VAJ_spatial.J = cos_tuning(modelFitPara_VAJ(12:15),st_data(1:13));
 
 %% analysis
 data_num = 26*nBins;
-para_num = 16;
+para_num = 17;
 BIC_VAJ = BIC_fit(data_num,rss_VAJ,para_num);
 TSS = sum((PSTH_data(:) - mean(PSTH_data(:))).^2);
 RSquared_VAJ = 1 - rss_VAJ/TSS;

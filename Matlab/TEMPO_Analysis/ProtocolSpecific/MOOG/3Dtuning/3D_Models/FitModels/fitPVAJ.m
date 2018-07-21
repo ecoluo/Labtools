@@ -8,7 +8,7 @@
 
 function [modelFitRespon_PVAJ, modelFit_PVAJ, modelFit_PVAJ_spatial, modelFitPara_PVAJ, BIC_PVAJ, RSquared_PVAJ, rss_PVAJ, time] = fitPVAJ(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting PVAJ model...')
+% sprintf('Fitting PVAJ model...')
 
 %-- initialize global using parameters
 
@@ -55,7 +55,7 @@ a_n = 1;
 j_n = 1;
 p_n = 1;
 [~, max_idx] = max(spatial_data(:));
-[max_idx_e, max_idx_a] = ind2sub(size(spatial_data), max_idx);
+[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
 v_e_0 = u_ele(max_idx_e);
 a_e_0 = u_ele(max_idx_e);
 j_e_0 = u_ele(max_idx_e);

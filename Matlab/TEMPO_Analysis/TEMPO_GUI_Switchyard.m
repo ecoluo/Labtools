@@ -54,7 +54,7 @@ switch(action)
         PathHandle = findobj(gcbf, 'Tag', 'Pathname');
         
         if str2num(FILE(strfind(FILE,'m')+1:strfind(FILE,'c')-1)) == 6  % Qiaoqiao
-            PATH = 'Z:\Data\MOOG\Qiaoqiao\Raw\';
+            PATH = '/ion/gu_lab/byliu/Z/Data/MOOG/Qiaoqiao/raw/';
             set(PathHandle, 'String', PATH);
 
             %set start and stop timing offsets for analysis - BJP 3/1/00
@@ -64,7 +64,7 @@ switch(action)
             set(StopOffsetHandle, 'String', '60');    % Delay from digMarker to visual onset. HH20140621
 
         elseif str2num(FILE(strfind(FILE,'m')+1:strfind(FILE,'c')-1)) == 5  % Polo
-            PATH = 'Z:\Data\MOOG\Polo\raw\';
+            PATH = '/ion/gu_lab/byliu/Z/Data/MOOG/Polo/raw/';
             set(PathHandle, 'String', PATH);
             
             %set start and stop timing offsets for analysis - BJP 3/1/00
@@ -74,7 +74,7 @@ switch(action)
             set(StopOffsetHandle, 'String', '-190');    % Delay from digMarker to visual onset. HH20140621
 
         elseif str2num(FILE(strfind(FILE,'m')+1:strfind(FILE,'c')-1)) == 10  % Messi
-            PATH = 'Z:\Data\MOOG\Messi\raw\';
+            PATH = '/ion/gu_lab/byliu/Z/Data/MOOG/Messi/raw/';
             set(PathHandle, 'String', PATH);
             
             %set start and stop timing offsets for analysis - BJP 3/1/00

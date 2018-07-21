@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VAP,modelFit_VAP, modelFit_VAP_spatial, modelFitPara_VAP, BIC_VAP, RSquared_VAP, rss_VAP, time] = fitVAP(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VAP model...')
+% sprintf('Fitting VAP model...')
 
 %-- initialize global using parameters
 
@@ -55,7 +55,7 @@ v_n = 1;
 a_n = 1;
 p_n = 1;
 [~, max_idx] = max(spatial_data(:));
-[max_idx_e, max_idx_a] = ind2sub(size(spatial_data), max_idx);
+[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
 v_e_0 = u_ele(max_idx_e);
 a_e_0 = u_ele(max_idx_e);
 p_e_0 = u_ele(max_idx_e);
@@ -180,7 +180,7 @@ modelFit_VAP_spatial.P = cos_tuning(modelFitPara_VAP(12:15),st_data(1:13));
 
 %% analysis
 data_num = 26*nBins;
-para_num = 16;
+para_num = 17;
 BIC_VAP = BIC_fit(data_num,rss_VAP,para_num);
 TSS = sum((PSTH_data(:) - mean(PSTH_data(:))).^2);
 RSquared_VAP = 1 - rss_VAP/TSS;

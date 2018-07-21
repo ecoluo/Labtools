@@ -8,7 +8,7 @@
 
 function [modelFitRespon_AO, modelFit_AO, modelFit_AO_spatial,modelFitPara_AO, BIC_AO, RSquared_AO, rss_AO, time] = fitAO(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting AO model...')
+% sprintf('Fitting AO model...')
 
 %-- initialize global using parameters
 
@@ -68,7 +68,7 @@ LB = [0.001 0 -90 0];
 UB = [10 360 90 2];
 
 [~, max_idx] = max(spatial_data(:));
-[max_idx_e, max_idx_a] = ind2sub(size(spatial_data), max_idx);
+[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
 
 param = [0.01 u_ele(max_idx_e) u_azi(max_idx_a) 0.5];
 %}

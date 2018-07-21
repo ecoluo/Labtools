@@ -20,8 +20,9 @@
 
 BatchPath="/ion/gu_lab/byliu/Z/Data/TEMPO/BATCH/"
 
-BatchFile="test.m"
-#BatchFile="All.m"
+#BatchFile="test.m"
+BatchFile="All.m"
+#BatchFile="MSTd_vis.m"
 
 echo "Starting job: $n / ${config[@]}"
 

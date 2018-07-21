@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VJ,modelFit_VJ, modelFit_VJ_spatial, modelFitPara_VJ, BIC_VJ, RSquared_VJ, rss_VJ, time] = fitVJ(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VJ model...')
+% sprintf('Fitting VJ model...')
 
 %-- initialize global using parameters
 
@@ -53,7 +53,7 @@ mu_0 = mu;
 v_n = 1;
 j_n = 1;
 [~, max_idx] = max(spatial_data(:));
-[max_idx_e, max_idx_a] = ind2sub(size(spatial_data), max_idx);
+[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
 v_e_0 = u_ele(max_idx_e);
 j_e_0 = u_ele(max_idx_e);
 v_a_0 = u_azi(max_idx_a);
