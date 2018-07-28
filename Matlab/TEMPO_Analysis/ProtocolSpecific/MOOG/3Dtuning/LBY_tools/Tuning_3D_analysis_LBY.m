@@ -377,7 +377,7 @@ for k = 1:length(unique_stimType)
             % if 5 consecutive bins are sig.,then we say this bin is sig.
             for ii = nn-2:nn+2
                 try
-                    if ranksum(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(ii,:))',squeeze(nanmean(PSTH.spk_data_bin_rate_aov{k,pc}(baselineBinBeg:baselineBinEnd,:)))') < 0.01
+                    if ranksum(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(ii,:))',squeeze(nanmean(PSTH.spk_data_bin_rate_aov{k,pc}(baselineBinBeg:baselineBinEnd,:)))') < 0.05
                         PSTH.s{k,pc}(nn) =  PSTH.s{k,pc}(nn)+1;
                     end
                 catch
