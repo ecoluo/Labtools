@@ -33,8 +33,7 @@ end
 rescue_from_CED = {   % FileName   Protocol   Conditions   Headings  Coherence Duration Amplitude
     '/ion/gu_lab/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c605r1.htb','3DT',[1 2],[0:45:315,-45:45:45], nan, 1500,0.11;
     '/ion/gu_lab/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c617r2.htb','3DR',[1],[0:45:315,-45:45:45], nan, 1500,8;
-    '/ion/gu_lab/byliu/Z/Data/MOOG/Polo/raw/m5c1583r2.htb','3DR',[1 2],[0:45:315,-45:45:45], nan, 1500,8;
-    };
+    '/ion/gu_lab/byliu/Z/Data/MOOG/Polo/raw/m5c1583r2.htb','3DR',[1 2],[0:45:315,-45:45:45], nan, 1500,8;    };
 
 ff = 1;
 while ff <= size(rescue_from_CED,1) && isempty(strfind(rescue_from_CED{ff,1},[PATH FILE]))

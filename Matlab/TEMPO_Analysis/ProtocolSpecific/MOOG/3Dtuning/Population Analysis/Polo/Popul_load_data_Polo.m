@@ -17,7 +17,7 @@ FnameCode = 2;
 Protocol = 1;
 
 
-pathname = {'Z:\Data\TEMPO\BATCH\Polo_T';'Z:\Data\TEMPO\BATCH\Polo_R';'Z:\Data\TEMPO\BATCH\Polo_T_Dark';'Z:\Data\TEMPO\BATCH\Polo_R_Dark';};
+pathname = {'Z:\Data\TEMPO\BATCH\Polo';'Z:\Data\TEMPO\BATCH\Polo';'Z:\Data\TEMPO\BATCH\Polo_Dark';'Z:\Data\TEMPO\BATCH\Polo_Dark';};
 
 switch FnameCode
     case 1 % choose files mannully
@@ -28,7 +28,7 @@ switch FnameCode
             case {1 3}
                 cd(pathname{Protocol});
                 disp('Load PSTH T data...');
-                filename = dir([pathname{Protocol},'\*PSTH*.mat']);
+                filename = dir([pathname{Protocol},'\*PSTH_T*.mat']);
                 for ii = 1:length(filename)
                     % load PSTH data
                     temp = load([pathname{Protocol} '\' filename(ii).name]);
@@ -61,7 +61,7 @@ switch FnameCode
             case {2 4}
                 cd(pathname{Protocol});
                 disp('Load PSTH R data...');
-                filename = dir([pathname{Protocol},'\*PSTH*.mat']);
+                filename = dir([pathname{Protocol},'\*PSTH_R*.mat']);
                 for ii = 1:length(filename)
                     % load PSTH data
                     temp = load([pathname{Protocol} '\' filename(ii).name]);

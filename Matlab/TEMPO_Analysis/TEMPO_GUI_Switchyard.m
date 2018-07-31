@@ -54,8 +54,7 @@ switch(action)
         PathHandle = findobj(gcbf, 'Tag', 'Pathname');
         
         if str2num(FILE(strfind(FILE,'m')+1:strfind(FILE,'c')-1)) == 6  % Qiaoqiao
-            PATH = '/ion/gu_lab/byliu/Z/Data/MOOG/Qiaoqiao/raw/';
-            set(PathHandle, 'String', PATH);
+            PATH = '/ion/gu_lab/byliu/Z/Data/MOOG/Qiaoqiao/raw/';            set(PathHandle, 'String', PATH);
 
             %set start and stop timing offsets for analysis - BJP 3/1/00
             StartOffsetHandle = findobj(gcbf, 'Tag', 'StartOffset');

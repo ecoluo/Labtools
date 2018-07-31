@@ -239,6 +239,7 @@ for k = 1:length(unique_stimType)
             end
             
             % pack data for PSTH
+            try
             PSTH.spk_data_bin_rate{k,j,i} = PSTH_smooth( nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
             PSTH.spk_data_bin_rate_aov{k,pc}(:,:) = PSTH_smooth( nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
             PSTH.spk_data_bin_mean_rate_aov{k}(pc,:) = mean(PSTH.spk_data_bin_rate_aov{k,pc}(:,:),2);
@@ -257,6 +258,9 @@ for k = 1:length(unique_stimType)
             spk_data_bin_mean_rate_std{k}(j,i,:) = std(PSTH.spk_data_bin_rate{k,j,i},0,2);
             PSTH.spk_data_bin_mean_rate_ste{k}(j,i,:) = spk_data_bin_mean_rate_std{k}(j,i,:)/sqrt(size(PSTH.spk_data_bin_rate{k,j,i}(1,:),2));
             
+            catch
+                keyboard;
+            end
             % pack data for contour
             try
                 PSTH.spk_data_count_rate{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOffT(1)-tEnd,:),1)/((unique_duration(1,1)-tBeg-tEnd)/1000); % rates
@@ -417,7 +421,7 @@ for k = 1:length(unique_stimType)
             Pmax(nn) = anova1(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(nn,:))','','off');
         end
         for nn = stimOnBin : stimOffBin
-            if (Rmax(nn,1)>Rmax(nn-1,1)) && (Rmax(nn,1)>Rmax(nn+1,1)) && Pmax(nn)<0.05 && Pmax(nn-1)<0.05 && Pmax(nn-2)<0.05 && Pmax(nn+1)<0.05 && Pmax(nn+2)<0.05
+            if (Rmax(nn,1)>Rmax(nn-1,1)) && (Rmax(nn,1)>Rmax(nn+1,1)) && Pmax(nn)<0.05 && Pmax(nn-1)<0.05 && Pmax(nn-2)<0.05 && Pmax(nn+1)<0.05 && Pmax(nn+2)<0.01
                 peak_DS{k} = [peak_DS{k},[ Rmax(nn,1);nn]];
             end
             if (Rmax(nn,1)>Rmax(nn-1,1)) && (Rmax(nn,1)>Rmax(nn+1,1))
@@ -507,23 +511,31 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 % spatial_tuning;
 %% models nalysis
 % %{
+% model_catg = 'Sync model'; % tau is the same
+model_catg = 'Out-sync model'; % each component has its own tau
+
 % models = {'VA','VO','AO'};
+% models_color = {'k','r',colorDBlue};
+
 % models = {'VO','AO','VA','VJ','AJ','VAJ'};
-models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
-% models = {'PO'};
-% models = {'VAJ','VA'};
 % models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};
+
+models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
 models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
-% models_color = {colorDGreen,'k'};
+
+% models = {'AO'};
 % models_color = {'k'};
-% models_color = {'k','g'};
+
+% models = {'VAJ','VA'};
+% models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};% models = {'VAJ','VA'};
+% models_color = {colorDGreen,'k'};
+
 reps = 20;
 % reps = 5;
 for k = 1:length(unique_stimType)
-    % for k = 1
+% for k = 1
     if PSTH.respon_sigTrue(k) == 1
-        models_fitting(models,models_color,FILE,SpikeChan, Protocol,k,meanSpon,PSTH.spk_data_bin_mean_rate{k}(:,:,stimOnBin:stimOffBin),PSTH.spk_data_count_mean_rate_all{k},PSTH.spon_spk_data_bin_mean_rate(stimOnBin:stimOffBin),nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,unique_duration);
-        
+        models_fitting(model_catg,models,models_color,FILE,SpikeChan, Protocol,k,meanSpon,PSTH.spk_data_bin_mean_rate{k}(:,:,stimOnBin:stimOffBin),PSTH.spk_data_count_mean_rate_all{k},PSTH.spon_spk_data_bin_mean_rate(stimOnBin:stimOffBin),nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,unique_duration);        
         if sum(ismember(models,'PVAJ')) ~= 0
             
             PSTH3Dmodel{k}.PVAJ_wP = (1-PSTH3Dmodel{k}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{k}.modelFitPara_PVAJ(21))*PSTH3Dmodel{k}.modelFitPara_PVAJ(20);
@@ -610,7 +622,7 @@ for k = 1:length(unique_stimType)
         PSTH3Dmodel{k} = nan;
     end
 end
-%}
+% toc;%}
 %% Data Saving
 
 % Reorganized. HH20141124

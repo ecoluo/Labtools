@@ -1,6 +1,6 @@
 % LBY 20180105
 
-%{
+% %{
 % close all;
 clear all;
 theta =-pi:0.1:pi;
@@ -24,7 +24,7 @@ y = 2*y/(ma - mi);
 figure;
 set(gcf,'pos',[200 200 1500 700]);
 subplot(1,2,1);
-plot(theta,y,'linewidth',1.5);
+plot(theta,y,'linewidth',3);
 xlabel('\theta');
 ylabel('y(x)');
 text(2,1,['n = 0.1:0.2:1']);

@@ -7,7 +7,7 @@ monkey_hemis = {'Qiaoqiao_L','Qiaoqiao_R','Polo_L','Polo_R','Polo_L_HH','Polo_R_
 colorDefsLBY; % added by LBY 20161216
 
 if nargin == 0
-    monkey_hemi = 4;
+    monkey_hemi = 2;
 end
 
 
@@ -20,8 +20,8 @@ global linWid start_end_markers overlapping Qiaoqiao_right_AP0 Polo_right_AP0;
 
 linWid = 1.3; % linewidth for rectangles indicating mapping area
 % following: area & unit overlapping in coronal planes
-% overlapping = [-1 1; -1 1]; start_end_markers = false; % First row for area annotation; second for unit annotation
-overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation
+overlapping = [-1 1; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
+% overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation
 
 maxX = 30; % Grid size
 maxY = 30;
@@ -571,6 +571,8 @@ switch monkey_hemis{monkey_hemi}
             {0,[17,6],[2.65 0],[GM 10 26;PCC 42 60;PCC 90 120;]} % 20180621
             {0,[17,9],[2.65 0],[PCC 29 40;IPS 106 138;]} % 20180621
             {0,[16,6],[2.95 0],[IPS 74 93;]} % 20180621
+            {0,[22,4],[2.55 0],[GM 36 57;PCC 69 85;]} % 20180723
+            {0,[22,6],[2.55 0],[GM 21 31;PCC 76 85;PCC 100 117;]} % 20180723
             
             
             {107,[8,6],[2.4 0],[PCC 48 67]}
@@ -617,6 +619,12 @@ switch monkey_hemis{monkey_hemi}
             {144,[17,8],[2.65 0],[GM 12 33;PCC 46 58;]} 
             {145,[17,7],[2.65 0],[GM 9 39;PCC 51 71;RSC 140 156;]} 
             {146,[17,5],[2.85 0],[GM 13 26;PCC 39 46;]} 
+            {147,[20,5],[2.65 0],[PCC 41 55;PCC 66 81;]} 
+            {148,[20,9],[2.65 0],[GM 37 49;PCC 69 86;]} 
+            {149,[22,8],[2.55 0],[GM 17 28;PCC 60 76;PCC 90 107;]} 
+            {150,[23,4],[2.65 0],[GM 0 8;PCC 20 56;PCC 63 83;GM 110 147;]}
+            {151,[23,6],[2.65 0],[GM 45 50;]} 
+            {152,[25,5],[2.65 0],[GM 4 54;PCC 66 76;]} 
 
             }';
         

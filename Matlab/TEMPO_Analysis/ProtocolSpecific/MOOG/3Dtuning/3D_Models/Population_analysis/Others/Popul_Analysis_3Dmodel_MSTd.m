@@ -9,7 +9,8 @@ clear all;
 cd('Z:\Data\TEMPO\BATCH\MSTd_3DTuning');
 load('Z:\Data\TEMPO\BATCH\MSTd_3DTuning\PSTH3DModel_T_OriData.mat');
 Monkey = 'Que';
-models = {'VO','AO','VJ','AJ','VA','VAJ'};
+% models = {'VO','AO','VJ','AJ','VA','VAJ'};
+models = {'VA','VAJ'};
 %% analysis
 
 colorDefsLBY;
@@ -75,28 +76,26 @@ T_vesti_VAJ_n = squeeze(cell2mat(struct2cell(T_VAJ_n_vesti)));
 T_vis_VAJ_n = squeeze(cell2mat(struct2cell(T_VAJ_n_vis)));
 
 %%%%%%%%%%%%%%%%% BIC %%%%%%%%%%%%%%%%%%%
-%{
-figure(101);set(gcf,'pos',[300 200 1000 600]);clf;
+% %{
+figure(100);set(gcf,'pos',[300 200 1000 600]);clf;
 BestFitModel = [T_BIC_min_vesti_hist;T_BIC_min_vis_hist]';
 h = bar(BestFitModel,'grouped');
 xlabel('Models');ylabel('Cell Numbers (n)');
 set(gca,'xticklabel',models);
 set(h(1),'facecolor',colorDBlue,'edgecolor',colorDBlue);
 set(h(2),'facecolor',colorDRed,'edgecolor',colorDRed);
-set(h(3),'facecolor',colorLBlue,'edgecolor',colorLBlue);
-set(h(4),'facecolor',colorLRed,'edgecolor',colorLRed);
 title('Best model fit');
-h_l = legend(['Translation (Vestibular), n = ',num2str(T_vestiNo)],['Translation (Visual), n = ',num2str(T_visNo)],['Rotation (Vestibular), n = ',num2str(R_vestiNo)],['Rotation (Visual), n = ',num2str(R_visNo)],'location','NorthWest');
+h_l = legend(['Translation (Vestibular), n = ',num2str(T_vestiNo)],['Translation (Visual), n = ',num2str(T_visNo)],'location','NorthWest');
 set(h_l,'fontsize',15);
 SetFigure(25);
 set(gcf,'paperpositionmode','auto');
-saveas(101,'Z:\LBY\Population Results\BestFitModel','emf');
+% saveas(101,'Z:\LBY\Population Results\BestFitModel','emf');
 %}
 %%%%%%%%%%%%%%%%%  R_squared distribution of each model %%%%%%%%%%%%%%%%%%%
-%{
+% %{
 
 % figures
-figure(102);set(gcf,'pos',[60 70 1500 800]);clf;
+figure(101);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(1,3,0.1,0.15);
 
 axes(h_subplot(1));
@@ -123,11 +122,11 @@ title('Visual');
 
 SetFigure(25);
 set(gcf,'paperpositionmode','auto');
-saveas(102,'Z:\LBY\Population Results\RSquared_Distribution','emf');
+% saveas(102,'Z:\LBY\Population Results\RSquared_Distribution','emf');
 
 %}
 %%%%%%%%%%%%%%%%%%%% Partial R_squared distribution  %%%%%%%%%%%%%%%%%%%%%%
-%{
+% %{
 
 PartR2_T_vesti = squeeze(cell2mat(struct2cell(T_PartR2_VAT_vesti)))';
 PartR2_T_vis = squeeze(cell2mat(struct2cell(T_PartR2_VAT_vis)))';
@@ -135,7 +134,7 @@ PartR2_T_vesti(T_vestiSig==0) = nan;
 PartR2_T_vis(T_visSig==0) = nan;
 
 % figures
-figure(103);set(gcf,'pos',[60 70 1500 800]);clf;
+figure(102);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(1,3,0.1,0.15);
 
 axes(h_subplot(1));
@@ -162,17 +161,17 @@ title('Visual');
 
 SetFigure(25);
 set(gcf,'paperpositionmode','auto');
-saveas(103,'Z:\LBY\Population Results\Partial_RSquared_Distribution','emf');
+% saveas(103,'Z:\LBY\Population Results\Partial_RSquared_Distribution','emf');
 %}
 %%%%%%%%%%%%%%%%%%%  R_squared distribution  %%%%%%%%%%%%%%%%%%%%%%
-%{
+% %{
 xR2 = 0.05:0.1:0.75;
 
 % figures
-figure(104);set(gcf,'pos',[30 50 1800 300]);clf;
+figure(103);set(gcf,'pos',[30 50 1800 300]);clf;
 [~,h_subplot] = tight_subplot(1,6,0.05,0.2);
 
-for ii = 1:6
+for ii = 1:2
     
 axes(h_subplot(ii));
 hold on;
@@ -193,10 +192,10 @@ end
 suptitle('Translation - vestibular');
 SetFigure(25);
 
-figure(105);set(gcf,'pos',[30 400 1800 300]);clf;
+figure(104);set(gcf,'pos',[30 400 1800 300]);clf;
 [~,h_subplot] = tight_subplot(1,6,0.05,0.2);
 
-for ii = 1:6
+for ii = 1:2
     
 axes(h_subplot(ii));
 hold on;
@@ -217,10 +216,9 @@ end
 suptitle('Translation - visual');
 SetFigure(25);
 
-SetFigure(25);
 %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Weight for VAJ model %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%{
+% %{
 figure(105);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(1,3,[0.1 0.02],0.15);
 
@@ -253,7 +251,7 @@ title('T - visual');
 SetFigure(25);
 %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight for VA model %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%{
+% %{
 figure(106);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(1,3,[0.1 0.02],0.15);
 
@@ -284,7 +282,7 @@ SetFigure(25);
 %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight for VA model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%{
+% %{
 xRatio = -2:0.4:2;
 
 figure(110);set(gcf,'pos',[60 70 1500 400]);clf;
@@ -332,7 +330,7 @@ SetFigure(25);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight(V&A, normalized) for VAJ model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%{
+% %{
 xRatio = -2:0.4:2;
 
 figure(111);set(gcf,'pos',[60 70 1500 400]);clf;
@@ -375,7 +373,7 @@ SetFigure(25);
 %}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weightof (V&A, normalized) for VA model vs.VAJ model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%{
+% %{
 
 figure(112);set(gcf,'pos',[60 70 1000 400]);clf;
 [~,h_subplot] = tight_subplot(1,2,0.2,0.15);
@@ -567,7 +565,7 @@ SetFigure(25);
 %}
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Weight vs. R2 (VA model) %%%%%%%%%%%%%%%%%%%%%%%%
-%{
+% %{
 figure(108);set(gcf,'pos',[60 70 1200 400]);clf;
 [~,h_subplot] = tight_subplot(1,2,[0.2 0.2],0.15);
 
@@ -602,7 +600,7 @@ SetFigure(25);
 %}
 
 %%%%%%%%% spatial tuning-prefer direction distribution (VA model) %%%%%%%%%
-%{
+% %{
 
 % figures
 figure(112);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -658,7 +656,7 @@ SetFigure(25);
 %}
 
 %%%%%%%%% spatial tuning-Diff of prefer direction (V,A) distribution (VA model) %%%%%%%%%
-%{
+% %{
 xdiffPreDir = 9:18:(180-9);
 % figures
 figure(113);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -700,7 +698,7 @@ SetFigure(25);
 
 %%%%%%%%% plot weight of V&A vesus n (VA model) %%%%%%%%%
 
-%{
+% %{
 % figures
 figure(114);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(1,3,0.2,0.15);
@@ -736,7 +734,7 @@ SetFigure(25);
 
 %%%%%%%%% plot weight of V vesus n (VAJ model) %%%%%%%%%
 
-%{
+% %{
 % figures
 figure(115);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(1,3,0.2,0.15);
