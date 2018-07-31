@@ -5,8 +5,8 @@
 clear all;
 colorDefsLBY;
 duration = 1.5; % unit in s
-num_sigs = 2;
-amp = 0.11; % unit in m
+num_sigs = 4.5;
+amp = 8; % unit in m
 step = 0.0005;
 t = 0:step:duration;
 
@@ -136,7 +136,7 @@ saveas(gcf,'Z:\LBY\Population Results\Gaussian_curves_all','emf');
 %}
 figure(3);clf;
 set(gcf,'name','Gaussian Curve','pos',[200 200 1200 700]);
-axes('pos',[0.2,0.2,0.6,0.6]);
+axes('pos',[0.2,0.2,0.7,0.7]);
 [h,hLines] = plotyyy(t(1:length(t)-1),veloc,t(1:length(t)-2),accel,t,pos);
 
 set(hLines(1),'LineStyle','-','color','r','linewidth',4);

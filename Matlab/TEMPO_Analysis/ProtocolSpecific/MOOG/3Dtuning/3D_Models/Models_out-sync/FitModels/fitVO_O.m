@@ -1,47 +1,48 @@
-% fit poseleration-only model for 3D tuning
+% fit Velocity-only model for 3D tuning
 % time (unit: s)
 % spon: spontaneous firing rate
 % PSTH_data: PSTH data with sliding windows
-% spatial_data: 9*5 data posording to spatial
-% reps: the repetition number to perform for fiiting models
-% 20180618LBY
+% spatial_data: 9*5 data according to spatial
+% reps: the repetition number to perform for fitting models
+% 20170519LBY
+% 20170603LBY
 
-function [modelFitRespon_PO, modelFit_PO, modelFit_PO_spatial,modelFitPara_PO, BIC_PO, RSquared_PO, rss_PO, time] = fitPO(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
+function [modelFitRespon_VO, modelFit_VO, modelFit_VO_spatial,modelFitPara_VO, BIC_VO, RSquared_VO, rss_VO, time] = fitVO_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting PO model...')
+sprintf('Fitting VO model...')
 
 %-- initialize global using parameters
 
 % spatial parameters
 u_azi = [0 45 90 135 180 225 270 315]';
 u_ele = [-90 -45 0 45 90]';
-s_data = [u_ele;u_azi]; % transform to this form for fitting
+s_data = [u_ele;u_azi]; % spatial data transform to this form for fitting
 
 % time parameters
-time = (1: (stimOffBin - stimOnBin +1))' /(stimOffBin - stimOnBin +1)*duration/1000;
+time = (1: (stimOffBin - stimOnBin +1))' /(stimOffBin - stimOnBin +1)*duration/1000; % unit in s
 st_data = [u_ele;u_azi;time]; % transform to this form for fitting
 
 % fitting initial parameters
 sig = sqrt(sqrt(2))/6;
 baseline = spon;
-pos_max = aMax/1000; % transfer unit from ms to s
-pos_min = aMin/1000; % transfer unit from ms to s
-mu = (pos_max+pos_min)/2;
+acc_max = aMax/1000; % transfer unit from ms to s
+acc_min = aMin/1000; % transfer unit from ms to s
+mu = (acc_max+acc_min)/2;
+
 
 % PSTH data
-temporal_data = squeeze(mean(mean(PSTH_data(:,:,:),1),2)); % PSTH data posording to time bin
+temporal_data = squeeze(mean(mean(PSTH_data(:,:,:),1),2)); % PSTH data according to time bin, ignore spatial information
 spatial_data = permute(spatial_data,[2 1]);
-y_data = permute(PSTH_data, [2 1 3]); % transform to azi*ele*timebin
+y_data = permute(PSTH_data, [2 1 3]); % raw PSTH data, transform to azi*ele*timebin
 
 % check if the response is excitory or inhibitory and normalize sign
-gauss_time = pos_func([mu sig],time); % theoretical time profile
+gauss_time = vel_func([mu sig],time); % theoretical time profile
 [corrcoeff_vel,lags] = xcorr(gauss_time, temporal_data,20, 'coeff');
 neg_lags_idx = lags < 0;
 neg_lags = lags(neg_lags_idx);
 [~,max_val] = max(abs(corrcoeff_vel(neg_lags_idx)));
 delay_i = neg_lags(max_val);
 peak_i = find(time >= mu, 1, 'first')-1;
-
 % find the initial mu
 mu_0 = time(peak_i - delay_i);
 
@@ -94,7 +95,7 @@ DC = recon_v(4);
 R_0 = baseline;
 A = t_A*s_A;
 
-%-- 2nd, fit PO model
+%-- 2nd, fit VO model
 
 %Inital fits
 param = [A, ...  %1
@@ -132,7 +133,7 @@ rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));
 rand_jac = zeros(reps+1, length(param), length(param));
 
-[rand_param(1,:),rand_rss(1),~,~,~,~,temp_jac] = lsqcurvefit('PO_Model', ...
+[rand_param(1,:),rand_rss(1),~,~,~,~,temp_jac] = lsqcurvefit('VO_Model_O', ...
     init_param(1,:), st_data, y_data, LB, UB, options);
 rand_jac(1,:,:) = full(temp_jac)'*full(temp_jac);
 min_param = rand_param(1,:);
@@ -149,7 +150,7 @@ for ii = 2:(reps + 1)
     LB_param(LB > LB_param) = LB(LB > LB_param);
     seed_param  = unifrnd(LB_param, UB_param);
     
-    [rand_param(ii,:),rand_rss(ii),~,~,~,~,temp_jac] = lsqcurvefit('PO_Model', ...
+    [rand_param(ii,:),rand_rss(ii),~,~,~,~,temp_jac] = lsqcurvefit('VO_Model_O', ...
         seed_param, st_data, y_data, LB, UB, options);
     rand_jac(ii,:,:) = full(temp_jac)'*full(temp_jac);
     
@@ -161,23 +162,23 @@ for ii = 2:(reps + 1)
     
 end
 
-% find the best fit parameters posording to rss
+% find the best fit parameters according to rss
 [~,min_inx] = min(rand_rss);
-modelFitPara_PO = rand_param(min_inx,:);
-rss_PO = rand_rss(min_inx);
-jac_PO = rand_jac(min_inx,:,:);
+modelFitPara_VO = rand_param(min_inx,:);
+rss_VO = rand_rss(min_inx);
+jac_VO = rand_jac(min_inx,:,:);
 
 % calculate the final model fitting values
-respon = PO_Model(modelFitPara_PO,st_data);
-modelFitRespon_PO = respon;
+respon = VO_Model_O(modelFitPara_VO,st_data);
+modelFitRespon_VO = respon;
 
-modelFit_PO = [];
-modelFit_PO_spatial = [];
+modelFit_VO = [];
+modelFit_VO_spatial = [];
 %% analysis
 data_num = 26*nBins;
 para_num = 7;
-BIC_PO = BIC_fit(data_num,rss_PO,para_num);
+BIC_VO = BIC_fit(data_num,rss_VO,para_num);
 TSS = sum((PSTH_data(:) - mean(PSTH_data(:))).^2);
-RSquared_PO = 1 - rss_PO/TSS;
+RSquared_VO = 1 - rss_VO/TSS;
 
 end

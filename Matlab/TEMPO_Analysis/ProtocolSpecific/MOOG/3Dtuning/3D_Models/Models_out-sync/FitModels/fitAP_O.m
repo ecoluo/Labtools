@@ -6,7 +6,7 @@
 % reps: the repetition number to perform for fiiting models
 % 20170603LBY
 
-function [modelFitRespon_AP,modelFit_AP, modelFit_AP_spatial, modelFitPara_AP, BIC_AP, RSquared_AP, rss_AP, time] = fitAP(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
+function [modelFitRespon_AP,modelFit_AP, modelFit_AP_spatial, modelFitPara_AP, BIC_AP, RSquared_AP, rss_AP, time] = fitAP_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
 sprintf('Fitting AP model...')
 
@@ -61,7 +61,7 @@ p_a_0 = u_azi(max_idx_a);
 a_DC = 0.5;
 p_DC = 0.5;
 w = 0.5;
-p_laten = 0.1;
+p_laten = 0.2;
 
 %Inital fits
 param = [A, ...       %1
@@ -107,13 +107,13 @@ UB = [4*A, ...      %1  A
     90, ...      %10 a_e_0
     1 ...         %11 a_DC
     1,...         %12 wA
-    0.5];            %13 p_latency
+    0.4];            %13 p_latency
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));
 rand_jac = zeros(reps+1, length(param), length(param));
 
-[rand_param(1,:),rand_rss(1),~,~,~,~,temp_jac] = lsqcurvefit('AP_Model', ...
+[rand_param(1,:),rand_rss(1),~,~,~,~,temp_jac] = lsqcurvefit('AP_Model_O', ...
     init_param(1,:), st_data, y_data, LB, UB, options);
 rand_jac(1,:,:) = full(temp_jac)'*full(temp_jac);
 min_param = rand_param(1,:);
@@ -130,7 +130,7 @@ for ii = 2:(reps + 1)
     LB_param(LB > LB_param) = LB(LB > LB_param);
     seed_param  = unifrnd(LB_param, UB_param);
     
-    [rand_param(ii,:),rand_rss(ii),~,~,~,~,temp_jac] = lsqcurvefit('AP_Model', ...
+    [rand_param(ii,:),rand_rss(ii),~,~,~,~,temp_jac] = lsqcurvefit('AP_Model_O', ...
         seed_param, st_data, y_data, LB, UB, options);
     rand_jac(ii,:,:) = full(temp_jac)'*full(temp_jac);
     
@@ -149,11 +149,11 @@ rss_AP = rand_rss(min_inx);
 jac_AP = rand_jac(min_inx,:,:);
 
 % calculate the final model fitting values
-respon = AP_Model(modelFitPara_AP,st_data);
+respon = AP_Model_O(modelFitPara_AP,st_data);
 modelFitRespon_AP = respon;
 
-modelFit_AP.A = AP_A_Com(modelFitPara_AP([1:7,12]),st_data);
-modelFit_AP.P = AP_P_Com(modelFitPara_AP([1:3,8:12,13]),st_data);
+modelFit_AP.A = AP_A_Com_O(modelFitPara_AP([1:7,12]),st_data);
+modelFit_AP.P = AP_P_Com_O(modelFitPara_AP([1:3,8:12,13]),st_data);
 
 % model fit spatial tuning
 modelFit_AP_spatial.A = cos_tuning(modelFitPara_AP(4:7),st_data(1:13));

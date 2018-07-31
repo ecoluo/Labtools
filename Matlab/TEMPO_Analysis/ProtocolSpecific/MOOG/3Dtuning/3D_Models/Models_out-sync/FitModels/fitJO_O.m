@@ -1,4 +1,4 @@
-% fit Velocity-acceleration-jerk model for 3D tuning
+% fit Jerk-only model for 3D tuning
 % time (unit: s)
 % spon: spontaneous firing rate
 % PSTH_data: PSTH data with sliding windows
@@ -6,9 +6,9 @@
 % reps: the repetition number to perform for fiiting models
 % 20170603LBY
 
-function [modelFitRespon_VAJ,modelFit_VAJ, modelFit_VAJ_spatial, modelFitPara_VAJ, BIC_VAJ, RSquared_VAJ, rss_VAJ, time] = fitVAJ(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
+function [modelFitRespon_JO, modelFit_JO, modelFit_JO_spatial, modelFitPara_JO, BIC_JO, RSquared_JO, rss_JO, time] = fitJO_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VAJ model...')
+sprintf('Fitting JO model...')
 
 %-- initialize global using parameters
 
@@ -20,8 +20,8 @@ s_data = [u_ele;u_azi]; % transform to this form for fitting
 % time parameters
 time = (1: (stimOffBin - stimOnBin +1))' /(stimOffBin - stimOnBin +1)*duration/1000;
 st_data = [u_ele;u_azi;time]; % transform to this form for fitting
-% fitting initial parameters
 
+% fitting initial parameters
 sig = sqrt(sqrt(2))/6;
 baseline = spon;
 acc_max = aMax/1000; % transfer unit from ms to s
@@ -33,6 +33,23 @@ temporal_data = squeeze(mean(mean(PSTH_data(:,:,:),1),2)); % PSTH data according
 spatial_data = permute(spatial_data,[2 1]);
 y_data = permute(PSTH_data, [2 1 3]); % transform to azi*ele*timebin
 
+% check if the response is excitory or inhibitory and normalize sign
+gauss_time = jerk_func([mu sig],time); % theoretical time profile
+[corrcoeff_vel,lags] = xcorr(gauss_time, temporal_data,20, 'coeff');
+neg_lags_idx = lags < 0;
+neg_lags = lags(neg_lags_idx);
+[~,max_val] = max(abs(corrcoeff_vel(neg_lags_idx)));
+delay_i = neg_lags(max_val);
+peak_i = find(time >= mu, 1, 'first')-1;
+% find the initial mu
+mu_0 = time(peak_i - delay_i);
+
+if corrcoeff_vel(max_val) < 0,
+    temporal_data = -temporal_data;
+    spatial_data = -spatial_data;
+end
+
+
 % normalise temporal profile
 t_A = max(temporal_data) - min(temporal_data);
 temporal_data = temporal_data/t_A;
@@ -42,103 +59,80 @@ s_DC = (max(spatial_data(:)) + min(spatial_data(:)))/2;
 s_A = (max(spatial_data(:)) - min(spatial_data(:)))/2;
 spatial_data = (spatial_data - s_DC)/s_A;
 
-
 %optimisation parameters for profile fits
 options = optimset('Display', 'off', 'MaxIter', 5000);
 
-%% fit VAJ model
+%% fitting model
+%-- 1st, fit spatial profile
+
+% %{
+LB = [0.001 0 -90 0];
+UB = [10 360 90 2];
+
+[~, max_idx] = max(spatial_data(:));
+[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
+
+param = [0.01 u_ele(max_idx_e) u_azi(max_idx_a) 0.5];
+%}
+
+%{
+LB = [0.001 0 -90];
+UB = [10 360 90];
+
+[~, max_idx] = max(spatial_data(:));
+[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
+
+param = [0.01 u_ele(max_idx_a) u_azi(max_idx_e)];
+%}
+recon_v = lsqcurvefit('cos_tuning', param,  s_data, ...
+    spatial_data(:), LB, UB, options);
+n = recon_v(1);
+a_0 = recon_v(2);
+e_0 = recon_v(3);
+DC = recon_v(4);
 
 R_0 = baseline;
 A = t_A*s_A;
-mu_0 = mu;
-v_n = 1;
-a_n = 1;
-j_n = 1;
-[~, max_idx] = max(spatial_data(:));
-[max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
-v_e_0 = u_ele(max_idx_e);
-a_e_0 = u_ele(max_idx_e);
-j_e_0 = u_ele(max_idx_e);
-v_a_0 = u_azi(max_idx_a);
-a_a_0 = u_azi(max_idx_a);
-j_a_0 = u_azi(max_idx_a);
-v_DC = 0.5;
-a_DC = 0.5;
-j_DC = 0.5;
-wv = 0.3;
-wj = 0.3;
-v_laten = 0.1;
-j_laten = 0.1;
+
+%-- 2nd, fit VO model
 
 %Inital fits
-param = [A, ...       %1
+param = [A, ...  %1
     R_0, ...     %2
     mu_0, ...    %3
-    v_n, ...       %4
-    v_a_0, ...     %5
-    v_e_0, ...     %6
-    v_DC,... %7
-    a_n, ...           %8
-    a_a_0, ...         %9
-    a_e_0, ...         %10
-    a_DC, ...%11
-    j_n, ...       %12
-    j_a_0, ...     %13
-    j_e_0, ...     %14
-    j_DC,... %15
-    wv,... %16
-    wj,... %17
-    v_laten, ... %18
-    j_laten];                %19
+    n, ...       %4
+    a_0, ...     %5
+    e_0, ...     %6
+    DC,...       %7
+    ];
+
 
 init_param = zeros(reps+1, length(param));
 init_param(1,:) = param;
 
-LB = [0.25*A, ...`  %1  A
-    0, ...          %2  R_0
-    mu, ...       %3  mu_t
+LB = [0.25*A, ...`  %1  A amplitude
+    0, ...          %2  R_0 baseline
+    mu, ...         %3  mu_0
     0.001, ...      %4  n
     0, ...          %5  a_0
     -90, ...      %6  e_0
-    0,...          %7 v_DC
-    0.001, ...      %8 a_n
-    0, ...          %9 a_a_0
-    -90, ...      %10 a_e_0
-    0, ...         %11 a_DC
-    0.001, ...      %12  j_n
-    0, ...          %13  j_a_0
-    -90, ...      %14  j_e_0
-    0,...          %15 j_DC
-    0,...           %16 wV
-    0,...          %17 wJ
-    0,...          %18 v_laten
-    0];             %19 j_laten
-
+    0,...       %7
+    ];
+    
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
-    mu+0.2, ...      %3  mu_t
+    mu+0.2, ...     %3  mu_0
     10, ...         %4  n
     360, ...       %5  a_0
     90, ...       %6  e_0
-    1,...          %7 v_DC
-    10, ...        %8 a_n
-    360, ...      %9 a_a_0
-    90, ...      %10 a_e_0
-    1, ...         %11 a_DC
-    10, ...        %12 a_n
-    360, ...      %13 a_a_0
-    90, ...      %14 a_e_0
-    1, ...         %15 a_DC
-    1, ...         %16 wV
-    1,...          %17 wJ
-    0.3,...          %18 v_laten
-    0.3];             %19 j_laten
+    1,...       %7
+    ];
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));
 rand_jac = zeros(reps+1, length(param), length(param));
 
-[rand_param(1,:),rand_rss(1),~,~,~,~,temp_jac] = lsqcurvefit('VAJ_Model', ...
+[rand_param(1,:),rand_rss(1),~,~,~,~,temp_jac] = lsqcurvefit('JO_Model_O', ...
     init_param(1,:), st_data, y_data, LB, UB, options);
 rand_jac(1,:,:) = full(temp_jac)'*full(temp_jac);
 min_param = rand_param(1,:);
@@ -155,7 +149,7 @@ for ii = 2:(reps + 1)
     LB_param(LB > LB_param) = LB(LB > LB_param);
     seed_param  = unifrnd(LB_param, UB_param);
     
-    [rand_param(ii,:),rand_rss(ii),~,~,~,~,temp_jac] = lsqcurvefit('VAJ_Model', ...
+    [rand_param(ii,:),rand_rss(ii),~,~,~,~,temp_jac] = lsqcurvefit('JO_Model_O', ...
         seed_param, st_data, y_data, LB, UB, options);
     rand_jac(ii,:,:) = full(temp_jac)'*full(temp_jac);
     
@@ -169,29 +163,21 @@ end
 
 % find the best fit parameters according to rss
 [~,min_inx] = min(rand_rss);
-modelFitPara_VAJ = rand_param(min_inx,:);
-rss_VAJ = rand_rss(min_inx);
-jac_VAJ = rand_jac(min_inx,:,:);
+modelFitPara_JO = rand_param(min_inx,:);
+rss_JO = rand_rss(min_inx);
+jac_JO = rand_jac(min_inx,:,:);
 
 % calculate the final model fitting values
-respon = VAJ_Model(modelFitPara_VAJ,st_data);
-modelFitRespon_VAJ = respon;
+respon = JO_Model_O(modelFitPara_JO,st_data);
+modelFitRespon_JO = respon;
 
-modelFit_VAJ.V = VAJ_V_Com(modelFitPara_VAJ([1:7,16,17,18]),st_data);
-modelFit_VAJ.A = VAJ_A_Com(modelFitPara_VAJ([1:3,8:11,16,17]),st_data);
-modelFit_VAJ.J = VAJ_J_Com(modelFitPara_VAJ([1:3,12:15,16,17,19]),st_data);
-
-% model fit spatial tuning
-modelFit_VAJ_spatial.V = cos_tuning(modelFitPara_VAJ(4:7),st_data(1:13));
-modelFit_VAJ_spatial.A = cos_tuning(modelFitPara_VAJ(8:11),st_data(1:13));
-modelFit_VAJ_spatial.J = cos_tuning(modelFitPara_VAJ(12:15),st_data(1:13));
-
+modelFit_JO = [];
+modelFit_JO_spatial = [];
 %% analysis
 data_num = 26*nBins;
-para_num = 19;
-BIC_VAJ = BIC_fit(data_num,rss_VAJ,para_num);
+para_num = 7;
+BIC_JO = BIC_fit(data_num,rss_JO,para_num);
 TSS = sum((PSTH_data(:) - mean(PSTH_data(:))).^2);
-RSquared_VAJ = 1 - rss_VAJ/TSS;
-
+RSquared_JO = 1 - rss_JO/TSS;
 
 end

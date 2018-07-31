@@ -1,4 +1,4 @@
-% fit Velocity-acceleration-position model for 3D tuning
+% fit Velocity-acceleration-jerk model for 3D tuning
 % time (unit: s)
 % spon: spontaneous firing rate
 % PSTH_data: PSTH data with sliding windows
@@ -6,9 +6,9 @@
 % reps: the repetition number to perform for fiiting models
 % 20170603LBY
 
-function [modelFitRespon_VAP,modelFit_VAP, modelFit_VAP_spatial, modelFitPara_VAP, BIC_VAP, RSquared_VAP, rss_VAP, time] = fitVAP(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
+function [modelFitRespon_VAJ,modelFit_VAJ, modelFit_VAJ_spatial, modelFitPara_VAJ, BIC_VAJ, RSquared_VAJ, rss_VAJ, time] = fitVAJ_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VAP model...')
+sprintf('Fitting VAJ model...')
 
 %-- initialize global using parameters
 
@@ -46,29 +46,29 @@ spatial_data = (spatial_data - s_DC)/s_A;
 %optimisation parameters for profile fits
 options = optimset('Display', 'off', 'MaxIter', 5000);
 
-%% fit VAP model
+%% fit VAJ model
 
 R_0 = baseline;
 A = t_A*s_A;
 mu_0 = mu;
 v_n = 1;
 a_n = 1;
-p_n = 1;
+j_n = 1;
 [~, max_idx] = max(spatial_data(:));
 [max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
 v_e_0 = u_ele(max_idx_e);
 a_e_0 = u_ele(max_idx_e);
-p_e_0 = u_ele(max_idx_e);
+j_e_0 = u_ele(max_idx_e);
 v_a_0 = u_azi(max_idx_a);
 a_a_0 = u_azi(max_idx_a);
-p_a_0 = u_azi(max_idx_a);
+j_a_0 = u_azi(max_idx_a);
 v_DC = 0.5;
 a_DC = 0.5;
-p_DC = 0.5;
+j_DC = 0.5;
 wv = 0.3;
-wp = 0.3;
+wj = 0.3;
 v_laten = 0.1;
-p_laten = 0.3;
+j_laten = 0.1;
 
 %Inital fits
 param = [A, ...       %1
@@ -82,14 +82,14 @@ param = [A, ...       %1
     a_a_0, ...         %9
     a_e_0, ...         %10
     a_DC, ...%11
-    p_n, ...       %12
-    p_a_0, ...     %13
-    p_e_0, ...     %14
-    p_DC,... %15
+    j_n, ...       %12
+    j_a_0, ...     %13
+    j_e_0, ...     %14
+    j_DC,... %15
     wv,... %16
-    wp,... %17
+    wj,... %17
     v_laten, ... %18
-    p_laten];                %19
+    j_laten];                %19
 
 init_param = zeros(reps+1, length(param));
 init_param(1,:) = param;
@@ -110,9 +110,9 @@ LB = [0.25*A, ...`  %1  A
     -90, ...      %14  j_e_0
     0,...          %15 j_DC
     0,...           %16 wV
-    0,...          %17 wP
+    0,...          %17 wJ
     0,...          %18 v_laten
-    0];             %19 p_laten
+    0];             %19 j_laten
 
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
@@ -130,15 +130,15 @@ UB = [4*A, ...      %1  A
     90, ...      %14 a_e_0
     1, ...         %15 a_DC
     1, ...         %16 wV
-    1,...          %17 wP
-    0.3,...          %18 v_laten
-    0.6];             %19 p_laten
+    1,...          %17 wJ
+    0.2,...          %18 v_laten
+    0.2];             %19 j_laten
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));
 rand_jac = zeros(reps+1, length(param), length(param));
 
-[rand_param(1,:),rand_rss(1),~,~,~,~,temp_jac] = lsqcurvefit('VAP_Model', ...
+[rand_param(1,:),rand_rss(1),~,~,~,~,temp_jac] = lsqcurvefit('VAJ_Model_O', ...
     init_param(1,:), st_data, y_data, LB, UB, options);
 rand_jac(1,:,:) = full(temp_jac)'*full(temp_jac);
 min_param = rand_param(1,:);
@@ -155,7 +155,7 @@ for ii = 2:(reps + 1)
     LB_param(LB > LB_param) = LB(LB > LB_param);
     seed_param  = unifrnd(LB_param, UB_param);
     
-    [rand_param(ii,:),rand_rss(ii),~,~,~,~,temp_jac] = lsqcurvefit('VAP_Model', ...
+    [rand_param(ii,:),rand_rss(ii),~,~,~,~,temp_jac] = lsqcurvefit('VAJ_Model_O', ...
         seed_param, st_data, y_data, LB, UB, options);
     rand_jac(ii,:,:) = full(temp_jac)'*full(temp_jac);
     
@@ -169,29 +169,29 @@ end
 
 % find the best fit parameters according to rss
 [~,min_inx] = min(rand_rss);
-modelFitPara_VAP = rand_param(min_inx,:);
-rss_VAP = rand_rss(min_inx);
-jac_VAP = rand_jac(min_inx,:,:);
+modelFitPara_VAJ = rand_param(min_inx,:);
+rss_VAJ = rand_rss(min_inx);
+jac_VAJ = rand_jac(min_inx,:,:);
 
 % calculate the final model fitting values
-respon = VAP_Model(modelFitPara_VAP,st_data);
-modelFitRespon_VAP = respon;
+respon = VAJ_Model_O(modelFitPara_VAJ,st_data);
+modelFitRespon_VAJ = respon;
 
-modelFit_VAP.V = VAP_V_Com(modelFitPara_VAP([1:7,16,17,18]),st_data);
-modelFit_VAP.A = VAP_A_Com(modelFitPara_VAP([1:3,8:11,16,17]),st_data);
-modelFit_VAP.P = VAP_P_Com(modelFitPara_VAP([1:3,12:15,16,17,19]),st_data);
+modelFit_VAJ.V = VAJ_V_Com_O(modelFitPara_VAJ([1:7,16,17,18]),st_data);
+modelFit_VAJ.A = VAJ_A_Com_O(modelFitPara_VAJ([1:3,8:11,16,17]),st_data);
+modelFit_VAJ.J = VAJ_J_Com_O(modelFitPara_VAJ([1:3,12:15,16,17,19]),st_data);
 
 % model fit spatial tuning
-modelFit_VAP_spatial.V = cos_tuning(modelFitPara_VAP(4:7),st_data(1:13));
-modelFit_VAP_spatial.A = cos_tuning(modelFitPara_VAP(8:11),st_data(1:13));
-modelFit_VAP_spatial.P = cos_tuning(modelFitPara_VAP(12:15),st_data(1:13));
+modelFit_VAJ_spatial.V = cos_tuning(modelFitPara_VAJ(4:7),st_data(1:13));
+modelFit_VAJ_spatial.A = cos_tuning(modelFitPara_VAJ(8:11),st_data(1:13));
+modelFit_VAJ_spatial.J = cos_tuning(modelFitPara_VAJ(12:15),st_data(1:13));
 
 %% analysis
 data_num = 26*nBins;
 para_num = 19;
-BIC_VAP = BIC_fit(data_num,rss_VAP,para_num);
+BIC_VAJ = BIC_fit(data_num,rss_VAJ,para_num);
 TSS = sum((PSTH_data(:) - mean(PSTH_data(:))).^2);
-RSquared_VAP = 1 - rss_VAP/TSS;
+RSquared_VAJ = 1 - rss_VAJ/TSS;
 
 
 end

@@ -34,6 +34,8 @@ end
 rescue_from_CED = {   % FileName   Protocol   Conditions   Headings  Coherence Duration Amplitude
     'Z:\Data\MOOG\Qiaoqiao\raw\m6c605r1.htb','3DT',[1 2],[0:45:315,-45:45:45], nan, 1500,0.11;
     'Z:\Data\MOOG\Qiaoqiao\raw\m6c617r2.htb','3DR',[1],[0:45:315,-45:45:45], nan, 1500,8;
+        'Z:\Data\MOOG\Polo\raw\m5c1583r2.htb','3DRT',[1 2],[0:45:315,-45:45:45], nan, 1500,8;
+%     'Z:\Data\MOOG\Polo\raw\m5c1582r1.htb','3DT',[1 2],[0:45:315,-45:45:45], nan, 1500,0.11;
 %     'Z:\Data\MOOG\Polo\raw\m5c77r2.htb','HD',[1 2 3],[-8 -4 -2 -1 0 1 2 4 8], 35;
 %     'Z:\Data\MOOG\Polo\raw\m5c91r1.htb','MemSac', nan, 0:45:350, nan;
 %     'Z:\Data\MOOG\Messi\raw\m10c102r5.htb','DelSac',nan, 0:45:350, nan;

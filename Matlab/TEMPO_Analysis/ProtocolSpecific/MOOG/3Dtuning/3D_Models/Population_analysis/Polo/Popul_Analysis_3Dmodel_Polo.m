@@ -10,7 +10,8 @@ cd('Z:\Data\TEMPO\BATCH\Polo_3DTuning');
 load('Z:\Data\TEMPO\BATCH\Polo_3DTuning\PSTH3DModel_T_OriData.mat');
 load('Z:\Data\TEMPO\BATCH\Polo_3DTuning\PSTH3DModel_R_OriData.mat');
 Monkey = 'Polo';
-models = {'VO','AO','VJ','AJ','VA','VAJ'};
+% models = {'VO','AO','VJ','AJ','VA','VAJ'};
+models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
 %% analysis
 
 colorDefsLBY;
@@ -73,8 +74,8 @@ R_visPreDir_A = reshape(cat(2,R_preDir_VA_vis.A),3,[])';
 R_visPreDir_A = reshape(cat(2,R_preDir_VA_vis.A),3,[])';
 
 %%%%%%%%%%%%%%%%% BIC %%%%%%%%%%%%%%%%%%%
-%{
-figure(101);set(gcf,'pos',[300 200 1000 600]);clf;
+% %{
+figure(100);set(gcf,'pos',[300 200 1500 600]);clf;
 BestFitModel = [T_BIC_min_vesti_hist;T_BIC_min_vis_hist;R_BIC_min_vesti_hist;R_BIC_min_vis_hist]';
 h = bar(BestFitModel,'grouped');
 xlabel('Models');ylabel('Cell Numbers (n)');
@@ -88,7 +89,7 @@ h_l = legend(['Translation (Vestibular), n = ',num2str(T_vestiNo)],['Translation
 set(h_l,'fontsize',15);
 SetFigure(25);
 set(gcf,'paperpositionmode','auto');
-saveas(101,'Z:\LBY\Population Results\BestFitModel','emf');
+saveas(100,'Z:\LBY\Population Results\BestFitModel','emf');
 %}
 %%%%%%%%%%%%%%%%%  R_squared distribution of each model %%%%%%%%%%%%%%%%%%%
 %{
@@ -201,14 +202,14 @@ set(gcf,'paperpositionmode','auto');
 saveas(103,'Z:\LBY\Population Results\Partial_RSquared_Distribution','emf');
 %}
 %%%%%%%%%%%%%%%%%%%  R_squared distribution  %%%%%%%%%%%%%%%%%%%%%%
-%{
+% %{
 xR2 = 0.05:0.1:0.75;
 
 % figures
-figure(104);set(gcf,'pos',[30 50 1800 300]);clf;
-[~,h_subplot] = tight_subplot(1,6,0.05,0.2);
+figure(103);set(gcf,'pos',[30 50 1800 300]);clf;
+[~,h_subplot] = tight_subplot(1,length(models),0.05,0.2);
 
-for ii = 1:6
+for ii = 1:length(models)
     
 axes(h_subplot(ii));
 hold on;
@@ -229,10 +230,10 @@ end
 suptitle('Translation - vestibular');
 SetFigure(25);
 
-figure(105);set(gcf,'pos',[30 400 1800 300]);clf;
-[~,h_subplot] = tight_subplot(1,6,0.05,0.2);
+figure(104);set(gcf,'pos',[30 400 1800 300]);clf;
+[~,h_subplot] = tight_subplot(1,length(models),0.05,0.2);
 
-for ii = 1:6
+for ii = 1:length(models)
     
 axes(h_subplot(ii));
 hold on;
@@ -256,9 +257,9 @@ SetFigure(25);
 
 % figures
 figure(106);set(gcf,'pos',[30 70 1800 300]);clf;
-[~,h_subplot] = tight_subplot(1,6,0.05,0.2);
+[~,h_subplot] = tight_subplot(1,length(models),0.05,0.2);
 
-for ii = 1:6
+for ii = 1:length(models)
     
 axes(h_subplot(ii));
 hold on;
@@ -279,10 +280,10 @@ end
 suptitle('Rotation - vestibular');
 SetFigure(25);
 
-figure(107);set(gcf,'pos',[30 420 1800 300]);clf;
-[~,h_subplot] = tight_subplot(1,6,0.05,0.2);
+figure(105);set(gcf,'pos',[30 420 1800 300]);clf;
+[~,h_subplot] = tight_subplot(1,length(models),0.05,0.2);
 
-for ii = 1:6
+for ii = 1:length(models)
     
 axes(h_subplot(ii));
 hold on;
@@ -416,7 +417,7 @@ SetFigure(25);
 %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight for VA model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%{
+% %{
 xRatio = -2:0.4:2;
 
 figure(110);set(gcf,'pos',[60 70 1500 800]);clf;

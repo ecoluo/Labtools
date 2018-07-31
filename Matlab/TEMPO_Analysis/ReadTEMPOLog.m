@@ -56,10 +56,14 @@ for i=1:num_lines_read
         end
         dots_protocol = 1;		%set flag if dots protocol
     case moog_keywords
+      
         index = eval(keys{i});
+      
         moog_values = sscanf(data{i}, '%f');
+       
         moog_params(index, curr_trial, 1:length(moog_values)) = moog_values;
         moog_protocol = 1;		%set flag if moog protocol
+      
     case revcorr_keywords
         index = eval(keys{i});
 

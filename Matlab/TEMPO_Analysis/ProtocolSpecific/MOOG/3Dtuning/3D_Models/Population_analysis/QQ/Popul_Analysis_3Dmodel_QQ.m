@@ -122,8 +122,8 @@ R_vesti_VAJ_n = squeeze(cell2mat(struct2cell(R_VAJ_n_vesti)));
 R_vis_VAJ_n = squeeze(cell2mat(struct2cell(R_VAJ_n_vis)));
 
 %%%%%%%%%%%%%%%%% BIC %%%%%%%%%%%%%%%%%%%
-% %{
-figure(100);set(gcf,'pos',[300 200 1000 600]);clf;
+%{
+figure(100);set(gcf,'pos',[300 200 1500 600]);clf;
 BestFitModel = [T_BIC_min_vesti_hist;T_BIC_min_vis_hist;R_BIC_min_vesti_hist;R_BIC_min_vis_hist]';
 h = bar(BestFitModel,'grouped');
 xlabel('Models');ylabel('Cell Numbers (n)');
@@ -140,11 +140,11 @@ set(gcf,'paperpositionmode','auto');
 saveas(100,'Z:\LBY\Population Results\BestFitModel','emf');
 %}
 %%%%%%%%%%%%%%%%%  R_squared distribution of each model %%%%%%%%%%%%%%%%%%%
-% %{
+%{
 
 % figures
-figure(101);set(gcf,'pos',[60 70 1500 800]);clf;
-[~,h_subplot] = tight_subplot(2,3,0.1,0.15);
+figure(101);set(gcf,'pos',[60 70 1800 800]);clf;
+[~,h_subplot] = tight_subplot(2,3,0.1,0.1);
 
 axes(h_subplot(1));
 text(0.9,-0.3,'R^2','Fontsize',30,'rotation',90);
@@ -156,32 +156,32 @@ axes(h_subplot(2));
 hold on;
 plot(RSquared_T_vesti','-o','color',colorLGray,'markeredgecolor',colorDBlue);
 axis on;
-xlim([0.5 6.5]);ylim([-0.5 1]);
-set(gca,'xTick',1:6,'xticklabel',models);
+xlim([0.5 length(models)+0.5]);ylim([-0.5 1]);
+set(gca,'xTick',1:length(models),'xticklabel',models);
 title('Vestibular');
 
 axes(h_subplot(3));
 hold on;
 plot(RSquared_T_vis','-o','color',colorLGray,'markeredgecolor',colorDRed);
 axis on;
-xlim([0.5 6.5]);ylim([-0.5 1]);
-set(gca,'xTick',1:6,'xticklabel',models);
+xlim([0.5 length(models)+0.5]);ylim([-0.5 1]);
+set(gca,'xTick',1:length(models),'xticklabel',models);
 title('Visual');
 
 axes(h_subplot(5));
 hold on;
 plot(RSquared_R_vesti','-o','color',colorLGray,'markeredgecolor',colorLBlue);
 axis on;
-xlim([0.5 6.5]);ylim([-0.5 1]);
-set(gca,'xTick',1:6,'xticklabel',models);
+xlim([0.5 length(models)+0.5]);ylim([-0.5 1]);
+set(gca,'xTick',1:length(models),'xticklabel',models);
 xlabel('Models');
 
 axes(h_subplot(6));
 hold on;
 plot(RSquared_R_vis','-o','color',colorLGray,'markeredgecolor',colorLRed);
 axis on;
-xlim([0.5 6.5]);ylim([-0.5 1]);
-set(gca,'xTick',1:6,'xticklabel',models);
+xlim([0.5 length(models)+0.5]);ylim([-0.5 1]);
+set(gca,'xTick',1:length(models),'xticklabel',models);
 xlabel('Models');
 
 
@@ -250,14 +250,14 @@ set(gcf,'paperpositionmode','auto');
 saveas(102,'Z:\LBY\Population Results\Partial_RSquared_Distribution','emf');
 %}
 %%%%%%%%%%%%%%%%%%%  R_squared distribution  %%%%%%%%%%%%%%%%%%%%%%
-% %{
+%{
 xR2 = 0.05:0.1:0.75;
 
 % figures
 figure(103);set(gcf,'pos',[30 50 1800 300]);clf;
-[~,h_subplot] = tight_subplot(1,6,0.05,0.2);
+[~,h_subplot] = tight_subplot(1,length(models),0.05,0.2);
 
-for ii = 1:6
+for ii = 1:length(models)
     
 axes(h_subplot(ii));
 hold on;
@@ -279,9 +279,9 @@ suptitle('Translation - vestibular');
 SetFigure(25);
 
 figure(104);set(gcf,'pos',[30 400 1800 300]);clf;
-[~,h_subplot] = tight_subplot(1,6,0.05,0.2);
+[~,h_subplot] = tight_subplot(1,length(models),0.05,0.2);
 
-for ii = 1:6
+for ii = 1:length(models)
     
 axes(h_subplot(ii));
 hold on;
@@ -305,9 +305,9 @@ SetFigure(25);
 
 % figures
 figure(106);set(gcf,'pos',[30 70 1800 300]);clf;
-[~,h_subplot] = tight_subplot(1,6,0.05,0.2);
+[~,h_subplot] = tight_subplot(1,length(models),0.05,0.2);
 
-for ii = 1:6
+for ii = 1:length(models)
     
 axes(h_subplot(ii));
 hold on;
@@ -329,9 +329,9 @@ suptitle('Rotation - vestibular');
 SetFigure(25);
 
 figure(105);set(gcf,'pos',[30 420 1800 300]);clf;
-[~,h_subplot] = tight_subplot(1,6,0.05,0.2);
+[~,h_subplot] = tight_subplot(1,length(models),0.05,0.2);
 
-for ii = 1:6
+for ii = 1:length(models)
     
 axes(h_subplot(ii));
 hold on;
@@ -353,7 +353,7 @@ suptitle('Rotation - visual');
 SetFigure(25);
 %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Weight for VAJ model %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %{
+%{
 figure(105);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(2,3,[0.1 0.02],0.15);
 
@@ -410,7 +410,7 @@ title('R - visual');
 SetFigure(25);
 %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight for VA model %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %{
+%{
 figure(106);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(2,3,[0.1 0.02],0.15);
 

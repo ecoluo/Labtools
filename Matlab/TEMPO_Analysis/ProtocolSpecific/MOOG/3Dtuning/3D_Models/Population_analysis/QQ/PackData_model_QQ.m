@@ -243,13 +243,14 @@ for cell_inx = 1:length(QQ_3DTuning_R)
         R_spatial_VA_vesti(cell_inx).A([1 5],2:end) = 0;
         [R_preDir_VA_vesti(cell_inx).V(1) R_preDir_VA_vesti(cell_inx).V(2) R_preDir_VA_vesti(cell_inx).V(3) ]=  vectorsum(R_spatial_VA_vesti(cell_inx).V);
         [R_preDir_VA_vesti(cell_inx).A(1) R_preDir_VA_vesti(cell_inx).A(2) R_preDir_VA_vesti(cell_inx).A(3)]=  vectorsum(R_spatial_VA_vesti(cell_inx).A);
-        R_VA_n_vesti(cell_inx).V =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(5);
-        R_VA_n_vesti(cell_inx).A =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(10);
-        R_VAJ_n_vesti(cell_inx).V =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(5);
-        R_VAJ_n_vesti(cell_inx).A =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(13);
-        R_VAJ_n_vesti(cell_inx).J =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(21);
+        R_VA_n_vesti(cell_inx).V =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(4);
+        R_VA_n_vesti(cell_inx).A =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(8);
+        R_VAJ_n_vesti(cell_inx).V =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(4);
+        R_VAJ_n_vesti(cell_inx).A =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(8);
+        R_VAJ_n_vesti(cell_inx).J =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(12);
         
         for m_inx = 1:length(models)
+            try
             % pack RSS values to RSS.*(* the model)
             eval(['R_RSS_vesti(',num2str(cell_inx),').', models{m_inx},' = R_model(',num2str(cell_inx),').vestiPSTH3Dmodel.rss_', models{m_inx} , ';']);
             
@@ -261,7 +262,9 @@ for cell_inx = 1:length(QQ_3DTuning_R)
             
             % pack model fitting parameters to PARA.*.#
             eval(['R_PARA_vesti(',num2str(cell_inx),').', models{m_inx},' = R_model(',num2str(cell_inx),').vestiPSTH3Dmodel.modelFitPara_', models{m_inx}, ';']);
-            
+            catch
+                keyboard;
+            end
         end
     else
         R_model(cell_inx).vestiSig = 0;
@@ -322,11 +325,11 @@ for cell_inx = 1:length(QQ_3DTuning_R)
         R_spatial_VA_vis(cell_inx).A([1 5],2:end) = 0;
         [R_preDir_VA_vis(cell_inx).V(1) R_preDir_VA_vis(cell_inx).V(2) R_preDir_VA_vis(cell_inx).V(3) ] =  vectorsum(R_spatial_VA_vis(cell_inx).V);
         [R_preDir_VA_vis(cell_inx).A(1) R_preDir_VA_vis(cell_inx).A(2) R_preDir_VA_vis(cell_inx).A(3) ] =  vectorsum(R_spatial_VA_vis(cell_inx).A);
-        R_VA_n_vis(cell_inx).V =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(5);
-        R_VA_n_vis(cell_inx).A =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(10);
-        R_VAJ_n_vis(cell_inx).V =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(5);
-        R_VAJ_n_vis(cell_inx).A =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(13);
-        R_VAJ_n_vis(cell_inx).J =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(21);
+        R_VA_n_vis(cell_inx).V =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(4);
+        R_VA_n_vis(cell_inx).A =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(8);
+        R_VAJ_n_vis(cell_inx).V =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(4);
+        R_VAJ_n_vis(cell_inx).A =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(8);
+        R_VAJ_n_vis(cell_inx).J =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(12);
         
         for m_inx = 1:length(models)
             % pack RSS values to RSS.*(* the model)

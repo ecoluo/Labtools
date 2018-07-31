@@ -14,10 +14,10 @@ global PSTH;
 
 FnameCode = 2;
 % Protocol: 1->translation, 2-> rotation, 3->dark T, 4->dark R
-Protocol = 1;
+Protocol = 2;
 
 
-pathname = {'Z:\Data\TEMPO\BATCH\QQ_T';'Z:\Data\TEMPO\BATCH\QQ_R';'Z:\Data\TEMPO\BATCH\QQ_T_Dark';'Z:\Data\TEMPO\BATCH\QQ_R_Dark';};
+pathname = {'Z:\Data\TEMPO\BATCH\QQ';'Z:\Data\TEMPO\BATCH\QQ';'Z:\Data\TEMPO\BATCH\QQ_Dark';'Z:\Data\TEMPO\BATCH\QQ_Dark';};
 
 switch FnameCode
     case 1 % choose files mannully
@@ -28,7 +28,7 @@ switch FnameCode
             case {1 3}
                 cd(pathname{Protocol});
                 disp('Load PSTH T data...');
-                filename = dir([pathname{Protocol},'\*PSTH*.mat']);
+                filename = dir([pathname{Protocol},'\*PSTH_T*.mat']);
                 for ii = 1:length(filename)
                     % load PSTH data
                     temp = load([pathname{Protocol} '\' filename(ii).name]);
@@ -60,7 +60,7 @@ switch FnameCode
             case {2 4}
                 cd(pathname{Protocol});
                 disp('Load PSTH R data...');
-                filename = dir([pathname{Protocol},'\*PSTH*.mat']);
+                filename = dir([pathname{Protocol},'\*PSTH_R*.mat']);
                 for ii = 1:length(filename)
                     % load PSTH data
                     temp = load([pathname{Protocol} '\' filename(ii).name]);

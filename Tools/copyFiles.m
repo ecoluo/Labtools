@@ -1,12 +1,12 @@
 
 
 
-srcPath = 'Z:\LBY\Recording data\Qiaoqiao\3D_Tuning_models\3D_Tuning_models\Rotation';
+srcPath = 'Z:\LBY\Recording data\Qiaoqiao\3D_Tuning_models\Sync model\Translation';
 
-tarPath = 'Z:\LBY\Recording data\Qiaoqiao\3D_Tuning_models\3D_Tuning_models\VA model\R_vis';
+tarPath = 'Z:\LBY\Recording data\Qiaoqiao\3D_Tuning_models\Sync model\PVAJ model\T_vesti';
 
 cd(srcPath);
-filename = dir([srcPath,'\*_VA_model_Visual*.tif']);
+filename = dir([srcPath,'\*_PVAJ_model_Vestibular*.tif']);
 
 for ii = 1:length(filename)
     

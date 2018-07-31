@@ -15,8 +15,12 @@ switch kernel_inx
         gau_kernel = exp((-t.^2)./(2*sig.^2));
         gau_kernel = repmat(gau_kernel,size(PSTH_data,2),1);
         gau_kernel = permute(gau_kernel, [2 1]);
+%         try
         respon(nn,:) = sum(PSTH_data(PSTH_onT-timeWin/2+timeStep*(nn-1):PSTH_onT+timeWin/2+timeStep*(nn-1),:).*gau_kernel,1)/(timeWin/1000);
-    case 3
+%         catch
+%             keyboard;
+%         end
+        case 3
         nan;
 end
 

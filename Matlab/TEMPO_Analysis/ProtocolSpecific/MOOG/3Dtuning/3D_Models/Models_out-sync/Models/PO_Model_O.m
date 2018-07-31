@@ -4,7 +4,7 @@
 % u_ele is unique elevation ( 0, -+45, -+90 )
 % t is PSTH time points
 
-function r = PO_Model(a,st_data)
+function r = PO_Model_O(a,st_data)
 
 u_ele = st_data(1:5);
 u_azi = st_data(6:13);

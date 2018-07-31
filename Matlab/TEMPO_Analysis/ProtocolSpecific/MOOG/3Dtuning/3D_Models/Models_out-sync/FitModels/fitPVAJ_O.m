@@ -1,4 +1,4 @@
-% fit Velocity-acceleration-jerk model for 3D tuning
+% fit Position-Velocity-acceleration-jerk model for 3D tuning
 % time (unit: s)
 % spon: spontaneous firing rate
 % PSTH_data: PSTH data with sliding windows
@@ -6,9 +6,9 @@
 % reps: the repetition number to perform for fiiting models
 % 20170603LBY
 
-function [modelFitRespon_AJ,modelFit_AJ, modelFit_AJ_spatial, modelFitPara_AJ, BIC_AJ, RSquared_AJ, rss_AJ, time] = fitAJ(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
+function [modelFitRespon_PVAJ, modelFit_PVAJ, modelFit_PVAJ_spatial, modelFitPara_PVAJ, BIC_PVAJ, RSquared_PVAJ, rss_PVAJ, time] = fitPVAJ_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting AJ model...')
+sprintf('Fitting PVAJ model...')
 
 %-- initialize global using parameters
 
@@ -20,6 +20,7 @@ s_data = [u_ele;u_azi]; % transform to this form for fitting
 % time parameters
 time = (1: (stimOffBin - stimOnBin +1))' /(stimOffBin - stimOnBin +1)*duration/1000;
 st_data = [u_ele;u_azi;time]; % transform to this form for fitting
+
 % fitting initial parameters
 sig = sqrt(sqrt(2))/6;
 baseline = spon;
@@ -44,39 +45,62 @@ spatial_data = (spatial_data - s_DC)/s_A;
 %optimisation parameters for profile fits
 options = optimset('Display', 'off', 'MaxIter', 5000);
 
-
-%% fit AJ model
+%% fit PVAJ model
 
 R_0 = baseline;
 A = t_A*s_A;
 mu_0 = mu;
+v_n = 1;
 a_n = 1;
 j_n = 1;
+p_n = 1;
 [~, max_idx] = max(spatial_data(:));
 [max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
+v_e_0 = u_ele(max_idx_e);
 a_e_0 = u_ele(max_idx_e);
 j_e_0 = u_ele(max_idx_e);
+p_e_0 = u_ele(max_idx_e);
+v_a_0 = u_azi(max_idx_a);
 a_a_0 = u_azi(max_idx_a);
 j_a_0 = u_azi(max_idx_a);
+p_a_0 = u_azi(max_idx_a);
+v_DC = 0.5;
 a_DC = 0.5;
 j_DC = 0.5;
-w = 0.5;
+p_DC = 0.5;
+wv = 0.25;
+wj = 0.25;
+wp = 0.25;
+v_laten = 0.1;
 j_laten = 0.1;
+p_laten = 0.2;
 
 %Inital fits
 param = [A, ...       %1
     R_0, ...     %2
     mu_0, ...    %3
-    a_n, ...       %4
-    a_a_0, ...     %5
-    a_e_0, ...     %6
-    a_DC,... %7
-    j_n, ...           %8
-    j_a_0, ...         %9
-    j_e_0, ...         %10
-    j_DC, ...%11
-    w, ...   %12
-    j_laten];                %13
+    v_n, ...       %4
+    v_a_0, ...     %5
+    v_e_0, ...     %6
+    v_DC,... %7
+    a_n, ...           %8
+    a_a_0, ...         %9
+    a_e_0, ...         %10
+    a_DC, ...%11
+    j_n, ...       %12
+    j_a_0, ...     %13
+    j_e_0, ...     %14
+    j_DC,... %15
+    p_n, ...       %16
+    p_a_0, ...     %17
+    p_e_0, ...     %18
+    p_DC,... %19
+    wv,... %20
+    wj,... %21
+    wp,... %22
+    v_laten, ... %23
+    j_laten,... %24
+    p_laten];                %25
 
 init_param = zeros(reps+1, length(param));
 init_param(1,:) = param;
@@ -92,8 +116,20 @@ LB = [0.25*A, ...`  %1  A
     0, ...          %9 a_a_0
     -90, ...      %10 a_e_0
     0, ...         %11 a_DC
-    0, ...         %12 wA
-    0];             %13 j_latency
+    0.001, ...      %12  j_n
+    0, ...          %13  j_a_0
+    -90, ...      %14  j_e_0
+    0,...          %15 j_DC
+    0.001, ...      %16  j_n
+    0, ...          %17  j_a_0
+    -90, ...      %18  j_e_0
+    0,...          %19 j_DC
+    0,...           %20 wV
+    0,...           %21 wJ
+    0,...           %22 wP
+    0,...          %23 v_laten
+    0,...          %24 j_laten
+    0];             %25 p_laten
 
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
@@ -105,15 +141,27 @@ UB = [4*A, ...      %1  A
     10, ...        %8 a_n
     360, ...      %9 a_a_0
     90, ...      %10 a_e_0
-    1 ...         %11 a_DC
-    1,...         %12 wA
-    0.3];            %13 j_latency
+    1, ...         %11 a_DC
+    10, ...        %12 a_n
+    360, ...      %13 a_a_0
+    90, ...      %14 a_e_0
+    1, ...         %15 a_DC
+    10, ...        %16 a_n
+    360, ...      %17 a_a_0
+    90, ...      %18 a_e_0
+    1, ...         %19 a_DC
+    1, ...         %20 wV
+    1, ...         %21 wJ
+    1,...           %22 wP
+    0.2,...          %23 v_laten
+    0.2,...          %24 j_laten
+    0.4];             %25 p_laten
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));
 rand_jac = zeros(reps+1, length(param), length(param));
 
-[rand_param(1,:),rand_rss(1),~,~,~,~,temp_jac] = lsqcurvefit('AJ_Model', ...
+[rand_param(1,:),rand_rss(1),~,~,~,~,temp_jac] = lsqcurvefit('PVAJ_Model_O', ...
     init_param(1,:), st_data, y_data, LB, UB, options);
 rand_jac(1,:,:) = full(temp_jac)'*full(temp_jac);
 min_param = rand_param(1,:);
@@ -130,7 +178,7 @@ for ii = 2:(reps + 1)
     LB_param(LB > LB_param) = LB(LB > LB_param);
     seed_param  = unifrnd(LB_param, UB_param);
     
-    [rand_param(ii,:),rand_rss(ii),~,~,~,~,temp_jac] = lsqcurvefit('AJ_Model', ...
+    [rand_param(ii,:),rand_rss(ii),~,~,~,~,temp_jac] = lsqcurvefit('PVAJ_Model_O', ...
         seed_param, st_data, y_data, LB, UB, options);
     rand_jac(ii,:,:) = full(temp_jac)'*full(temp_jac);
     
@@ -144,25 +192,31 @@ end
 
 % find the best fit parameters according to rss
 [~,min_inx] = min(rand_rss);
-modelFitPara_AJ = rand_param(min_inx,:);
-rss_AJ = rand_rss(min_inx);
-jac_AJ = rand_jac(min_inx,:,:);
+modelFitPara_PVAJ = rand_param(min_inx,:);
+rss_PVAJ = rand_rss(min_inx);
+jac_PVAJ = rand_jac(min_inx,:,:);
 
 % calculate the final model fitting values
-respon = AJ_Model(modelFitPara_AJ,st_data);
-modelFitRespon_AJ = respon;
+respon = PVAJ_Model_O(modelFitPara_PVAJ,st_data);
+modelFitRespon_PVAJ = respon;
 
-modelFit_AJ.A = AJ_A_Com(modelFitPara_AJ([1:7,12]),st_data);
-modelFit_AJ.J = AJ_J_Com(modelFitPara_AJ([1:3,8:12,13]),st_data);
+
+modelFit_PVAJ.V = PVAJ_V_Com_O(modelFitPara_PVAJ([1:7,20:22,23]),st_data);
+modelFit_PVAJ.A = PVAJ_A_Com_O(modelFitPara_PVAJ([1:3,8:11,20:22]),st_data);
+modelFit_PVAJ.J = PVAJ_J_Com_O(modelFitPara_PVAJ([1:3,12:15,20:22,24]),st_data);
+modelFit_PVAJ.P = PVAJ_P_Com_O(modelFitPara_PVAJ([1:3,16:19,20:22,25]),st_data);
 
 % model fit spatial tuning
-modelFit_AJ_spatial.A = cos_tuning(modelFitPara_AJ(4:7),st_data(1:13));
-modelFit_AJ_spatial.J = cos_tuning(modelFitPara_AJ(8:11),st_data(1:13));
+modelFit_PVAJ_spatial.V = cos_tuning(modelFitPara_PVAJ(4:7),st_data(1:13));
+modelFit_PVAJ_spatial.A = cos_tuning(modelFitPara_PVAJ(8:11),st_data(1:13));
+modelFit_PVAJ_spatial.J = cos_tuning(modelFitPara_PVAJ(12:15),st_data(1:13));
+modelFit_PVAJ_spatial.P = cos_tuning(modelFitPara_PVAJ(16:19),st_data(1:13));
 %% analysis
 data_num = 26*nBins;
-para_num = 13;
-BIC_AJ = BIC_fit(data_num,rss_AJ,para_num);
+para_num = 25;
+BIC_PVAJ = BIC_fit(data_num,rss_PVAJ,para_num);
 TSS = sum((PSTH_data(:) - mean(PSTH_data(:))).^2);
-RSquared_AJ = 1 - rss_AJ/TSS;
+RSquared_PVAJ = 1 - rss_PVAJ/TSS;
+
 
 end
