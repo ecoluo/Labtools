@@ -8,7 +8,7 @@
 
 function [modelFitRespon_AP,modelFit_AP, modelFit_AP_spatial, modelFitPara_AP, BIC_AP, RSquared_AP, rss_AP, time] = fitAP_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting AP model...')
+% sprintf('Fitting AP model...')
 
 %-- initialize global using parameters
 

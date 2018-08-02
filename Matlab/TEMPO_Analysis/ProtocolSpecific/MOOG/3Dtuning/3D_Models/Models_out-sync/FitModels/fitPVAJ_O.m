@@ -8,7 +8,7 @@
 
 function [modelFitRespon_PVAJ, modelFit_PVAJ, modelFit_PVAJ_spatial, modelFitPara_PVAJ, BIC_PVAJ, RSquared_PVAJ, rss_PVAJ, time] = fitPVAJ_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting PVAJ model...')
+% sprintf('Fitting PVAJ model...')
 
 %-- initialize global using parameters
 

@@ -9,7 +9,7 @@
 
 function [modelFitRespon_VO, modelFit_VO, modelFit_VO_spatial,modelFitPara_VO, BIC_VO, RSquared_VO, rss_VO, time] = fitVO_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VO model...')
+% sprintf('Fitting VO model...')
 
 %-- initialize global using parameters
 

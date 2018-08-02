@@ -8,7 +8,7 @@
 
 function [modelFitRespon_PO, modelFit_PO, modelFit_PO_spatial,modelFitPara_PO, BIC_PO, RSquared_PO, rss_PO, time] = fitPO_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting PO model...')
+% sprintf('Fitting PO model...')
 
 %-- initialize global using parameters
 

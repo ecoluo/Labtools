@@ -8,7 +8,7 @@
 
 function [modelFitRespon_AJ,modelFit_AJ, modelFit_AJ_spatial, modelFitPara_AJ, BIC_AJ, RSquared_AJ, rss_AJ, time] = fitAJ_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting AJ model...')
+% sprintf('Fitting AJ model...')
 
 %-- initialize global using parameters
 

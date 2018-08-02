@@ -8,7 +8,7 @@
 
 function [modelFitRespon_AO, modelFit_AO, modelFit_AO_spatial,modelFitPara_AO, BIC_AO, RSquared_AO, rss_AO, time] = fitAO_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting AO model...')
+% sprintf('Fitting AO model...')
 
 %-- initialize global using parameters
 

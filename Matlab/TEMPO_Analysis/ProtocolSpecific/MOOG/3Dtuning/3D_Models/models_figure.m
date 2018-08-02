@@ -45,7 +45,7 @@ markers = {
 unique_elevation = [-90,-45,0,45,90];
 unique_azimuth = [0 45 90 135 180 225 270 315];
 
-sprintf('Plot model figures...')
+% sprintf('Plot model figures...')
 
 % ------ fig.100 plot 3D models (PSTH) ------%
 % %{
@@ -146,37 +146,100 @@ for m_inx = 1:length(models)
     text(0,10,['Spon max mean FR(Hz): ',num2str(max(temp_spon))],'fontsize',15);
     text(0,6,['Spon mean FR(Hz): ',num2str(meanSpon)],'fontsize',15);
     
-    if strcmp(models{m_inx},'VA')
-        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(12);
-        wA = 1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(12);
-        text(70,15,['wV =  ',num2str(wV)],'fontsize',24);
-        text(70,10,['wA =  ',num2str(wA)],'fontsize',24);
+if strcmp(models{m_inx},'VA')
+        wV = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(12),-2);
+        wA = roundn(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(12),-2);
+        text(80,15,['wV =  ',num2str(wV)],'fontsize',24);
+        text(80,10,['wA =  ',num2str(wA)],'fontsize',24);
+        nV = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(4),-2);
+        nA = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(8),-2);
+        text(20,4,['nV =  ',num2str(nV)],'fontsize',20);
+        text(35,4,['nA =  ',num2str(nA)],'fontsize',20);
+        
+        if strcmp(model_catg,'Out-sync model')
+            muA = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(3),-2);
+            muV = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(3)+PSTH3Dmodel{stimTypeInx}.modelFitPara_VA(13),-2);
+            text(20,0,['mu V =  ',num2str(muV)],'fontsize',20);
+            text(35,0,['mu A =  ',num2str(muA)],'fontsize',20);
+        end
+        
     end
     if strcmp(models{m_inx},'VAJ')
-        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(17));
-        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(17));
-        wJ = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(17);
-        text(70,15,['wV =  ',num2str(wV)],'fontsize',24);
-        text(70,10,['wA =  ',num2str(wA)],'fontsize',24);
-        text(70,5,['wJ =  ',num2str(wJ)],'fontsize',24);
+        wV = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(17)),-2);
+        wA = roundn((1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(16))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(17)),-2);
+        wJ = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(17),-2);
+        text(80,15,['wV =  ',num2str(wV)],'fontsize',24);
+        text(80,10,['wA =  ',num2str(wA)],'fontsize',24);
+        text(80,5,['wJ =  ',num2str(wJ)],'fontsize',24);
+        nV = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(4),-2);
+        nA = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(8),-2);
+        nJ = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(12),-2);
+        text(20,4,['nV =  ',num2str(nV)],'fontsize',20);
+        text(35,4,['nA =  ',num2str(nA)],'fontsize',20);
+        text(50,4,['nJ =  ',num2str(nJ)],'fontsize',20);
+        
+        if strcmp(model_catg,'Out-sync model')
+            muA = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(3),-2);
+            muV = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(3)+PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(18),-2);
+            muJ = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(3)+PSTH3Dmodel{stimTypeInx}.modelFitPara_VAJ(19),-2);
+            text(20,0,['mu V =  ',num2str(muV)],'fontsize',20);
+            text(35,0,['mu A =  ',num2str(muA)],'fontsize',20);
+            text(50,0,['mu J =  ',num2str(muJ)],'fontsize',20);
+        end
+        
     end
     if strcmp(models{m_inx},'VAP')
-        wV = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(17));
-        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(17));
-        wP = PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(17);
-        text(70,15,['wV =  ',num2str(wV)],'fontsize',24);
-        text(70,10,['wA =  ',num2str(wA)],'fontsize',24);
-        text(70,5,['wP =  ',num2str(wP)],'fontsize',24);
+        wV = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16)*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(17)),-2);
+        wA = roundn((1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(16))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(17)),-2);
+        wP = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(17),-2);
+        text(80,15,['wV =  ',num2str(wV)],'fontsize',24);
+        text(80,10,['wA =  ',num2str(wA)],'fontsize',24);
+        text(80,5,['wP =  ',num2str(wP)],'fontsize',24);
+        nV = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(4),-2);
+        nA = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(8),-2);
+        nP = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(12),-2);
+        text(20,4,['nV =  ',num2str(nV)],'fontsize',20);
+        text(35,4,['nA =  ',num2str(nA)],'fontsize',20);
+        text(50,4,['nP =  ',num2str(nP)],'fontsize',20);
+        
+        if strcmp(model_catg,'Out-sync model')
+            muA = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(3),-2);
+            muV = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(3)+PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(18),-2);
+            muP = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(3)+PSTH3Dmodel{stimTypeInx}.modelFitPara_VAP(19),-2);
+            text(20,0,['mu V =  ',num2str(muV)],'fontsize',20);
+            text(35,0,['mu A =  ',num2str(muA)],'fontsize',20);
+            text(50,0,['mu P =  ',num2str(muP)],'fontsize',20);
+        end
+        
     end
     if strcmp(models{m_inx},'PVAJ')
-        wV = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(20));
-        wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21);
-        wJ =  PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22);
-        wP = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21))*PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(20);
-        text(70,15,['wV =  ',num2str(wV)],'fontsize',24);
-        text(70,10,['wA =  ',num2str(wA)],'fontsize',24);
-        text(70,5,['wJ =  ',num2str(wJ)],'fontsize',24);
-        text(70,0,['wP =  ',num2str(wP)],'fontsize',24);
+        wV = roundn((1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(20)),-2);
+        wA = roundn((1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21),-2);
+        wJ = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22),-2);
+        wP = roundn((1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21))*PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(20),-2);
+        text(80,15,['wV =  ',num2str(wV)],'fontsize',24);
+        text(80,10,['wA =  ',num2str(wA)],'fontsize',24);
+        text(80,5,['wJ =  ',num2str(wJ)],'fontsize',24);
+        text(80,0,['wP =  ',num2str(wP)],'fontsize',24);
+        nV = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(4),-2);
+        nA = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(8),-2);
+        nJ = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(12),-2);
+        nP = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(16),-2);
+        text(20,4,['nV =  ',num2str(nV)],'fontsize',20);
+        text(35,4,['nA =  ',num2str(nA)],'fontsize',20);
+        text(50,4,['nJ =  ',num2str(nJ)],'fontsize',20);
+        text(65,4,['nP =  ',num2str(nP)],'fontsize',20);
+        
+        if strcmp(model_catg,'Out-sync model')
+            muA = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(3),-2);
+            muV = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(3)+PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(23),-2);
+            muJ = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(3)+PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(24),-2);
+            muP = roundn(PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(3)+PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(25),-2);
+            text(20,0,['mu V =  ',num2str(muV)],'fontsize',20);
+            text(35,0,['mu A =  ',num2str(muA)],'fontsize',20);
+            text(50,0,['mu P =  ',num2str(muP)],'fontsize',20);
+            text(65,0,['mu J =  ',num2str(muP)],'fontsize',20);
+        end
     end
     
     
@@ -198,11 +261,11 @@ for m_inx = 1:length(models)
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];
-        saveas(100+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Translation/' ss], 'tif');
+        saveas(100+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
         
     elseif Protocol == 112
         ss = [str3, '_R'];
-        saveas(100+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Rotation/' ss], 'tif');
+        saveas(100+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 end
 %}
@@ -254,10 +317,10 @@ for m_inx = 1:length(models)
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_Contour_T'];
-        saveas(110+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Translation/' ss], 'tif');
+        saveas(110+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
     elseif Protocol == 112
         ss = [str3, '_Contour_R'];
-        saveas(110+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Rotation/' ss], 'tif');
+        saveas(110+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 
 end
@@ -310,10 +373,10 @@ str3 = [str, '_VAJmodel_',stimType{stimTypeInx}];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
-    saveas(120,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'3D_Tuning_models/Translation/' ss], 'tif');
+    saveas(120,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
 elseif Protocol == 112
     ss = [str3, '_Contour_R'];
-    saveas(120,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'3D_Tuning_models/Rotation/' ss], 'tif');
+    saveas(120,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
 end
 else
     disp('No VAJ model!');
@@ -367,10 +430,10 @@ str3 = [str, '_VAJmodel_peakT_',stimType{stimTypeInx}];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
-    saveas(130,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Translation/' ss], 'tif');
+    saveas(130,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
 elseif Protocol == 112
     ss = [str3, '_Contour_R'];
-    saveas(130,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Rotation/' ss], 'tif');
+    saveas(130,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
 end
 else
     disp('No VAJ model!');
@@ -428,10 +491,10 @@ str3 = [str, '_VAmodel_',stimType{stimTypeInx}];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
-    saveas(140,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Translation/' ss], 'tif');
+    saveas(140,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
 elseif Protocol == 112
     ss = [str3, '_Contour_R'];
-    saveas(140,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Rotation/' ss], 'tif');
+    saveas(140,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
 end
 else
     disp('No VA model!');
@@ -440,7 +503,7 @@ end
 
 
 % % ------ fig.150 plot V,A for VA model (PSTH) ------%
-%{
+% %{
 if sum(ismember(models,'VA')) ~= 0
 components = {'V','A'};
 color_com = {'r',colorDBlue};
@@ -519,9 +582,9 @@ figure(150+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     ylim([0,20]);
     switch Protocol
         case 100
-            text(30,20,'PSTH (T)','fontsize',40);
+            text(30,20,'PSTH (T)','fontsize',18);
         case 112
-            text(30,20,'PSTH (R)','fontsize',40);
+            text(30,20,'PSTH (R)','fontsize',18);
     end
 %     text(10,2,'Spontaneous','fontsize',30);
     FileNameTemp = num2str(FILE);
@@ -557,10 +620,10 @@ figure(150+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];
-        saveas(150+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Translation/' ss], 'tif');
+        saveas(150+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
     elseif Protocol == 112
         ss = [str3, '_R'];
-        saveas(150+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Rotation/' ss], 'tif');
+        saveas(150+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 end
 else
@@ -619,10 +682,10 @@ str3 = [str, '_VAJmodel_',stimType{stimTypeInx}];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
-    saveas(160,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Translation/' ss], 'tif');
+    saveas(160,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
 elseif Protocol == 112
     ss = [str3, '_Contour_R'];
-    saveas(160,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Rotation/' ss], 'tif');
+    saveas(160,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
 end
 else
     disp('No VAJ model!');
@@ -710,9 +773,9 @@ figure(170+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     ylim([0,20]);
     switch Protocol
         case 100
-            text(30,20,'PSTH (T)','fontsize',40);
+            text(30,20,'PSTH (T)','fontsize',18);
         case 112
-            text(30,20,'PSTH (R)','fontsize',40);
+            text(30,20,'PSTH (R)','fontsize',18);
     end
 %     text(10,2,'Spontaneous','fontsize',30);
     FileNameTemp = num2str(FILE);
@@ -748,10 +811,10 @@ figure(170+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];
-        saveas(170+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Translation/' ss], 'tif');
+        saveas(170+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
     elseif Protocol == 112
         ss = [str3, '_R'];
-        saveas(170+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Rotation/' ss], 'tif');
+        saveas(170+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 end
 else
@@ -888,10 +951,10 @@ str3 = [str, '_VAPmodel_',stimType{stimTypeInx}];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
-    saveas(190,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Translation/' ss], 'tif');
+    saveas(190,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
 elseif Protocol == 112
     ss = [str3, '_Contour_R'];
-    saveas(190,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Rotation/' ss], 'tif');
+    saveas(190,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
 end
 else
 %     disp('No VAP model!');
@@ -979,9 +1042,9 @@ figure(200+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     ylim([0,20]);
     switch Protocol
         case 100
-            text(30,20,'PSTH (T)','fontsize',40);
+            text(30,20,'PSTH (T)','fontsize',18);
         case 112
-            text(30,20,'PSTH (R)','fontsize',40);
+            text(30,20,'PSTH (R)','fontsize',18);
     end
 %     text(10,2,'Spontaneous','fontsize',30);
     FileNameTemp = num2str(FILE);
@@ -1017,10 +1080,10 @@ figure(200+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];
-        saveas(200+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Translation/' ss], 'tif');
+        saveas(200+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
     elseif Protocol == 112
         ss = [str3, '_R'];
-        saveas(200+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Rotation/' ss], 'tif');
+        saveas(200+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 end
 else
@@ -1079,10 +1142,10 @@ str3 = [str, '_PVAJmodel_',stimType{stimTypeInx}];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
-    saveas(210,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Translation/' ss], 'tif');
+    saveas(210,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
 elseif Protocol == 112
     ss = [str3, '_Contour_R'];
-    saveas(210,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Rotation/' ss], 'tif');
+    saveas(210,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
 end
 else
 %     disp('No PVAJ model!');
@@ -1170,9 +1233,9 @@ figure(220+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     ylim([0,20]);
     switch Protocol
         case 100
-            text(30,20,'PSTH (T)','fontsize',40);
+            text(30,20,'PSTH (T)','fontsize',18);
         case 112
-            text(30,20,'PSTH (R)','fontsize',40);
+            text(30,20,'PSTH (R)','fontsize',18);
     end
 %     text(10,2,'Spontaneous','fontsize',30);
     FileNameTemp = num2str(FILE);
@@ -1208,10 +1271,10 @@ figure(220+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];
-        saveas(220+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Translation/' ss], 'tif');
+        saveas(220+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
     elseif Protocol == 112
         ss = [str3, '_R'];
-        saveas(220+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/Rotation/' ss], 'tif');
+        saveas(220+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 end
 else

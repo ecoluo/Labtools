@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VAP,modelFit_VAP, modelFit_VAP_spatial, modelFitPara_VAP, BIC_VAP, RSquared_VAP, rss_VAP, time] = fitVAP_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VAP model...')
+% sprintf('Fitting VAP model...')
 
 %-- initialize global using parameters
 

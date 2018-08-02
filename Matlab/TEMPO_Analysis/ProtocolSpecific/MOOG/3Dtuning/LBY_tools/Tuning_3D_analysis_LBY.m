@@ -527,7 +527,6 @@ models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorL
 % models_color = {'k'};
 
 % models = {'VAJ','VA'};
-% models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};% models = {'VAJ','VA'};
 % models_color = {colorDGreen,'k'};
 
 reps = 20;
@@ -622,7 +621,7 @@ for k = 1:length(unique_stimType)
         PSTH3Dmodel{k} = nan;
     end
 end
-% toc;%}
+%}
 %% Data Saving
 
 % Reorganized. HH20141124

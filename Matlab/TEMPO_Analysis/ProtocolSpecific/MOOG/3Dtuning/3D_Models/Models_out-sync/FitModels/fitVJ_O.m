@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VJ,modelFit_VJ, modelFit_VJ_spatial, modelFitPara_VJ, BIC_VJ, RSquared_VJ, rss_VJ, time] = fitVJ_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VJ model...')
+% sprintf('Fitting VJ model...')
 
 %-- initialize global using parameters
 

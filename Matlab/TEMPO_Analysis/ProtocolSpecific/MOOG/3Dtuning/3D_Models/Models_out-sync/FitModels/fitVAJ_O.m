@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VAJ,modelFit_VAJ, modelFit_VAJ_spatial, modelFitPara_VAJ, BIC_VAJ, RSquared_VAJ, rss_VAJ, time] = fitVAJ_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VAJ model...')
+% sprintf('Fitting VAJ model...')
 
 %-- initialize global using parameters
 

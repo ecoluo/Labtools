@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VP,modelFit_VP, modelFit_VP_spatial, modelFitPara_VP, BIC_VP, RSquared_VP, rss_VP, time] = fitVP_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VP model...')
+% sprintf('Fitting VP model...')
 
 %-- initialize global using parameters
 
