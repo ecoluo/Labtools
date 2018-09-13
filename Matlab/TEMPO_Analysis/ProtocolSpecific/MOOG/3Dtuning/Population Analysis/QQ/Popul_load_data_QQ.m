@@ -3,7 +3,7 @@
 % LBY 20170612
 % LBY 20171123
 
-% function popul_load_data(FnameCode, Protocol)
+function popul_load_data(FnameCode, Protocol,Model_catg)
 
 %% load data
 
@@ -12,12 +12,18 @@ clear all;
 
 global PSTH;
 
-FnameCode = 2;
-% Protocol: 1->translation, 2-> rotation, 3->dark T, 4->dark R
-Protocol = 2;
+% FnameCode = 2;
+% % Protocol: 1->translation, 2-> rotation, 3->dark T, 4->dark R
+% Protocol = 1;
+% % Model_catg: 1-> Sync model 2-> Out-sync model
+% Model_catg = 2;
 
-
-pathname = {'Z:\Data\TEMPO\BATCH\QQ';'Z:\Data\TEMPO\BATCH\QQ';'Z:\Data\TEMPO\BATCH\QQ_Dark';'Z:\Data\TEMPO\BATCH\QQ_Dark';};
+switch Model_catg
+    case 1
+        pathname = {'Z:\Data\TEMPO\BATCH\QQ\Sync model';'Z:\Data\TEMPO\BATCH\QQ\Sync model';'Z:\Data\TEMPO\BATCH\QQ_Dark\Sync model';'Z:\Data\TEMPO\BATCH\QQ_Dark\Sync model';};
+    case 2
+        pathname = {'Z:\Data\TEMPO\BATCH\QQ\Out-sync model';'Z:\Data\TEMPO\BATCH\QQ\Out-sync model';'Z:\Data\TEMPO\BATCH\QQ_Dark\Out-sync model';'Z:\Data\TEMPO\BATCH\QQ_Dark\Out-sync model';};
+end
 
 switch FnameCode
     case 1 % choose files mannully
@@ -50,7 +56,7 @@ switch FnameCode
                     QQ_3DTuning_T(ii).PSTH = temp.result.PSTH.spk_data_bin_mean_rate_aov; % mean PSTH
                     QQ_3DTuning_T(ii).PSTH3Dmodel = temp.result.PSTH3Dmodel;
                     try
-                    QQ_3DTuning_T(ii).peakDS = temp.result.PSTH.peak_DS;
+                        QQ_3DTuning_T(ii).peakDS = temp.result.PSTH.peak_DS;
                     catch
                         keyboard;
                     end
@@ -91,19 +97,25 @@ switch FnameCode
 end
 
 % save the data
-
-cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning');
+switch Model_catg
+    case 1
+        cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Sync model');
+    case 2
+        cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Out-sync model');
+end
 switch Protocol
     case 1
-        save('PSTH_OriData.mat','QQ_3DTuning_T','-append');
+        save('PSTH_OriData.mat','QQ_3DTuning_T');
+%         save('PSTH_OriData.mat','QQ_3DTuning_T','-append');
     case 2
         save('PSTH_OriData.mat','QQ_3DTuning_R','-append');
     case 3
         save('PSTH_OriData_Dark.mat','QQ_3DTuning_T','-append');
-        case 4
+    case 4
         save('PSTH_OriData_Dark.mat','QQ_3DTuning_R','-append');
         
 end
 disp('DATA SAVED!');
 
 toc;
+end

@@ -109,9 +109,9 @@ colorDefsLBY;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%   now, analysis   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TemporalRespon_MSTd; % show temporal tuning for all cells (T+R)
-% meanFR_MSTd; % show mean FR for all cells
-% DDI; % plot DDI distribution figures
-% DDI_N; % plot DDI distribution in one figure
-% PreferDirec; % plot preferred direction distribution figures
-% Peak;  % peak time distributions & PSTH according to peak time
+TemporalRespon_MSTd; % show temporal tuning for all cells (T+R)
+meanFR_MSTd; % show mean FR for all cells
+DDI; % plot DDI distribution figures
+DDI_N; % plot DDI distribution in one figure
+PreferDirec; % plot preferred direction distribution figures
+Peak;  % peak time distributions & PSTH according to peak time

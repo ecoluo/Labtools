@@ -9,7 +9,8 @@
 
 %% load data & pack data
 clear all;
-load('Z:\Data\TEMPO\BATCH\Polo_3DTuning\PSTH_OriData.mat');
+load('Z:\Data\TEMPO\BATCH\Polo_3DTuning\Sync model\PSTH_OriData.mat');
+% load('Z:\Data\TEMPO\BATCH\Polo_3DTuning\Out-sync model\PSTH_OriData.mat');
 Monkey = 'Polo';
 
 
@@ -178,8 +179,8 @@ colorDefsLBY;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%   now, analysis   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TemporalRespon_Polo; % show temporal tuning for all cells (T+R)
-meanFR; % show mean FR for all cells
+TemporalRespon_Polo; % show temporal tuning for all cells (T+R)
+% meanFR; % show mean FR for all cells
 % DDI; % plot DDI distribution figures
 % DDI_N; % plot DDI distribution in one figure
 % PreferDirec; % plot preferred direction distribution figures

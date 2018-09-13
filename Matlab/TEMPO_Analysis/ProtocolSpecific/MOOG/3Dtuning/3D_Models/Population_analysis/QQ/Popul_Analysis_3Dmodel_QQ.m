@@ -6,12 +6,22 @@
 
 %% load data & pack data
 clear all;
-cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning');
-load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\PSTH3DModel_T_OriData.mat');
-load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\PSTH3DModel_R_OriData.mat');
+Model_catg = 2;
+switch Model_catg
+    case 1
+        cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Sync model');
+        load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Sync model\PSTH3DModel_T_OriData.mat');
+        load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Sync model\PSTH3DModel_R_OriData.mat');
+    case 2
+        cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Out-sync model');
+        load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Out-sync model\PSTH3DModel_T_OriData.mat');
+        load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Out-sync model\PSTH3DModel_R_OriData.mat');
+end
+
 Monkey = 'QQ';
 % models = {'VO','AO','VA','VJ','AJ','VAJ'};
-models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+models = {'VA','VAJ'};
 %% analysis
 
 colorDefsLBY;
@@ -99,14 +109,14 @@ R_vis_VAJ_w = squeeze(cell2mat(struct2cell(R_wVAJ_vis)))';
 
 for ii = 1:size(T_vesti_VAJ_w,1)
     T_vesti_VAJ_wV_norm(ii) = T_vesti_VAJ_w(ii,1)/(T_vesti_VAJ_w(ii,1)+T_vesti_VAJ_w(ii,2));
-    T_vesti_VAJ_wA_norm(ii) = T_vesti_VAJ_w(ii,2)/(T_vesti_VAJ_w(ii,1)+T_vesti_VAJ_w(ii,2));    
+    T_vesti_VAJ_wA_norm(ii) = T_vesti_VAJ_w(ii,2)/(T_vesti_VAJ_w(ii,1)+T_vesti_VAJ_w(ii,2));
     T_vis_VAJ_wV_norm(ii) = T_vis_VAJ_w(ii,1)/(T_vis_VAJ_w(ii,1)+T_vis_VAJ_w(ii,2));
     T_vis_VAJ_wA_norm(ii) = T_vis_VAJ_w(ii,2)/(T_vis_VAJ_w(ii,1)+T_vis_VAJ_w(ii,2));
 end
 
 for ii = 1:size(R_vesti_VAJ_w,1)
     R_vesti_VAJ_wV_norm(ii) = R_vesti_VAJ_w(ii,1)/(R_vesti_VAJ_w(ii,1)+R_vesti_VAJ_w(ii,2));
-    R_vesti_VAJ_wA_norm(ii) = R_vesti_VAJ_w(ii,2)/(R_vesti_VAJ_w(ii,1)+R_vesti_VAJ_w(ii,2));    
+    R_vesti_VAJ_wA_norm(ii) = R_vesti_VAJ_w(ii,2)/(R_vesti_VAJ_w(ii,1)+R_vesti_VAJ_w(ii,2));
     R_vis_VAJ_wV_norm(ii) = R_vis_VAJ_w(ii,1)/(R_vis_VAJ_w(ii,1)+R_vis_VAJ_w(ii,2));
     R_vis_VAJ_wA_norm(ii) = R_vis_VAJ_w(ii,2)/(R_vis_VAJ_w(ii,1)+R_vis_VAJ_w(ii,2));
 end
@@ -120,6 +130,82 @@ R_vesti_VA_n = squeeze(cell2mat(struct2cell(R_VA_n_vesti)));
 R_vis_VA_n = squeeze(cell2mat(struct2cell(R_VA_n_vis)));
 R_vesti_VAJ_n = squeeze(cell2mat(struct2cell(R_VAJ_n_vesti)));
 R_vis_VAJ_n = squeeze(cell2mat(struct2cell(R_VAJ_n_vis)));
+
+%%%%%%% compare BIC value across different delay(V to A) (VA model) %%%%%%%
+%{
+% [~,inx] = ismember('VA',models);
+% BIC_vesti_VA_T = cat(1,T_BIC_vesti.VA);
+% BIC_vis_VA_T = cat(1,T_BIC_vis.VA);
+% BIC_vesti_VA_R = cat(1,R_BIC_vesti.VA);
+% BIC_vis_VA_R = cat(1,R_BIC_vis.VA);
+% 
+% save('BIC_500.mat','BIC_vesti_VA_T','BIC_vis_VA_T','BIC_vesti_VA_R','BIC_vis_VA_R');
+
+aa = {'BIC_100.mat','BIC_200.mat','BIC_300.mat','BIC_400.mat','BIC_500.mat'};
+
+for ii = 1:5
+    
+load(aa{ii});
+
+BIC_vesti_T_VA(:,ii) = BIC_vesti_VA_T;
+BIC_vis_T_VA(:,ii) = BIC_vis_VA_T;
+BIC_vesti_R_VA(:,ii) = BIC_vesti_VA_R;
+BIC_vis_R_VA(:,ii) = BIC_vis_VA_R;
+
+end
+
+figure(99);set(gcf,'pos',[200 20 1300 950]);clf;
+[~,h_subplot] = tight_subplot(2,2,[0.2 0.2],0.15);
+
+axes(h_subplot(1));hold on;
+plot(BIC_vesti_T_VA','-','color',colorLGray,'linewidth',0.5);
+plot(BIC_vesti_T_VA','ko','color',colorDBlue);
+xlabel('time delay (V to A)');
+ylabel('BIC');
+set(gca,'box','off');
+axis on;
+xlim([1 5]);
+ylim([-0.5 1]*10^4);
+title('T-vestibular');
+
+axes(h_subplot(2));hold on;
+plot(BIC_vis_T_VA','-','color',colorLGray,'linewidth',0.5);
+plot(BIC_vis_T_VA','ko','color',colorDRed);
+xlabel('time delay (V to A)');
+ylabel('BIC');
+set(gca,'box','off');
+axis on;
+xlim([1 5]);
+ylim([-0.5 1]*10^4);
+title('T-visual');
+
+axes(h_subplot(3));hold on;
+plot(BIC_vesti_R_VA','-','color',colorLGray,'linewidth',0.5);
+plot(BIC_vesti_R_VA','ko','color',colorLBlue);
+xlabel('time delay (V to A)');
+ylabel('BIC');
+set(gca,'box','off');
+axis on;
+xlim([1 5]);
+ylim([-0.5 1]*10^4);
+title('R-vestibular');
+
+axes(h_subplot(4));hold on;
+plot(BIC_vis_R_VA','-','color',colorLGray,'linewidth',0.5);
+plot(BIC_vis_R_VA','ko','color',colorLRed);
+xlabel('time delay (V to A)');
+ylabel('BIC');
+set(gca,'box','off');
+axis on;
+xlim([1 5]);
+ylim([-0.5 1]*10^4);
+title('R-visual');
+
+SetFigure(25);
+%}
+
+
+
 
 %%%%%%%%%%%%%%%%% BIC %%%%%%%%%%%%%%%%%%%
 %{
@@ -462,7 +548,7 @@ SetFigure(25);
 %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight for VA model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% %{
+%{
 xRatio = -2:0.4:2;
 
 figure(110);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -542,7 +628,7 @@ SetFigure(25);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight(V&A, normalized) for VAJ model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% %{
+%{
 xRatio = -2:0.4:2;
 
 figure(111);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -620,7 +706,7 @@ SetFigure(25);
 %}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight of (V&A, normalized) for VA model vs.VAJ model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %{
+%{
 
 figure(112);set(gcf,'pos',[60 70 1000 800]);clf;
 [~,h_subplot] = tight_subplot(2,2,0.2,0.15);
@@ -692,7 +778,7 @@ SetFigure(25);
 
 % %%%%%%%%%%%%% compared with other areas %%%%%%%%%%%%%%%%%%%%%%%%
 % % data from Laurens, VAJ model, normalized
-% %{ 
+%{
 xRatio = -4:0.5:4;
 
 figure(108);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -841,7 +927,7 @@ SetFigure(25);
 %}
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Weight vs. R2 (VA model) %%%%%%%%%%%%%%%%%%%%%%%%
-% %{
+%{
 figure(108);set(gcf,'pos',[60 70 1200 800]);clf;
 [~,h_subplot] = tight_subplot(2,3,[0.2 0.2],0.15);
 
@@ -910,7 +996,7 @@ SetFigure(25);
 %}
 
 %%%%%%%%% spatial tuning-prefer direction distribution (VA model) %%%%%%%%%
-% %{
+%{
 
 % figures
 figure(112);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -1008,7 +1094,7 @@ SetFigure(25);
 %}
 
 %%%%%%%%% spatial tuning-Diff of prefer direction (V,A) distribution (VA model) %%%%%%%%%
-% %{
+%{
 xdiffPreDir = 9:18:(180-9);
 % figures
 figure(113);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -1076,7 +1162,7 @@ SetFigure(25);
 
 %%%%%%%%% plot weight of V&A vesus n (VA model) %%%%%%%%%
 
-% %{
+%{
 % figures
 figure(114);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(2,3,0.2,0.15);
@@ -1130,7 +1216,7 @@ SetFigure(25);
 
 %%%%%%%%% plot weight of V vesus n (VAJ model) %%%%%%%%%
 
-% %{
+%{
 % figures
 figure(115);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(2,3,0.2,0.15);
@@ -1180,7 +1266,7 @@ SetFigure(25);
 
 %%%%%%%%% plot ratio of wV/wA (VA model) %%%%%%%%%
 
-% %{
+%{
 
 figure(116);set(gcf,'pos',[60 70 700 400]);clf;
 % [~,h_subplot] = tight_subplot(2,2,[0.2 0.1],0.15);
@@ -1244,6 +1330,201 @@ ylabel('Proportion of cells');
 
 SetFigure(25);
 
+%}
+
+%%%%%%%%% plot time delay of Velocity to Acceleration (VA model) %%%%%%%%%
+
+%{
+
+figure(117);set(gcf,'pos',[200 200 1200 600]);clf;
+[~,h_subplot] = tight_subplot(2,2,[0.2 0.1],0.15);
+
+axes(h_subplot(1));
+hist(T_VA_vesti_delayV,20);
+xlim([0 0.5]);
+title('T-vestibular');
+
+axes(h_subplot(2));
+hist(T_VA_vis_delayV,20);
+xlim([0 0.5]);
+title('T-visual');
+
+axes(h_subplot(3));
+hist(R_VA_vesti_delayV,20);
+xlim([0 0.5]);
+title('R-vestibular');
+
+axes(h_subplot(4));
+hist(R_VA_vis_delayV,20);
+xlim([0 0.5]);
+title('R-visual');
+
+SetFigure(25);
+%}
+
+%%%%%%%%% plot nV vs nA (VA model) %%%%%%%%%
+
+%{
+% figures
+figure(118);set(gcf,'pos',[200 200 1000 800]);clf;
+[~,h_subplot] = tight_subplot(2,2,0.2,0.15);
+
+axes(h_subplot(1));
+hold on;
+plot(T_vesti_VA_n(1,:),T_vesti_VA_n(2,:),'wo', 'markerfacecolor',colorDBlue);
+title('T-Vestibular');
+xlabel('nV');
+ylabel('nA');
+axis on;
+axis square;
+hold off;
+
+axes(h_subplot(2));
+hold on;
+plot(T_vis_VA_n(1,:),T_vis_VA_n(2,:),'wo', 'markerfacecolor',colorDRed);
+title('T-Visual');
+xlabel('nV');
+ylabel('nA');
+axis on;
+axis square;
+hold off;
+
+axes(h_subplot(3));
+hold on;
+plot(R_vesti_VA_n(1,:),R_vesti_VA_n(2,:),'wo', 'markerfacecolor',colorLBlue);
+title('R-Vestibular');
+xlabel('nV');
+ylabel('nA');
+axis on;
+axis square;
+hold off;
+
+axes(h_subplot(4));
+hold on;
+plot(R_vis_VA_n(1,:),R_vis_VA_n(2,:),'wo', 'markerfacecolor',colorLRed);
+title('R-Visual');
+xlabel('nV');
+ylabel('nA');
+axis on;
+axis square;
+hold off;
+
+
+SetFigure(25);
+%}
+
+%%%%%%%%% plot time delay of Acceleration vs time delay of Velocity to Acceleration (VA model) %%%%%%%%%
+
+%{
+
+figure(119);set(gcf,'pos',[200 200 900 800]);clf;
+[~,h_subplot] = tight_subplot(2,2,[0.2 0.1],0.15);
+
+axes(h_subplot(1));
+plot(T_VA_vesti_muA,T_VA_vesti_delayV,'ko');
+axis square;
+xlabel('muA');
+ylabel('delay (V to A)');
+title('T-vestibular');
+
+axes(h_subplot(2));
+plot(T_VA_vis_muA,T_VA_vis_delayV,'ko');
+axis square;
+xlabel('muA');
+ylabel('delay (V to A)');
+title('T-visual');
+
+axes(h_subplot(3));
+plot(R_VA_vesti_muA,R_VA_vesti_delayV,'ko');
+axis square;
+xlabel('muA');
+ylabel('delay (V to A)');
+title('R-vestibular');
+
+axes(h_subplot(4));
+plot(R_VA_vis_muA,R_VA_vis_delayV,'ko');
+axis square;
+xlabel('muA');
+ylabel('delay (V to A)');
+title('R-visual');
+
+SetFigure(25);
+%}
+
+%%%%%%%%% plot correlation of Acceleration and Velocity spatial kernel (VA model) %%%%%%%%%
+
+% %{
+
+T_vesti_s_V = inversePackSpatial(T_VA_vesti_spatial_V);
+T_vesti_s_A = inversePackSpatial(T_VA_vesti_spatial_A);
+T_vis_s_V = inversePackSpatial(T_VA_vis_spatial_V);
+T_vis_s_A = inversePackSpatial(T_VA_vis_spatial_A);
+R_vesti_s_V = inversePackSpatial(R_VA_vesti_spatial_V);
+R_vesti_s_A = inversePackSpatial(R_VA_vesti_spatial_A);
+R_vis_s_V = inversePackSpatial(R_VA_vis_spatial_V);
+R_vis_s_A = inversePackSpatial(R_VA_vis_spatial_A);
+
+for ii = 1:size(T_vesti_s_V,1)
+    coef = corrcoef(T_vesti_s_V(ii,:),T_vesti_s_A(ii,:));
+    T_vesti_coef(ii) = coef(1,2);
+end
+
+T_vesti_coef = T_vesti_coef(~isnan(T_vesti_coef));
+
+for ii = 1:size(R_vesti_s_V,1)
+    coef = corrcoef(R_vesti_s_V(ii,:),R_vesti_s_A(ii,:));
+    R_vesti_coef(ii) = coef(1,2);
+end
+
+R_vesti_coef = R_vesti_coef(~isnan(R_vesti_coef));
+
+for ii = 1:size(T_vis_s_V,1)
+    coef = corrcoef(T_vis_s_V(ii,:),T_vis_s_A(ii,:));
+    T_vis_coef(ii) = coef(1,2);
+end
+
+T_vis_coef = T_vis_coef(~isnan(T_vis_coef));
+
+for ii = 1:size(R_vis_s_V,1)
+    coef = corrcoef(R_vis_s_V(ii,:),R_vis_s_A(ii,:));
+    R_vis_coef(ii) = coef(1,2);
+end
+
+R_vis_coef = R_vis_coef(~isnan(R_vis_coef));
+
+
+figure(120);set(gcf,'pos',[200 200 1000 800]);clf;
+[~,h_subplot] = tight_subplot(2,2,[0.2 0.2],0.2);
+
+axes(h_subplot(1));
+hist(T_vesti_coef,10);
+% axis square;
+xlabel('coef');
+ylabel('cell #');
+title('T-vestibular');
+
+axes(h_subplot(2));
+hist(T_vis_coef,10);
+% axis square;
+xlabel('coef');
+ylabel('cell #');
+title('T-visual');
+
+axes(h_subplot(3));
+hist(R_vesti_coef,10);
+% axis square;
+xlabel('coef');
+ylabel('cell #');
+title('R-vestibular');
+
+axes(h_subplot(4));
+hist(R_vis_coef,10);
+% axis square;
+xlabel('coef');
+ylabel('cell #');
+title('R-visual');
+
+SetFigure(25);
 %}
 
 

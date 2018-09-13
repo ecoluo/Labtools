@@ -14,11 +14,16 @@ global PSTH;
 
 FnameCode = 2;
 % Protocol: 1->translation, 2-> rotation, 3->dark T, 4->dark R
-Protocol = 1;
+Protocol = 2;
 
+Model_catg = 1;
 
-pathname = {'Z:\Data\TEMPO\BATCH\Polo';'Z:\Data\TEMPO\BATCH\Polo';'Z:\Data\TEMPO\BATCH\Polo_Dark';'Z:\Data\TEMPO\BATCH\Polo_Dark';};
-
+switch Model_catg
+    case 1
+        pathname = {'Z:\Data\TEMPO\BATCH\Polo\Sync model';'Z:\Data\TEMPO\BATCH\Polo\Sync model';'Z:\Data\TEMPO\BATCH\Polo_Dark\Sync model';'Z:\Data\TEMPO\BATCH\Polo_Dark\Sync model';};
+    case 2
+        pathname = {'Z:\Data\TEMPO\BATCH\Polo\Out-sync model';'Z:\Data\TEMPO\BATCH\Polo\Out-sync model';'Z:\Data\TEMPO\BATCH\Polo_Dark\Out-sync model';'Z:\Data\TEMPO\BATCH\Polo_Dark\Out-sync model';};
+end
 switch FnameCode
     case 1 % choose files mannully
         [filename pathname] = uigetfile('Z:\Data\TEMPO\BATCH');
@@ -34,7 +39,7 @@ switch FnameCode
                     temp = load([pathname{Protocol} '\' filename(ii).name]);
                     Polo_3DTuning_T(ii).name = str2double((filename(ii).name(4:7)));
                     Polo_3DTuning_T(ii).ch = temp.result.SpikeChan;
-%                     Polo_3DTuning_T(ii).repNums = temp.result.repNums;
+                    %                     Polo_3DTuning_T(ii).repNums = temp.result.repNums;
                     Polo_3DTuning_T(ii).stimType = temp.result.unique_stimType;
                     Polo_3DTuning_T(ii).duration = temp.result.unique_duration;
                     Polo_3DTuning_T(ii).meanSpon = temp.result.meanSpon;
@@ -51,7 +56,7 @@ switch FnameCode
                     Polo_3DTuning_T(ii).PSTH = temp.result.PSTH.spk_data_bin_mean_rate_aov;
                     Polo_3DTuning_T(ii).PSTH3Dmodel = temp.result.PSTH3Dmodel;
                     try
-                    Polo_3DTuning_T(ii).peakDS = temp.result.PSTH.peak_DS;
+                        Polo_3DTuning_T(ii).peakDS = temp.result.PSTH.peak_DS;
                     catch
                         keyboard;
                     end
@@ -67,7 +72,7 @@ switch FnameCode
                     temp = load([pathname{Protocol} '\' filename(ii).name]);
                     Polo_3DTuning_R(ii).name = str2double(filename(ii).name(4:7));
                     Polo_3DTuning_R(ii).ch = temp.result.SpikeChan;
-%                     Polo_3DTuning_R(ii).repNums = temp.result.repNums;
+                    %                     Polo_3DTuning_R(ii).repNums = temp.result.repNums;
                     Polo_3DTuning_R(ii).stimType = temp.result.unique_stimType;
                     Polo_3DTuning_R(ii).duration = temp.result.unique_duration;
                     Polo_3DTuning_R(ii).meanSpon = temp.result.meanSpon;
@@ -93,21 +98,25 @@ switch FnameCode
 end
 
 % save the data
-
-cd('Z:\Data\TEMPO\BATCH\Polo_3DTuning');
+switch Model_catg
+    case 1
+        cd('Z:\Data\TEMPO\BATCH\Polo_3DTuning\Sync model');
+    case 2
+        cd('Z:\Data\TEMPO\BATCH\Polo_3DTuning\Out-sync model');
+end
 switch Protocol
     case 1
-        save('PSTH_OriData.mat','Polo_3DTuning_T','-append');
-% save('PSTH_OriData.mat','Polo_3DTuning_T');
+%         save('PSTH_OriData.mat','Polo_3DTuning_T','-append');
+        save('PSTH_OriData.mat','Polo_3DTuning_T');
     case 2
         save('PSTH_OriData.mat','Polo_3DTuning_R','-append');
-% save('PSTH_OriData.mat','Polo_3DTuning_R');
+        % save('PSTH_OriData.mat','Polo_3DTuning_R');
     case 3
         save('PSTH_OriData_Dark.mat','Polo_3DTuning_T','-append');
-% save('PSTH_OriData_Dark.mat','Polo_3DTuning_T');
-        case 4
+        % save('PSTH_OriData_Dark.mat','Polo_3DTuning_T');
+    case 4
         save('PSTH_OriData_Dark.mat','Polo_3DTuning_R','-append');
-%  save('PSTH_OriData_Dark.mat','Polo_3DTuning_R');
+        %  save('PSTH_OriData_Dark.mat','Polo_3DTuning_R');
         
 end
 disp('DATA SAVED!');

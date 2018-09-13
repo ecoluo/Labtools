@@ -4,17 +4,27 @@
 % models = {'VO','AO','VA','VJ','AJ','VAJ','PVAJ'};
 % LBY 20171130
 
+function PackData_model_QQ(Model_catg)
+
 clear all;
 %% load data & pack data
+% Model_catg = 2;
+switch Model_catg
+    case 1
+        cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Sync model');
+        load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Sync model\PSTH_OriData.mat');
+    case 2
+        cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Out-sync model');
+        load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Out-sync model\PSTH_OriData.mat');
+end
 
-cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning');
-load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\PSTH_OriData.mat');
 Monkey = 'QQ';
 
 % models = {'VO','AO','VA','VJ','AJ','VAJ','PVAJ'};
 % models = {'VO','AO','VA','VJ','AJ','VAJ'};
-models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
 % models = {'VO','AO','VA','VAJ'};
+models = {'VA','VAJ'};
 global PSTH3Dmodel PSTH;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% for Translation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -62,6 +72,13 @@ for cell_inx = 1:length(QQ_3DTuning_T)
         T_VAJ_n_vesti(cell_inx).V =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(4);
         T_VAJ_n_vesti(cell_inx).A =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(8);
         T_VAJ_n_vesti(cell_inx).J =  T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(12);
+        if Model_catg == 2
+            T_VA_vesti_delayV(cell_inx) = T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(13);
+        end
+        T_VA_vesti_muA(cell_inx) = T_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(3);
+        T_VA_vesti_spatial_V{cell_inx} = T_model(cell_inx).vestiPSTH3Dmodel.modelFit_spatial_VA.V;
+        T_VA_vesti_spatial_A{cell_inx} = T_model(cell_inx).vestiPSTH3Dmodel.modelFit_spatial_VA.A;
+        
         
         
         for m_inx = 1:length(models)
@@ -100,7 +117,12 @@ for cell_inx = 1:length(QQ_3DTuning_T)
         T_VAJ_n_vesti(cell_inx).V =  nan;
         T_VAJ_n_vesti(cell_inx).A =  nan;
         T_VAJ_n_vesti(cell_inx).J =  nan;
-        
+        if Model_catg == 2
+            T_VA_vesti_delayV(cell_inx) = nan;
+        end
+        T_VA_vesti_muA(cell_inx) = nan;
+        T_VA_vesti_spatial_V{cell_inx} = nan;
+        T_VA_vesti_spatial_A{cell_inx} = nan;
         
         for m_inx = 1:length(models)
             % pack RSS values to RSS.*(* the model)
@@ -144,6 +166,12 @@ for cell_inx = 1:length(QQ_3DTuning_T)
         T_VAJ_n_vis(cell_inx).V =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(4);
         T_VAJ_n_vis(cell_inx).A =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(8);
         T_VAJ_n_vis(cell_inx).J =  T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(12);
+        if Model_catg == 2
+            T_VA_vis_delayV(cell_inx) = T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(13);
+        end
+        T_VA_vis_muA(cell_inx) = T_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(3);
+        T_VA_vis_spatial_V{cell_inx} = T_model(cell_inx).visPSTH3Dmodel.modelFit_spatial_VA.V;
+        T_VA_vis_spatial_A{cell_inx} = T_model(cell_inx).visPSTH3Dmodel.modelFit_spatial_VA.A;
         
         
         for m_inx = 1:length(models)
@@ -182,6 +210,12 @@ for cell_inx = 1:length(QQ_3DTuning_T)
         T_VAJ_n_vis(cell_inx).V =  nan;
         T_VAJ_n_vis(cell_inx).A =  nan;
         T_VAJ_n_vis(cell_inx).J =  nan;
+        if Model_catg == 2
+            T_VA_vis_delayV(cell_inx) = nan;
+        end
+        T_VA_vis_muA(cell_inx) = nan;
+        T_VA_vis_spatial_V{cell_inx} = nan;
+        T_VA_vis_spatial_A{cell_inx} = nan;
         
         for m_inx = 1:length(models)
             % pack RSS values to RSS.*(* the model)
@@ -248,20 +282,26 @@ for cell_inx = 1:length(QQ_3DTuning_R)
         R_VAJ_n_vesti(cell_inx).V =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(4);
         R_VAJ_n_vesti(cell_inx).A =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(8);
         R_VAJ_n_vesti(cell_inx).J =  R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VAJ(12);
+        if Model_catg == 2
+            R_VA_vesti_delayV(cell_inx) = R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(13);
+        end
+        R_VA_vesti_muA(cell_inx) = R_model(cell_inx).vestiPSTH3Dmodel.modelFitPara_VA(3);
+        R_VA_vesti_spatial_V{cell_inx} = R_model(cell_inx).vestiPSTH3Dmodel.modelFit_spatial_VA.V;
+        R_VA_vesti_spatial_A{cell_inx} = R_model(cell_inx).vestiPSTH3Dmodel.modelFit_spatial_VA.A;
         
         for m_inx = 1:length(models)
             try
-            % pack RSS values to RSS.*(* the model)
-            eval(['R_RSS_vesti(',num2str(cell_inx),').', models{m_inx},' = R_model(',num2str(cell_inx),').vestiPSTH3Dmodel.rss_', models{m_inx} , ';']);
-            
-            % pack R_squared values to RSS.*(* the model)
-            eval(['R_Rsquared_vesti(',num2str(cell_inx),').', models{m_inx},' = R_model(',num2str(cell_inx),').vestiPSTH3Dmodel.RSquared_', models{m_inx} , ';']);
-            
-            % pack BIC values to RSS.*(* the model)
-            eval(['R_BIC_vesti(',num2str(cell_inx),').', models{m_inx},' = R_model(',num2str(cell_inx),').vestiPSTH3Dmodel.BIC_', models{m_inx}, ';']);
-            
-            % pack model fitting parameters to PARA.*.#
-            eval(['R_PARA_vesti(',num2str(cell_inx),').', models{m_inx},' = R_model(',num2str(cell_inx),').vestiPSTH3Dmodel.modelFitPara_', models{m_inx}, ';']);
+                % pack RSS values to RSS.*(* the model)
+                eval(['R_RSS_vesti(',num2str(cell_inx),').', models{m_inx},' = R_model(',num2str(cell_inx),').vestiPSTH3Dmodel.rss_', models{m_inx} , ';']);
+                
+                % pack R_squared values to RSS.*(* the model)
+                eval(['R_Rsquared_vesti(',num2str(cell_inx),').', models{m_inx},' = R_model(',num2str(cell_inx),').vestiPSTH3Dmodel.RSquared_', models{m_inx} , ';']);
+                
+                % pack BIC values to RSS.*(* the model)
+                eval(['R_BIC_vesti(',num2str(cell_inx),').', models{m_inx},' = R_model(',num2str(cell_inx),').vestiPSTH3Dmodel.BIC_', models{m_inx}, ';']);
+                
+                % pack model fitting parameters to PARA.*.#
+                eval(['R_PARA_vesti(',num2str(cell_inx),').', models{m_inx},' = R_model(',num2str(cell_inx),').vestiPSTH3Dmodel.modelFitPara_', models{m_inx}, ';']);
             catch
                 keyboard;
             end
@@ -288,6 +328,12 @@ for cell_inx = 1:length(QQ_3DTuning_R)
         R_VAJ_n_vesti(cell_inx).V =  nan;
         R_VAJ_n_vesti(cell_inx).A =  nan;
         R_VAJ_n_vesti(cell_inx).J =  nan;
+        if Model_catg == 2
+            R_VA_vesti_delayV(cell_inx) = nan;
+        end
+        R_VA_vesti_muA(cell_inx) = nan;
+        R_VA_vesti_spatial_V{cell_inx} = nan;
+        R_VA_vesti_spatial_A{cell_inx} = nan;
         
         for m_inx = 1:length(models)
             % pack RSS values to RSS.*(* the model)
@@ -330,6 +376,12 @@ for cell_inx = 1:length(QQ_3DTuning_R)
         R_VAJ_n_vis(cell_inx).V =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(4);
         R_VAJ_n_vis(cell_inx).A =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(8);
         R_VAJ_n_vis(cell_inx).J =  R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VAJ(12);
+        if Model_catg == 2
+            R_VA_vis_delayV(cell_inx) = R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(13);
+        end
+        R_VA_vis_muA(cell_inx) = R_model(cell_inx).visPSTH3Dmodel.modelFitPara_VA(3);
+        R_VA_vis_spatial_V{cell_inx} = R_model(cell_inx).visPSTH3Dmodel.modelFit_spatial_VA.V;
+        R_VA_vis_spatial_A{cell_inx} = R_model(cell_inx).visPSTH3Dmodel.modelFit_spatial_VA.A;
         
         for m_inx = 1:length(models)
             % pack RSS values to RSS.*(* the model)
@@ -367,6 +419,12 @@ for cell_inx = 1:length(QQ_3DTuning_R)
         R_VAJ_n_vis(cell_inx).V =  nan;
         R_VAJ_n_vis(cell_inx).A =  nan;
         R_VAJ_n_vis(cell_inx).J =  nan;
+        if Model_catg == 2
+            R_VA_vis_delayV(cell_inx) = nan;
+        end
+        R_VA_vis_muA(cell_inx) = nan;
+        R_VA_vis_spatial_V{cell_inx} = nan;
+        R_VA_vis_spatial_A{cell_inx} = nan;
         
         for m_inx = 1:length(models)
             % pack RSS values to RSS.*(* the model)
@@ -388,8 +446,14 @@ end
 disp('R model data loaded SUCCESS!');
 
 % save the data
-save('PSTH3DModel_T_OriData.mat','T_model','T_PARA_vis', 'T_RSS_vis', 'T_BIC_vis','T_Rsquared_vis','T_PARA_vesti', 'T_RSS_vesti', 'T_BIC_vesti','T_Rsquared_vesti','T_vestiNo','T_visNo','T_PartR2_VAT_vis','T_PartR2_VAT_vesti','T_PartR2VA_vis','T_PartR2VA_vis','T_wVAJ_vis','T_wVAJ_vesti','T_wVA_vis','T_wVA_vesti','T_preDir_VA_vis','T_preDir_VA_vesti','T_VA_n_vesti','T_VA_n_vis','T_VAJ_n_vesti','T_VAJ_n_vis');
-save('PSTH3DModel_R_OriData.mat','R_model','R_PARA_vis', 'R_RSS_vis', 'R_BIC_vis','R_Rsquared_vis','R_PARA_vesti', 'R_RSS_vesti', 'R_BIC_vesti','R_Rsquared_vesti','R_vestiNo','R_visNo','R_PartR2_VAT_vesti','R_PartR2VA_vis','R_wVAJ_vis','R_wVAJ_vesti','R_wVA_vis','R_wVA_vesti','R_preDir_VA_vis','R_preDir_VA_vesti','R_VA_n_vesti','R_VA_n_vis','R_VAJ_n_vesti','R_VAJ_n_vis');
+if Model_catg == 2
+save('PSTH3DModel_T_OriData.mat','T_model','T_PARA_vis', 'T_RSS_vis', 'T_BIC_vis','T_Rsquared_vis','T_PARA_vesti', 'T_RSS_vesti', 'T_BIC_vesti','T_Rsquared_vesti','T_vestiNo','T_visNo','T_PartR2_VAT_vis','T_PartR2_VAT_vesti','T_PartR2VA_vis','T_PartR2VA_vis','T_wVAJ_vis','T_wVAJ_vesti','T_wVA_vis','T_wVA_vesti','T_preDir_VA_vis','T_preDir_VA_vesti','T_VA_n_vesti','T_VA_n_vis','T_VAJ_n_vesti','T_VAJ_n_vis','T_VA_vis_delayV','T_VA_vesti_delayV','T_VA_vesti_muA','T_VA_vis_muA','T_VA_vesti_spatial_V','T_VA_vis_spatial_V','T_VA_vesti_spatial_A','T_VA_vis_spatial_A');
+save('PSTH3DModel_R_OriData.mat','R_model','R_PARA_vis', 'R_RSS_vis', 'R_BIC_vis','R_Rsquared_vis','R_PARA_vesti', 'R_RSS_vesti', 'R_BIC_vesti','R_Rsquared_vesti','R_vestiNo','R_visNo','R_PartR2_VAT_vesti','R_PartR2VA_vis','R_wVAJ_vis','R_wVAJ_vesti','R_wVA_vis','R_wVA_vesti','R_preDir_VA_vis','R_preDir_VA_vesti','R_VA_n_vesti','R_VA_n_vis','R_VAJ_n_vesti','R_VAJ_n_vis','R_VA_vis_delayV','R_VA_vesti_delayV','R_VA_vesti_muA','R_VA_vis_muA','R_VA_vesti_spatial_V','R_VA_vis_spatial_V','R_VA_vesti_spatial_A','R_VA_vis_spatial_A');
+elseif Model_catg == 1
+save('PSTH3DModel_T_OriData.mat','T_model','T_PARA_vis', 'T_RSS_vis', 'T_BIC_vis','T_Rsquared_vis','T_PARA_vesti', 'T_RSS_vesti', 'T_BIC_vesti','T_Rsquared_vesti','T_vestiNo','T_visNo','T_PartR2_VAT_vis','T_PartR2_VAT_vesti','T_PartR2VA_vis','T_PartR2VA_vis','T_wVAJ_vis','T_wVAJ_vesti','T_wVA_vis','T_wVA_vesti','T_preDir_VA_vis','T_preDir_VA_vesti','T_VA_n_vesti','T_VA_n_vis','T_VAJ_n_vesti','T_VAJ_n_vis','T_VA_vesti_muA','T_VA_vis_muA','T_VA_vesti_spatial_V','T_VA_vis_spatial_V','T_VA_vesti_spatial_A','T_VA_vis_spatial_A');
+save('PSTH3DModel_R_OriData.mat','R_model','R_PARA_vis', 'R_RSS_vis', 'R_BIC_vis','R_Rsquared_vis','R_PARA_vesti', 'R_RSS_vesti', 'R_BIC_vesti','R_Rsquared_vesti','R_vestiNo','R_visNo','R_PartR2_VAT_vesti','R_PartR2VA_vis','R_wVAJ_vis','R_wVAJ_vesti','R_wVA_vis','R_wVA_vesti','R_preDir_VA_vis','R_preDir_VA_vesti','R_VA_n_vesti','R_VA_n_vis','R_VAJ_n_vesti','R_VAJ_n_vis','R_VA_vesti_muA','R_VA_vis_muA','R_VA_vesti_spatial_V','R_VA_vis_spatial_V','R_VA_vesti_spatial_A','R_VA_vis_spatial_A');
+   
+end
 disp('DATA SAVED!');
 
 
@@ -401,3 +465,5 @@ disp('DATA SAVED!');
 %                 {'wV','wA','wJ'},...
 %                 {'wV','wA','wJ','wP'},...
 %                 };
+
+end

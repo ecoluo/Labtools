@@ -96,7 +96,8 @@ end
 cd('Z:\Data\TEMPO\BATCH\MSTd_3DTuning');
 switch Protocol
     case 1
-        save('PSTH_OriData.mat','QQ_3DTuning_T','-append');
+%         save('PSTH_OriData.mat','QQ_3DTuning_T','-append');
+save('PSTH_OriData.mat','QQ_3DTuning_T');
     case 2
         save('PSTH_OriData.mat','QQ_3DTuning_R','-append');
     case 3

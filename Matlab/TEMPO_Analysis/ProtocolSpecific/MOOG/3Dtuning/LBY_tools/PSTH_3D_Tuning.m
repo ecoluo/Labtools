@@ -3,7 +3,7 @@
 global PSTH;
 
 % % ------ fig.20 plot PSTH for each trial and raster plot across directions ------%
-%{ 
+% %{ 
 for k = 1:length(unique_stimType)
     figure(20+k);
     set(gcf,'pos',[0 0 1900 1000]);
@@ -619,95 +619,95 @@ end
 
 % % ------ fig.50 plot mean PSTHs-spon across directions ------%
 %{ 
-% 
-% for k = 1:length(unique_stimType)
-%     figure(50+k);
-%     set(gcf,'pos',[60 100 1800 900]);
-%     clf;
-%     maxY = max(PSTH.maxSpkRealBinMean(k)-PSTH.spon_spk_data_bin_mean_rate);
-%     minY = min(PSTH.minSpkRealBinMean(k)-PSTH.spon_spk_data_bin_mean_rate);
-%     for j = 2:length(unique_elevation)-1
-%         for i = 1:length(unique_azimuth)+1
-%             subplot(5,9,i+(j-1)*9);
-%             plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(j,iAzi(i),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',3);
-%             hold on;
-%             plot([1 nBins(1,1)],[0 0],':k','linewidth',0.5);
-%             hold on;
-%             for n = 1:size(markers,1)
-%                 plot([markers{n,3} markers{n,3}],[minY maxY], '--','color',markers{n,4},'linewidth',0.5);
-%                 hold on;
-%             end
-%             set(gca,'ylim',[minY maxY],'xlim',[1 nBins(1,1)]);
-%             axis off;
-%         end
-%     end
-%     % 2 extra conditions
-%     subplot(5,9,5+(1-1)*9);
-%     plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(1,iAzi(5),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',3);
-%     hold on;
-%     plot([1 nBins(1,1)],[0 0],':k','linewidth',0.5);
-%     hold on;
-%     for n = 1:size(markers,1)
-%         plot([markers{n,3} markers{n,3}],[minY maxY], '--','color',markers{n,4},'linewidth',0.5);
-%         hold on;
-%     end
-%     set(gca,'ylim',[minY maxY],'xlim',[1 nBins(1,1)]);
-%     axis off;
-% 
-%     subplot(5,9,5+(5-1)*9);
-%     plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(5,iAzi(5),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',3);
-%     hold on;
-%     plot([1 nBins(1,1)],[0 0],':k','linewidth',0.5);
-%     hold on;
-%     for n = 1:size(markers,1)
-%         plot([markers{n,3} markers{n,3}], [minY maxY], '--','color',markers{n,4},'linewidth',0.5);
-%         hold on;
-%     end
-%     set(gca,'ylim',[minY maxY],'xlim',[1 nBins(1,1)]);
-%     axis off;
-% 
-%     % spontaneous
-%     subplot(5,9,1+(1-1)*9);
-%     errorbar(PSTH.spon_spk_data_bin_mean_rate,PSTH.spon_spk_data_bin_mean_rate_ste,'color','k');
-%     hold on;
-%     for n = 1:size(markers,1)
-%         plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',0.5);
-%         hold on;
-%     end
-%     set(gca,'ylim',[0 max(PSTH.maxSpkRealBinMean(k)+PSTH.maxSpkRealBinMeanSte(k),PSTH.maxSpkSponBinMean+PSTH.maxSpkSponBinMeanSte)],'xlim',[1 nBins(1,1)]);
-%     axis off;
-% 
-% 
-%     % text on the figure
-%     axes('unit','pixels','pos',[60 830 1800 80]);
-%     xlim([0,100]);
-%     ylim([0,10]);
-%     text(40,3,'PSTHs for each direction (-spon)','fontsize',20);
-%     text(11,2,'spontaneous','fontsize',15);
-%     FileNameTemp = num2str(FILE);
-%     FileNameTemp =  FileNameTemp(1:end);
-%     str = [FileNameTemp,'_Ch' num2str(SpikeChan)];
-%     str1 = [FileNameTemp,'\_Ch' num2str(SpikeChan),'    ',stimType{k}];
-%     text(70,0,str1,'fontsize',18);
-%     axis off;
-% 
-%     axes('unit','pixels','pos',[60 50 1800 100]);
-%     xlim([0,100]);
-%     ylim([0,10]);
-%     %     text(0,0,['Max spk mean FR(Hz): ',num2str(maxSpkRealAll(k))],'fontsize',15);
-%     text(0,2,['Spon max mean FR(Hz): ',num2str(PSTH.maxSpkSponBinMean)],'fontsize',15);
-%     text(0,4,['Spon mean FR(Hz): ',num2str(PSTH.meanSpkSponBinMean)],'fontsize',15);
-%     axis off;
-% 
-% %     % to save the figures
-% %     str3 = [str, '_PSTH-spon_',stimType{k}];
-% %     set(gcf,'paperpositionmode','auto');
-% %     if Protocol == DIRECTION_TUNING_3D
-% %         ss = [str3, '_T'];
-% %         saveas(50+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Translation\' ss], 'emf');
-% %     elseif Protocol == ROTATION_TUNING_3D
-% %         ss = [str3, '_R'];
-% %         saveas(50+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Rotation\' ss], 'emf');
-% %     end
-% end
+
+for k = 1:length(unique_stimType)
+    figure(50+k);
+    set(gcf,'pos',[60 100 1800 900]);
+    clf;
+    maxY = max(PSTH.maxSpkRealBinMean(k)-PSTH.spon_spk_data_bin_mean_rate);
+    minY = min(PSTH.minSpkRealBinMean(k)-PSTH.spon_spk_data_bin_mean_rate);
+    for j = 2:length(unique_elevation)-1
+        for i = 1:length(unique_azimuth)+1
+            subplot(5,9,i+(j-1)*9);
+            plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(j,iAzi(i),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',3);
+            hold on;
+            plot([1 nBins(1,1)],[0 0],':k','linewidth',0.5);
+            hold on;
+            for n = 1:size(markers,1)
+                plot([markers{n,3} markers{n,3}],[minY maxY], '--','color',markers{n,4},'linewidth',0.5);
+                hold on;
+            end
+            set(gca,'ylim',[minY maxY],'xlim',[1 nBins(1,1)]);
+            axis off;
+        end
+    end
+    % 2 extra conditions
+    subplot(5,9,5+(1-1)*9);
+    plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(1,iAzi(5),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',3);
+    hold on;
+    plot([1 nBins(1,1)],[0 0],':k','linewidth',0.5);
+    hold on;
+    for n = 1:size(markers,1)
+        plot([markers{n,3} markers{n,3}],[minY maxY], '--','color',markers{n,4},'linewidth',0.5);
+        hold on;
+    end
+    set(gca,'ylim',[minY maxY],'xlim',[1 nBins(1,1)]);
+    axis off;
+
+    subplot(5,9,5+(5-1)*9);
+    plot(squeeze(PSTH.spk_data_bin_mean_rate{k}(5,iAzi(5),:))-PSTH.spon_spk_data_bin_mean_rate,'color','k','linewidth',3);
+    hold on;
+    plot([1 nBins(1,1)],[0 0],':k','linewidth',0.5);
+    hold on;
+    for n = 1:size(markers,1)
+        plot([markers{n,3} markers{n,3}], [minY maxY], '--','color',markers{n,4},'linewidth',0.5);
+        hold on;
+    end
+    set(gca,'ylim',[minY maxY],'xlim',[1 nBins(1,1)]);
+    axis off;
+
+    % spontaneous
+    subplot(5,9,1+(1-1)*9);
+    errorbar(PSTH.spon_spk_data_bin_mean_rate,PSTH.spon_spk_data_bin_mean_rate_ste,'color','k');
+    hold on;
+    for n = 1:size(markers,1)
+        plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',0.5);
+        hold on;
+    end
+    set(gca,'ylim',[0 max(PSTH.maxSpkRealBinMean(k)+PSTH.maxSpkRealBinMeanSte(k),PSTH.maxSpkSponBinMean+PSTH.maxSpkSponBinMeanSte)],'xlim',[1 nBins(1,1)]);
+    axis off;
+
+
+    % text on the figure
+    axes('unit','pixels','pos',[60 830 1800 80]);
+    xlim([0,100]);
+    ylim([0,10]);
+    text(40,3,'PSTHs for each direction (-spon)','fontsize',20);
+    text(11,2,'spontaneous','fontsize',15);
+    FileNameTemp = num2str(FILE);
+    FileNameTemp =  FileNameTemp(1:end);
+    str = [FileNameTemp,'_Ch' num2str(SpikeChan)];
+    str1 = [FileNameTemp,'\_Ch' num2str(SpikeChan),'    ',stimType{k}];
+    text(70,0,str1,'fontsize',18);
+    axis off;
+
+    axes('unit','pixels','pos',[60 50 1800 100]);
+    xlim([0,100]);
+    ylim([0,10]);
+    %     text(0,0,['Max spk mean FR(Hz): ',num2str(maxSpkRealAll(k))],'fontsize',15);
+    text(0,2,['Spon max mean FR(Hz): ',num2str(PSTH.maxSpkSponBinMean)],'fontsize',15);
+    text(0,4,['Spon mean FR(Hz): ',num2str(PSTH.meanSpkSponBinMean)],'fontsize',15);
+    axis off;
+
+    % to save the figures
+    str3 = [str, '_PSTH-spon_',stimType{k}];
+    set(gcf,'paperpositionmode','auto');
+    if Protocol == DIRECTION_TUNING_3D
+        ss = [str3, '_T'];
+        saveas(50+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Translation\' ss], 'emf');
+    elseif Protocol == ROTATION_TUNING_3D
+        ss = [str3, '_R'];
+        saveas(50+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Rotation\' ss], 'emf');
+    end
+end
 %}
