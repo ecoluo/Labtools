@@ -1,4 +1,4 @@
-function [r,t,p]=spear(x,y)
+function [r,t,p,rl,ru]=spear(x,y)
 %Syntax: [r,t,p]=spear(x,y)
 %__________________________
 %
@@ -32,11 +32,11 @@ function [r,t,p]=spear(x,y)
 % 45110- Dourouti
 % Ioannina
 % Greece
-% 
+%
 % University e-mail: me00743@cc.uoi.gr
 % Lifetime e-mail: leoaleq@yahoo.com
 % Homepage: http://www.geocities.com/CapeCanaveral/Lab/1421
-% 
+%
 % 3 Feb 2002.
 
 
@@ -72,6 +72,13 @@ end
 % Calculate the p-values
 p=2*(1-tcdf(abs(t),N-2));
 
+% calculate the 95% CI
+% added by LBY 20180918
+z = 0.5*log((1+r)/(1-r));
+CIl = z-1.96*sqrt(1/(N-3));
+CIu = z+1.96*sqrt(1/(N-3));
+rl = (exp(2*CIl)-1)/(exp(2*CIl)+1);
+ru = (exp(2*CIu)-1)/(exp(2*CIu)+1);
 
 
 
@@ -80,7 +87,7 @@ function r=crank(x)
 %Syntax: r=crank(x)
 %__________________
 %
-% Assigns ranks on a data series x. 
+% Assigns ranks on a data series x.
 %
 % r is the vector of the ranks
 % x is the data series. It must be sorted.
@@ -97,11 +104,11 @@ function r=crank(x)
 % 45110- Dourouti
 % Ioannina
 % Greece
-% 
+%
 % University e-mail: me00743@cc.uoi.gr
 % Lifetime e-mail: leoaleq@yahoo.com
 % Homepage: http://www.geocities.com/CapeCanaveral/Lab/1421
-% 
+%
 % 3 Feb 2002.
 
 

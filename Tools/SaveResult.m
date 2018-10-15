@@ -165,8 +165,8 @@ if ~isempty(config.batch_flag) && isfield(config,'xls_column_begin')
     toXls = toXls{1}';
     % Read xls if needed. (only for the first file in BATCH mode)
     if isempty(XlsData) || strcmp(config.batch_flag,'test.m')  % If we are in test mode, we reload xls each time. HH20160415
-         XlsData = ReadXls('Z:\Data\MOOG\Results\Result_MST.xlsm',2,3);
-%         XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',2,3);
+%          XlsData = ReadXls('Z:\Data\MOOG\Results\Result_MST.xlsm',2,3);
+        XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',2,3);
     end
     
     % Locate where to paste "toClip"
@@ -188,8 +188,8 @@ if ~isempty(config.batch_flag) && isfield(config,'xls_column_begin')
             column_begin_name = num2ExcelName(column_begin);
             range_name = [column_begin_name num2str(row)];
             try
-                xlswrite1('Z:\Data\MOOG\Results\Result_MST.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
-%                 xlswrite1('Z:\Data\MOOG\Results\Result_LBY.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
+%                 xlswrite1('Z:\Data\MOOG\Results\Result_MST.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
+                xlswrite1('Z:\Data\MOOG\Results\Result_LBY.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
                 disp('Writing to .xls finished...');
             catch
                 disp('Writing to .xls failed :<');

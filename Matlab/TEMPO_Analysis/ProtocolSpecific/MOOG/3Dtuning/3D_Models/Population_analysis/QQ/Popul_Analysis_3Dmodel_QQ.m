@@ -20,8 +20,8 @@ end
 
 Monkey = 'QQ';
 % models = {'VO','AO','VA','VJ','AJ','VAJ'};
-% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
-models = {'VA','VAJ'};
+models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+% models = {'VA','VAJ'};
 %% analysis
 
 colorDefsLBY;
@@ -141,18 +141,19 @@ R_vis_VAJ_n = squeeze(cell2mat(struct2cell(R_VAJ_n_vis)));
 % 
 % save('BIC_500.mat','BIC_vesti_VA_T','BIC_vis_VA_T','BIC_vesti_VA_R','BIC_vis_VA_R');
 
-aa = {'BIC_100.mat','BIC_200.mat','BIC_300.mat','BIC_400.mat','BIC_500.mat'};
 
-for ii = 1:5
-    
-load(aa{ii});
+% aa = {'BIC_100.mat','BIC_200.mat','BIC_300.mat','BIC_400.mat','BIC_500.mat'};
 
-BIC_vesti_T_VA(:,ii) = BIC_vesti_VA_T;
-BIC_vis_T_VA(:,ii) = BIC_vis_VA_T;
-BIC_vesti_R_VA(:,ii) = BIC_vesti_VA_R;
-BIC_vis_R_VA(:,ii) = BIC_vis_VA_R;
-
-end
+% for ii = 1:5
+%     
+% load(aa{ii});
+% 
+% BIC_vesti_T_VA(:,ii) = BIC_vesti_VA_T;
+% BIC_vis_T_VA(:,ii) = BIC_vis_VA_T;
+% BIC_vesti_R_VA(:,ii) = BIC_vesti_VA_R;
+% BIC_vis_R_VA(:,ii) = BIC_vis_VA_R;
+% 
+% end
 
 figure(99);set(gcf,'pos',[200 20 1300 950]);clf;
 [~,h_subplot] = tight_subplot(2,2,[0.2 0.2],0.15);
@@ -204,11 +205,8 @@ title('R-visual');
 SetFigure(25);
 %}
 
-
-
-
 %%%%%%%%%%%%%%%%% BIC %%%%%%%%%%%%%%%%%%%
-%{
+% %{
 figure(100);set(gcf,'pos',[300 200 1500 600]);clf;
 BestFitModel = [T_BIC_min_vesti_hist;T_BIC_min_vis_hist;R_BIC_min_vesti_hist;R_BIC_min_vis_hist]';
 h = bar(BestFitModel,'grouped');
@@ -226,7 +224,7 @@ set(gcf,'paperpositionmode','auto');
 saveas(100,'Z:\LBY\Population Results\BestFitModel','emf');
 %}
 %%%%%%%%%%%%%%%%%  R_squared distribution of each model %%%%%%%%%%%%%%%%%%%
-%{
+% %{
 
 % figures
 figure(101);set(gcf,'pos',[60 70 1800 800]);clf;
@@ -336,7 +334,7 @@ set(gcf,'paperpositionmode','auto');
 saveas(102,'Z:\LBY\Population Results\Partial_RSquared_Distribution','emf');
 %}
 %%%%%%%%%%%%%%%%%%%  R_squared distribution  %%%%%%%%%%%%%%%%%%%%%%
-%{
+% %{
 xR2 = 0.05:0.1:0.75;
 
 % figures
@@ -439,7 +437,7 @@ suptitle('Rotation - visual');
 SetFigure(25);
 %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Weight for VAJ model %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%{
+% %{
 figure(105);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(2,3,[0.1 0.02],0.15);
 
@@ -628,7 +626,7 @@ SetFigure(25);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% weight(V&A, normalized) for VAJ model (ratio distribution) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%{
+% %{
 xRatio = -2:0.4:2;
 
 figure(111);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -770,7 +768,7 @@ xlim([-3 3]);
 ylim([-3 3]);
 axis on;
 hold off;
-suptitle('PCC-QQ');
+suptitle('PCC');
 SetFigure(25);
 
 %}
@@ -996,7 +994,7 @@ SetFigure(25);
 %}
 
 %%%%%%%%% spatial tuning-prefer direction distribution (VA model) %%%%%%%%%
-%{
+% %{
 
 % figures
 figure(112);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -1094,7 +1092,7 @@ SetFigure(25);
 %}
 
 %%%%%%%%% spatial tuning-Diff of prefer direction (V,A) distribution (VA model) %%%%%%%%%
-%{
+% %{
 xdiffPreDir = 9:18:(180-9);
 % figures
 figure(113);set(gcf,'pos',[60 70 1500 800]);clf;
@@ -1162,7 +1160,7 @@ SetFigure(25);
 
 %%%%%%%%% plot weight of V&A vesus n (VA model) %%%%%%%%%
 
-%{
+% %{
 % figures
 figure(114);set(gcf,'pos',[60 70 1500 800]);clf;
 [~,h_subplot] = tight_subplot(2,3,0.2,0.15);
@@ -1212,57 +1210,57 @@ axis on;
 hold off;
 
 SetFigure(25);
-%}
+% %}
 
 %%%%%%%%% plot weight of V vesus n (VAJ model) %%%%%%%%%
 
-%{
-% figures
-figure(115);set(gcf,'pos',[60 70 1500 800]);clf;
-[~,h_subplot] = tight_subplot(2,3,0.2,0.15);
-
-axes(h_subplot(1));
-text(0.9,-0.3,'wV vs. nonlinearty','Fontsize',30,'rotation',90);
-text(1.1,0.1,'Translation','Fontsize',25,'rotation',90);
-text(1.1,-1.1,'Rotation','Fontsize',25,'rotation',90);
-axis off;
-
-axes(h_subplot(2));
-hold on;
-plot(T_vesti_VAJ_w(:,1),T_vesti_VAJ_n(1,:),'wo', 'markerfacecolor',colorDBlue);
-title('Vestibular');
-xlabel('wV');
-ylabel('n');
-axis on;
-hold off;
-
-axes(h_subplot(3));
-hold on;
-plot(T_vis_VAJ_w(:,1),T_vis_VAJ_n(1,:),'wo', 'markerfacecolor',colorDRed);
-title('Visual');
-xlabel('wV');
-ylabel('n');
-axis on;
-hold off;
-
-axes(h_subplot(5));
-hold on;
-plot(R_vesti_VAJ_w(:,1),R_vesti_VAJ_n(1,:),'wo', 'markerfacecolor',colorLBlue);
-xlabel('wV');
-ylabel('n');
-axis on;
-hold off;
-
-axes(h_subplot(6));
-hold on;
-plot(R_vis_VAJ_w(:,1),R_vis_VAJ_n(1,:),'wo', 'markerfacecolor',colorLRed);
-xlabel('wV');
-ylabel('n');
-axis on;
-hold off;
-
-SetFigure(25);
-%}
+% %{
+% % figures
+% figure(115);set(gcf,'pos',[60 70 1500 800]);clf;
+% [~,h_subplot] = tight_subplot(2,3,0.2,0.15);
+% 
+% axes(h_subplot(1));
+% text(0.9,-0.3,'wV vs. nonlinearty','Fontsize',30,'rotation',90);
+% text(1.1,0.1,'Translation','Fontsize',25,'rotation',90);
+% text(1.1,-1.1,'Rotation','Fontsize',25,'rotation',90);
+% axis off;
+% 
+% axes(h_subplot(2));
+% hold on;
+% plot(T_vesti_VAJ_w(:,1),T_vesti_VAJ_n(1,:),'wo', 'markerfacecolor',colorDBlue);
+% title('Vestibular');
+% xlabel('wV');
+% ylabel('n');
+% axis on;
+% hold off;
+% 
+% axes(h_subplot(3));
+% hold on;
+% plot(T_vis_VAJ_w(:,1),T_vis_VAJ_n(1,:),'wo', 'markerfacecolor',colorDRed);
+% title('Visual');
+% xlabel('wV');
+% ylabel('n');
+% axis on;
+% hold off;
+% 
+% axes(h_subplot(5));
+% hold on;
+% plot(R_vesti_VAJ_w(:,1),R_vesti_VAJ_n(1,:),'wo', 'markerfacecolor',colorLBlue);
+% xlabel('wV');
+% ylabel('n');
+% axis on;
+% hold off;
+% 
+% axes(h_subplot(6));
+% hold on;
+% plot(R_vis_VAJ_w(:,1),R_vis_VAJ_n(1,:),'wo', 'markerfacecolor',colorLRed);
+% xlabel('wV');
+% ylabel('n');
+% axis on;
+% hold off;
+% 
+% SetFigure(25);
+% %}
 
 %%%%%%%%% plot ratio of wV/wA (VA model) %%%%%%%%%
 
@@ -1334,7 +1332,7 @@ SetFigure(25);
 
 %%%%%%%%% plot time delay of Velocity to Acceleration (VA model) %%%%%%%%%
 
-%{
+% %{
 
 figure(117);set(gcf,'pos',[200 200 1200 600]);clf;
 [~,h_subplot] = tight_subplot(2,2,[0.2 0.1],0.15);
@@ -1364,7 +1362,7 @@ SetFigure(25);
 
 %%%%%%%%% plot nV vs nA (VA model) %%%%%%%%%
 
-%{
+% %{
 % figures
 figure(118);set(gcf,'pos',[200 200 1000 800]);clf;
 [~,h_subplot] = tight_subplot(2,2,0.2,0.15);
@@ -1415,7 +1413,7 @@ SetFigure(25);
 
 %%%%%%%%% plot time delay of Acceleration vs time delay of Velocity to Acceleration (VA model) %%%%%%%%%
 
-%{
+% %{
 
 figure(119);set(gcf,'pos',[200 200 900 800]);clf;
 [~,h_subplot] = tight_subplot(2,2,[0.2 0.1],0.15);
@@ -1449,7 +1447,7 @@ ylabel('delay (V to A)');
 title('R-visual');
 
 SetFigure(25);
-%}
+% %}
 
 %%%%%%%%% plot correlation of Acceleration and Velocity spatial kernel (VA model) %%%%%%%%%
 

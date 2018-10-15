@@ -4,8 +4,13 @@
 clc;
 colorDefsLBY;
 load('Z:\LBY\System\TEMPO1_Acceleration');
+
+system_delay = 0.17; % unit in s
+duration = 1.5; % unit in s
+
 % the sensitivity of this accelerator is 400mV/g
 acc = (TEMPO1_Acceleration_Ch1.values-mean(TEMPO1_Acceleration_Ch1.values))/0.4*9.8;
+
 
 a = 0;
 
@@ -21,7 +26,7 @@ end
 figure(3);clf;
 set(gcf,'name','Gaussian Curve','pos',[200 200 1200 700]);
 axes('pos',[0.2,0.2,0.6,0.6]);
-[h,hLine1,hLine2] = plotyy(TEMPO1_Acceleration_Ch1.times(0.2*2000+2:1.7*2000+2)-0.2,vel(0.2*2000+2:1.7*2000+2),TEMPO1_Acceleration_Ch1.times(0.2*2000+2:1.7*2000+2)-0.2,acc(0.2*2000+2:1.7*2000+2));
+[h,hLine1,hLine2] = plotyy(TEMPO1_Acceleration_Ch1.times(system_delay*2000+2:(system_delay+duration)*2000+2)-system_delay,vel(system_delay*2000+2:(system_delay+duration)*2000+2),TEMPO1_Acceleration_Ch1.times(system_delay*2000+2:(system_delay+duration)*2000+2)-system_delay,acc(system_delay*2000+2:(system_delay+duration)*2000+2));
 set(hLine1,'LineStyle','-','color','r','linewidth',4);
 set(hLine2,'LineStyle','-','color',colorDBlue,'linewidth',4);
 set(h(1),'yColor','r');

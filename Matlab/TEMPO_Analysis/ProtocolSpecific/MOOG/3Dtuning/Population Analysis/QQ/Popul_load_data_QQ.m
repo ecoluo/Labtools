@@ -12,17 +12,19 @@ clear all;
 
 global PSTH;
 
-% FnameCode = 2;
+FnameCode = 2;
 % % Protocol: 1->translation, 2-> rotation, 3->dark T, 4->dark R
-% Protocol = 1;
+Protocol = 2;
 % % Model_catg: 1-> Sync model 2-> Out-sync model
-% Model_catg = 2;
+Model_catg = 2;
 
 switch Model_catg
     case 1
         pathname = {'Z:\Data\TEMPO\BATCH\QQ\Sync model';'Z:\Data\TEMPO\BATCH\QQ\Sync model';'Z:\Data\TEMPO\BATCH\QQ_Dark\Sync model';'Z:\Data\TEMPO\BATCH\QQ_Dark\Sync model';};
     case 2
         pathname = {'Z:\Data\TEMPO\BATCH\QQ\Out-sync model';'Z:\Data\TEMPO\BATCH\QQ\Out-sync model';'Z:\Data\TEMPO\BATCH\QQ_Dark\Out-sync model';'Z:\Data\TEMPO\BATCH\QQ_Dark\Out-sync model';};
+case 0
+        pathname = {'Z:\Data\TEMPO\BATCH\QQ\noModel';'Z:\Data\TEMPO\BATCH\QQ\noModel';'Z:\Data\TEMPO\BATCH\QQ_Dark\noModel';'Z:\Data\TEMPO\BATCH\QQ_Dark\noModel';};
 end
 
 switch FnameCode
@@ -102,6 +104,8 @@ switch Model_catg
         cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Sync model');
     case 2
         cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Out-sync model');
+        case 0
+            cd('Z:\Data\TEMPO\BATCH\QQ_3DTuning\noModel');
 end
 switch Protocol
     case 1

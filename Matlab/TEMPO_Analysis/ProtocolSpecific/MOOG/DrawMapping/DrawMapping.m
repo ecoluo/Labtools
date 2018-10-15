@@ -20,8 +20,8 @@ global linWid start_end_markers overlapping Qiaoqiao_right_AP0 Polo_right_AP0;
 
 linWid = 1.3; % linewidth for rectangles indicating mapping area
 % following: area & unit overlapping in coronal planes
-% overlapping = [-1 1; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
-overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation
+overlapping = [-1 1; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
+% overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation
 
 maxX = 30; % Grid size
 maxY = 30;
@@ -30,7 +30,7 @@ movDis = 150; % Maximum travel distance of the microdriver (in 100 um)
 
 V = ones(30,25,maxZ + 30,3);  % Matrix to be rendered. The z-resolution = 100 um.
 Qiaoqiao_right_AP0 = 14; % For MRI alignment. This controls MRI-AP alignment so will affect all monkeys, whereas "AP0" of each monkey below only affects AP-Grid alignment.  HH20150918
-Polo_right_AP0 = 14; % For MRI alignment. This controls MRI-AP alignment so will affect all monkeys, whereas "AP0" of each monkey below only affects AP-Grid alignment.  HH20150918
+Polo_right_AP0 = 18; % For MRI alignment. This controls MRI-AP alignment so will affect all monkeys, whereas "AP0" of each monkey below only affects AP-Grid alignment.  HH20150918
 
 %% Define our area types here
 GMTypes = { % 'Type', ColorCode (RGB);
@@ -63,7 +63,7 @@ switch monkey_hemis{monkey_hemi}
         % Header
         toPlotTypes3D = [GM PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
         toPlotTypes_zview = [GM PCC RSC IPS B3a];    % Which area types do we want to plot ?
-        gridRange = [15 31; 0 16];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [15 31; 1 16];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 6;
         hemisphere = 2;  % L = 1, R = 2
         AP0 =  Qiaoqiao_right_AP0; % 6;
@@ -216,7 +216,7 @@ switch monkey_hemis{monkey_hemi}
         % Header
         toPlotTypes3D = [GM PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
         toPlotTypes_zview = [GM PCC RSC IPS B3a];    % Which area types do we want to plot ?
-        gridRange = [10 26; 0 16];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [10 26; 1 16];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 6;
         hemisphere = 1;  % L = 1, R = 2
         AP0 =  Qiaoqiao_right_AP0; % 6;
@@ -507,7 +507,7 @@ switch monkey_hemis{monkey_hemi}
         % Header
         toPlotTypes3D = [GM PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
         toPlotTypes_zview = [GM PCC RSC IPS B3a];    % Which area types do we want to plot ?
-        gridRange = [6 31; 0 22];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [6 31; 1 22];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 5;
         hemisphere = 2;  % L = 1, R = 2
 %         AP0 =  10; % 6;
@@ -520,8 +520,8 @@ switch monkey_hemis{monkey_hemi}
             {0,[12,6],[2.25 0],[GM 35 60;PCC 61 76]} % 20180129
             {0,[13,5],[2.25 0],[PCC 57 75;PCC 87 106]} % 20180201
             {0,[20,8],[2.45 0],[GM 42 50;]} % 20180411
-            {0,[22,10],[2.45 0],[B3a 27 40;PCC 70 85;PCC 95 110;]} % 20180412
-            {0,[22,9],[2.45 0],[B3a 7 31;PCC 63 76;PCC 97 105;]} % 20180413
+            {0,[22,10],[2.45 0],[B3a 27 40;IPS 70 85;IPS 95 110;]} % 20180412
+            {0,[22,9],[2.45 0],[B3a 7 31;GM 63 76;IPS 97 105;]} % 20180413
             {0,[22,6],[2.45 0],[B3a 36 42;PCC 74 93;PCC 104 120;]} % 20180420
             {0,[24,7],[2.45 0],[PCC 64 78;PCC 90 115;]} % 20180420
             {0,[20,7],[2.45 0],[GM 25 40;PCC 63 74;]} % 20180420
@@ -532,27 +532,27 @@ switch monkey_hemis{monkey_hemi}
 %             {0,[28,5],[2.35 0],[GM 18 43;]} % 20180426
             {0,[23,5],[2.45 0],[PCC 47 61;PCC 100 120;]} % 20180426
             {0,[21,8],[2.45 0],[B3a 7 27;PCC 56 72;]} % 20180411
-            {0,[20,9],[2.45 0],[GM 49 62;PCC 73 87;]} % 20180413
+            {0,[20,9],[2.45 0],[GM 49 62;GM 73 87;]} % 20180413
             {0,[23,8],[2.45 0],[B3a 18 40;PCC 72 87;PCC 95 114;]} % 20180415
             {0,[25,6],[2.55 0],[PCC 43 63;PCC 77 92;]} % 20180419
             {0,[24,6],[2.45 0],[PCC 76 95;PCC 106 127;]} % 20180426
-            {0,[23,6],[2.55 0],[GM 10 25;PCC 62 80;PCC 94 110;]} % 20180507
+            {0,[23,6],[2.55 0],[B3a 10 25;PCC 62 80;PCC 94 110;]} % 20180507
             {0,[21,6],[2.45 0],[B3a 10 27;PCC 64 79;PCC 90 110;]} % 20180507
             {0,[26,7],[2.55 0],[GM 35 55;PCC 65 90;PCC 112 120;]} % 20180508
             {0,[22,4],[2.55 0],[PCC 51 63;]} % 20180514
             {0,[25,9],[2.4 0],[B3a 10 50;]} % 20180514
             {0,[23,10],[2.4 0],[B3a 18 45;GM 73 80;]} % 20180514
             {0,[23,9],[2.4 0],[PCC 83 100;]} % 20180514
-            {0,[23,11],[2.4 0],[GM 56 76;GM 79 83;GM 87 112;]} % 20180514F
+            {0,[23,11],[2.4 0],[GM 56 76;GM 79 83;IPS 87 112;]} % 20180514F
             {0,[23,12],[2.4 0],[GM 11 38;GM 54 58;]} % 20180514
             {0,[23,13],[2.4 0],[WM 0 151;]} % 20180515
-            {0,[23,14],[2.4 0],[IPS 129 140;]} % 20180516
-            {0,[23,15],[2.4 0],[IPS 135 164;]} % 20180516
-            {0,[23,16],[2.4 0],[IPS 138 151;]} % 20180517
-            {0,[23,17],[2.4 0],[IPS 105 129;IPS 138 149;]} % 20180517
+            {0,[23,14],[2.4 0],[GM 129 140;]} % 20180516
+            {0,[23,15],[2.4 0],[GM 135 164;]} % 20180516
+            {0,[23,16],[2.4 0],[GM 138 151;]} % 20180517
+            {0,[23,17],[2.4 0],[GM 105 129;GM 138 149;]} % 20180517
             {0,[27,6],[2.4 0],[PCC 88 105;PCC 125 137;]} % 20180517
-            {0,[23,18],[2.4 0],[IPS 117 147;]} % 20180518
-            {0,[23,19],[2.4 0],[IPS 105 130;IPS 135 150;]} % 20180518
+            {0,[23,18],[2.4 0],[GM 117 147;]} % 20180518
+            {0,[23,19],[2.4 0],[GM 105 130;GM 135 150;]} % 20180518
 %             {0,[27,7],[2.55 0],[WM 0 150;]} % 20180522
             {0,[25,6],[2.55 0],[PCC 65 79;PCC 91 107;]} % 20180523
             {0,[28,7],[2.55 0],[GM 10 15;]} % 20180524
@@ -560,21 +560,21 @@ switch monkey_hemis{monkey_hemi}
             {0,[28,4],[2.55 0],[RSC 125 134;]} % 20180530
             {0,[24,7],[2.55 0],[PCC 83 96;PCC 115 133;]} % 20180530
             {0,[19,7],[2.55 0],[PCC 45 51;PCC 65 87;]} % 20180608
-            {0,[21,10],[2.55 0],[PCC 45 65;PCC 78 95;]} % 20180608
-            {0,[21,11],[2.55 0],[PCC 78 95;]} % 20180608
-            {0,[21,12],[2.55 0],[PCC 40 71;IPS 105 140;]} % 20180608
-            {0,[21,13],[2.55 0],[GM 45 58;GM 67 83;IPS 114 145;]} % 20180612
-            {0,[21,14],[2.55 0],[GM 10 24;IPS 83 110;IPS 125 136;]} % 20180612
-            {0,[21,15],[2.55 0],[GM 15 20;IPS 100 123.5;IPS 129 140;]} % 20180612
-            {0,[21,16],[2.55 0],[GM 20 30;IPS 68 101.5;IPS 111 127;]} % 20180615
-            {0,[21,17],[2.55 0],[GM 13 23;IPS 64 80;IPS 100 123;]} % 20180615
-            {0,[17,6],[2.65 0],[GM 10 26;PCC 42 60;PCC 90 120;]} % 20180621
+            {0,[21,10],[2.55 0],[GM 45 65;IPS 78 95;]} % 20180608
+            {0,[21,11],[2.55 0],[IPS 78 95;]} % 20180608
+            {0,[21,12],[2.55 0],[IPS 40 71;GM 105 140;]} % 20180608
+            {0,[21,13],[2.55 0],[IPS 45 58;IPS 67 83;GM 114 145;]} % 20180612
+            {0,[21,14],[2.55 0],[GM 10 24;IPS 83 110;GM 125 136;]} % 20180612
+            {0,[21,15],[2.55 0],[GM 15 20;GM 100 123.5;GM 129 140;]} % 20180612
+            {0,[21,16],[2.55 0],[GM 20 30;IPS 68 101.5;GM 111 127;]} % 20180615
+            {0,[21,17],[2.55 0],[GM 13 23;IPS 64 80;GM 100 123;]} % 20180615
+            {0,[17,6],[2.65 0],[PCC 10 26;PCC 42 60;IPS 90 120;]} % 20180621
             {0,[17,9],[2.65 0],[PCC 29 40;IPS 106 138;]} % 20180621
             {0,[16,6],[2.95 0],[IPS 74 93;]} % 20180621
-            {0,[22,4],[2.55 0],[GM 36 57;PCC 69 85;]} % 20180723
-            {0,[22,6],[2.55 0],[GM 21 31;PCC 76 85;PCC 100 117;]} % 20180723
+            {0,[22,4],[2.55 0],[PCC 36 57;PCC 69 85;]} % 20180723
+            {0,[22,6],[2.55 0],[B3a 21 31;PCC 76 85;PCC 100 117;]} % 20180723
             {0,[23,7],[2.65 0],[PCC 82 95;GM 132 137;]} % 20180802
-            {0,[24,4],[2.65 0],[GM 8 56;GM 74 80;GM 83 137;]} % 20180803
+            {0,[24,4],[2.65 0],[PCC 8 56;PCC 74 80;RSC 83 137;]} % 20180803
             
             
             {107,[8,6],[2.4 0],[PCC 48 67]}
@@ -614,30 +614,30 @@ switch monkey_hemis{monkey_hemi}
             {138,[23,4],[2.65 0],[PCC 11 53;PCC 72 81;]} 
             {139,[22,5],[2.55 0],[PCC 105 110;]} 
             {139,[21,5],[2.55 0],[B3a 22 40;PCC 77 92;PCC 103 115;]} 
-            {140,[19,8],[2.65 0],[PCC 10 15;PCC 40 54;PCC 75 95;]} 
+            {140,[19,8],[2.65 0],[PCC 10 15;PCC 40 54;IPS 75 95;]} 
             {141,[19,5],[2.85 0],[PCC 29 39;PCC 45 68;RSC 130 141;]} 
-            {142,[18,5],[2.85 0],[PCC 36 49;PCC 60 82;PCC 99 148;]} 
-            {143,[18,7],[2.55 0],[GM 12 46;PCC 63 77.5;IPS 105 132;]} 
-            {144,[17,8],[2.65 0],[GM 12 33;PCC 46 58;]} 
-            {145,[17,7],[2.65 0],[GM 9 39;PCC 51 71;RSC 140 156;]} 
-            {146,[17,5],[2.85 0],[GM 13 26;PCC 39 46;]} 
+            {142,[18,5],[2.85 0],[PCC 36 49;PCC 60 82;GM 99 148;]} 
+            {143,[18,7],[2.55 0],[PCC 12 46;PCC 63 77.5;IPS 105 132;]} 
+            {144,[17,8],[2.65 0],[PCC 12 33;PCC 46 58;]} 
+            {145,[17,7],[2.65 0],[PCC 9 39;PCC 51 71;RSC 140 156;]} 
+            {146,[17,5],[2.85 0],[PCC 13 26;PCC 39 46;]} 
             {147,[20,5],[2.65 0],[PCC 41 55;PCC 66 81;]} 
-            {148,[20,9],[2.65 0],[GM 37 49;PCC 69 86;]} 
-            {149,[22,8],[2.55 0],[GM 17 28;PCC 60 76;PCC 90 107;]} 
-            {150,[23,4],[2.65 0],[GM 0 8;PCC 20 56;PCC 63 83;GM 110 147;]}
-            {151,[23,6],[2.65 0],[GM 45 50;]} 
-            {152,[25,5],[2.65 0],[GM 4 54;PCC 66 76;]} 
-            {153,[25,5],[2.65 0],[GM 4 54;PCC 66 76;]} 
-            {155,[24,6],[2.65 0],[GM 61 79;PCC 97 107;]} 
+            {148,[20,9],[2.65 0],[GM 37 49;IPS 69 86;]} 
+            {149,[22,8],[2.55 0],[B3a 17 28;PCC 60 76;PCC 90 107;]} 
+            {150,[23,4],[2.65 0],[GM 0 8;PCC 20 56;PCC 63 83;RSC 110 147;]}
+            {151,[23,6],[2.65 0],[PCC 45 50;]} 
+            {152,[25,5],[2.65 0],[PCC 4 54;PCC 66 76;]} 
+            {153,[25,5],[2.65 0],[PCC 4 54;PCC 66 76;]} 
+            {155,[24,6],[2.65 0],[PCC 61 79;PCC 97 107;]} 
             {156,[20,5],[2.65 0],[PCC 43 54;PCC 65 84;]} 
-            {157,[25,4],[2.65 0],[GM 0 47;PCC 61 77;GM 106 114;]} 
-            {157,[25,6],[2.65 0],[GM 35 63;PCC 74 81;]} 
+            {157,[25,4],[2.65 0],[PCC 0 47;PCC 61 77;RSC 106 114;]} 
+            {157,[25,6],[2.65 0],[PCC 35 63;PCC 74 81;]} 
 
             }';
         
         MRI_path = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\';
 %         MRI_offset = {[-100 100],[-200 720]-5, [0 -0.1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
-        MRI_offset = {[-105 103]+3,[-355 715]+40, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        MRI_offset = {[-93 93]+0,[-355 715]+80, [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
         
         %}

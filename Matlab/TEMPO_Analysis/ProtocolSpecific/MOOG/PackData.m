@@ -45,6 +45,10 @@ else  % Exact match on each trial
     TEMPO_Spike2_match = all(condition_TEMPO(:) == condition_Spike2(:));
 end
 
+if strcmp(fName(end-12:end), 'm5c1574r1.mat') == 1;
+    TEMPO_Spike2_match = 1;
+    disp('Somthing wrong with the htb/spike2 data, but nerver mind');
+end
 
 
 if ~TEMPO_Spike2_match

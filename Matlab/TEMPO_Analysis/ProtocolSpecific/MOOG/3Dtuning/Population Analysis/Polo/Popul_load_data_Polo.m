@@ -8,21 +8,24 @@
 %% load data
 
 tic;
-% clear all;
+clear all;
 
 global PSTH;
 
 FnameCode = 2;
 % Protocol: 1->translation, 2-> rotation, 3->dark T, 4->dark R
 Protocol = 2;
-
-Model_catg = 1;
+% % Model_catg: 1-> Sync model 2-> Out-sync model
+Model_catg = 2;
+% Model_catg = 0;
 
 switch Model_catg
     case 1
         pathname = {'Z:\Data\TEMPO\BATCH\Polo\Sync model';'Z:\Data\TEMPO\BATCH\Polo\Sync model';'Z:\Data\TEMPO\BATCH\Polo_Dark\Sync model';'Z:\Data\TEMPO\BATCH\Polo_Dark\Sync model';};
     case 2
         pathname = {'Z:\Data\TEMPO\BATCH\Polo\Out-sync model';'Z:\Data\TEMPO\BATCH\Polo\Out-sync model';'Z:\Data\TEMPO\BATCH\Polo_Dark\Out-sync model';'Z:\Data\TEMPO\BATCH\Polo_Dark\Out-sync model';};
+    case 0
+        pathname = {'Z:\Data\TEMPO\BATCH\Polo\noModel';'Z:\Data\TEMPO\BATCH\Polo\noModel';'Z:\Data\TEMPO\BATCH\Polo_Dark\noModel';'Z:\Data\TEMPO\BATCH\Polo_Dark\noModel';};
 end
 switch FnameCode
     case 1 % choose files mannully
@@ -103,10 +106,12 @@ switch Model_catg
         cd('Z:\Data\TEMPO\BATCH\Polo_3DTuning\Sync model');
     case 2
         cd('Z:\Data\TEMPO\BATCH\Polo_3DTuning\Out-sync model');
+        case 0
+            cd('Z:\Data\TEMPO\BATCH\Polo_3DTuning\noModel');
 end
 switch Protocol
     case 1
-%         save('PSTH_OriData.mat','Polo_3DTuning_T','-append');
+        %         save('PSTH_OriData.mat','Polo_3DTuning_T','-append');
         save('PSTH_OriData.mat','Polo_3DTuning_T');
     case 2
         save('PSTH_OriData.mat','Polo_3DTuning_R','-append');

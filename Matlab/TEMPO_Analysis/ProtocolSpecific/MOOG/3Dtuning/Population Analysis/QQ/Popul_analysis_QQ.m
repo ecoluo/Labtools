@@ -11,6 +11,7 @@
 clear all;
 load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Sync model\PSTH_OriData.mat');
 % load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\Out-sync model\PSTH_OriData.mat');
+% load('Z:\Data\TEMPO\BATCH\QQ_3DTuning\noModel\PSTH_OriData.mat');
 Monkey = 'QQ';
 
 
