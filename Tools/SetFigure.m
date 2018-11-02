@@ -10,7 +10,7 @@ set(gcf,'color','w'); % Color
 set(findall(gcf,'fontsize',10),'fontsize',size); % Font size
 
 set(findall(gcf,'tickdir','i'),'tickdir','o'); % Tick direction
-set(findall(gcf,'type','axes'),'ticklength',[0.02 0],'LineWidth',3,'color','none'); % Tick length
+set(findall(gcf,'type','axes'),'ticklength',[0.02 0],'LineWidth',2,'color','none'); % Tick length
 	
 % set(findall(gcf,'type','axes','linewidth',0.5,'-not','tag','legend'),'linewidth',15); % Tick width
 

@@ -1,4 +1,4 @@
-function SaveResult(config, result)
+function SaveResult(config, result,model_catg)
 % Output text for xls; save figures, .mat and .dat file (BATCH only)
 % HH20141124
 
@@ -57,7 +57,7 @@ if ~isempty(config.batch_flag)  % Figures and raw data (always in "result" struc
 end
 
 
-%% 
+%%
 % Print part of data to texts (clipboard / .dat file / Data hub "Result.xlsm")
 
 % try
@@ -111,6 +111,7 @@ if ~isempty(config.sprint_once_marker)
 end
 
 % Print loops
+%  keyboard;
 for ll = 1:length(config.sprint_loop_contents)
     
     sprint_loop_marker = [];
@@ -135,7 +136,7 @@ for ll = 1:length(config.sprint_loop_contents)
         toClip = [toClip sprintf('%s', buff)];
         %             toXls = [toXls, buff_toXls]; % HH20150724
     end
-    
+    %     keyboard;
 end
 
 fprintf(fid, '\r\n');
@@ -165,8 +166,13 @@ if ~isempty(config.batch_flag) && isfield(config,'xls_column_begin')
     toXls = toXls{1}';
     % Read xls if needed. (only for the first file in BATCH mode)
     if isempty(XlsData) || strcmp(config.batch_flag,'test.m')  % If we are in test mode, we reload xls each time. HH20160415
-%          XlsData = ReadXls('Z:\Data\MOOG\Results\Result_MST.xlsm',2,3);
-        XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',2,3);
+        %          XlsData = ReadXls('Z:\Data\MOOG\Results\Result_MST.xlsm',2,3);
+        switch model_catg
+            case 'Sync model'
+                XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm',2,3);
+            case 'Out-sync model'
+                XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY_outSyncModel.xlsm',2,3);
+        end
     end
     
     % Locate where to paste "toClip"
@@ -188,8 +194,14 @@ if ~isempty(config.batch_flag) && isfield(config,'xls_column_begin')
             column_begin_name = num2ExcelName(column_begin);
             range_name = [column_begin_name num2str(row)];
             try
-%                 xlswrite1('Z:\Data\MOOG\Results\Result_MST.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
-                xlswrite1('Z:\Data\MOOG\Results\Result_LBY.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
+                %                 xlswrite1('Z:\Data\MOOG\Results\Result_MST.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
+                switch model_catg
+                    case 'Sync model'
+                        xlswrite1('Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
+                    case 'Out-sync model'
+                        xlswrite1('Z:\Data\MOOG\Results\Result_LBY_outSyncModel.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
+                end
+                
                 disp('Writing to .xls finished...');
             catch
                 disp('Writing to .xls failed :<');

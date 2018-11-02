@@ -27,7 +27,9 @@ clear SaveResult;
 
 % Preparation for speed-up version of "xlswrite1.m"
 global Excel;
-File='Z:\Data\MOOG\Results\Result_LBY.xlsm'; 
+% File='Z:\Data\MOOG\Results\Result_LBY_outSyncModel.xlsm'; 
+File='Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm'; 
+% File='Z:\Data\MOOG\Results\Result_LBY.xlsm'; 
 % File='Z:\Data\MOOG\Results\Result_MST.xlsm'; 
 try
     Excel = actxGetRunningServer('Excel.Application');  % Use the current server
@@ -37,7 +39,7 @@ end
 
 isopen = xls_check_if_open(File,'');
 if ~isopen  % Open file
-    winopen('Z:\Data\MOOG\Results\Result_LBY.xlsm');
+    winopen(File);
 % winopen('Z:\Data\MOOG\Results\Result_MST.xlsm');
 end
 
