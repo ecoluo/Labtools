@@ -825,6 +825,8 @@ delay_VA_VA = [];
 xDelay = [];
 DDI_plot = [];
 nHist = [];
+wV_VA_plot = [];
+wA_VA_plot = [];
 a = 3;
 b = 3;
 c = 3;
@@ -1721,7 +1723,7 @@ c = 3;
         
         if sum(strcmp(models,'VA'))
             figure(11);set(figure(11),'name','Distribution of log(wV/wA) (VA model)','unit','normalized' ,'pos',[-0.55 0.6 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
             for pp = 1:2
                 for jj = 1:2
                     RatioVA_VA{pp}{jj} = log(wV_VA{pp}(select_temporalSig{pp}(:,jj),jj)./wA_VA{pp}(select_temporalSig{pp}(:,jj),jj));
@@ -1737,13 +1739,20 @@ c = 3;
                     text(medianVA_VA{pp}(jj),max(n_VA_VA{pp}(jj,:))*1.2,num2str(medianVA_VA{pp}(jj)),'color','k','fontsize',8);
                 end
             end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.85 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
             suptitle(['Distribution of log(wV/wA) (VA model) (Monkey = ',monkey_to_print,')']);
             SetFigure(12);
         end
         
         if sum(strcmp(models,'VAJ'))
             figure(12);set(figure(12),'name','Distribution of log(wV/wA) (VAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
             for pp = 1:2
                 for jj = 1:2
                     % to normalize
@@ -1763,13 +1772,20 @@ c = 3;
                     text(medianVA_VAJ{pp}(jj),max(n_VA_VAJ{pp}(jj,:))*1.2,num2str(medianVA_VAJ{pp}(jj)),'color','k','fontsize',8);
                 end
             end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.85 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
             suptitle(['Distribution of log(wV/wA) (VAJ model) (Monkey = ',monkey_to_print,')']);
             SetFigure(12);
         end
         
         if sum(strcmp(models,'VAP'))
             figure(13);set(figure(13),'name','Distribution of log(wV/wA) (VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
             for pp = 1:2
                 for jj = 1:2
                     % to normalize
@@ -1789,13 +1805,20 @@ c = 3;
                     text(medianVA_VAP{pp}(jj),max(n_VA_VAP{pp}(jj,:))*1.2,num2str(medianVA_VAP{pp}(jj)),'color','k','fontsize',8);
                 end
             end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.85 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
             suptitle(['Distribution of log(wV/wA) (VAP model) (Monkey = ',monkey_to_print,')']);
             SetFigure(12);
         end
         
         if sum(strcmp(models,'PVAJ'))
             figure(14);set(figure(14),'name','Distribution of log(wV/wA) (PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.6 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
             for pp = 1:2
                 for jj = 1:2
                     % to normalize
@@ -1815,6 +1838,13 @@ c = 3;
                     text(medianVA_PVAJ{pp}(jj),max(n_VA_PVAJ{pp}(jj,:))*1.2,num2str(medianVA_PVAJ{pp}(jj)),'color','k','fontsize',8);
                 end
             end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.85 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
             suptitle(['Distribution of log(wV/wA) (PVAJ model) (Monkey = ',monkey_to_print,')']);
             SetFigure(12);
         end
@@ -1977,6 +2007,115 @@ c = 3;
 
     function f2p2p5(debug)      % Weight distribution
         if debug  ; dbstack;   keyboard;      end
+        
+        if sum(strcmp(models,'VA'))
+            figure(11);set(figure(11),'name','Distribution of weight (VA model)','unit','normalized' ,'pos',[-0.55 0.6 0.4 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    wV_VA_plot{pp}{jj} = wV_VA{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wA_VA_plot{pp}{jj} = wA_VA{pp}(select_temporalSig{pp}(:,jj),jj);
+                    
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(repmat([1;2],1,sum(select_temporalSig{pp}(:,jj))),[wV_VA_plot{pp}{jj},wA_VA_plot{pp}{jj}]','k-o','color',[0.7 0.7 0.7],'markersize',6,'markerfacecolor','k'); 
+                    set(gca,'xtick',[1 2],'xticklabel',{'V','A'});
+                    xlabel('Component');ylabel('Weight');axis on;
+                    set(gca,'xlim',[0.5 2.5],'ylim',[0 1]);
+                    
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.9 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of weight (VA model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAJ'))
+            figure(12);set(figure(12),'name','Distribution of weight (VAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.4 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    wV_VAJ_plot{pp}{jj} = wV_VAJ{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wA_VAJ_plot{pp}{jj} = wA_VAJ{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wJ_VAJ_plot{pp}{jj} = wJ_VAJ{pp}(select_temporalSig{pp}(:,jj),jj);
+                    
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(repmat([1;2;3],1,sum(select_temporalSig{pp}(:,jj))),[wV_VAJ_plot{pp}{jj},wA_VAJ_plot{pp}{jj},wJ_VAJ_plot{pp}{jj}]','k-o','color',[0.7 0.7 0.7],'markersize',6,'markerfacecolor','k'); 
+                    set(gca,'xtick',[1 2 3],'xticklabel',{'V','A','J'});
+                    xlabel('Component');ylabel('Weight');axis on;
+                    set(gca,'xlim',[0.5 3.5],'ylim',[0 1]);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.9 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of weight (VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAP'))
+            figure(13);set(figure(13),'name','Distribution of weight (VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.4 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    wV_VAP_plot{pp}{jj} = wV_VAP{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wA_VAP_plot{pp}{jj} = wA_VAP{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wP_VAP_plot{pp}{jj} = wP_VAP{pp}(select_temporalSig{pp}(:,jj),jj);
+                    
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(repmat([1;2;3],1,sum(select_temporalSig{pp}(:,jj))),[wV_VAP_plot{pp}{jj},wA_VAP_plot{pp}{jj},wP_VAP_plot{pp}{jj}]','k-o','color',[0.7 0.7 0.7],'markersize',6,'markerfacecolor','k'); 
+                    set(gca,'xtick',[1 2 3],'xticklabel',{'V','A','P'});
+                    xlabel('Component');ylabel('Weight');axis on;
+                    set(gca,'xlim',[0.5 3.5],'ylim',[0 1]);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.9 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of weight (VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(14);set(figure(14),'name','Distribution of weight (PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.6 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    wV_PVAJ_plot{pp}{jj} = wV_PVAJ{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wA_PVAJ_plot{pp}{jj} = wA_PVAJ{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wJ_PVAJ_plot{pp}{jj} = wJ_PVAJ{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wP_PVAJ_plot{pp}{jj} = wP_PVAJ{pp}(select_temporalSig{pp}(:,jj),jj);
+                    
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(repmat([1;2;3;4],1,sum(select_temporalSig{pp}(:,jj))),[wV_PVAJ_plot{pp}{jj},wA_PVAJ_plot{pp}{jj},wJ_PVAJ_plot{pp}{jj},wP_PVAJ_plot{pp}{jj}]','k-o','color',[0.7 0.7 0.7],'markersize',6,'markerfacecolor','k'); 
+                    set(gca,'xtick',[1 2 3 4],'xticklabel',{'V','A','J','P'});
+                    xlabel('Component');ylabel('Weight');axis on;
+                    set(gca,'xlim',[0.5 4.5],'ylim',[0 1]);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.9 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of weight (PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
         
         
     end

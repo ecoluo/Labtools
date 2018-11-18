@@ -3,7 +3,7 @@
 % Last modified HH20140526
 %-----------------------------------------------------------------------------------------------------------------------
 
-function HeadingDis_cum_PSTH_HH(data, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, StartEventBin, StopEventBin, PATH, FILE, Protocol, batch_flag);
+function Dis_cum_PSTH_LBY(data, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, StartEventBin, StopEventBin, PATH, FILE, Protocol, batch_flag);
 
 TEMPO_Defs;
 Path_Defs;
@@ -506,7 +506,7 @@ SetFigure(15);
 % Anne Churchland NN, bin = 10 ms with Gaussian filter (sigma = 50 ms)
 binSize_rate = 10;  % in ms
 stepSize_rate = 10; % in ms
-smoothFactor = 20; % in ms !!
+smoothFactor = 50; % in ms !!
 p_critical = 0.01;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -769,17 +769,19 @@ for sortInd = 1:length(sort_info) % For each figure
                     % ys = GaussSmooth(t_centers{j},mean(spike_hist{j}(selected_condition,:),1),smoothFactor);
                     
                     ys = mean(spike_hist{j}(selected_condition,:),1);
-
+                    sem = std(spike_hist{j}(selected_condition,:),0,1)/sqrt(sum(selected_condition)); % @HH20160906
+                    
                     % Save data
                     PSTH{j,sortInd,k}.raw{catNum_Out,1} = spike_hist{j}(selected_condition,:); % Save all raw data for further processing. HH20141118
                     
                     PSTH{j,sortInd,k}.ys(catNum_Out,:) = ys;
+                    PSTH{j,sortInd,k}.sem(catNum_Out,:) = sem; % @HH20160906
                     PSTH{j,sortInd,k}.ts = t_centers{j};
 
                     if sort_info{sortInd}{2}{1,ERRORBAR} == 1 || sort_info{sortInd}{2}{1,ERRORBAR} == 3   % 95% CI
                         % Mean with shaded error bar
-                        errors = std(spike_hist{j}(selected_condition,:),0,1)/sqrt(sum(selected_condition))*1.96;
-                        h=shadedErrorBar(t_centers{j},ys ,errors,{'Color',lineColor,'LineStyle',lineStyle},transparent);
+                        CI = sem*1.96;
+                        h=shadedErrorBar(t_centers{j},ys ,CI,{'Color',lineColor,'LineStyle',lineStyle},transparent);
                         set(h.mainLine,'LineWidth',2);  hold on;
                     else
                         % Mean
@@ -872,17 +874,19 @@ for sortInd = 1:length(sort_info) % For each figure
                         % ys = GaussSmooth(t_centers{j},mean(spike_hist{j}(selected_condition,:),1),smoothFactor);
                         
                         ys = mean(spike_hist{j}(selected_condition,:),1);
+                        sem = std(spike_hist{j}(selected_condition,:),0,1)/sqrt(sum(selected_condition)); % @HH20160906
 
                         % Save data
                         PSTH{j,sortInd,k}.raw{(catNum_Out-1)*length(catsIn)+catNum_In,1} = spike_hist{j}(selected_condition,:); % Save all raw data for further processing. HH20141118
 
                         PSTH{j,sortInd,k}.ys((catNum_Out-1)*length(catsIn)+catNum_In,:) = ys;
+                        PSTH{j,sortInd,k}.sem((catNum_Out-1)*length(catsIn)+catNum_In,:) = sem;
                         PSTH{j,sortInd,k}.ts = t_centers{j};
                         
                         if sort_info{sortInd}{2}{2,ERRORBAR} == 1 || sort_info{sortInd}{2}{2,ERRORBAR} == 3 % 95% CI
                             % Mean with shaded error bar
-                            errors = std(spike_hist{j}(selected_condition,:),0,1)/sqrt(sum(selected_condition))*1.96;
-                            h=shadedErrorBar(t_centers{j},ys,errors,{'Color',lineColor,'LineStyle',lineStyle},transparent);
+                            CI = sem*1.96;
+                            h=shadedErrorBar(t_centers{j},ys,CI,{'Color',lineColor,'LineStyle',lineStyle},transparent);
                             set(h.mainLine,'LineWidth',2);  hold on;
                         else  
                             % Mean
@@ -1107,12 +1111,18 @@ for j = 1:size(align_markers,1) % Include two align methods. @HH20150417
 end;
 
 %% Choice preference (related to "PREF" of this cell).  @HH20150418
-%  Will be transformed to be related to "Contralateral" in GROUP_GUI 
+% Will be transformed to be related to "Contralateral" in GROUP_GUI 
+%  @HH20160915
 
-j = 2;  % This is not too much time-sensitive, so I choose j = 2 (aligned to sac onset)
-choice_or_mod_pref_timewin = {
-    mean(align_offsets_others{2}(:,1)) <= rate_ts{2} & rate_ts{2} <= 0;   % Stimlus onset - saccade onset
-    0 < rate_ts{2} & rate_ts{2} <= inf;   % Postsaccade period
+% j = 2;  % This is not too much time-sensitive, so I choose j = 2 (aligned to sac onset)
+% choice_or_mod_pref_timewin = {
+%     mean(align_offsets_others{2}(:,1)) <= rate_ts{2} & rate_ts{2} <= 0;   % Stimlus onset - saccade onset
+%     0 < rate_ts{2} & rate_ts{2} <= inf;   % Postsaccade period
+%     };
+choice_or_mod_pref_timewin = {   
+    2, mean(align_offsets_others{2}(:,1)) <= rate_ts{2} & rate_ts{2} <= 0;   % Stimlus onset - saccade onset
+    2, 0 < rate_ts{2} & rate_ts{2} <= inf;   % Postsaccade period
+    1, 0 <= rate_ts{1} & rate_ts{1} <= mean(align_offsets_others{1}(:,1)); % I added a new choice preference which only includes stim-on to stim-off to better select out the ramping cells. HH20160918
     };
 
 ChoicePreference = nan(length(choice_or_mod_pref_timewin),3);
@@ -1129,8 +1139,8 @@ for stim_type = 1:3  % Always output three conditions
         for cmpt = 1:length(choice_or_mod_pref_timewin)
             
             % Here I let CP_HH calculate the auROC AND p_value (permutation method) for me
-            fake_spk_pref = mean(PSTH{j,ALL_CHOICE,1}.raw{2*k-1}(:,choice_or_mod_pref_timewin{cmpt}),2);
-            fake_spk_null = mean(PSTH{j,ALL_CHOICE,1}.raw{2*k}(:,choice_or_mod_pref_timewin{cmpt}),2);
+            fake_spk_pref = mean(PSTH{choice_or_mod_pref_timewin{cmpt,1},ALL_CHOICE,1}.raw{2*k-1}(:,choice_or_mod_pref_timewin{cmpt,2}),2);
+            fake_spk_null = mean(PSTH{choice_or_mod_pref_timewin{cmpt,1},ALL_CHOICE,1}.raw{2*k}(:,choice_or_mod_pref_timewin{cmpt,2}),2);
             fake_heading = zeros(length(fake_spk_pref)+length(fake_spk_null),1);
             fake_choice = [ones(length(fake_spk_pref),1) * RIGHT; ones(length(fake_spk_null),1) * LEFT];
             temp = CP_HH(fake_heading, fake_choice, [fake_spk_pref ; fake_spk_null],1000,0);
@@ -1190,9 +1200,8 @@ j = 2;  % This is not too much time-sensitive, so I choose j = 2 (aligned to sac
 ModalityPreference = nan(length(choice_or_mod_pref_timewin),3);
 ModalityPreference_pvalue = nan(length(choice_or_mod_pref_timewin),3);        
 
-raw_for_md = PSTH{j,ALL_CHOICE,1}.raw;
 
-if length(unique_stim_type) == 3 % If we have all three modalities
+if length(unique_stim_type) >= 3 % If we have all three modalities
     
     for mp = 1:length(modality_pair)
         
@@ -1201,13 +1210,15 @@ if length(unique_stim_type) == 3 % If we have all three modalities
         
         for cmpt = 1:length(choice_or_mod_pref_timewin)
             
+            raw_for_md = PSTH{choice_or_mod_pref_timewin{cmpt,1},ALL_CHOICE,1}.raw;
+
             % I let CP_HH.m calculate the auROC AND p_value (permutation method) for me.
             % Note here I use the grand CP because I combine PREF and NULL trials together
             % by assigning PREF and NULL choices to 0 and 1 fake heading, respectively.
-            fake_spk_pref_mod_pref_choice = mean(raw_for_md{2*(pref_mod-1)+1}(:,choice_or_mod_pref_timewin{cmpt}),2);
-            fake_spk_null_mod_pref_choice = mean(raw_for_md{2*(null_mod-1)+1}(:,choice_or_mod_pref_timewin{cmpt}),2);
-            fake_spk_pref_mod_null_choice = mean(raw_for_md{2*(pref_mod-1)+2}(:,choice_or_mod_pref_timewin{cmpt}),2);
-            fake_spk_null_mod_null_choice = mean(raw_for_md{2*(null_mod-1)+2}(:,choice_or_mod_pref_timewin{cmpt}),2);
+            fake_spk_pref_mod_pref_choice = mean(raw_for_md{2*(pref_mod-1)+1}(:,choice_or_mod_pref_timewin{cmpt,2}),2);
+            fake_spk_null_mod_pref_choice = mean(raw_for_md{2*(null_mod-1)+1}(:,choice_or_mod_pref_timewin{cmpt,2}),2);
+            fake_spk_pref_mod_null_choice = mean(raw_for_md{2*(pref_mod-1)+2}(:,choice_or_mod_pref_timewin{cmpt,2}),2);
+            fake_spk_null_mod_null_choice = mean(raw_for_md{2*(null_mod-1)+2}(:,choice_or_mod_pref_timewin{cmpt,2}),2);
             
             fake_0_heading = zeros(length(fake_spk_pref_mod_pref_choice)+length(fake_spk_null_mod_pref_choice),1);
             fake_1_heading = ones(length(fake_spk_pref_mod_null_choice)+length(fake_spk_null_mod_null_choice),1);

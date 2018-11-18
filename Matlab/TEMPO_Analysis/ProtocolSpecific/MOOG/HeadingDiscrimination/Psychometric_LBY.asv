@@ -3,23 +3,38 @@
 %--	07/16/04 GY
 %-----------------------------------------------------------------------------------------------------------------------
 %% HH20141026
+% LBY 20181118
 
-function Psychometric_HH(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
+function Psychometric_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
 
 TEMPO_Defs;
 Path_Defs;
+ProtocolDefs;
 
 %%%%%%%%%%%%%%%%%%% Parameters %%%%%%%%%%%%%%%%%%%
 method = 0; % 0: Maximum likelihood; 1: Square error
-tolerance = 10; 
+tolerance = 10;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%get the column of values for azimuth and elevation and stim_type
-temp_stim_type = data.moog_params(STIM_TYPE,:,MOOG);
-temp_heading   = data.moog_params(HEADING, :, MOOG);
-temp_motion_coherence = data.moog_params(COHERENCE,:,MOOG);
-temp_outcome = data.misc_params(OUTCOME, :);
-temp_mask_status = data.moog_params(MASK_STATUS,:,MOOG);
+switch Protocol
+    case HEADING_DISCRIM % for heading discrimination task
+        %get the column of values for azimuth and elevation and stim_type
+        temp_stim_type = data.moog_params(STIM_TYPE,:,MOOG);
+        temp_heading   = data.moog_params(HEADING, :, MOOG);
+        temp_motion_coherence = data.moog_params(COHERENCE,:,MOOG);
+        temp_outcome = data.misc_params(OUTCOME, :);
+        temp_mask_status = data.moog_params(MASK_STATUS,:,MOOG);
+    case ROTATION_DISCRIM % for rotation discrimination task
+        %get the column of values for azimuth and elevation and stim_type
+        temp_stim_type = data.moog_params(STIM_TYPE,:,MOOG);
+        temp_elevation = data.moog_params(ROT_ELEVATION,:,MOOG);
+        temp_amplitude = data.moog_params(STIM_TYPE,:,MOOG);
+        temp_motion_coherence = data.moog_params(COHERENCE,:,MOOG);
+        temp_outcome = data.misc_params(OUTCOME, :);
+        temp_mask_status = data.moog_params(MASK_STATUS,:,MOOG);
+        temp_heading = temp_amplitude.*sign(temp_elevation);
+end
+
 
 trials = 1:length(temp_heading);		% a vector of trial indices
 
@@ -183,7 +198,7 @@ for c = 1:length(unique_motion_coherence) % different coherence level
         
         %  Maximum likelihood fitting
         [bb,tt] = cum_gaussfit_max1(fit_valid{c,condition},method,0);
-        [bb_tol,tt_tol] = cum_gaussfit_max1(fit_valid{c,condition},method,tolerance);        
+        [bb_tol,tt_tol] = cum_gaussfit_max1(fit_valid{c,condition},method,tolerance);
         Thresh_psy{c,condition} = tt;    Bias_psy{c,condition} = bb;
         Thresh_psy_tol{c,condition} = tt_tol;    Bias_psy_tol{c,condition} = bb_tol;
         psy_perf{c,condition} =[bb,tt];
@@ -195,7 +210,7 @@ end
 if length(unique_motion_coherence)==1 && length(unique_stim_type) ==3
     Thresh_pred = sqrt( Thresh_psy{1}^2*Thresh_psy{2}^2/(Thresh_psy{1}^2+Thresh_psy{2}^2) );
     Bias_pred = (Bias_psy{1} * Thresh_psy{2}^2 + Bias_psy{2} * Thresh_psy{1}^2) / (Thresh_psy{1}^2 + Thresh_psy{2}^2);
-
+    
     Thresh_pred_tol = sqrt( Thresh_psy_tol{1}^2*Thresh_psy_tol{2}^2/(Thresh_psy_tol{1}^2+Thresh_psy_tol{2}^2) );
     Bias_pred_tol = (Bias_psy_tol{1} * Thresh_psy_tol{2}^2 + Bias_psy_tol{2} * Thresh_psy_tol{1}^2) / (Thresh_psy_tol{1}^2 + Thresh_psy_tol{2}^2);
 end
@@ -281,7 +296,7 @@ if overtimeplot == 1
                     psy_bias_shift{c,condition} = nan;
                     psy_thresh_shift_tol{c,condition} = nan;
                     psy_bias_shift_tol{c,condition} = nan;
-
+                    
                     continue;
                 end
                 
@@ -328,7 +343,7 @@ if overtimeplot == 1
                 
                 [bb,tt] = cum_gaussfit_max1(fit_data_psycho_cum_shift{c,condition},method,0); % to save time, use a different fit method
                 [bb_tol,tt_tol] = cum_gaussfit_max1(fit_data_psycho_cum_shift{c,condition},method,tolerance); % to save time, use a different fit method
-
+                
                 psy_thresh_shift{c,condition}(n) = tt;
                 psy_bias_shift{c,condition}(n) = bb;  % added Bias, CRF 11-5-09
                 
@@ -354,7 +369,12 @@ fitline{2,1} = 'b--';    fitline{2,2} = 'r--';    fitline{2,3} = 'g--';
 fitline{3,1} = 'b:';    fitline{3,2} = 'r:';    fitline{3,3} = 'g:';
 
 figure(2); clf;
-set(2,'Position', [63 51 1080 500], 'Name', 'Heading Discrimination-Vestibular');
+switch Protocol
+    case HEADING_DISCRIM % for heading discrimination task
+set(2,'Position', [63 51 1080 500], 'Name', 'Heading Discrimination');
+    case ROTATION_DISCRIM % for heading discrimination task
+        set(2,'Position', [63 51 1080 500], 'Name', 'Rotation Discrimination');
+end
 axes('position',[0.10 0.113 0.377 0.754] );
 % fit data with cumulative gaussian and plot both raw data and fitted curve
 legend_txt = [];
@@ -401,7 +421,7 @@ end
 
 %------ Output some text of basic parameters in the figure
 % Motion parameters
-params = data.moog_params(:,1,2);
+params = data.moog_params(:,1,:);
 
 
 axes('position',[0.062 0.9 0.895 0.148] );
@@ -581,6 +601,9 @@ result = PackResult(FILE, SpikeChan, repetitionN, unique_stim_type, ... % Obliga
 % Figures to save
 config.save_figures = 2;
 config.suffix = 'Psycho';
+config.xls_column_begin = 'Psy_n';
+config.xls_column_end = 'Psy_comb_bias_shift';
+
 
 % Only once
 config.sprint_once_marker = 'gg';

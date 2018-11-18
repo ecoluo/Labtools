@@ -32,6 +32,40 @@ switch(Analysis{1})
             Eyetrace_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
         end
         
+        %-----------------    Heading/Rotation discrimination    -----------------%
+      
+    case 'Plot Psychometric_LBY'
+        if JustEditIt == 1
+            edit Psychometric_LBY;
+        else
+            Psychometric_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
+        end
+        
+        case 'Plot Discimination_PSTH_LBY'
+        if JustEditIt == 1
+            edit Dis_cum_PSTH_LBY;
+        else
+            Dis_cum_PSTH_LBY(data, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, StartEventBin, StopEventBin, PATH, FILE, Protocol, batch_flag);
+        end
+        case 'Plot CP_HH'
+        if JustEditIt == 1
+            edit HeadingDis_cum_HH;
+        else
+            HeadingDis_cum_HH(data, Protocol, Analysis, SpikeChan, StartEventBin, StopEventBin, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
+        end
+    case 'Plot CP Distribution_HH'
+        if JustEditIt == 1
+            edit Heading_CP_Distrib_HH;
+        else
+            Heading_CP_Distrib_HH(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE);
+        end
+    case 'Plot CP_shiftwindow_HH'
+        if JustEditIt == 1
+            edit HeadingDis_cum_shiftwindow_HH;
+        else
+            HeadingDis_cum_shiftwindow_HH(data, Protocol, Analysis, SpikeChan, StartEventBin, StopEventBin, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
+        end
+        
         %-----------------    delay saccade    -----------------%
         
     case 'Eyetrace_delaySac_LBY'
@@ -47,6 +81,7 @@ switch(Analysis{1})
         else
             Delayed_Saccade_Analysis_HH(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
         end
+        
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         

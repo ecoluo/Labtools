@@ -60,9 +60,8 @@ MEMORY_SACCADE = 125; %Added by Tunde for Adhira
 %%for Adhira and Yun --- Tunde 05/10/11
 VISUAL_MOTION_PURSUIT_GALVO_LOWSPEED = 201; %
 VISUAL_MOTION_PURSUIT_GALVO_HIGHSPEED = 127; %,   //202
-AZ_TUNUNG_W_PURSUIT_VISUAL = 128; %     //203
-AZ_TUNUNG_W_PURSUIT_COMBINE = 129; %   //204
-AZ_TUNUNG_W_PURSUIT = 130;  %   //205
+ROTATION_DISCRIM = 128; %     //LBY changed 20181117
+ROTATION_DISCRIM_FIXONLY = 129; %   //LBY changed 20181118
 
 
 % Defines for REVCORR protocols.
@@ -179,7 +178,7 @@ protocol_names(110) = {
 % %     'MOOG: Heading Fixation'  %% changed to delayed saccade; Tunde 12/10/10
 % % };
 protocol_names(111) = {
-    'MOOG: Delayed Saccade'
+    'MOOG: Heading fix only'
     };
 protocol_names(112) = {
     'MOOG: Delayed Saccade'
@@ -234,9 +233,9 @@ protocol_names(126) = {
 
 protocol_names(128:130) = {
     'MOOG: AZ_TUNUNG_W_PURSUIT_VISUAL'
-    'MOOG: AZ_TUNUNG_W_PURSUIT_COMBINE'
-    'MOOG: AZ_TUNUNG_W_PURSUIT'
-    }; %Added by Tunde for Adhira 05/10/11
+    'MOOG: Rotation discrimination'
+    'MOOG: Rotation fix only'
+    }; %Added by LBY 20181118
 
 
 
@@ -991,15 +990,16 @@ analysis_strings{ROTATION_TUNING_3D + 1} = ...
     'Plot Rotation PSTH_xiongjie',
     };
 analysis_strings{HEADING_DISCRIM + 1} = ...
-    {   'Plot HeadingDiscimination_PSTH_HH',
+    {  'Plot Psychometric_LBY',
+    'Plot Discimination_PSTH_LBY',
+    'Plot CP_HH',
+    'Plot CP Distribution_HH',
+    'Plot CP_shiftwindow_HH',
+    '',
     'Plot HeadingDiscimination_PSTH_HH_dt_yuchen',
     'Plot HeadingDiscimination_PSTH_HH_dt_yuchen_patch_for_HD',
     'Plot Psychometric_HH_dt_yuchen',
-    'Plot Psychometric_HH',
-    'Plot CP_shiftwindow_HH',
     'Plot Microstim_HH',
-    'Plot CP_HH',
-    'Plot CP Distribution_HH',
     'HeadingDis_cum_pairwiseunits_HH',
     '',
     'Plot HeadingDiscimination_PSTH',
@@ -1025,8 +1025,19 @@ analysis_strings{HEADING_DISCRIM + 1} = ...
     'HeadingDis_cum_pairwiseunits_yong',
     'HeadingDis_cum_pairwiseunits_sam',
     };
+analysis_strings{ROTATION_DISCRIM + 1} = ...
+    {  'Plot Psychometric_LBY',
+    'Plot Discimination_PSTH_LBY',
+    'Plot CP_HH',
+    'Plot CP Distribution_HH',
+    'Plot CP_shiftwindow_HH',
+    };
 analysis_strings{HEADING_DISCRIM_FIXONLY + 1} = ...
-    {   'Plot Heading_tuning',
+    {   'Plot Heading_tuning_LBY',
+    'Plot Accelerometer_cum',
+    };
+analysis_strings{ROTATION_DISCRIM_FIXONLY + 1} = ...
+    {   'Plot Heading_tuning_LBY',
     'Plot Accelerometer_cum',
     };
 analysis_strings{HEADING_DISCRIM_LIP + 1} = ...
@@ -1186,17 +1197,6 @@ analysis_strings{VISUAL_MOTION_PURSUIT_GALVO + 1} = ...
     {	'Galvo Pursuit'
     }; %added by Tunde
 
-analysis_strings{AZ_TUNUNG_W_PURSUIT_VISUAL + 1} = ...
-    {	'Pursuit Visual (Adhira)'
-    }; %added by Tunde
-
-analysis_strings{AZ_TUNUNG_W_PURSUIT_COMBINE + 1} = ...
-    {	'Pursuit-Combine (Adhira)'
-    }; %added by Tunde
-
-analysis_strings{AZ_TUNUNG_W_PURSUIT_VISUAL + 1} = ...
-    {	'Pursuit -Visual+Combine (Adhira)'
-    }; %added by Tunde
 
 
 %-------------------------------------------
