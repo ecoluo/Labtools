@@ -63,7 +63,9 @@ a_a_0 = u_azi(max_idx_a);
 v_DC = 0.5;
 a_DC = 0.5;
 w = 0.5;
-v_laten = 0.1;
+
+a = 0.5;
+v_laten = a;
 
 %Inital fits
 param = [A, ...       %1
@@ -85,7 +87,7 @@ init_param(1,:) = param;
 
 LB = [0.25*A, ...`  %1  A
     0, ...          %2  R_0
-    mu, ...       %3  mu_t
+    mu-0.1, ...       %3  mu_t
     0.001, ...      %4  n
     0, ...          %5  a_0
     -90, ...      %6  e_0
@@ -95,7 +97,7 @@ LB = [0.25*A, ...`  %1  A
     -90, ...      %10 a_e_0
     0, ...         %11 a_DC
     0, ...         %12 wV
-    0];             %13 v_latency
+    a];             %13 v_latency
 
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
@@ -109,7 +111,7 @@ UB = [4*A, ...      %1  A
     90, ...      %10 a_e_0
     1 ...         %11 a_DC
     1,...         %12 wV
-    0.2];            %13 v_latency
+    a];            %13 v_latency
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

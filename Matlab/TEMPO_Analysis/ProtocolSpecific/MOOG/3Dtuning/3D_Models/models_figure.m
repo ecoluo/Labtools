@@ -257,7 +257,7 @@ if strcmp(models{m_inx},'VA')
     
     
     % to save the figures
-    str3 = [str, '_',models{m_inx},'_model_',stimType{stimTypeInx}];
+    str3 = [str, '_',models{m_inx},'_model_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];
@@ -313,7 +313,7 @@ for m_inx = 1:length(models)
     axis off;
 
     % to save the figures
-    str3 = [str, '_',models{m_inx},'_model_',stimType{stimTypeInx}];
+    str3 = [str, '_',models{m_inx},'_model_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_Contour_T'];
@@ -369,7 +369,7 @@ axis off;
 % axis off;
 
 % to save the figures
-str3 = [str, '_VAJmodel_',stimType{stimTypeInx}];
+str3 = [str, '_VAJmodel_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
@@ -426,7 +426,7 @@ axis off;
 % axis off;
 
 % to save the figures
-str3 = [str, '_VAJmodel_peakT_',stimType{stimTypeInx}];
+str3 = [str, '_VAJmodel_peakT_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
@@ -487,7 +487,7 @@ axis off;
 % axis off;
 
 % to save the figures
-str3 = [str, '_VAmodel_',stimType{stimTypeInx}];
+str3 = [str, '_VAmodel_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
@@ -616,7 +616,7 @@ figure(150+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     
     SetFigure(25);
     % to save the figures
-    str3 = [str, '_VA_model_',components{m_inx},'_',stimType{stimTypeInx}];
+    str3 = [str, '_VA_model_',components{m_inx},'_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];
@@ -678,7 +678,7 @@ axis off;
 % axis off;
 
 % to save the figures
-str3 = [str, '_VAJmodel_',stimType{stimTypeInx}];
+str3 = [str, '_VAJmodel_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
@@ -807,7 +807,7 @@ figure(170+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     
     SetFigure(25);
     % to save the figures
-    str3 = [str, '_VAJ_model_',components{m_inx},'_',stimType{stimTypeInx}];
+    str3 = [str, '_VAJ_model_',components{m_inx},'_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];
@@ -879,7 +879,7 @@ drawnow;
         I=frame2im(F);
         [I,map]=rgb2ind(I,256);
 % to save the figures
-str3 = [str, '_VAmodel_',stimType{stimTypeInx}];
+str3 = [str, '_VAmodel_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
@@ -947,7 +947,7 @@ axis off;
 % axis off;
 
 % to save the figures
-str3 = [str, '_VAPmodel_',stimType{stimTypeInx}];
+str3 = [str, '_VAPmodel_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
@@ -1076,7 +1076,7 @@ figure(200+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     
     SetFigure(25);
     % to save the figures
-    str3 = [str, '_VAP_model_',components{m_inx},'_',stimType{stimTypeInx}];
+    str3 = [str, '_VAP_model_',components{m_inx},'_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];
@@ -1138,7 +1138,7 @@ axis off;
 % axis off;
 
 % to save the figures
-str3 = [str, '_PVAJmodel_',stimType{stimTypeInx}];
+str3 = [str, '_PVAJmodel_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
@@ -1267,7 +1267,7 @@ figure(220+m_inx);clf;set(gcf,'pos',[0 0 1900 1000]);
     
     SetFigure(25);
     % to save the figures
-    str3 = [str, '_PVAJ_model_',components{m_inx},'_',stimType{stimTypeInx}];
+    str3 = [str, '_PVAJ_model_',components{m_inx},'_',stimType{stimTypeInx},'_',num2str(SpikeChan)];
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];

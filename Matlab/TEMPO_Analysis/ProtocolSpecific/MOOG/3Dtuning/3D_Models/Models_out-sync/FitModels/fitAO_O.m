@@ -173,7 +173,7 @@ modelFit_AO = [];
 modelFit_AO_spatial = [];
 %% analysis
 data_num = 26*nBins;
-para_num = 6;
+para_num = 7;
 BIC_AO = BIC_fit(data_num,rss_AO,para_num);
 TSS = sum((PSTH_data(:) - mean(PSTH_data(:))).^2);
 RSquared_AO = 1 - rss_AO/TSS;

@@ -83,7 +83,7 @@ init_param(1,:) = param;
 
 LB = [0.25*A, ...`  %1  A
     0, ...          %2  R_0
-    mu, ...       %3  mu_t
+    mu-0.1, ...       %3  mu_t
     0.001, ...      %4  n
     0, ...          %5  a_0
     -90, ...      %6  e_0
@@ -107,7 +107,7 @@ UB = [4*A, ...      %1  A
     90, ...      %10 a_e_0
     1 ...         %11 a_DC
     1,...         %12 wA
-    0.4];            %13 p_latency
+    0.5];            %13 p_latency
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

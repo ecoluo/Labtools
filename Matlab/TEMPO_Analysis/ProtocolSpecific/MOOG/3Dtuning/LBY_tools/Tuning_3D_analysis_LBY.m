@@ -8,14 +8,16 @@
 % fig.12 plot coutour tuning responses (at peak(DS) time)
 % fig.5 PSTH - spon
 % fig.10 3D model
-%
+% ION cluster
 % @LBY, Gu lab, 201612
 % @LBY, Gu lab, 201711
+% @LBY, Gu lab, 201811
 
 
 
 function Tuning_3D_analysis_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, ~, StopOffset, PATH, FILE, batch_flag)
 
+% tic;
 
 global PSTH3Dmodel PSTH;
 PSTH3Dmodel = [];PSTH = [];
@@ -125,7 +127,7 @@ unique_azimuth = munique(temp_azimuth');
 unique_elevation = munique(temp_elevation');
 unique_amplitude = munique(temp_amplitude');
 unique_duration = munique(temp_duration');
-
+unique_stimType = munique(temp_stimType');
 
 % time information?
 eye_timeWin = 1000/(data.htb_header{EYE_DB}.speed_units/data.htb_header{EYE_DB}.speed/(data.htb_header{EYE_DB}.skip+1)); % in ms
@@ -145,7 +147,7 @@ spike_data = squeeze(data.spike_data(SpikeChan,:,real_trials)); % sipke data in 
 spike_data( spike_data > 100 ) = 1; % something is absolutely wrong, recorrect to 1
 spon_spk_data = squeeze(data.spike_data(SpikeChan,:,spon_trials));
 
-
+max_reps = ceil(sum(real_trials)/length(unique_stimType)/26); % fake max repetations
 %% pack data for PSTH, modeling and analysis
 % conditions: k=1,2,3
 % Elevation: j= -90,-45,0,45,90 (up->down)
@@ -161,15 +163,22 @@ tOffset2 = 100; % in ms, time after stim off
 % tOffset1 = 000; % in ms
 % tOffset2 = 000; % in ms
 
+PCAStep = 20; % for PCA
+PCAWin = 20; % for PCA
+nBinsPCA = floor(temp_duration(1)/PCAStep); % in ms
+
 if strcmp(PSTH.monkey ,'MSTd') == 1
     delay = 115; % in ms, MSTd, 1806
     %for MSTd delay is 100 ms
     aMax = 770; % in ms, peak acceleration time, measured time
     aMin = 1250; % in ms, trough acceleration time, measured time
 else % for PCC
-    delay = 200; % in ms, system time delay, LBY added, 180523
-    aMax = 530; % in ms, peak acceleration time relative to stim on, measured time
-    aMin = 900; % in ms, trough acceleration time relative to stim on, measured time
+    %     delay = 200; % in ms, system time delay, LBY added, 180523
+    %     aMax = 530; % in ms, peak acceleration time relative to stim on, measured time
+    %     aMin = 900; % in ms, trough acceleration time relative to stim on, measured time
+    delay = 170; % in ms, system time delay, LBY modified, 181012
+    aMax = 550; % in ms, peak acceleration time relative to stim on, measured time
+    aMin = 930; % in ms, trough acceleration time relative to stim on, measured time
 end
 
 stimOnT = stimOnT + delay;
@@ -206,6 +215,9 @@ for k = 1:length(unique_stimType)
     PSTH.spk_data_bin_mean_rate{k} = []; % mean spike count per time window (for PSTH) % 1*nbins
     spk_data_bin_mean_rate_std{k} = [];
     PSTH.spk_data_bin_mean_rate_ste{k} = [];
+    PSTH.spk_data_bin_rate_aov{k} = [];% for PSTH ANOVA
+    
+    PSTH.spk_data_bin_rate_aov{k} = nan*ones(26,nBins,max_reps);
     
     for j = 1:length(unique_elevation)
         for i = 1:length(unique_azimuth)
@@ -223,10 +235,12 @@ for k = 1:length(unique_stimType)
             if sum(select)>0
                 spk_data{k,j,i}(:,:) = spike_data(:,select);
                 pc = pc+1;
+                
                 % for contour
                 spk_data_count_rate_anova{k,pc} = [];
                 % PSTH
-                PSTH.spk_data_bin_rate_aov{k,pc} = [];% for PSTH ANOVA
+                %                 PSTH.spk_data_bin_rate_aov{k,pc} = [];% for PSTH ANOVA
+                
                 try
                     spk_data_count_rate_anova{k,pc} =  sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOffT(1)-tEnd,:),1)/((unique_duration(1,1)-tBeg-tEnd)/1000);
                 catch
@@ -239,10 +253,17 @@ for k = 1:length(unique_stimType)
             end
             
             % pack data for PSTH
-            try
             PSTH.spk_data_bin_rate{k,j,i} = PSTH_smooth( nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
-            PSTH.spk_data_bin_rate_aov{k,pc}(:,:) = PSTH_smooth( nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
-            PSTH.spk_data_bin_mean_rate_aov{k}(pc,:) = mean(PSTH.spk_data_bin_rate_aov{k,pc}(:,:),2);
+            try
+                temp = PSTH_smooth( nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
+                PSTH.spk_data_bin_rate_aov{k}(pc,:,1:size(temp,2)) = temp;
+                temp = PSTH_smooth( nBinsPCA, stimOnT, PCAWin, PCAStep, mean(spk_data{k,j,i}(:,:),2), 2, gau_sig);
+                PSTH.spk_data_bin_rate_PCA{k}(pc,:,1:size(temp,2)) = temp;
+            catch
+                
+            end
+            PSTH.spk_data_bin_mean_rate_PCA{k}(pc,:) = nanmean(PSTH.spk_data_bin_rate_PCA{k}(pc,:,:),3);
+            PSTH.spk_data_bin_mean_rate_aov{k}(pc,:) = nanmean(PSTH.spk_data_bin_rate_aov{k}(pc,:,:),3);
             
             % calculate correlation coefficient between response and V/A curve
             [R,P] = corrcoef(v_timeProfile,PSTH.spk_data_bin_mean_rate_aov{k}(pc,:));
@@ -258,26 +279,21 @@ for k = 1:length(unique_stimType)
             spk_data_bin_mean_rate_std{k}(j,i,:) = std(PSTH.spk_data_bin_rate{k,j,i},0,2);
             PSTH.spk_data_bin_mean_rate_ste{k}(j,i,:) = spk_data_bin_mean_rate_std{k}(j,i,:)/sqrt(size(PSTH.spk_data_bin_rate{k,j,i}(1,:),2));
             
-            catch
-                keyboard;
-            end
             % pack data for contour
-            try
-                PSTH.spk_data_count_rate{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOffT(1)-tEnd,:),1)/((unique_duration(1,1)-tBeg-tEnd)/1000); % rates
-                PSTH.spk_data_count_mean_rate{k}(j,i) = mean(PSTH.spk_data_count_rate{k,j,i}(:));% for countour plot and ANOVA
-                PSTH.spk_data_vector{k} = PSTH.spk_data_count_mean_rate{k}; % for preferred direction
-                PSTH.spk_data_vector{k}([1,5],2:end) = 0;
-                PSTH.spk_data_count_rate_all{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1):stimOffT(1),:),1)/(unique_duration(1,1)/1000); % rates of all duration
-                PSTH.spk_data_count_mean_rate_all{k}(j,i) = mean(PSTH.spk_data_count_rate_all{k,j,i}(:));% for models
-            catch
-                keyboard;
-            end
+            PSTH.spk_data_count_rate{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOffT(1)-tEnd,:),1)/((unique_duration(1,1)-tBeg-tEnd)/1000); % rates
+            PSTH.spk_data_count_mean_rate{k}(j,i) = mean(PSTH.spk_data_count_rate{k,j,i}(:));% for countour plot and ANOVA
+            PSTH.spk_data_count_rate_all{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1):stimOffT(1),:),1)/(unique_duration(1,1)/1000); % rates of all duration
+            PSTH.spk_data_count_mean_rate_all{k}(j,i) = mean(PSTH.spk_data_count_rate_all{k,j,i}(:));% for models
+            spk_data_vector_rate{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOnT(1)+tBeg+unique_duration(1,1)/2,:),1)/((unique_duration(1,1)/2)/1000); % rates
+            PSTH.spk_data_vector{k}(j,i) = mean(spk_data_vector_rate{k,j,i}(:)); % for preferred direction
+            PSTH.spk_data_vector{k}([1,5],2:end) = 0;
         end
     end
     
     % preliminary analysis
-    PSTH.time_profile{k} = squeeze(sum(sum(PSTH.spk_data_bin_mean_rate{k}(j,i,:),1),2));
     
+    PSTH.time_profile{k} = squeeze(sum(sum(PSTH.spk_data_bin_mean_rate{k}(j,i,:),1),2));
+    PSTH.spk_data_bin_mean_rate_aov_cell{k} = mean(PSTH.spk_data_bin_mean_rate_aov{k},1);
     maxSpkRealMean(k) = max(PSTH.spk_data_count_mean_rate{k}(:));
     minSpkRealMean(k) = min(PSTH.spk_data_count_mean_rate{k}(:));
     PSTH.maxSpkRealBinMean(k) = max(PSTH.spk_data_bin_mean_rate{k}(:));
@@ -296,7 +312,7 @@ for k = 1:length(unique_stimType)
     p_anova_dire(k) = anova1(spk_data_count_rate_anova_trans{k},'','off'); % tuning anova
     resp_std(k) = sum(resp_sse(k,:))/(sum(resp_trialnum(k,:))-26);
     DDI(k) = (maxSpkRealMean(k)-minSpkRealMean(k))/(maxSpkRealMean(k)-minSpkRealMean(k)+2*sqrt(resp_std(k)));
-    [Azi, Ele, Amp] = vectorsum(squeeze(PSTH.spk_data_vector{k}(:,:)));
+    [Azi, Ele, Amp] = vectorsum(PSTH.spk_data_vector{k}(:,:));
     preferDire{k} = [Azi, Ele, Amp];
     
     % calculate the differences between every direction and the preferred direction
@@ -350,133 +366,160 @@ end
 %}
 %% Temporal analysis
 % %{
+% based on Chen, AH et al., 2010, JNS
 % wilcoxon rank sum test
 % 500 ms after stim. on to 50ms before stim off
 
 baselineBinBeg = stimOnBin-floor(100/timeStep);
-baselineBinEnd = stimOnBin+floor(300/timeStep);
+baselineBinEnd = stimOnBin+floor(200/timeStep);
 
 for k = 1:length(unique_stimType)
-    spk_data_bin_rate_mean_minusSpon{k} = PSTH.spk_data_bin_mean_rate_aov{k}-repmat(PSTH.spon_spk_data_bin_mean_rate',size(PSTH.spk_data_bin_mean_rate_aov{k},1),1);
-    % significant temporal modulation (response to the stimulus)
-    peak{k} = [];
+    %     spk_data_bin_rate_mean_minusSpon{k} = PSTH.spk_data_bin_mean_rate_aov{k}-repmat(PSTH.spon_spk_data_bin_mean_rate',size(PSTH.spk_data_bin_mean_rate_aov{k},1),1);
+    sPeak{k} = zeros(1,size(PSTH.spk_data_bin_rate_aov{k},1)); % store the number of significant bins
+    sTrough{k} = zeros(1,size(PSTH.spk_data_bin_rate_aov{k},1)); % store the number of significant bins
+    peakDir{k} = []; % the number of local peak direction
+    peakR{k} = []; % the response of local peak direction
+    localPeak{k} = []; % find the local peak bin of each direction
+    localTrough{k} = []; % find the local trough bin of each direction
     PSTH.peak{k} = []; % location of peaks
-    peak_DS{k} = [];
-    PSTH.peak_DS{k} = []; % location of peaks for direction tuning
+    PSTH.trough{k} = []; % location of troughs
+    PSTH.NoPeaks(k) = 0; % number of peaks
+    PSTH.NoTroughs(k) = 0; % location of troughs
     PSTH.respon_sigTrue(k) = 0; % PSTH.sigTrue(pc) -> sig. of this cell
-    for pc = 1:size(PSTH.spk_data_bin_rate_aov,2)
+    
+    
+    % --------- to test if this direction is temporally responded -------%
+    
+    for pc = 1:size(PSTH.spk_data_bin_rate_aov{k},1)
+        s{k,pc} = zeros(1,nBins);
         PSTH.sigBin{k,pc} = []; % find if this bin is sig.
         PSTH.sigTrue{k}(pc) = 0; % PSTH.sigTrue(pc) -> sig. of this direction
-        %         PSTH.respon_sigTrue(k) = 0; % PSTH.sigTrue(pc) -> sig. of this cell
-        PSTH.localPeak{k,pc} = []; % find the local peak bin of each direction
-        PSTH.localTrough{k,pc} = []; % find the local trough bin of each direction
-        PSTH.s{k,pc} = []; % just for check
-        %         peak{k} = [];
-        %         PSTH.peak{k} = []; % location of peaks
-        %         peak_DS{k} = [];
-        %         PSTH.peak_DS{k} = []; % location of peaks for direction tuning
-        %         for nn = stimOnBin+500/timeStep : stimOnBin+floor(stimOffBin - stimOnBin)-3
+        
+        % if 5 consecutive bins are sig.,then we say this bin is sig.
+        % That is, this direction is temporally responded
         for nn = stimOnBin : stimOffBin
-            PSTH.s{k,pc}(nn) = 0;
-            % if 5 consecutive bins are sig.,then we say this bin is sig.
             for ii = nn-2:nn+2
                 try
-                    if ranksum(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(ii,:))',squeeze(nanmean(PSTH.spk_data_bin_rate_aov{k,pc}(baselineBinBeg:baselineBinEnd,:)))') < 0.05
-                        PSTH.s{k,pc}(nn) =  PSTH.s{k,pc}(nn)+1;
+                    if ranksum(squeeze(PSTH.spk_data_bin_rate_aov{k}(pc,ii,:))',squeeze(nanmean(PSTH.spk_data_bin_rate_aov{k}(pc,baselineBinBeg:baselineBinEnd,:)))') < 0.01
+                        s{k,pc}(nn) =  s{k,pc}(nn)+1;
                     end
                 catch
                     keyboard;
                 end
             end
-            if  PSTH.s{k,pc}(nn) == 5
-                PSTH.sigBin{k,pc}= [PSTH.sigBin{k,pc};nn]; % find the bin with significant response to the stim.
+            if s{k,pc}(nn) == 5
+                PSTH.sigBin{k,pc} = [PSTH.sigBin{k,pc};nn]; %
             end
             
-            for ii = 1:length(PSTH.sigBin{k,pc})
-                pp = 0;tt = 0;
-                if (spk_data_bin_rate_mean_minusSpon{k}(pc,nn)>=spk_data_bin_rate_mean_minusSpon{k}(pc,nn-1)) &&(spk_data_bin_rate_mean_minusSpon{k}(pc,nn)>=spk_data_bin_rate_mean_minusSpon{k}(pc,nn-1))
-                    pp = pp+1;
-                    PSTH.localPeak{k,pc}(pp,1)= nn; % indicate the bin num.
-                    PSTH.localPeak{k,pc}(pp,2) = spk_data_bin_rate_mean_minusSpon{k}(pc,nn); % indicate the mean-value of this peak
-                else if (spk_data_bin_rate_mean_minusSpon{k}(pc,nn)<=spk_data_bin_rate_mean_minusSpon{k}(pc,nn-1)) &&(spk_data_bin_rate_mean_minusSpon{k}(pc,nn)<=spk_data_bin_rate_mean_minusSpon{k}(pc,nn-1))
-                        tt = tt+1;
-                        PSTH.localTrough{k,pc}(tt,1) = nn; % indicate the bin num.
-                        PSTH.localTrough{k,pc}(tt,2) = spk_data_bin_rate_mean_minusSpon{k}(pc,nn); % indicate the mean-value of this trough
-                    end
-                end
+            if ~isempty(PSTH.sigBin{k,pc})
+                PSTH.sigTrue{k}(pc) = 1; % PSTH.sigTrue(pc) == 1 -> sig. of this direction
             end
-        end
-        if (~isempty(PSTH.localPeak{k,pc})) || (~isempty(PSTH.localTrough{k,pc}))
-            PSTH.sigTrue{k}(pc) = 1; % PSTH.sigTrue(pc) -> sig. of this direction
         end
     end
     
-    if respon_True(PSTH.sigTrue{k}(:)) == 1
+    PSTH.sig(k) = sum(PSTH.sigTrue{k}(:)); % sig No.of directions
+    
+    % --------------- this cell is temporally responded ------------------%
+    
+    % 2个方向,不需要相邻
+    if sum(PSTH.sigTrue{k}(:)) >=2
         PSTH.respon_sigTrue(k) = 1;
+    end
+    % 相邻2个方向
+    %     if respon_True(PSTH.sigTrue{k}(:)) == 1
+    %         PSTH.respon_sigTrue(k) = 1;
+    %
+    %     end
+    
+    p_anova_dire_t{k} = nan;
+    DDI_t{k} = nan;
+    preferDire_t{k} = nan(3,1);
+    PSTH.respon_sigTrue(k)
+    if PSTH.respon_sigTrue(k) == 1
         
-        %         %%%%%%%%%%% find peaks & DS peaks %%%%%%%%%%%
-        
-        for nn = stimOnBin-2 : stimOffBin+2
-            [Rmax(nn,1),~]= max(mean(PSTH.spk_data_bin_rate_aov{k,pc}(nn,:),3));
-            Pmax(nn) = anova1(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(nn,:))','','off');
-        end
+        % --------- to find local peaks & throughs -------%
+        peakR{k} = NaN(1,nBins);peakDir{k} = NaN(1,nBins);p{k} = NaN(1,nBins);
         for nn = stimOnBin : stimOffBin
-            if (Rmax(nn,1)>Rmax(nn-1,1)) && (Rmax(nn,1)>Rmax(nn+1,1)) && Pmax(nn)<0.05 && Pmax(nn-1)<0.05 && Pmax(nn-2)<0.05 && Pmax(nn+1)<0.05 && Pmax(nn+2)<0.01
-                peak_DS{k} = [peak_DS{k},[ Rmax(nn,1);nn]];
-            end
-            if (Rmax(nn,1)>Rmax(nn-1,1)) && (Rmax(nn,1)>Rmax(nn+1,1))
-                peak{k} = [peak{k},[ Rmax(nn,1);nn]];
+            [peakR{k}(nn),peakDir{k}(nn)] = max(PSTH.spk_data_bin_mean_rate_aov{k}(:,nn));
+            try
+                p{k}(nn) = anova1(squeeze(PSTH.spk_data_bin_rate_aov{k}(:,nn,:))','','off');
+            catch
+                keyboard;
             end
         end
-        if ~isempty(peak{k})
-            peak{k} = sortrows(peak{k}',-1)';
-            PSTH.peak{k} = peak{k}(2,1); % True peaks
-            if length(peak{k})>1
+        pp = 0;th = 0;
+        for tt = stimOnBin+2 : stimOffBin-2
+            
+            if (peakR{k}(tt) > peakR{k}(tt-1)) && (peakR{k}(tt) > peakR{k}(tt+1))...
+                    && p{k}(tt) < 0.01 && p{k}(tt-1) < 0.01 && p{k}(tt-2) < 0.01 && p{k}(tt+1) < 0.01 && p{k}(tt+2) < 0.01
+                pp = pp+1; % how many peaks
+                localPeak{k}(pp,1)= tt;
+                localPeak{k}(pp,2)= peakR{k}(tt);
+            end
+            if (peakR{k}(tt) < peakR{k}(tt-1)) && (peakR{k}(tt) < peakR{k}(tt+1))...
+                    && p{k}(tt) < 0.01 && p{k}(tt-1) < 0.01 && p{k}(tt-2) < 0.01 && p{k}(tt+1) < 0.01 && p{k}(tt+2) < 0.01
+                th = th+1; % how many throughs
+                localTrough{k}(th,1)= tt;
+                localTrough{k}(th,2)= peakR{k}(tt);
+            end
+        end
+        
+        % --------- to find real peaks & throughs? -------%
+        
+        if ~isempty(localPeak{k})
+            localPeak{k} = sortrows(localPeak{k},-2)'; % sort according to response
+            PSTH.peak{k} = localPeak{k}(1,1); % True peaks, here the largest one is sure to be the 1st peak
+            
+            % find other peaks
+            % conpare the correlation coefficient between the largest one and each other bin
+            if size(localPeak{k},2)>1
                 n = 1;
-                while n < size(peak{k},2)
+                while n < size(localPeak{k},1)
                     ii = n+1;
-                    while ii < size(peak{k},2)+1
-                        [r,p] = corrcoef(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(peak{k}(2,n),:)),squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(peak{k}(2,ii),:)));
-                        if ~(r(1,2) > 0 && p(1,2) < 0.05)
-                            PSTH.peak{k} = [PSTH.peak{k} peak{k}(2,ii)];
+                    while ii < size(localPeak{k},1)+1
+                        try
+                            [rCorr,pCorr] = corrcoef(PSTH.spk_data_bin_mean_rate_aov{k}(:,localPeak{k}(1,n)),PSTH.spk_data_bin_mean_rate_aov{k}(:,localPeak{k}(1,ii)));
+                        catch
+                            
+                        end
+                        if ~(rCorr(1,2) > 0 && pCorr(1,2) < 0.05)
+                            PSTH.peak{k} = [PSTH.peak{k} localPeak{k}(1,ii)];
                             n = ii;
                             break;
                         else
                             ii = ii+1;
                         end
-                        
                     end
                     n = n+1;
                 end
             end
         end
-        if ~isempty(peak_DS{k})
-            peak_DS{k} = sortrows(peak_DS{k}',-1)';
-            PSTH.peak_DS{k} = peak_DS{k}(2,1); % True peak_DSs
-            if length(peak_DS{k})>1
-                n = 1;
-                while n < size(peak_DS{k},2)
-                    ii = n+1;
-                    while ii < size(peak_DS{k},2)+1
-                        [r,p] = corrcoef(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(peak_DS{k}(2,n),:)),squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(peak_DS{k}(2,ii),:)));
-                        if ~(r(1,2) > 0 && p(1,2) < 0.05)
-                            PSTH.peak_DS{k} = [PSTH.peak_DS{k} peak_DS{k}(2,ii)];
-                            n = ii;
-                            break;
-                        else
-                            ii = ii+1;
-                        end
-                        
-                    end
-                    n = n+1;
-                end
+        PSTH.NoPeaks(k) = length(PSTH.peak{k});
+        
+        
+        % calculate DDI for each peak time
+        for pt = 1:PSTH.NoPeaks(k)
+            for pc = 1:size(PSTH.spk_data_bin_rate_aov{k},1)
+                resp_sse_t{k}(pc,pt) = nansum((PSTH.spk_data_bin_rate_aov{k}(pc,PSTH.peak{k}(pt),:) - nanmean(PSTH.spk_data_bin_rate_aov{k}(pc,PSTH.peak{k}(pt),:))).^2); % for DDI
+                resp_trialnum_t{k}(pc,pt)= size(PSTH.spk_data_bin_rate_aov{k}(pc,PSTH.peak{k}(pt),:),3); % for DDI
+            end
+            
+            try
+                p_anova_dire_t{k}(pt) = anova1(squeeze(PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:))','','off'); % tuning anova
+                resp_std_t{k}(pt) = sum(resp_sse_t{k}(:,pt))/(sum(resp_trialnum_t{k}(:,pt))-26);
+                maxSpkRealMean_t{k}(pt) = max(max(squeeze((PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:)))));
+                minSpkRealMean_t{k}(pt) = min(min(squeeze((PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:)))));
+                DDI_t{k}(pt) = (maxSpkRealMean_t{k}(pt)-minSpkRealMean_t{k}(pt))/(maxSpkRealMean_t{k}(pt)-minSpkRealMean_t{k}(pt)+2*sqrt(resp_std_t{k}(pt)));
+                
+                [Azi, Ele, Amp] = vectorsum(squeeze(PSTH.spk_data_bin_vector{k}(:,:,PSTH.peak{k}(pt))));
+                preferDire_t{k}(:,pt) = [Azi, Ele, Amp];
+            catch
+                keyboard;
             end
         end
     end
-    PSTH.NoPeaks(k) = length(PSTH.peak{k});
-    PSTH.NoDSPeaks(k) = length(PSTH.peak_DS{k});
-    PSTH.sig(k) = sum(PSTH.sigTrue{k}(:)); % sig No.of directions
 end
+
 %}
 %% plot figures
 %
@@ -493,13 +536,13 @@ colorDefsLBY;
 
 % the lines markers
 markers = {
-    % markerName % markerTime % marker bin time % color
+    % markerName % markerTime % marker bin time % color % linestyle
     %     'FPOnT',FPOnT(1),(FPOnT(1)-PSTH_onT+timeStep)/timeStep,colorDGray;
-    %     'stim_on',stimOnT(1),stimOnBin,colorDRed;
-    %     'stim_off',stimOffT(1),stimOffBin,colorDRed;
-    'aMax',stimOnT(1)+aMax,(stimOnT(1)+aMax-PSTH_onT+timeStep)/timeStep,colorDBlue;
-    'aMin',stimOnT(1)+aMin,(stimOnT(1)+aMin-PSTH_onT+timeStep)/timeStep,colorDBlue;
-    'v',stimOnT(1)+aMax+(aMin-aMax)/2,(stimOnT(1)+aMax+(aMin-aMax)/2-PSTH_onT+timeStep)/timeStep,'r';
+    'stim_on',stimOnT(1),stimOnBin,colorDRed,'.';
+    'stim_off',stimOffT(1),stimOffBin,colorDRed,'.';
+    'aMax',stimOnT(1)+aMax,(stimOnT(1)+aMax-PSTH_onT+timeStep)/timeStep,colorDBlue,'--';
+    'aMin',stimOnT(1)+aMin,(stimOnT(1)+aMin-PSTH_onT+timeStep)/timeStep,colorDBlue,'--';
+    'v',stimOnT(1)+aMax+(aMin-aMax)/2,(stimOnT(1)+aMax+(aMin-aMax)/2-PSTH_onT+timeStep)/timeStep,'r','--';
     };
 
 Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+719-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+1074-PSTH_onT+timeStep)/timeStep];
@@ -510,9 +553,9 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 % Contour_3D_Tuning_GIF; % plot countour figures(PD across time);
 % spatial_tuning;
 %% models nalysis
+model_catg = 'Sync model'; % tau is the same
+% model_catg = 'Out-sync model'; % each component has its own tau
 % %{
-% model_catg = 'Sync model'; % tau is the same
-model_catg = 'Out-sync model'; % each component has its own tau
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
@@ -520,33 +563,65 @@ model_catg = 'Out-sync model'; % each component has its own tau
 % models = {'VO','AO','VA','VJ','AJ','VAJ'};
 % models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};
 
-models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
-models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
+% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+% models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
 
-% models = {'AO'};
+% models = {'PVAJ'};
 % models_color = {'k'};
 
-% models = {'VAJ','VA'};
-% models_color = {colorDGreen,'k'};
+models = {'VA'};
+models_color = {'k'};
+
+spon_flag = 0; % 0 means raw data; 1 means mean(raw)-mean(spon) data
 
 reps = 20;
-% reps = 5;
+% reps = 2;
+
 for k = 1:length(unique_stimType)
-% for k = 1
     if PSTH.respon_sigTrue(k) == 1
-        models_fitting(model_catg,models,models_color,FILE,SpikeChan, Protocol,k,meanSpon,PSTH.spk_data_bin_mean_rate{k}(:,:,stimOnBin:stimOffBin),PSTH.spk_data_count_mean_rate_all{k},PSTH.spon_spk_data_bin_mean_rate(stimOnBin:stimOffBin),nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,unique_duration);        
+        % fit data with raw PSTH data or - spon data
+        switch spon_flag
+            case 0 %raw data
+                models_fitting(model_catg,models,models_color,FILE,SpikeChan, Protocol,k,meanSpon,PSTH.spk_data_bin_mean_rate{k}(:,:,stimOnBin:stimOffBin),PSTH.spk_data_count_mean_rate_all{k},PSTH.spon_spk_data_bin_mean_rate(stimOnBin:stimOffBin),nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,unique_duration);
+            case 1 % - spon data, so meanspon == 0
+                PSTH.spk_data_bin_mean_rate{k} = PSTH.spk_data_bin_mean_rate{k} - permute(reshape(repmat(PSTH.spon_spk_data_bin_mean_rate,8,5),[],8,5),[3 2 1]);
+                PSTH.spk_data_count_mean_rate_all{k} = PSTH.spk_data_count_mean_rate_all{k} - meanSpkSponMean; % 会出现负值
+                %                 PSTH.spon_spk_data_bin_mean_rate = meanSpkSponMean;
+                models_fitting(model_catg,models,models_color,FILE,SpikeChan, Protocol,k,0,PSTH.spk_data_bin_mean_rate{k}(:,:,stimOnBin:stimOffBin),PSTH.spk_data_count_mean_rate_all{k},PSTH.spon_spk_data_bin_mean_rate(stimOnBin:stimOffBin),nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,unique_duration);
+                
+        end
+        
         if sum(ismember(models,'PVAJ')) ~= 0
             
             PSTH3Dmodel{k}.PVAJ_wP = (1-PSTH3Dmodel{k}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{k}.modelFitPara_PVAJ(21))*PSTH3Dmodel{k}.modelFitPara_PVAJ(20);
             PSTH3Dmodel{k}.PVAJ_wV = (1-PSTH3Dmodel{k}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{k}.modelFitPara_PVAJ(21))*(1-PSTH3Dmodel{k}.modelFitPara_PVAJ(20));
             PSTH3Dmodel{k}.PVAJ_wA = (1-PSTH3Dmodel{k}.modelFitPara_PVAJ(22))*PSTH3Dmodel{k}.modelFitPara_PVAJ(21);
             PSTH3Dmodel{k}.PVAJ_wJ = PSTH3Dmodel{k}.modelFitPara_PVAJ(22);
+            [PSTH3Dmodel{k}.PVAJ_preDir_V(1),PSTH3Dmodel{k}.PVAJ_preDir_V(2),PSTH3Dmodel{k}.PVAJ_preDir_V(3) ] = vectorsum(PSTH3Dmodel{k}.modelFitTrans_spatial_PVAJ.V);
+            [PSTH3Dmodel{k}.PVAJ_preDir_A(1),PSTH3Dmodel{k}.PVAJ_preDir_A(2),PSTH3Dmodel{k}.PVAJ_preDir_A(3) ] = vectorsum(PSTH3Dmodel{k}.modelFitTrans_spatial_PVAJ.A);
+            PSTH3Dmodel{k}.PVAJ_angleDiff_VA = angleDiff(PSTH3Dmodel{k}.PVAJ_preDir_V(1),PSTH3Dmodel{k}.PVAJ_preDir_V(2),PSTH3Dmodel{k}.PVAJ_preDir_V(3),PSTH3Dmodel{k}.PVAJ_preDir_A(1),PSTH3Dmodel{k}.PVAJ_preDir_A(2),PSTH3Dmodel{k}.PVAJ_preDir_A(3));
+            if strcmp(model_catg,'Out-sync model') == 1
+                PSTH3Dmodel{k}.PVAJ_Delay_VA = PSTH3Dmodel{k}.modelFitPara_PVAJ(23);
+                PSTH3Dmodel{k}.PVAJ_Delay_JA = PSTH3Dmodel{k}.modelFitPara_PVAJ(24);
+                PSTH3Dmodel{k}.PVAJ_Delay_PA = PSTH3Dmodel{k}.modelFitPara_PVAJ(25);
+            end
             
         elseif sum(ismember(models,'PVAJ')) == 0
             PSTH3Dmodel{k}.PVAJ_wV = nan;
             PSTH3Dmodel{k}.PVAJ_wA = nan;
             PSTH3Dmodel{k}.PVAJ_wJ = nan;
             PSTH3Dmodel{k}.PVAJ_wP = nan;
+            PSTH3Dmodel{k}.PVAJ_preDir_V = nan*ones(1,3);
+            PSTH3Dmodel{k}.PVAJ_preDir_A = nan*ones(1,3);
+            PSTH3Dmodel{k}.PVAJ_angleDiff_VA = nan;
+            PSTH3Dmodel{k}.RSquared_PVAJ = nan;
+            PSTH3Dmodel{k}.BIC_PVAJ = nan;
+            PSTH3Dmodel{k}.modelFitPara_PVAJ = nan*ones(1,22);
+            if strcmp(model_catg,'Out-sync model') == 1
+                PSTH3Dmodel{k}.PVAJ_Delay_VA = nan;
+                PSTH3Dmodel{k}.PVAJ_Delay_JA = nan;
+                PSTH3Dmodel{k}.PVAJ_Delay_PA = nan;
+            end
         end
         
         if sum(ismember(models,'VAJ')) ~= 0
@@ -568,10 +643,27 @@ for k = 1:length(unique_stimType)
             PSTH3Dmodel{k}.VAJ_wV = PSTH3Dmodel{k}.modelFitPara_VAJ(16)*(1-PSTH3Dmodel{k}.modelFitPara_VAJ(17));
             PSTH3Dmodel{k}.VAJ_wA = (1-PSTH3Dmodel{k}.modelFitPara_VAJ(16))*(1-PSTH3Dmodel{k}.modelFitPara_VAJ(17));
             PSTH3Dmodel{k}.VAJ_wJ = PSTH3Dmodel{k}.modelFitPara_VAJ(17);
+            [PSTH3Dmodel{k}.VAJ_preDir_V(1),PSTH3Dmodel{k}.VAJ_preDir_V(2),PSTH3Dmodel{k}.VAJ_preDir_V(3)] = vectorsum(PSTH3Dmodel{k}.modelFitTrans_spatial_VAJ.V);
+            [PSTH3Dmodel{k}.VAJ_preDir_A(1),PSTH3Dmodel{k}.VAJ_preDir_A(2),PSTH3Dmodel{k}.VAJ_preDir_A(3) ] = vectorsum(PSTH3Dmodel{k}.modelFitTrans_spatial_VAJ.A);
+            PSTH3Dmodel{k}.VAJ_angleDiff_VA = angleDiff(PSTH3Dmodel{k}.VAJ_preDir_V(1),PSTH3Dmodel{k}.VAJ_preDir_V(2),PSTH3Dmodel{k}.VAJ_preDir_V(3),PSTH3Dmodel{k}.VAJ_preDir_A(1),PSTH3Dmodel{k}.VAJ_preDir_A(2),PSTH3Dmodel{k}.VAJ_preDir_A(3));
+            if strcmp(model_catg,'Out-sync model') == 1
+                PSTH3Dmodel{k}.VAJ_Delay_VA = PSTH3Dmodel{k}.modelFitPara_VAJ(18);
+                PSTH3Dmodel{k}.VAJ_Delay_JA = PSTH3Dmodel{k}.modelFitPara_VAJ(19);
+            end
         elseif sum(ismember(models,'VAJ')) == 0
             PSTH3Dmodel{k}.VAJ_wV = nan;
             PSTH3Dmodel{k}.VAJ_wA = nan;
             PSTH3Dmodel{k}.VAJ_wJ = nan;
+            PSTH3Dmodel{k}.VAJ_preDir_V = nan*ones(1,3);
+            PSTH3Dmodel{k}.VAJ_preDir_A = nan*ones(1,3);
+            PSTH3Dmodel{k}.VAJ_angleDiff_VA = nan;
+            PSTH3Dmodel{k}.RSquared_VAJ = nan;
+            PSTH3Dmodel{k}.BIC_VAJ = nan;
+            PSTH3Dmodel{k}.modelFitPara_VAJ = nan*ones(1,17);
+            if strcmp(model_catg,'Out-sync model') == 1
+                PSTH3Dmodel{k}.VAJ_Delay_VA = nan;
+                PSTH3Dmodel{k}.VAJ_Delay_JA = nan;
+            end
         end
         
         if sum(ismember(models,'VAP')) ~= 0
@@ -593,15 +685,38 @@ for k = 1:length(unique_stimType)
             PSTH3Dmodel{k}.VAP_wV = PSTH3Dmodel{k}.modelFitPara_VAP(16)*(1-PSTH3Dmodel{k}.modelFitPara_VAP(17));
             PSTH3Dmodel{k}.VAP_wA = (1-PSTH3Dmodel{k}.modelFitPara_VAP(16))*(1-PSTH3Dmodel{k}.modelFitPara_VAP(17));
             PSTH3Dmodel{k}.VAP_wP = PSTH3Dmodel{k}.modelFitPara_VAP(17);
+            [PSTH3Dmodel{k}.VAP_preDir_V(1),PSTH3Dmodel{k}.VAP_preDir_V(2),PSTH3Dmodel{k}.VAP_preDir_V(3) ] = vectorsum(PSTH3Dmodel{k}.modelFitTrans_spatial_VAP.V);
+            [PSTH3Dmodel{k}.VAP_preDir_A(1),PSTH3Dmodel{k}.VAP_preDir_A(2), PSTH3Dmodel{k}.VAP_preDir_A(3)] = vectorsum(PSTH3Dmodel{k}.modelFitTrans_spatial_VAP.A);
+            PSTH3Dmodel{k}.VAP_angleDiff_VA = angleDiff(PSTH3Dmodel{k}.VAP_preDir_V(1),PSTH3Dmodel{k}.VAP_preDir_V(2),PSTH3Dmodel{k}.VAP_preDir_V(3),PSTH3Dmodel{k}.VAP_preDir_A(1),PSTH3Dmodel{k}.VAP_preDir_A(2),PSTH3Dmodel{k}.VAP_preDir_A(3));
+            if strcmp(model_catg,'Out-sync model') == 1
+                PSTH3Dmodel{k}.VAP_Delay_VA = PSTH3Dmodel{k}.modelFitPara_VAP(18);
+                PSTH3Dmodel{k}.VAP_Delay_PA = PSTH3Dmodel{k}.modelFitPara_VAP(19);
+            end
         elseif sum(ismember(models,'VAP')) == 0
             PSTH3Dmodel{k}.VAP_wV = nan;
             PSTH3Dmodel{k}.VAP_wA = nan;
             PSTH3Dmodel{k}.VAP_wP = nan;
+            PSTH3Dmodel{k}.VAP_preDir_V = nan*ones(1,3);
+            PSTH3Dmodel{k}.VAP_preDir_A = nan*ones(1,3);
+            PSTH3Dmodel{k}.VAP_angleDiff_VA = nan;
+            PSTH3Dmodel{k}.RSquared_VAP = nan;
+            PSTH3Dmodel{k}.BIC_VAP = nan;
+            PSTH3Dmodel{k}.modelFitPara_VAP = nan*ones(1,17);
+            if strcmp(model_catg,'Out-sync model') == 1
+                PSTH3Dmodel{k}.VAP_Delay_VA = nan;
+                PSTH3Dmodel{k}.VAP_Delay_PA = nan;
+            end
         end
         
         if sum(ismember(models,'VA')) ~= 0
             PSTH3Dmodel{k}.VA_wV = PSTH3Dmodel{k}.modelFitPara_VA(12);
             PSTH3Dmodel{k}.VA_wA = 1-PSTH3Dmodel{k}.modelFitPara_VA(12);
+            [PSTH3Dmodel{k}.VA_preDir_V(1),PSTH3Dmodel{k}.VA_preDir_V(2),PSTH3Dmodel{k}.VA_preDir_V(3) ] = vectorsum(PSTH3Dmodel{k}.modelFitTrans_spatial_VA.V);
+            [PSTH3Dmodel{k}.VA_preDir_A(1),PSTH3Dmodel{k}.VA_preDir_A(2),PSTH3Dmodel{k}.VA_preDir_A(3) ] = vectorsum(PSTH3Dmodel{k}.modelFitTrans_spatial_VA.A);
+            PSTH3Dmodel{k}.VA_angleDiff_VA = angleDiff(PSTH3Dmodel{k}.VA_preDir_V(1),PSTH3Dmodel{k}.VA_preDir_V(2),PSTH3Dmodel{k}.VA_preDir_V(3),PSTH3Dmodel{k}.VA_preDir_A(1),PSTH3Dmodel{k}.VA_preDir_A(2),PSTH3Dmodel{k}.VA_preDir_A(3));
+            if strcmp(model_catg,'Out-sync model') == 1
+                PSTH3Dmodel{k}.VA_Delay_VA = PSTH3Dmodel{k}.modelFitPara_VA(13);
+            end
             if sum(ismember(models,'AO')) ~= 0
                 PSTH3Dmodel{k}.VA_R2V = ((PSTH3Dmodel{k}.RSquared_VA)^2 - (PSTH3Dmodel{k}.RSquared_AO)^2)/(1-(PSTH3Dmodel{k}.RSquared_AO)^2);
             else
@@ -615,12 +730,46 @@ for k = 1:length(unique_stimType)
         elseif sum(ismember(models,'VA')) == 0
             PSTH3Dmodel{k}.VA_wV = nan;
             PSTH3Dmodel{k}.VA_wA = nan;
+            PSTH3Dmodel{k}.VA_preDir_V = nan*ones(1,3);
+            PSTH3Dmodel{k}.VA_preDir_A = nan*ones(1,3);
+            PSTH3Dmodel{k}.VA_angleDiff_VA = nan;
+            PSTH3Dmodel{k}.RSquared_VA = nan;
+            PSTH3Dmodel{k}.BIC_VA = nan;
+            PSTH3Dmodel{k}.modelFitPara_VA = nan*ones(1,12);
+            if strcmp(model_catg,'Out-sync model') == 1
+                PSTH3Dmodel{k}.VA_Delay_VA = nan;
+            end
         end
-        
+        if sum(ismember(models,'VO')) == 0
+            PSTH3Dmodel{k}.RSquared_VO = nan;
+            PSTH3Dmodel{k}.BIC_VO = nan;
+        end
+        if sum(ismember(models,'AO')) == 0
+            PSTH3Dmodel{k}.RSquared_AO = nan;
+            PSTH3Dmodel{k}.BIC_AO = nan;
+        end
+        if sum(ismember(models,'VJ')) == 0
+            PSTH3Dmodel{k}.RSquared_VJ = nan;
+            PSTH3Dmodel{k}.BIC_VJ = nan;
+        end
+        if sum(ismember(models,'AJ')) == 0
+            PSTH3Dmodel{k}.RSquared_AJ = nan;
+            PSTH3Dmodel{k}.BIC_AJ = nan;
+        end
+        if sum(ismember(models,'VP')) == 0
+            PSTH3Dmodel{k}.RSquared_VP = nan;
+            PSTH3Dmodel{k}.BIC_VP = nan;
+        end
+        if sum(ismember(models,'AP')) == 0
+            PSTH3Dmodel{k}.RSquared_AP = nan;
+            PSTH3Dmodel{k}.BIC_AP = nan;
+        end
     else
         PSTH3Dmodel{k} = nan;
     end
+    
 end
+% toc;
 %}
 %% Data Saving
 
@@ -638,8 +787,8 @@ end
 result = PackResult(FILE, PATH, SpikeChan, unique_stimType,Protocol, ... % Obligatory!!
     unique_azimuth, unique_elevation, unique_amplitude, unique_duration,...   % paras' info of trial
     markers,...
-    timeWin, timeStep, tOffset1, tOffset2,nBins,Bin, ... % PSTH slide window info
-    meanSpon, p_anova_dire, DDI,preferDire,PSTH,... % PSTH and mean FR info
+    timeWin, timeStep, tOffset1, tOffset2,nBins,Bin,PCAStep,PCAWin,nBinsPCA, ... % PSTH slide window info
+    meanSpon, p_anova_dire, DDI,preferDire,PSTH,p_anova_dire_t,DDI_t,preferDire_t,... % PSTH and mean FR info
     PSTH3Dmodel); % model info
 
 switch Protocol
@@ -648,36 +797,73 @@ switch Protocol
     case ROTATION_TUNING_3D
         config.suffix = 'PSTH_R';
 end
-config.xls_column_begin = 'meanSpon';
-config.xls_column_end = 'R2A_vis';
-% figures to save
-config.save_figures = [];
 
-% Only once
-config.sprint_once_marker = {'0.2f'};
-config.sprint_once_contents = 'result.meanSpon';
-
-% loop across stim_type
-config.sprint_loop_marker = {{'0.0f','0.0f','0.2f','g'};
-    {'d','d','d'};
-    {'0.2f','0.2f','0.2f','0.2f','0.2f','0.2f',...
-    '0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
-    '0.1f','0.2f','0.2f','0.2f','0.2f','0.2f',...
-    '0.2f','0.2f','0.2f',...
-    '0.1f','0.2f','0.2f','0.2f','0.2f',...
-    '0.2f','0.2f'};
-    };
-config.sprint_loop_contents = {'result.preferDire{k}(1), result.preferDire{k}(2),result.DDI(k),result.p_anova_dire(k)';
-    'result.PSTH.respon_sigTrue(k),result.PSTH.NoDSPeaks(k), result.PSTH.sig(k)';
-    ['result.PSTH3Dmodel{k}.RSquared_VO,result.PSTH3Dmodel{k}.RSquared_AO,result.PSTH3Dmodel{k}.RSquared_VA,result.PSTH3Dmodel{k}.RSquared_VJ,result.PSTH3Dmodel{k}.RSquared_AJ,result.PSTH3Dmodel{k}.RSquared_VAJ,'...
-    'result.PSTH3Dmodel{k}.BIC_VO,result.PSTH3Dmodel{k}.BIC_AO,result.PSTH3Dmodel{k}.BIC_VA,result.PSTH3Dmodel{k}.BIC_VJ,result.PSTH3Dmodel{k}.BIC_AJ,result.PSTH3Dmodel{k}.BIC_VAJ,'...
-    'result.PSTH3Dmodel{k}.modelFitPara_VAJ(2),result.PSTH3Dmodel{k}.modelFitPara_VAJ(3),result.PSTH3Dmodel{k}.modelFitPara_VAJ(4),result.PSTH3Dmodel{k}.VAJ_wV,result.PSTH3Dmodel{k}.VAJ_wA,result.PSTH3Dmodel{k}.VAJ_wJ,'...
-    'result.PSTH3Dmodel{k}.VAJ_R2V,result.PSTH3Dmodel{k}.VAJ_R2A,result.PSTH3Dmodel{k}.VAJ_R2J,'...
-    'result.PSTH3Dmodel{k}.modelFitPara_VA(2),result.PSTH3Dmodel{k}.modelFitPara_VA(3),result.PSTH3Dmodel{k}.modelFitPara_VA(4),result.PSTH3Dmodel{k}.VA_wV,result.PSTH3Dmodel{k}.VA_wA,'...
-    'result.PSTH3Dmodel{k}.VA_R2V,result.PSTH3Dmodel{k}.VA_R2A']};
+switch model_catg
+    case 'Sync model'
+        config.xls_column_begin = 'meanSpon';
+        config.xls_column_end = 'nP_vis';
+        % config.xls_column_end = 'end';
+        % figures to save
+        config.save_figures = [];
+        
+        % Only once
+        config.sprint_once_marker = {'0.2f'};
+        config.sprint_once_contents = 'result.meanSpon';
+        
+        % loop across stim_type
+        config.sprint_loop_marker = {{'0.0f','0.0f','0.2f','g'};
+            {'d','d','d'};
+            {'0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f',...
+            '0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
+            '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
+            '0.1f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
+            '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
+            '0.1f','0.2f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f'};
+            };
+        config.sprint_loop_contents = {'result.preferDire{k}(1), result.preferDire{k}(2),result.DDI(k),result.p_anova_dire(k)';
+            'result.PSTH.respon_sigTrue(k),result.PSTH.NoDSPeaks(k), result.PSTH.sig(k)';
+            ['result.PSTH3Dmodel{k}.RSquared_VO,result.PSTH3Dmodel{k}.RSquared_AO,result.PSTH3Dmodel{k}.RSquared_VJ,result.PSTH3Dmodel{k}.RSquared_AJ,result.PSTH3Dmodel{k}.RSquared_VP,result.PSTH3Dmodel{k}.RSquared_AP,result.PSTH3Dmodel{k}.RSquared_VA,result.PSTH3Dmodel{k}.RSquared_VAP,result.PSTH3Dmodel{k}.RSquared_VAJ,result.PSTH3Dmodel{k}.RSquared_PVAJ,'...
+            'result.PSTH3Dmodel{k}.BIC_VO,result.PSTH3Dmodel{k}.BIC_AO,result.PSTH3Dmodel{k}.BIC_VJ,result.PSTH3Dmodel{k}.BIC_AJ,result.PSTH3Dmodel{k}.BIC_VP,result.PSTH3Dmodel{k}.BIC_AP,result.PSTH3Dmodel{k}.BIC_VA,result.PSTH3Dmodel{k}.BIC_VAP,result.PSTH3Dmodel{k}.BIC_VAJ,result.PSTH3Dmodel{k}.BIC_PVAJ,'...
+            'result.PSTH3Dmodel{k}.modelFitPara_VAJ(2),result.PSTH3Dmodel{k}.modelFitPara_VAJ(3),result.PSTH3Dmodel{k}.VAJ_wV,result.PSTH3Dmodel{k}.VAJ_wA,result.PSTH3Dmodel{k}.VAJ_wJ,result.PSTH3Dmodel{k}.VAJ_preDir_V(1),result.PSTH3Dmodel{k}.VAJ_preDir_V(2),result.PSTH3Dmodel{k}.VAJ_preDir_A(1),result.PSTH3Dmodel{k}.VAJ_preDir_A(2),result.PSTH3Dmodel{k}.VAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAJ(4),result.PSTH3Dmodel{k}.modelFitPara_VAJ(8),result.PSTH3Dmodel{k}.modelFitPara_VAJ(12),'...
+            'result.PSTH3Dmodel{k}.modelFitPara_VA(2),result.PSTH3Dmodel{k}.modelFitPara_VA(3),result.PSTH3Dmodel{k}.VA_wV,result.PSTH3Dmodel{k}.VA_wA,result.PSTH3Dmodel{k}.VA_preDir_V(1),result.PSTH3Dmodel{k}.VA_preDir_V(2),result.PSTH3Dmodel{k}.VA_preDir_A(1),result.PSTH3Dmodel{k}.VA_preDir_A(2),result.PSTH3Dmodel{k}.VA_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VA(4),result.PSTH3Dmodel{k}.modelFitPara_VA(8),'...
+            'result.PSTH3Dmodel{k}.modelFitPara_VAP(2),result.PSTH3Dmodel{k}.modelFitPara_VAP(3),result.PSTH3Dmodel{k}.VAP_wV,result.PSTH3Dmodel{k}.VAP_wA,result.PSTH3Dmodel{k}.VAP_wP,result.PSTH3Dmodel{k}.VAP_preDir_V(1),result.PSTH3Dmodel{k}.VAP_preDir_V(2),result.PSTH3Dmodel{k}.VAP_preDir_A(1),result.PSTH3Dmodel{k}.VAP_preDir_A(2),result.PSTH3Dmodel{k}.VAP_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAP(4),result.PSTH3Dmodel{k}.modelFitPara_VAP(8),result.PSTH3Dmodel{k}.modelFitPara_VAP(12),'...
+            'result.PSTH3Dmodel{k}.modelFitPara_PVAJ(2),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(3),result.PSTH3Dmodel{k}.PVAJ_wV,result.PSTH3Dmodel{k}.PVAJ_wA,result.PSTH3Dmodel{k}.PVAJ_wJ,result.PSTH3Dmodel{k}.PVAJ_wP,result.PSTH3Dmodel{k}.PVAJ_preDir_V(1),result.PSTH3Dmodel{k}.PVAJ_preDir_V(2),result.PSTH3Dmodel{k}.PVAJ_preDir_A(1),result.PSTH3Dmodel{k}.PVAJ_preDir_A(2),result.PSTH3Dmodel{k}.PVAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_PVAJ(4),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(8),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(12),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(16)']};
+        
+    case 'Out-sync model'
+        config.xls_column_begin = 'meanSpon';
+        config.xls_column_end = 'Delay_P_to_A_vis';
+        % config.xls_column_end = 'end';
+        % figures to save
+        config.save_figures = [];
+        
+        % Only once
+        config.sprint_once_marker = {'0.2f'};
+        config.sprint_once_contents = 'result.meanSpon';
+        
+        % loop across stim_type
+        config.sprint_loop_marker = {{'0.0f','0.0f','0.2f','g'};
+            {'d','d','d'};
+            {'0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f',...
+            '0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
+            '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f','0.3f',...
+            '0.1f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f',...
+            '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f','0.3f',...
+            '0.1f','0.2f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f','0.3f','0.3f'};
+            };
+        config.sprint_loop_contents = {'result.preferDire{k}(1), result.preferDire{k}(2),result.DDI(k),result.p_anova_dire(k)';
+            'result.PSTH.respon_sigTrue(k),result.PSTH.NoDSPeaks(k), result.PSTH.sig(k)';
+            ['result.PSTH3Dmodel{k}.RSquared_VO,result.PSTH3Dmodel{k}.RSquared_AO,result.PSTH3Dmodel{k}.RSquared_VJ,result.PSTH3Dmodel{k}.RSquared_AJ,result.PSTH3Dmodel{k}.RSquared_VP,result.PSTH3Dmodel{k}.RSquared_AP,result.PSTH3Dmodel{k}.RSquared_VA,result.PSTH3Dmodel{k}.RSquared_VAP,result.PSTH3Dmodel{k}.RSquared_VAJ,result.PSTH3Dmodel{k}.RSquared_PVAJ,'...
+            'result.PSTH3Dmodel{k}.BIC_VO,result.PSTH3Dmodel{k}.BIC_AO,result.PSTH3Dmodel{k}.BIC_VJ,result.PSTH3Dmodel{k}.BIC_AJ,result.PSTH3Dmodel{k}.BIC_VP,result.PSTH3Dmodel{k}.BIC_AP,result.PSTH3Dmodel{k}.BIC_VA,result.PSTH3Dmodel{k}.BIC_VAP,result.PSTH3Dmodel{k}.BIC_VAJ,result.PSTH3Dmodel{k}.BIC_PVAJ,'...
+            'result.PSTH3Dmodel{k}.modelFitPara_VAJ(2),result.PSTH3Dmodel{k}.modelFitPara_VAJ(3),result.PSTH3Dmodel{k}.VAJ_wV,result.PSTH3Dmodel{k}.VAJ_wA,result.PSTH3Dmodel{k}.VAJ_wJ,result.PSTH3Dmodel{k}.VAJ_preDir_V(1),result.PSTH3Dmodel{k}.VAJ_preDir_V(2),result.PSTH3Dmodel{k}.VAJ_preDir_A(1),result.PSTH3Dmodel{k}.VAJ_preDir_A(2),result.PSTH3Dmodel{k}.VAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAJ(4),result.PSTH3Dmodel{k}.modelFitPara_VAJ(8),result.PSTH3Dmodel{k}.modelFitPara_VAJ(12),result.PSTH3Dmodel{k}.VAJ_Delay_VA,result.PSTH3Dmodel{k}.VAJ_Delay_JA,'...
+            'result.PSTH3Dmodel{k}.modelFitPara_VA(2),result.PSTH3Dmodel{k}.modelFitPara_VA(3),result.PSTH3Dmodel{k}.VA_wV,result.PSTH3Dmodel{k}.VA_wA,result.PSTH3Dmodel{k}.VA_preDir_V(1),result.PSTH3Dmodel{k}.VA_preDir_V(2),result.PSTH3Dmodel{k}.VA_preDir_A(1),result.PSTH3Dmodel{k}.VA_preDir_A(2),result.PSTH3Dmodel{k}.VA_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VA(4),result.PSTH3Dmodel{k}.modelFitPara_VA(8),result.PSTH3Dmodel{k}.VA_Delay_VA,'...
+            'result.PSTH3Dmodel{k}.modelFitPara_VAP(2),result.PSTH3Dmodel{k}.modelFitPara_VAP(3),result.PSTH3Dmodel{k}.VAP_wV,result.PSTH3Dmodel{k}.VAP_wA,result.PSTH3Dmodel{k}.VAP_wP,result.PSTH3Dmodel{k}.VAP_preDir_V(1),result.PSTH3Dmodel{k}.VAP_preDir_V(2),result.PSTH3Dmodel{k}.VAP_preDir_A(1),result.PSTH3Dmodel{k}.VAP_preDir_A(2),result.PSTH3Dmodel{k}.VAP_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAP(4),result.PSTH3Dmodel{k}.modelFitPara_VAP(8),result.PSTH3Dmodel{k}.modelFitPara_VAP(12),result.PSTH3Dmodel{k}.VAP_Delay_VA,result.PSTH3Dmodel{k}.VAP_Delay_PA,'...
+            'result.PSTH3Dmodel{k}.modelFitPara_PVAJ(2),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(3),result.PSTH3Dmodel{k}.PVAJ_wV,result.PSTH3Dmodel{k}.PVAJ_wA,result.PSTH3Dmodel{k}.PVAJ_wJ,result.PSTH3Dmodel{k}.PVAJ_wP,result.PSTH3Dmodel{k}.PVAJ_preDir_V(1),result.PSTH3Dmodel{k}.PVAJ_preDir_V(2),result.PSTH3Dmodel{k}.PVAJ_preDir_A(1),result.PSTH3Dmodel{k}.PVAJ_preDir_A(2),result.PSTH3Dmodel{k}.PVAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_PVAJ(4),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(8),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(12),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(16),result.PSTH3Dmodel{k}.PVAJ_Delay_VA,result.PSTH3Dmodel{k}.PVAJ_Delay_JA,result.PSTH3Dmodel{k}.PVAJ_Delay_PA']};
+        
+end
 
 config.append = 1; % Overwrite or append
-
+% keyboard;
 SaveResult(config, result);
 
+% toc;
 end

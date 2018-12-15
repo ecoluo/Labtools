@@ -86,16 +86,17 @@ for k = 1:length(unique_stimType)
     str4 = [str, '_Tuning_totalT'];
     if Protocol == DIRECTION_TUNING_3D
         ss = [str4, '_T'];
-        saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'pdf');
+        saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
     elseif Protocol == ROTATION_TUNING_3D
         ss = [str4, '_R'];
-        saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'pdf');
+        saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
     end
 
 end
 %} 
+
 % % ------ fig.120 plot coutour tuning responses (at peak time) ------%
-%{ 
+% %{ 
 % transform
 % k=1,2,3
 % j= -90,-45,0,45,90 (up->down)
@@ -114,23 +115,23 @@ yEle = [-1,-0.707,0,0.707,1];
 
 
 for k = 1:length(unique_stimType)
-    if ~isempty(PSTH.peak_DS{k})
+    if ~isempty(PSTH.peak{k})
         figure(120+k);
         set(gcf,'pos',[60 200 1800 800]);
         clf;
-        for ii = 1:length(PSTH.peak_DS{k})
-            axes('unit','pixels','pos',[60+100*ii+500*(ii-1) 300 400 200]);
-            contourf(xAzi,yEle,spk_data_bin_mean_rate_trans{k}(:,:,PSTH.peak_DS{k}(ii)),'linecolor','w','linestyle','none');
+        for pt = 1:PSTH.NoPeaks(k)
+            axes('unit','pixels','pos',[60+100*pt+500*(pt-1) 300 400 200]);
+            contourf(xAzi,yEle,spk_data_bin_mean_rate_trans{k}(:,:,PSTH.peak{k}(pt)),'linecolor','w','linestyle','none');
             colorbar;
             set(gca, 'ydir' , 'reverse'); % so that up is up, down is down
-            title(gca,['t = ',num2str((PSTH.peak_DS{k}(ii)*timeStep-tOffset1)/1000),' s']);
+            title(gca,['t = ',num2str((PSTH.peak{k}(pt)*timeStep-tOffset1)/1000),' s']);
             set(gca, 'xtick', [] );
             set(gca, 'ytick', [] );
             box off;
             % errobar of azimuth
-            axes('unit','pixels','pos',[60+100*ii+500*(ii-1) 200 315 100]);
-            y_azimuth_mean = mean(spk_data_bin_mean_rate_trans{k}(:,:,PSTH.peak_DS{k}(ii)),1);
-            y_azimuth_std =std(spk_data_bin_mean_rate_trans{k}(:,:,PSTH.peak_DS{k}(ii)),1);
+            axes('unit','pixels','pos',[60+100*pt+500*(pt-1) 200 315 100]);
+            y_azimuth_mean = mean(spk_data_bin_mean_rate_trans{k}(:,:,PSTH.peak{k}(pt)),1);
+            y_azimuth_std =std(spk_data_bin_mean_rate_trans{k}(:,:,PSTH.peak{k}(pt)),1);
             y_azimuth_ste =y_azimuth_std / sqrt(length(find( (temp_azimuth==unique_azimuth(iAzi(i)))&(temp_stimType==unique_stimType(k)) )) );
             
             errorbar(xAzi,y_azimuth_mean,y_azimuth_ste,'k.-','markerSize',20,'linewidth',2);
@@ -142,9 +143,9 @@ for k = 1:length(unique_stimType)
             ylim([min(y_azimuth_mean)-max(y_azimuth_ste), max(y_azimuth_mean)+max(y_azimuth_ste)+2]);
             axis off;
             % errobar of elevation
-            axes('unit','pixels','pos',[60+600*(ii-1) 300 100 200]);
-            y_elevation_mean=mean(spk_data_bin_mean_rate_trans{k}(:,:,PSTH.peak_DS{k}(ii)),2);
-            y_elevation_std =std(spk_data_bin_mean_rate_trans{k}(:,:,PSTH.peak_DS{k}(ii)),0,2);
+            axes('unit','pixels','pos',[60+600*(pt-1) 300 100 200]);
+            y_elevation_mean=mean(spk_data_bin_mean_rate_trans{k}(:,:,PSTH.peak{k}(pt)),2);
+            y_elevation_std =std(spk_data_bin_mean_rate_trans{k}(:,:,PSTH.peak{k}(pt)),0,2);
             y_elevation_ste =y_elevation_std/ sqrt(length(find( (temp_elevation==unique_elevation(j))&(temp_stimType==unique_stimType(k)) )) );
             errorbar(yEle,y_elevation_mean,y_elevation_ste,'k.-','markerSize',20,'linewidth',2);
             xlim([-1 1]);
@@ -176,15 +177,14 @@ for k = 1:length(unique_stimType)
         
         if Protocol == DIRECTION_TUNING_3D
             ss = [str, '_T'];
-            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'pdf');
+            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
         elseif Protocol == ROTATION_TUNING_3D
             ss = [str, '_R'];
-            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'pdf');
+            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
         end
     end
 end
 %}
-
 % ------ fig.130 plot coutour tuning responses (3 time) ------%
 % %{
 % transform
@@ -273,10 +273,10 @@ for k = 1:length(unique_stimType)
         
         if Protocol == DIRECTION_TUNING_3D
             ss = [str, '_T'];
-            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'pdf');
+            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
         elseif Protocol == ROTATION_TUNING_3D
             ss = [str, '_R'];
-            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'pdf');
+            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
         end
     end
 end

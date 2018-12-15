@@ -29,12 +29,14 @@ switch model_catg
             % [PSTH3Dmodel{1}.modelFitRespon_VO,PSTH3Dmodel{1}.modelFitPara_VO,PSTH3Dmodel{1}.BIC_VO,PSTH3Dmodel{1}.RSquared_VO,PSTH3Dmodel{1}.rss_VO,PSTH3Dmodel{1}.time]=fitVO(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin);
         end
     case 'Out-sync model'
+        
         for m_inx = 1:length(models)
             eval(['[PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFitRespon_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFit_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFit_spatial',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFitPara_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.BIC_',models{m_inx},...
                 ',PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.rss_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.time]=fit',models{m_inx},'_O',...
                 '(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration);']);
             % [PSTH3Dmodel{1}.modelFitRespon_VO,PSTH3Dmodel{1}.modelFitPara_VO,PSTH3Dmodel{1}.BIC_VO,PSTH3Dmodel{1}.RSquared_VO,PSTH3Dmodel{1}.rss_VO,PSTH3Dmodel{1}.time]=fitVO(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin);
         end
+
 end
 
 % for plotting figures
@@ -66,6 +68,7 @@ for m_inx = 1:length(models)
     end
     
 end
+
 
 % % for contour plots of V, A, J respectively
 % % use spatial-temporal data
@@ -209,6 +212,6 @@ if sum(ismember(models,'VA')) ~= 0
 end
 
 % % keyboard;
-models_figure;
+% models_figure;
 
 end
