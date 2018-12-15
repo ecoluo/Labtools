@@ -10,18 +10,23 @@ header = XlsData.header;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BATCH address
 mat_address = {
-    
-
 % 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6_m5','PSTH_T','3DT';
-% 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6_m5','PSTH_R','3DR';
-'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT';
-'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR';
-'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6_m5','PSTH_T','3DT_dark';
-'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6_m5','PSTH_R','3DR_dark';
+% 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6_m5','PSTH_R','3DR';    
+% 'Z:\Data\TEMPO\BATCH\20181008_3DModel_noModel_PCC_m6_m5','PSTH_T','3DT';
+% 'Z:\Data\TEMPO\BATCH\20181008_3DModel_noModel_PCC_m6_m5','PSTH_R','3DR';
+'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
+'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
+% 'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT';
+% 'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR';
+'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT_dark';
+'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR_dark';
+% 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6_m5','PSTH_T','3DT_dark';
+% 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6_m5','PSTH_R','3DR_dark';
 % 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_Dark_PCC_m6_m5','PSTH_T','3DT_dark';
 % 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_Dark_PCC_m6_m5','PSTH_R','3DR_dark';
 };
 
+% %{
 mask_all = {
     strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1')...
     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
@@ -33,7 +38,35 @@ mask_all = {
     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
     
     }; % Now no constraint on monkeys
+%}
+%{
+mask_all = {
+    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1')...
+    & strcmp(txt(:,header.Area),'PCCl');
+    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1')...
+    & strcmp(txt(:,header.Area),'PCCl');
+    strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1')...
+    & strcmp(txt(:,header.Area),'PCCl');
+    strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1')...
+    & strcmp(txt(:,header.Area),'PCCl');
+    
+    }; % Now no constraint on monkeys
+%}
 
+%{
+mask_all = {
+    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1')...
+    & strcmp(txt(:,header.Area),'PCCu');
+    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1')...
+    & strcmp(txt(:,header.Area),'PCCu');
+    strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1')...
+    & strcmp(txt(:,header.Area),'PCCu');
+    strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1')...
+    & strcmp(txt(:,header.Area),'PCCu');
+    
+    }; % Now no constraint on monkeys
+%}
+    
 % Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
 monkey_included_for_loading = [6 5];
 Monkeys{5} = 'Polo';
@@ -131,16 +164,7 @@ end
                             raw = load(mat_file_fullname);
                             group_result(major_i).cellID{pp}{ii} = cell_info{pp}{file_i(ii)};
                             
-                            
-                            %                             if strcmp('3DT',xls_txt{pp}(file_i(ii),header.Protocol)) && ~strcmp('1',xls_txt{pp}(file_i(ii),header.Dark)) % 3DT
-                            %                                 group_result(major_i).(['mat_raw_' mat_address{pp,2}])(ii) = raw.result;  % Dynamic structure
-                            %                             elseif strcmp('3DR',xls_txt{pp}(file_i(ii),header.Protocol)) && ~strcmp('1',xls_txt{pp}(file_i(ii),header.Dark))% 3DR
-                            %                                 group_result(major_i).(['mat_raw_' mat_address{pp,2}])(ii) = raw.result;  % Dynamic structure
-                            %                             elseif strcmp('3DT',xls_txt{pp}(file_i(ii),header.Protocol)) && strcmp('1',xls_txt{pp}(file_i(ii),header.Dark))% 3DT,dark
-                            %                                 group_result(major_i).(['mat_raw_Dark_' mat_address{pp,2}])(ii) = raw.result;  % Dynamic structure
-                            %                             elseif strcmp('3DR',xls_txt{pp}(file_i(ii),header.Protocol)) && strcmp('1',xls_txt{pp}(file_i(ii),header.Dark))% 3DR,dark
-                            %                                 group_result(major_i).(['mat_raw_Dark_' mat_address{pp,2}])(ii) = raw.result;  % Dynamic structure
-                            %                             end
+                           
                             group_result(major_i).('mat_raw'){pp}{ii} = raw.result;  % Dynamic structure
                             
                         end
@@ -148,14 +172,7 @@ end
                         fprintf('Error Loading %s\n',[mat_file_name '_' mat_address{pp,3}]);
                         keyboard;
                     end
-                    %{
-                 else
-                    %                     if ~strcmp('1',xls_txt{pp}(file_i,header.Dark))
-                    %                         group_result(major_i).(['mat_raw_' mat_address{pp,2}]) = [];
-                    %                     elseif strcmp('1',xls_txt{pp}(file_i,header.Dark))% dark
-                    %                         group_result(major_i).(['mat_raw_Dark' mat_address{pp,2}]) = [];
-                    %                     end
-                    %}
+                   
                 else
                     group_result(major_i).cellID{pp} = [];
                     group_result(major_i).('mat_raw'){pp} = [];
@@ -174,7 +191,13 @@ end
 %% Get some values from group_result(i).mat_raw_xxx our to group_result(i) for easier access
 
 stimType = {'vestibular';'visual'};
-models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+models = {'VO'};
+model_cat = 1; % Sync model
+% model_cat = 2; % Out-sync model
+nParaModel{1} = [7 7 12 12 12 12 12 17 17 22]; % how many free parameters for each model
+nParaModel{2} = [7 7 13 13 13 13 13 19 19 25];
+% models = {'VA'};
 
 for i = 1:length(group_result)
     for pp = 1:size(mat_address,1)
@@ -182,25 +205,32 @@ for i = 1:length(group_result)
             group_result(i).uStimType{pp} = [];
             group_result(i).pANOVA{pp} = [];
             group_result(i).preDir{pp} = [];
+            group_result(i).preDir_peak{pp} = [];
             group_result(i).DDI{pp} = [];
+            group_result(i).DDI_peak{pp} = [];
             group_result(i).meanSpon{pp} = [];
             group_result(i).responSig{pp} = [];
             group_result(i).PSTH{pp} = [];
             group_result(i).Rextre{pp} =[];
             group_result(i).PSTH3Dmodel{pp}{ii} = [];
+            group_result(i).peakT{pp} = [];
+            group_result(i).data_PCA{pp} = [];
         else
             for ii = 1:length(group_result(i).mat_raw{pp}) % >= one files for this protocol
                 
                 group_result(i).uStimType{pp}{ii} = group_result(i).mat_raw{pp}{ii}.unique_stimType;
                 group_result(i).pANOVA{pp}{ii} = group_result(i).mat_raw{pp}{ii}.p_anova_dire;
                 group_result(i).preDir{pp}{ii} = group_result(i).mat_raw{pp}{ii}.preferDire;
+                group_result(i).preDir_peak{pp}{ii} = group_result(i).mat_raw{pp}{ii}.preferDire_t;
                 group_result(i).DDI{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI;
+                group_result(i).DDI_peak{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI_t;
                 group_result(i).meanSpon{pp}{ii} = group_result(i).mat_raw{pp}{ii}.meanSpon;
                 group_result(i).responSig{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.respon_sigTrue;
-                %                 group_result(i).PSTH{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_mean_rate_aov_cell;
+                group_result(i).PSTH{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_mean_rate_aov_cell;
                 group_result(i).Rextre{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.maxSpkRealBinMean-group_result(i).mat_raw{pp}{ii}.PSTH.minSpkRealBinMean;
                 group_result(i).PSTH3Dmodel{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH3Dmodel;
-                
+                group_result(i).peakT{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.peak;
+                group_result(i).data_PCA{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_mean_rate_PCA;
                 
             end
         end
@@ -219,6 +249,12 @@ temp = load('Z:\Data\TEMPO\BATCH\TEMPO1_Acceleration_sigma4_5p_11');
 
 
 nBins = group_result(1).mat_raw{1}{1}.nBins;
+PCAStep = group_result(1).mat_raw{1}{1}.PCAStep;
+nBinsPCA = group_result(1).mat_raw{1}{1}.nBinsPCA;
+duration = group_result(1).mat_raw{1}{1}.unique_duration; % unit in ms
+totalBinT = group_result(1).mat_raw{1}{1}.unique_duration + group_result(1).mat_raw{1}{1}.tOffset1 + group_result(1).mat_raw{1}{1}.tOffset2; 
+stimOnBin = group_result(1).mat_raw{1}{1}.markers{1,3};
+stimOffBin = group_result(1).mat_raw{1}{1}.markers{2,3};
 % initialize with NaN
 
 for pp = 1:size(mat_address,1)
@@ -240,7 +276,6 @@ for pp = 1:size(mat_address,1)
         preDir{pp}{jj} = NaN(size(cell_true,1),3);
         %         DDI{pp}(:,jj) = NaN(size(cell_true,1),1);
         %         responSig{pp}(:,jj) = NaN(size(cell_true,1),1);
-        
         PSTH{pp}{jj} = NaN(size(cell_true,1),nBins);
         %         Rextre{pp}(:,jj) = NaN(size(cell_true,1),1);
         
@@ -258,11 +293,15 @@ for pp = 1:size(mat_address,1)
                     uStimType{pp}(i,jj) = 1;
                     pANOVA{pp}(i,jj) = group_result(i).pANOVA{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
                     preDir{pp}{jj}(i,:) = group_result(i).preDir{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
+                    preDir_peak{pp}{jj}{i} = group_result(i).preDir_peak{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
                     DDI{pp}(i,jj) = group_result(i).DDI{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
+                    DDI_peak{pp}{jj}{i} = group_result(i).DDI_peak{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
+                    peakT{pp}{jj}{i} = group_result(i).peakT{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
                     responSig{pp}(i,jj) = group_result(i).responSig{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
-                    %                     PSTH{pp}{jj}(i,:) = group_result(i).PSTH{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
+                    PSTH{pp}{jj}(i,:) = group_result(i).PSTH{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
                     Rextre{pp}(i,jj) = group_result(i).Rextre{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
                     PSTH3Dmodel{pp}{i,jj} = group_result(i).PSTH3Dmodel{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
+                    data_PCA{pp}{jj}{i} = group_result(i).data_PCA{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
                 end
             end
         end
@@ -287,13 +326,14 @@ for pp = 1:size(mat_address,1)
         R2{pp}{jj} = nan(length(group_result),length(models));
         BIC{pp}{jj} = nan(length(group_result),length(models));
         Para{pp}{jj} = cell(length(group_result),length(models));
+        RSS{pp}{jj} = nan(length(group_result),length(models));
         
         preDir_V_VA{pp}{jj} = nan(length(group_result),3);preDir_A_VA{pp}{jj} = nan(length(group_result),3);
         
         for i = 1:length(group_result)
             if responSig{pp}(i,jj) == 1
                 for m_inx = 1:length(models)
-                    temp = isfield(PSTH3Dmodel{pp}{i,jj}{1},{['RSquared_',models{m_inx}],['BIC_',models{m_inx}],['modelFitPara_',models{m_inx}]});
+                    temp = isfield(PSTH3Dmodel{pp}{i,jj}{1},{['RSquared_',models{m_inx}],['BIC_',models{m_inx}],['modelFitPara_',models{m_inx}],['rss_',models{m_inx}]});
                     if temp(1) == 1
                         % pack R_squared values to group_result.R2.*(* the model)
                         eval(['R2{',num2str(pp),'}{',num2str(jj),'}(',num2str(i),',',num2str(m_inx),') = PSTH3Dmodel{',num2str(pp),'}{',num2str(i),',',num2str(jj),'}{1}.RSquared_', models{m_inx}, ';']);
@@ -312,7 +352,12 @@ for pp = 1:size(mat_address,1)
                         % Para{pp}{jj}{i,m_inx} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitPara_VO;
                         
                     end
-                    
+                    if temp(4) == 1
+                        % pack rss values to group_result.R2.*(* the model)
+                        eval(['RSS{',num2str(pp),'}{',num2str(jj),'}(',num2str(i),',',num2str(m_inx),') = PSTH3Dmodel{',num2str(pp),'}{',num2str(i),',',num2str(jj),'}{1}.rss_', models{m_inx}, ';']);
+                        % RSS{pp}{jj}(i,m_inx) = PSTH3Dmodel{pp}{i,jj}{1}.RSquared_VO;
+                        
+                    end
                 end
                 
                 if sum(strcmp(models,'VA'))
@@ -381,7 +426,7 @@ for pp = 1:size(mat_address,1)
     spatialSig_i{pp}(:,3) = spatialSig_i{pp}(:,1) & spatialSig_i{pp}(:,2);
     
 end
-
+ PSTH_PCA = [];
 cell_nums = [];
 monkey_included_for_analysis = [];
 select_all = [];select_temporalSig = [];select_spatialSig = [];
@@ -693,6 +738,8 @@ set(0,'defaultaxesfontsize',12);
 % Condition = {'Translation','Rotation','T_dark','R_dark'};
 %
 % set(0,'defaultAxesColorOrder',[0 0 1; 1 0 0; 0 0.8 0.4;]);
+colors = {'b','r'};
+markers = {'o','^'};
 transparent = .5;
 figN = 2499;
 nHist = 11;
@@ -713,7 +760,9 @@ function_handles = {
     '    Peak distribution', @f1p1p2;
     'Spatial modulation',@f1p1;
     '    DDI distribution',@f1p2p1;
+    '    DDI distribution at peak time',@f1p2p4;
     '    Preferred direction distribution',@f1p2p2;
+    '    Preferred direction distribution at peak time',@f1p2p5;
     'Comparisons between T & R',@f1p3;
     '    DDI distribution',@f1p3p1;
     '    Preferred direction distribution',@f1p3p2;
@@ -722,12 +771,14 @@ function_handles = {
     '    Rmax-Rmin',@f1p4p2;
     '    DDI distribution',@f1p4p3;
     'Spontaneous FR',@f1p5;
+    'PCA',@f1p6;
     };
     
     'Temporal-spatial models', {
     'model fitting evaluation', @f2p1;
     '    BIC distribution across models', @f2p1p1;
     '    R_squared distribution across models', @f2p1p2;
+    '    VAF comparison across models', @f2p1p3;
     'Parameter analysis',@f2p2;
     '    Weight ratio (V/A) distribution', @f2p2p1;
     '    Weight distribution', @f2p2p5;
@@ -824,9 +875,75 @@ medianDelay_VA_VA = [];
 delay_VA_VA = [];
 xDelay = [];
 DDI_plot = [];
-nHist = [];
 wV_VA_plot = [];
 wA_VA_plot = [];
+idx2 = [];
+idx1 = [];
+peakT_plot= [];
+DDI_peak_plot= [];
+dPeakIdx= [];
+sPeakIdx= [];
+nPeakIdx= [];
+noDPeak= [];
+noSPeak= [];
+noNPeak= [];
+DDI_dPeak= [];
+DDI_sPeak= [];
+n_DDI = [];
+medianDDI = [];
+RSS_temp = [];
+seqF = [];
+R2_plot_sig = [];
+n_DDI_early= [];
+n_DDI_late= [];
+medianDDI_early= [];
+medianDDI_late= [];
+dPeakT = [];
+sPeakT = [];
+n_peakT = [];
+medianPeakT = [];
+xPeakT = [];
+n_peakT_early = [];
+n_peakT_late = [];
+medianPeakT_late = [];
+medianPeakT_early = [];
+dPeakT_late = [];
+dPeakT_early = [];
+dPeakIdx_early = [];
+dPeakIdx_late = [];
+DDI_dPeak_early = [];
+DDI_dPeak_late = [];
+preDir_peak_plot = [];
+preDir_dPeak_early = [];
+preDir_dPeak_late = [];
+n_preDir_early= [];
+n_preDir_late= [];
+medianPreDir_early= [];
+medianPreDir_late= [];
+preDir_sPeak= [];
+n_preDir = [];
+medianPreDir = [];
+preDir_plot_azi = [];
+preDir_plot_ele = [];
+preDir_sPeak_azi = [];
+preDir_sPeak_ele = [];
+preDir_dPeak_early_azi = [];
+preDir_dPeak_early_ele = [];
+preDir_dPeak_late_azi = [];
+preDir_dPeak_late_ele = [];
+bothSPeakIdx = [];
+preDir_sPeak_diff = [];
+bothDPeakIdx = [];
+temp1 = [];
+temp2 = [];
+dataPCA = [];
+weights_PCA_PC = [];
+score = [];
+latent = [];
+PCA_explained{pp}{jj} = [];
+PCA_projPC = [];
+PCA_times = [];
+
 a = 3;
 b = 3;
 c = 3;
@@ -919,408 +1036,86 @@ c = 3;
 
     function f1p1p2(debug)      % Peak distribution
         if debug  ; dbstack;   keyboard;      end
-        Disp('Not written yet..')
-        %{
-        timeStep = 25;
-        tOffset1 = 100;
-        stimOnBin = floor(tOffset1/timeStep)+1;
-        % classify cells into single-peaked, double-peaked, triple-peaked, no-peak and others
+      
+         for pp = 1:2
+            for jj = 1:2
+                peakT_plot{pp}{jj} = peakT{pp}{jj}(select_temporalSig{pp}(:,jj));
+                dPeakIdx{pp}{jj} = logical(cellfun(@length,peakT_plot{pp}{jj}) == 2); % double peak
+                sPeakIdx{pp}{jj} = logical(cellfun(@length,peakT_plot{pp}{jj}) == 1); % single peak
+                nPeakIdx{pp}{jj} = logical(cellfun(@length,peakT_plot{pp}{jj}) == 0); % not tuned
+                noDPeak(pp,jj) = sum(dPeakIdx{pp}{jj});
+                noSPeak(pp,jj) = sum(sPeakIdx{pp}{jj});
+                noNPeak(pp,jj) = sum(nPeakIdx{pp}{jj});
+                dPeakT{pp}{jj} = (reshape(cell2mat(peakT_plot{pp}{jj}(dPeakIdx{pp}{jj})),2,[])-stimOnBin)*totalBinT/nBins;
+                dPeakT_late{pp}{jj} = bsxfun(@max,dPeakT{pp}{jj}(1,:),dPeakT{pp}{jj}(2,:));
+                dPeakT_early{pp}{jj} = bsxfun(@min,dPeakT{pp}{jj}(1,:),dPeakT{pp}{jj}(2,:));
+                sPeakT{pp}{jj} = (cell2mat(peakT_plot{pp}{jj}(sPeakIdx{pp}{jj}))-stimOnBin)*totalBinT/nBins;
+                
+            end
+         end
         
-        T_vesti_NPeakInx = logical(cat(1,T.vestiNoDSPeaks) == 0) & logical(T_vestiResponSig == 1);
-        T_vesti_SPeakInx = find(cat(1,T.vestiNoDSPeaks) == 1);
-        T_vesti_DPeakInx = find(cat(1,T.vestiNoDSPeaks) == 2);
-        T_vesti_TPeakInx = find(cat(1,T.vestiNoDSPeaks) == 3);
+        % plot figures for peak time distribution (Single-peaked cells)
+        xPeakT = linspace(0,duration,21);
+        figure(11);set(figure(11),'name','Distribution of peak time (Single-peaked cells)','unit','pixels','pos',[-1070 300 1050 400]); clf;
+        [~,h_subplot] = tight_subplot(1,4,0.05,0.2,[0.05 0.05]);
+        for pp = 1:2
+            for jj = 1:2
+                axes(h_subplot((pp-1)*2+jj));hold on;
+                n_peakT{pp}{jj} = hist(sPeakT{pp}{jj},xPeakT);
+                medianPeakT{pp}(jj) = median(sPeakT{pp}{jj});
+                hbar{pp} = bar(xPeakT,n_peakT{pp}{jj});set(hbar{pp},'facecolor',colors{jj},'edgecolor',colors{jj});
+                xlabel('Time (ms)');ylabel('cell #');set(gca,'xlim',[0 duration]);
+                plot([medianPeakT{pp}(jj) medianPeakT{pp}(jj)],[0 max(n_peakT{pp}{jj})*1.1],'k--','color',colors{jj},'linewidth',1.5);
+                text(medianPeakT{pp}(jj),max(n_peakT{pp}{jj})*1.2,num2str(medianPeakT{pp}(jj)));
+                text(1,max(n_peakT{pp}{jj}),['n = ',num2str(length(sPeakT{pp}{jj}))]);
+                axis on;hold off;
+                
+            end
+        end
+        % text necessary infos
+            axes('pos',[0.1 0.95 0.9 0.1]);
+%             text(0.25,0.5,['Distribution of DDI   (Monkey = ',monkey_to_print,')']);
+            axis off;
+            axes('pos',[0.05 0.05 0.9 0.1]);
+            text(0.15,0,'Translation');text(0.75,0,'Rotation'); axis off;
+            suptitle('Distribution of peak time (Single-peaked cells)');
+        SetFigure(12);
         
-        T_vis_NPeakInx = logical(cat(1,T.visNoDSPeaks) == 0) & logical(T_visResponSig == 1);
-        T_vis_SPeakInx = find(cat(1,T.visNoDSPeaks) == 1);
-        T_vis_DPeakInx = find(cat(1,T.visNoDSPeaks) == 2);
-        T_vis_TPeakInx = find(cat(1,T.visNoDSPeaks) == 3);
-        
-        R_vesti_NPeakInx = logical(cat(1,R.vestiNoDSPeaks) == 0) & logical(R_vestiResponSig == 1);
-        R_vesti_SPeakInx = find(cat(1,R.vestiNoDSPeaks) == 1);
-        R_vesti_DPeakInx = find(cat(1,R.vestiNoDSPeaks) == 2);
-        R_vesti_TPeakInx = find(cat(1,R.vestiNoDSPeaks) == 3);
-        
-        R_vis_NPeakInx = logical(cat(1,R.visNoDSPeaks) == 0) & logical(R_visResponSig == 1);
-        R_vis_SPeakInx = find(cat(1,R.visNoDSPeaks) == 1);
-        R_vis_DPeakInx = find(cat(1,R.visNoDSPeaks) == 2);
-        R_vis_TPeakInx = find(cat(1,R.visNoDSPeaks) == 3);
-        
-        % pack peak data, according to p value (ANOVA)
-        % considering specific stim type itself
-        % T_vestiTPeakT = repmat(cat(1,T(T_vesti_DPeakInx).vestipeakDS),[],3);
-        
-        % T_vestiSPeakT = cat(1,T(T_vesti_SPeakInx).vestipeakDS);
-        % T_vestiDPeakT = cat(1,T(T_vesti_DPeakInx).vestipeakDS);
-        % T_visSPeakT = cat(1,T(T_vis_SPeakInx).vispeakDS);
-        % T_visDPeakT = cat(1,T(T_vis_DPeakInx).vispeakDS);
-        % T_vestiSPeakTMedian = (median(T_vestiSPeakT) - stimOnBin)*timeStep;
-        % T_vestiDPeakT1Median = (median(T_vestiDPeakT(:,1)) - stimOnBin)*timeStep;
-        % T_vestiDPeakT2Median = (median(T_vestiDPeakT(:,2)) - stimOnBin)*timeStep;
-        % T_visSPeakTMedian = (median(T_visSPeakT) - stimOnBin)*timeStep;
-        % T_visDPeakT1Median = (median(T_visDPeakT(:,1)) - stimOnBin)*timeStep;
-        % T_visDPeakT2Median = (median(T_visDPeakT(:,2)) - stimOnBin)*timeStep;
-        %
-        % R_vestiSPeakT = cat(1,R(R_vesti_SPeakInx).vestipeakDS);
-        % R_vestiDPeakT = cat(1,R(R_vesti_DPeakInx).vestipeakDS);
-        % R_visSPeakT = cat(1,R(R_vis_SPeakInx).vispeakDS);
-        % R_visDPeakT = cat(1,R(R_vis_DPeakInx).vispeakDS);
-        % R_vestiSPeakTMedian = (median(R_vestiSPeakT) - stimOnBin)*timeStep;
-        % R_vestiDPeakT1Median = (median(R_vestiDPeakT(:,1)) - stimOnBin)*timeStep;
-        % R_vestiDPeakT2Median = (median(R_vestiDPeakT(:,2)) - stimOnBin)*timeStep;
-        % R_visSPeakTMedian = (median(R_visSPeakT) - stimOnBin)*timeStep;
-        % R_visDPeakT1Median = (median(R_visDPeakT(:,1)) - stimOnBin)*timeStep;
-        % R_visDPeakT2Median = (median(R_visDPeakT(:,2)) - stimOnBin)*timeStep;
-        %
-        % % pack PSTH data, according to peak
-        %
-        % T_vestiPSTHSPeak = T_vestiPSTH(T_vesti_SPeakInx,:);
-        % T_vestiPSTHDPeak = T_vestiPSTH(T_vesti_DPeakInx,:);
-        % T_visPSTHSPeak = T_visPSTH(T_vis_SPeakInx,:);
-        % T_visPSTHDPeak = T_visPSTH(T_vis_DPeakInx,:);
-        % R_vestiPSTHSPeak = R_vestiPSTH(R_vesti_SPeakInx,:);
-        % R_vestiPSTHDPeak = R_vestiPSTH(R_vesti_DPeakInx,:);
-        % R_visPSTHSPeak = R_visPSTH(R_vis_SPeakInx,:);
-        % R_visPSTHDPeak = R_visPSTH(R_vis_DPeakInx,:);
-        
-        
-        % plot figures for peak time distribution
-        
-        %%%%%%%%%%%%%%%%%%%%%%%% Peak time distribution   %%%%%%%%%%%%%%%%%%%%%%%%%
-        
-        T_vestiSPeakT_plot = (T_vestiSPeakT - stimOnBin)*timeStep;
-        T_visSPeakT_plot = (T_visSPeakT - stimOnBin)*timeStep;
-        T_vestiDPeakT_plot = (T_vestiDPeakT - stimOnBin)*timeStep;
-        T_visDPeakT_plot = (T_visDPeakT - stimOnBin)*timeStep;
-        R_vestiSPeakT_plot = (R_vestiSPeakT - stimOnBin)*timeStep;
-        R_visSPeakT_plot = (R_visSPeakT - stimOnBin)*timeStep;
-        R_vestiDPeakT_plot = (R_vestiDPeakT - stimOnBin)*timeStep;
-        R_visDPeakT_plot = (R_visDPeakT - stimOnBin)*timeStep;
-        
-        
-        xPeakT = linspace(0,1500,16);
-        
-        figure(104);set(gcf,'pos',[60 20 1200 1000]);clf;
-        [~,h_subplot] = tight_subplot(7,3,[0.04 0.1],0.1);
-        
-        
-        axes(h_subplot(1));
-        text(0.8,-3,'Translation','Fontsize',26,'rotation',90);
-        text(0.8,-8.6,'Rotation','Fontsize',25,'rotation',90);
+        % plot figures for peak distribution (Double-peaked cells)
+        xPeakT = linspace(0,duration,21);
+        figure(12);set(figure(12),'name','Distribution of peak time (Double peaked cells)','unit','pixels','pos',[-1070 -200 1050 300]); clf;
+        [~,h_subplot] = tight_subplot(1,4,0.05,0.2,[0.1 0.1]);
+         for pp = 1:2
+            for jj = 1:2
+                
+                if ~isempty(dPeakT_early{pp}{jj}) && ~isempty(dPeakT_late{pp}{jj})
+                n_peakT_early{pp}{jj} = hist(dPeakT_early{pp}{jj},xPeakT);
+                medianPeakT_early{pp}(jj) = median(dPeakT_early{pp}{jj});
+                n_peakT_late{pp}{jj} = hist(dPeakT_late{pp}{jj},xPeakT);
+                n_peakT_late{pp}{jj} = n_peakT_late{pp}{jj} * -1;
+                medianPeakT_late{pp}(jj) = median(dPeakT_late{pp}{jj});
+                axes(h_subplot((pp-1)*2+jj));hold on;
+%                 axes(h_subplot(((jj-1)*2+pp-1)*2+1));hold on;
+                hbar{pp,1} = bar(xPeakT,n_peakT_early{pp}{jj});set(hbar{pp,1},'facecolor',colors{jj},'edgecolor',colors{jj});
+                hbar{pp,2} = bar(xPeakT,n_peakT_late{pp}{jj});set(hbar{pp,2},'facecolor',colors{jj},'edgecolor',colors{jj});
+                xlabel('Time (ms)');ylabel('cell #');set(gca,'xlim',[0 duration]);
+                plot([medianPeakT_early{pp}(jj) medianPeakT_early{pp}(jj)],[0 max(n_peakT_early{pp}{jj})*1.1],'k--','color',colors{jj},'linewidth',1.5);
+                text(medianPeakT_early{pp}(jj),max(n_peakT_early{pp}{jj})*1.2,num2str(medianPeakT_early{pp}(jj)));
+                plot([medianPeakT_late{pp}(jj) medianPeakT_late{pp}(jj)],[0 min(n_peakT_late{pp}{jj})*1.1],'k--','color',colors{jj},'linewidth',1.5);
+                text(medianPeakT_late{pp}(jj),min(n_peakT_late{pp}{jj})*1.2,num2str(medianPeakT_late{pp}(jj)));
+                text(1,max(n_peakT_early{pp}{jj}),['n = ',num2str(size(dPeakT{pp}{jj},2))]);
+                axis on;hold off;
+                end
+            end
+        end
+        % text necessary infos
+        axes('pos',[0.05 0.1 0.05 0.75]);
+        text(-0.5,0.7,'Early-peak','rotation',90);text(-0.5,0.2,'Late-peak','rotation',90);
         axis off;
-        
-        %%%% Translation
-        % for Vestibular
-        % Single-peaked time
-        axes(h_subplot(2));
-        hold on;
-        [nelements, ncenters] = hist(T_vestiSPeakT_plot,xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(T_vestiSPeakT_plot))]);
-        plot(T_vestiSPeakTMedian,max(nelements)*1.1,'kv');
-        text(T_vestiSPeakTMedian*1.1,max(nelements)*1.2,num2str(T_vestiSPeakTMedian/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',[],'xlim',[0 1600]);
-        % xlabel('Single-peaked');
-        axis on;
-        hold off;
-        
-        % Double-peaked time
-        axes(h_subplot(5));
-        hold on;
-        [nelements, ncenters] = hist(T_vestiDPeakT_plot(:,1),xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(T_vestiDPeakT_plot))]);
-        plot(T_vestiDPeakT1Median,max(nelements)*1.1,'kv');
-        text(T_vestiDPeakT1Median*1.1,max(nelements)*1.2,num2str(T_vestiDPeakT1Median/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',[],'xlim',[0 1600]);
-        % xlabel('Double-peaked, early');
-        axis on;
-        hold off;
-        
-        axes(h_subplot(8));
-        hold on;
-        [nelements, ncenters] = hist(T_vestiDPeakT_plot(:,2),xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(T_vestiDPeakT_plot))]);
-        plot(T_vestiDPeakT2Median,max(nelements)*1.1,'kv');
-        text(T_vestiDPeakT2Median*1.1,max(nelements)*1.2,num2str(T_vestiDPeakT2Median/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',{'0','0.5','1','1.5'},'xlim',[0 1600]);
-        % xlabel('Double-peaked, late');
-        axis on;
-        hold off;
-        
-        %%%% Visual
-        % Single-peaked time
-        axes(h_subplot(3));
-        hold on;
-        [nelements, ncenters] = hist(T_visSPeakT_plot,xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(T_visSPeakT_plot))]);
-        plot(T_visSPeakTMedian,max(nelements)*1.1,'kv');
-        text(T_visSPeakTMedian*1.1,max(nelements)*1.2,num2str(T_visSPeakTMedian/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',[],'xlim',[0 1600]);
-        % xlabel('Single-peaked');
-        axis on;
-        hold off;
-        
-        % Double-peaked time
-        axes(h_subplot(6));
-        hold on;
-        [nelements, ncenters] = hist(T_visDPeakT_plot(:,1),xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(T_visDPeakT_plot))]);
-        plot(T_visDPeakT1Median,max(nelements)*1.1,'kv');
-        text(T_visDPeakT1Median*1.1,max(nelements)*1.2,num2str(T_visDPeakT1Median/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',[],'xlim',[0 1600]);
-        % xlabel('Double-peaked, early');
-        axis on;
-        hold off;
-        
-        axes(h_subplot(9));
-        hold on;
-        [nelements, ncenters] = hist(T_visDPeakT_plot(:,2),xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(T_visDPeakT_plot))]);
-        plot(T_visDPeakT2Median,max(nelements)*1.1,'kv');
-        text(T_visDPeakT2Median*1.1,max(nelements)*1.2,num2str(T_visDPeakT2Median/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',{'0','0.5','1','1.5'},'xlim',[0 1600]);
-        % xlabel('Double-peaked, late');
-        axis on;
-        hold off;
-        
-        %%%% Rotation
-        % for Vestibular
-        % Single-peaked time
-        axes(h_subplot(14));
-        hold on;
-        [nelements, ncenters] = hist(R_vestiSPeakT_plot,xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(R_vestiSPeakT_plot))]);
-        plot(R_vestiSPeakTMedian,max(nelements)*1.1,'kv');
-        text(R_vestiSPeakTMedian*1.1,max(nelements)*1.2,num2str(R_vestiSPeakTMedian/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',[],'xlim',[0 1600]);
-        % xlabel('Single-peaked');
-        axis on;
-        hold off;
-        
-        % Double-peaked time
-        axes(h_subplot(17));
-        hold on;
-        [nelements, ncenters] = hist(R_vestiDPeakT_plot(:,1),xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(R_vestiDPeakT_plot))]);
-        plot(R_vestiDPeakT1Median,max(nelements)*1.1,'kv');
-        text(R_vestiDPeakT1Median*1.1,max(nelements)*1.2,num2str(R_vestiDPeakT1Median/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',[],'xlim',[0 1600]);
-        % xlabel('Double-peaked, early');
-        axis on;
-        hold off;
-        
-        axes(h_subplot(20));
-        hold on;
-        [nelements, ncenters] = hist(R_vestiDPeakT_plot(:,2),xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(R_vestiDPeakT_plot))]);
-        plot(R_vestiDPeakT2Median,max(nelements)*1.1,'kv');
-        text(R_vestiDPeakT2Median*1.1,max(nelements)*1.2,num2str(R_vestiDPeakT2Median/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',{'0','0.5','1','1.5'},'xlim',[0 1600]);
-        % xlabel('Double-peaked, late');
-        axis on;
-        hold off;
-        
-        %%%% Visual
-        % Single-peaked time
-        axes(h_subplot(15));
-        hold on;
-        [nelements, ncenters] = hist(R_visSPeakT_plot,xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(R_visSPeakT_plot))]);
-        plot(R_visSPeakTMedian,max(nelements)*1.1,'kv');
-        text(R_visSPeakTMedian*1.1,max(nelements)*1.2,num2str(R_visSPeakTMedian/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',[],'xlim',[0 1600]);
-        % xlabel('Single-peaked');
-        axis on;
-        hold off;
-        
-        % Double-peaked time
-        axes(h_subplot(18));
-        hold on;
-        [nelements, ncenters] = hist(R_visDPeakT_plot(:,1),xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(R_visDPeakT_plot))]);
-        plot(R_visDPeakT1Median,max(nelements)*1.1,'kv');
-        text(R_visDPeakT1Median*1.1,max(nelements)*1.2,num2str(R_visDPeakT1Median/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',[],'xlim',[0 1600]);
-        % xlabel('Double-peaked, early');
-        axis on;
-        hold off;
-        
-        axes(h_subplot(21));
-        hold on;
-        [nelements, ncenters] = hist(R_visDPeakT_plot(:,2),xPeakT);
-        h1 = bar(ncenters, nelements, 0.8,'k','edgecolor','k');
-        % set(h1,'linewidth',1.5);
-        text(170,max(max(nelements),max(nelements)),['n = ',num2str(length(R_visDPeakT_plot))]);
-        plot(R_visDPeakT2Median,max(nelements)*1.1,'kv');
-        text(R_visDPeakT2Median*1.1,max(nelements)*1.2,num2str(R_visDPeakT2Median/1000));
-        set(gca,'xtick',[0 500 1000 1500],'xticklabel',{'0','0.5','1','1.5'},'xlim',[0 1600]);
-        % xlabel('Double-peaked, late');
-        axis on;
-        hold off;
-        
-        suptitle('Peak time distribution');
-        SetFigure(10);
-        
-        set(gcf,'paperpositionmode','auto');
-        saveas(104,'Z:\LBY\Population Results\PeakT','emf');
-        
-        %%%%%%%%%%%%%%%%%%%%%% FR according to Peak time   %%%%%%%%%%%%%%%%%%%%%%%%%
-        T_vestiPSTHDPeak_plot = [];
-        for ii = 1:size(T_vestiDPeakT,1)
-            T_vestiPSTHDPeak_plot = [T_vestiPSTHDPeak_plot;T_vestiPSTHDPeak(ii,T_vestiDPeakT(ii,1)),T_vestiPSTHDPeak(ii,T_vestiDPeakT(ii,2))];
-        end
-        T_visPSTHDPeak_plot = [];
-        for ii = 1:size(T_visDPeakT,1)
-            T_visPSTHDPeak_plot = [T_visPSTHDPeak_plot;T_visPSTHDPeak(ii,T_visDPeakT(ii,1)),T_visPSTHDPeak(ii,T_visDPeakT(ii,2))];
-        end
-        R_vestiPSTHDPeak_plot = [];
-        for ii = 1:size(R_vestiDPeakT,1)
-            R_vestiPSTHDPeak_plot = [R_vestiPSTHDPeak_plot;R_vestiPSTHDPeak(ii,R_vestiDPeakT(ii,1)),R_vestiPSTHDPeak(ii,R_vestiDPeakT(ii,2))];
-        end
-        R_visPSTHDPeak_plot = [];
-        for ii = 1:size(R_visDPeakT,1)
-            R_visPSTHDPeak_plot = [R_visPSTHDPeak_plot;R_visPSTHDPeak(ii,R_visDPeakT(ii,1)),R_visPSTHDPeak(ii,R_visDPeakT(ii,2))];
-        end
-        
-        
-        figure(105);set(gcf,'pos',[60 70 1500 900]);clf;
-        [~,h_subplot] = tight_subplot(2,5,[0.01 0.1],0.17);
-        
-        
-        axes(h_subplot(1));
-        text(1,0.1,'Translation','Fontsize',25,'rotation',90);
-        text(1,-0.8,'Rotation','Fontsize',25,'rotation',90);
-        axis off;
-        
-        %%%% FR - early peak vs. late peak (for double-peaked cells)
-        % Translation
-        % for Vestibular
-        axes(h_subplot(2));
-        hold on;
-        plot(T_vestiPSTHDPeak_plot(:,1),T_vestiPSTHDPeak_plot(:,2),'ko','markersize',8,'markerfacecolor',colorDBlue);
-        axis on;axis square;
-        xylim = max([get(gca,'xlim'),get(gca,'ylim')]);
-        set(gca,'xlim',[0 xylim],'ylim',[0 xylim]);
-        plot([0 get(gca,'xlim')],[0 get(gca,'xlim')],'-','color',colorLGray);
-        text(max(get(gca,'xlim')),max(get(gca,'ylim')),['n = ',num2str(length(T_vesti_DPeakInx))]);
-        title('Vestibular');
-        hold off;
-        
-        % for Visual
-        axes(h_subplot(3));
-        hold on;
-        plot(T_visPSTHDPeak_plot(:,1),T_visPSTHDPeak_plot(:,2),'ko','markersize',8,'markerfacecolor',colorDRed);
-        axis on;axis square;
-        xylim = max([get(gca,'xlim'),get(gca,'ylim')]);
-        set(gca,'xlim',[0 xylim],'ylim',[0 xylim]);
-        plot([0 get(gca,'xlim')],[0 get(gca,'xlim')],'-','color',colorLGray);
-        text(max(get(gca,'xlim')), max(get(gca,'ylim')),['n = ',num2str(length(T_vis_DPeakInx))]);
-        title('Visual');
-        hold off;
-        
-        % Rotation
-        % for Vestibular
-        axes(h_subplot(7));
-        hold on;
-        plot(R_vestiPSTHDPeak_plot(:,1),R_vestiPSTHDPeak_plot(:,2),'ko','markersize',8,'markerfacecolor',colorLBlue);
-        axis on;axis square;
-        xylim = max([get(gca,'xlim'),get(gca,'ylim')]);
-        set(gca,'xlim',[0 xylim],'ylim',[0 xylim]);
-        plot([0 get(gca,'xlim')],[0 get(gca,'xlim')],'-','color',colorLGray);
-        text(max(get(gca,'xlim')),max(get(gca,'ylim')),['n = ',num2str(length(R_vesti_DPeakInx))]);
-        hold off;
-        
-        % for Visual
-        axes(h_subplot(8));
-        hold on;
-        plot(R_visPSTHDPeak_plot(:,1),R_visPSTHDPeak_plot(:,2),'ko','markersize',8,'markerfacecolor',colorLRed);
-        axis on;axis square;
-        xylim = max([get(gca,'xlim'),get(gca,'ylim')]);
-        set(gca,'xlim',[0 xylim],'ylim',[0 xylim]);
-        plot([0 get(gca,'xlim')],[0 get(gca,'xlim')],'-','color',colorLGray);text(max(get(gca,'xlim')),max(get(gca,'ylim')),['n = ',num2str(length(R_vis_DPeakInx))]);
-        hold off;
-        
-        
-        %%%% mean PSTH - (divided into single- and  double-peaked cells)
-        % % Translation
-        % % Vestibular
-        % axes(h_subplot(4));
-        % hold on;
-        % shadedErrorBar(1:size(T_vestiPSTHSPeak(:,5:65),2),nanmean(T_vestiPSTHSPeak(:,5:65),1),nanstd(T_vestiPSTHSPeak(:,5:65),1)/sqrt(size(T_vestiPSTHSPeak(:,5:65),2)),'lineprops',{'-','color',colorDRed,'linewidth',2});
-        % shadedErrorBar(1:size(T_vestiPSTHDPeak(:,5:65),2),nanmean(T_vestiPSTHDPeak(:,5:65),1),nanstd(T_vestiPSTHDPeak(:,5:65),1)/sqrt(size(T_vestiPSTHDPeak(:,5:65),2)),'lineprops',{'-','color',colorDBlue,'linewidth',2});
-        % axis on;axis square;
-        % xlim([1 size(T_vestiPSTHSPeak(:,5:65),2)]);
-        % title('Vestibular');
-        % set(gca,'xtick',[]);
-        % % Visual
-        % axes(h_subplot(5));
-        % hold on;
-        % shadedErrorBar(1:size(T_visPSTHSPeak(:,5:65),2),nanmean(T_visPSTHSPeak(:,5:65),1),nanstd(T_visPSTHSPeak(:,5:65),1)/sqrt(size(T_visPSTHSPeak(:,5:65),2)),'lineprops',{'-','color',colorDRed,'linewidth',2});
-        % shadedErrorBar(1:size(T_visPSTHDPeak(:,5:65),2),nanmean(T_visPSTHDPeak(:,5:65),1),nanstd(T_visPSTHDPeak(:,5:65),1)/sqrt(size(T_visPSTHDPeak(:,5:65),2)),'lineprops',{'-','color',colorDBlue,'linewidth',2});
-        % axis on;axis square;
-        % xlim([1 size(T_visPSTHSPeak(:,5:65),2)]);
-        % title('Visual');
-        % set(gca,'xtick',[]);
-        % % Rotation
-        % % Vestibular
-        % axes(h_subplot(9));
-        % hold on;
-        % shadedErrorBar(1:size(R_vestiPSTHSPeak(:,5:65),2),nanmean(R_vestiPSTHSPeak(:,5:65),1),nanstd(R_vestiPSTHSPeak(:,5:65),1)/sqrt(size(R_vestiPSTHSPeak(:,5:65),2)),'lineprops',{'-','color',colorDRed,'linewidth',2});
-        % shadedErrorBar(1:size(R_vestiPSTHDPeak(:,5:65),2),nanmean(R_vestiPSTHDPeak(:,5:65),1),nanstd(R_vestiPSTHDPeak(:,5:65),1)/sqrt(size(R_vestiPSTHDPeak(:,5:65),2)),'lineprops',{'-','color',colorDBlue,'linewidth',2});
-        % axis on;axis square;
-        % xlim([1 size(R_vestiPSTHSPeak(:,5:65),2)]);
-        % set(gca,'xtick',[0 500 1000 1500]/timeStep,'xticklabel',{'0','0.5','1','1.5'},'xlim',[0 1550]/timeStep);
-        %
-        % % Visual
-        % axes(h_subplot(10));
-        % hold on;
-        % shadedErrorBar(1:size(R_visPSTHSPeak(:,5:65),2),nanmean(R_visPSTHSPeak(:,5:65),1),nanstd(R_visPSTHSPeak(:,5:65),1)/sqrt(size(R_visPSTHSPeak(:,5:65),2)),'lineprops',{'-','color',colorDRed,'linewidth',2});
-        % shadedErrorBar(1:size(R_visPSTHDPeak(:,5:65),2),nanmean(R_visPSTHDPeak(:,5:65),1),nanstd(R_visPSTHDPeak(:,5:65),1)/sqrt(size(R_visPSTHDPeak(:,5:65),2)),'lineprops',{'-','color',colorDBlue,'linewidth',2});
-        % xlim([1 size(R_visPSTHSPeak(:,5:65),2)]);
-        % axis on;axis square;
-        % set(gca,'xtick',[0 500 1000 1500]/timeStep,'xticklabel',{'0','0.5','1','1.5'},'xlim',[0 1550]/timeStep);
-        %
-        % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% text %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        %
-        % axes();
-        % hold on;
-        % text(0.18,0,'Response, early peak (spk/s)','Fontsize',20);
-        % text(0.08,0.2,'Response, late peak (spk/s)','Fontsize',20,'rotation',90);
-        % text(0.8,0,'Time (s)','Fontsize',20);
-        %
-        % axis off;
-        
-        suptitle('PSTH distribution (Peak time)');
-        SetFigure(15);
-        
-        set(gcf,'paperpositionmode','auto');
-        saveas(105,'Z:\LBY\Population Results\PSTH_PeakT','emf');
-        
-        
-        
-        SetFigure(15);
-        %}
+        axes('pos',[0.05 0.05 0.9 0.1]);
+        text(0.2,0,'Translation');text(0.7,0,'Rotation'); axis off;
+        suptitle('Distribution of peak time (Double peaked cells)');
+        SetFigure(12);
     end
 
     function f1p2p1(debug)      % DDI distribution
@@ -1341,6 +1136,7 @@ c = 3;
         % plot figures for DDI distribution (vestibular DDI vs. visual DDI)        
         figure(11);set(figure(11),'name','Distribution of DDI (vestibular vs. visual)','unit','pixels','pos',[-1070 200 1050 600]); clf;
         [~,h_subplot] = tight_subplot(1,2,0.2,0.2,[0.1 0.1]);
+        hl = [];
         for pp = 1:2
             hl{pp} = LinearCorrelation(DDI_plot{pp}{1},DDI_plot{pp}{2},...
                 'Xlabel','DDI (Vestibular)','Ylabel','DDI (Visual)','FaceColors',{'w','b','r','k'},'EdgeColors',{'k','b','r','k'},'Markers',{'o'},...
@@ -1355,6 +1151,124 @@ c = 3;
             text(0.15,0,'Translation');text(0.75,0,'Rotation'); axis off;
         SetFigure(12);
   
+    end
+
+    function f1p2p4(debug)      % DDI distribution at peak time
+        if debug  ; dbstack;   keyboard;      end
+        
+        for pp = 1:2
+            for jj = 1:2
+                peakT_plot{pp}{jj} = peakT{pp}{jj}(select_temporalSig{pp}(:,jj));
+                DDI_peak_plot{pp}{jj} = DDI_peak{pp}{jj}(select_temporalSig{pp}(:,jj));
+                dPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 2); % double peak
+                sPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 1); % single peak
+                nPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 0); % not tuned
+                noDPeak(pp,jj) = sum(dPeakIdx{pp}{jj});
+                noSPeak(pp,jj) = sum(sPeakIdx{pp}{jj});
+                noNPeak(pp,jj) = sum(nPeakIdx{pp}{jj});
+                dPeakT{pp}{jj} = reshape(cell2mat(peakT_plot{pp}{jj}(dPeakIdx{pp}{jj})),2,[]);
+                dPeakT_late{pp}{jj} = bsxfun(@max,dPeakT{pp}{jj}(1,:),dPeakT{pp}{jj}(2,:));
+                dPeakT_early{pp}{jj} = bsxfun(@min,dPeakT{pp}{jj}(1,:),dPeakT{pp}{jj}(2,:));
+                for ii = 1:length(dPeakT_late{pp}{jj});
+                    dPeakIdx_early{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_early{pp}{jj}(ii));
+                    dPeakIdx_late{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_late{pp}{jj}(ii));
+                    DDI_dPeak_early{pp}{jj}(ii) = DDI_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(dPeakIdx_early{pp}{jj}(ii));
+                    DDI_dPeak_late{pp}{jj}(ii) = DDI_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(dPeakIdx_late{pp}{jj}(ii));
+                end
+                
+                DDI_sPeak{pp}{jj} = cell2mat(DDI_peak_plot{pp}{jj}(sPeakIdx{pp}{jj}));
+            end
+        end
+        
+        
+        % plot figures for DDI distribution (Single-peaked cells)
+        xDDI = linspace(0,1,11);
+        figure(11);set(figure(11),'name','Distribution of DDI at peak time (Single-peaked cells)','unit','pixels','pos',[-1070 300 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        for pp = 1:2
+            for jj = 1:2
+                axes(h_subplot((jj-1)*2+pp));hold on;
+                n_DDI{pp}{jj} = hist(DDI_sPeak{pp}{jj},xDDI);
+                medianDDI{pp}(jj) = median(DDI_sPeak{pp}{jj});
+                hbar{pp} = bar(xDDI,n_DDI{pp}{jj});set(hbar{pp},'facecolor',colors{jj},'edgecolor',colors{jj});
+                xlabel('DDI');ylabel('cell #');set(gca,'xlim',[0 1]);
+                plot([medianDDI{pp}(jj) medianDDI{pp}(jj)],[0 max(n_DDI{pp}{jj})*1.1],'k--','color',colors{jj},'linewidth',1.5);
+                text(medianDDI{pp}(jj),max(n_DDI{pp}{jj})*1.2,num2str(medianDDI{pp}(jj)));
+                text(0.1,max(n_DDI{pp}{jj}),['n = ',num2str(length(DDI_sPeak{pp}{jj}))]);
+                axis on;hold off;
+                
+            end
+        end
+        % text necessary infos
+        axes('pos',[0.1 0.95 0.9 0.1]);
+        %             text(0.25,0.5,['Distribution of DDI   (Monkey = ',monkey_to_print,')']);
+        axis off;
+        axes('pos',[0.05 0.05 0.9 0.1]);
+        text(0.15,0,'Translation');text(0.75,0,'Rotation'); axis off;
+        suptitle('Distribution of DDI at peak time (Single-peaked cells)');
+        SetFigure(12);
+        
+        % plot figures for DDI distribution (Double-peaked cells)
+        xDDI = linspace(0,1,11);
+        figure(12);set(figure(12),'name','Distribution of DDI at peak time (Double-peaked cells)','unit','pixels','pos',[-1070 -400 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(2,4,0.1,0.15,[0.1 0.1]);
+        for pp = 1:2
+            for jj = 1:2
+                
+                if ~isempty(DDI_dPeak_early{pp}{jj})
+                    n_DDI_early{pp}{jj} = hist(DDI_dPeak_early{pp}{jj},xDDI);
+                    medianDDI_early{pp}(jj) = median(DDI_dPeak_early{pp}{jj});
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    %                 axes(h_subplot(((jj-1)*2+pp-1)*2+1));hold on;
+                    hbar{pp,1} = bar(xDDI,n_DDI_early{pp}{jj});set(hbar{pp,1},'facecolor',colors{jj},'edgecolor',colors{jj});
+                    xlabel('DDI');ylabel('cell #');set(gca,'xlim',[0 1]);
+                    plot([medianDDI_early{pp}(jj) medianDDI_early{pp}(jj)],[0 max(n_DDI_early{pp}{jj})*1.1],'k--','color',colors{jj},'linewidth',1.5);
+                    text(medianDDI_early{pp}(jj),max(n_DDI_early{pp}{jj})*1.2,num2str(medianDDI_early{pp}(jj)));
+                    text(0.1,max(n_DDI_early{pp}{jj}),['n = ',num2str(size(DDI_dPeak_early{pp}{jj},2))]);
+                    axis on;hold off;
+                end
+                if ~isempty(DDI_dPeak_late{pp}{jj})
+                    n_DDI_late{pp}{jj} = hist(DDI_dPeak_late{pp}{jj},xDDI);
+                    medianDDI_late{pp}(jj) = median(DDI_dPeak_late{pp}{jj});
+                    axes(h_subplot(((pp-1)*2+jj)+4));hold on;
+                    %                 axes(h_subplot(((jj-1)*2+pp)*2));hold on;
+                    hbar{pp,2} = bar(xDDI,n_DDI_late{pp}{jj});set(hbar{pp,2},'facecolor',colors{jj},'edgecolor',colors{jj});
+                    xlabel('DDI');ylabel('cell #');set(gca,'xlim',[0 1]);
+                    plot([medianDDI_late{pp}(jj) medianDDI_late{pp}(jj)],[0 max(n_DDI_late{pp}{jj})*1.1],'k--','color',colors{jj},'linewidth',1.5);
+                    text(medianDDI_late{pp}(jj),max(n_DDI_late{pp}{jj})*1.2,num2str(medianDDI_late{pp}(jj)));
+                    text(0.1,max(n_DDI_late{pp}{jj}),['n = ',num2str(size(DDI_dPeak_late{pp}{jj},2))]);
+                    axis on;hold off;
+                end
+            end
+        end
+        % text necessary infos
+        axes('pos',[0.05 0.1 0.05 0.75]);
+        text(-0.5,0.7,'Early-peak','rotation',90);text(-0.5,0.2,'Late-peak','rotation',90);
+        axis off;
+        axes('pos',[0.05 0.05 0.9 0.1]);
+        text(0.2,0,'Translation');text(0.7,0,'Rotation'); axis off;
+        suptitle('Distribution of DDI at peak time (Double-peaked cells)');
+        SetFigure(12);
+        
+        figure(13);set(figure(13),'name','Distribution of DDI at peak time (Double-peaked cells, early peak vs. late peak)','unit','pixels','pos',[-1070 -850 1050 400]); clf;
+        [~,h_subplot] = tight_subplot(1,4,0.07,0.05,[0.1 0.1]);
+        for pp = 1:2
+            for jj = 1:2
+                if ~isempty(DDI_dPeak_early{pp}{jj}) && ~isempty(DDI_dPeak_late{pp}{jj})
+                    axes(h_subplot((pp-1)*2+jj));hold on;axis square;
+                    h  = plot(DDI_dPeak_early{pp}{jj},DDI_dPeak_late{pp}{jj},'ko','markersize',6,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                    xlabel('DDI, early peak');ylabel('DDI, late peak');set(gca,'xlim',[0 1],'ylim',[0 1]);
+                    plot([0 1],[0 1],':','color',[0.3 0.3 0.3]);
+                    text(0.1,0.7,['n = ',num2str(size(DDI_dPeak_late{pp}{jj},2))]);
+                    axis on;hold off;
+                end
+            end
+        end
+        % text necessary infos
+        axes('pos',[0.05 0.95 0.9 0.1]);
+        text(0.2,0,'Translation');text(0.7,0,'Rotation'); axis off;
+        suptitle('Distribution of DDI at peak time (Double-peaked cells, early peak vs. late peak)');
+        SetFigure(12);
     end
 
     function f1p2p2(debug)      % Preferred direction distribution
@@ -1393,6 +1307,7 @@ c = 3;
         
        
         % plot figures for delta preferred direction distribution (between vestibular & visual)
+        hl = [];hbar = [];
         xdiff = linspace(0,180,11);
         figure(12);set(figure(12),'name','Distribution of delta preferred direction (vestibular vs. visual)','unit','pixels','pos',[-1070 -300 1050 350]); clf;
         [~,h_subplot] = tight_subplot(1,2,0.1,0.3,0.1);
@@ -1417,6 +1332,145 @@ c = 3;
         axes('pos',[0.1 0.1 0.8 0.05]);
         text(0.1,0,['Translation, n = ',num2str(sum(select_spatialSig{1}(:,3)))]);
         text(0.7,0,['Rotation, n = ',num2str(sum(select_spatialSig{2}(:,3)))]);
+        axis off;
+        SetFigure(12);
+        
+    end
+
+    function f1p2p5(debug)      % Preferred direction distribution at peak time
+        if debug  ; dbstack;   keyboard;      end
+        
+        for pp = 1:2
+            for jj = 1:2
+                peakT_plot{pp}{jj} = peakT{pp}{jj}(select_temporalSig{pp}(:,jj));
+                preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj}(select_temporalSig{pp}(:,jj));
+                dPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 2); % double peak
+                sPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 1); % single peak
+                nPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 0); % not tuned
+                noDPeak(pp,jj) = sum(dPeakIdx{pp}{jj});
+                noSPeak(pp,jj) = sum(sPeakIdx{pp}{jj});
+                noNPeak(pp,jj) = sum(nPeakIdx{pp}{jj});
+                dPeakT{pp}{jj} = reshape(cell2mat(peakT_plot{pp}{jj}(dPeakIdx{pp}{jj})),2,[]);
+                dPeakT_late{pp}{jj} = bsxfun(@max,dPeakT{pp}{jj}(1,:),dPeakT{pp}{jj}(2,:));
+                dPeakT_early{pp}{jj} = bsxfun(@min,dPeakT{pp}{jj}(1,:),dPeakT{pp}{jj}(2,:));
+                for ii = 1:length(dPeakT_late{pp}{jj});
+                    dPeakIdx_early{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_early{pp}{jj}(ii));
+                    dPeakIdx_late{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_late{pp}{jj}(ii));
+                    preDir_dPeak_early{pp}{jj}(:,ii) = preDir_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(:,dPeakIdx_early{pp}{jj}(ii));
+                    preDir_dPeak_late{pp}{jj}(:,ii) = preDir_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(:,dPeakIdx_late{pp}{jj}(ii));
+                    preDir_dPeak_early_azi{pp}{jj}(ii) = preDir_dPeak_early{pp}{jj}(1,ii);
+                    preDir_dPeak_early_ele{pp}{jj}(ii) = preDir_dPeak_early{pp}{jj}(2,ii);
+                    preDir_dPeak_late_azi{pp}{jj}(ii) = preDir_dPeak_late{pp}{jj}(1,ii);
+                    preDir_dPeak_late_ele{pp}{jj}(ii) = preDir_dPeak_late{pp}{jj}(2,ii);
+                end
+                
+                preDir_sPeak{pp}{jj} = cell2mat(preDir_peak_plot{pp}{jj}(sPeakIdx{pp}{jj}));
+                preDir_sPeak_azi{pp}{jj} = preDir_sPeak{pp}{jj}(1,:);
+                preDir_sPeak_ele{pp}{jj} = preDir_sPeak{pp}{jj}(2,:);
+                
+            end
+            if ~isempty(sPeakIdx{pp}{1}) && ~isempty(sPeakIdx{pp}{2})
+                bothSPeakIdx{pp}{jj} = intersect(sPeakIdx{pp}{1},sPeakIdx{pp}{2}); % both vestibular & visual
+                temp1 = cell2mat(preDir_peak_plot{pp}{1}(bothSPeakIdx{pp}{jj}));
+                temp2 = cell2mat(preDir_peak_plot{pp}{2}(bothSPeakIdx{pp}{jj}));
+                %             reshape(cell2mat(peakT_plot{pp}{1}(bothSPeakIdx{pp}{jj})),2,[]);
+                %             temp2 = reshape(cell2mat(peakT_plot{pp}{2}(bothSPeakIdx{pp}{jj})),2,[]);
+                preDir_sPeak_diff{pp} = angleDiff(temp1(1,:),temp1(2,:),temp1(3,:),temp2(1,:),temp2(2,:),temp2(3,:));
+            end
+            if ~isempty(dPeakIdx{pp}{1}) && ~isempty(dPeakIdx{pp}{2})
+                bothDPeakIdx{pp}{jj} = intersect(dPeakIdx{pp}{1},dPeakIdx{pp}{2}); % both vestibular & visual
+                
+            end
+            
+        end
+        
+        hl = [];hbar = [];
+        % plot figures for preferred direction distribution (T & R) (Single-peaked cells)
+        figure(11);set(figure(11),'name','Distribution of preferred direction at peak time (Single-peaked cells) ','unit','pixels','pos',[-1070 300 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(1,2,0.2,0.2,[0.1 0.1]);
+        for pp = 1:2
+            if ~isempty(preDir_sPeak{pp})
+                hl{pp} = LinearCorrelation(preDir_sPeak_azi{pp},preDir_sPeak_ele{pp},...
+                    'Xlabel','Preferred azimuth (degree)','Ylabel','Preferred elevation (degree)','FaceColors',{'b','r'},'EdgeColors',{'b','r'},'Markers',{'o'},...
+                    'LineStyles',{'b--','r--'},'MarkerSize',6,'XHist',nHist,'YHist',nHist,'Xlim',[0 360],'Ylim',[-90 90],...
+                    'LinearCorr',0,'figN',11,'Axes',h_subplot(pp),'LegendOn',0,'YDirR',1,...
+                    'XTick',{[0 90 180 270 360];{'0','90','180','270','360'}},'YTick',{[-90 -45 0 45 90];{'-90','-45','0','45','90'}});
+            end
+        end
+        % text necessary infos
+        axes('pos',[0.1 0.9 0.9 0.1]);
+        %             text(0.25,0.5,['Distribution of preferred direction   (Monkey = ',monkey_to_print,')']);
+        axis off;
+        axes('pos',[0.05 0.05 0.9 0.1]);
+        text(0.15,0,'Translation');text(0.75,0,'Rotation'); axis off;
+        SetFigure(12);
+        
+        
+        hl = [];hbar = [];
+        % plot figures for preferred direction distribution (T & R) (Double-peaked cells)
+        figure(12);set(figure(12),'name','Distribution of preferred direction at peak time (Double-peaked cells) ','unit','pixels','pos',[-1070 -800 1050 1000]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.15,0.15,[0.1 0.1]);
+        
+        % early peak
+        for pp = 1:2
+            if ~isempty(preDir_dPeak_early{pp})
+                hl{pp} = LinearCorrelation(preDir_dPeak_early_azi{pp},preDir_dPeak_early_ele{pp},...
+                    'Xlabel','Preferred azimuth (degree)','Ylabel','Preferred elevation (degree)','FaceColors',{'b','r'},'EdgeColors',{'b','r'},'Markers',{'o'},...
+                    'LineStyles',{'b--','r--'},'MarkerSize',6,'XHist',nHist,'YHist',nHist,'Xlim',[0 360],'Ylim',[-90 90],...
+                    'LinearCorr',0,'figN',11,'Axes',h_subplot(pp),'LegendOn',0,'YDirR',1,...
+                    'XTick',{[0 90 180 270 360];{'0','90','180','270','360'}},'YTick',{[-90 -45 0 45 90];{'-90','-45','0','45','90'}});
+            end
+        end
+        
+        % late peak
+        for pp = 1:2
+            if ~isempty(preDir_dPeak_late{pp})
+                hl{pp} = LinearCorrelation(preDir_dPeak_late_azi{pp},preDir_dPeak_late_ele{pp},...
+                    'Xlabel','Preferred azimuth (degree)','Ylabel','Preferred elevation (degree)','FaceColors',{'b','r'},'EdgeColors',{'b','r'},'Markers',{'o'},...
+                    'LineStyles',{'b--','r--'},'MarkerSize',6,'XHist',nHist,'YHist',nHist,'Xlim',[0 360],'Ylim',[-90 90],...
+                    'LinearCorr',0,'figN',11,'Axes',h_subplot(pp+2),'LegendOn',0,'YDirR',1,...
+                    'XTick',{[0 90 180 270 360];{'0','90','180','270','360'}},'YTick',{[-90 -45 0 45 90];{'-90','-45','0','45','90'}});
+            end
+        end
+        
+        % text necessary infos
+        axes('pos',[0.1 0.9 0.9 0.1]);
+        %             text(0.25,0.5,['Distribution of preferred direction   (Monkey = ',monkey_to_print,')']);
+        axis off;
+        axes('pos',[0.1 0.9 0.9 0.1]);
+        text(0.1,0.5,'Early-peak'); text(0.65,0.5,'Late-peak');
+        axis off;
+        axes('pos',[0.05 0.05 0.9 0.1]);
+        text(0.15,0,'Translation');text(0.75,0,'Rotation'); axis off;
+        SetFigure(12);
+        
+        % plot figures for delta preferred direction distribution (between vestibular & visual)
+        hbar = [];
+        xdiff = linspace(0,180,11);
+        figure(13);set(figure(13),'name','Distribution of delta preferred direction at peak time (vestibular vs. visual)','unit','pixels','pos',[-1070 -400 1050 900]); clf;
+        [~,h_subplot] = tight_subplot(3,2,0.1,0.2,0.1);
+        
+        for pp = 1:2
+            axes(h_subplot(pp));hold on;
+            
+            [n_diff{pp}, ~] = hist(preDir_sPeak_diff{pp},xdiff);
+            medianAzi{pp} = median(preDir_sPeak_diff{pp});
+            
+            hbar{pp} = bar(xdiff,n_diff{pp});set(hbar{pp},'facecolor','k','edgecolor','k');
+            set(gca,'xtick',[0 90 180]);xlabel('\Delta preferred direction');ylabel('cell #');set(gca,'xlim',[0 180]);
+            plot([medianAzi{pp} medianAzi{pp}],[0 max(n_diff{pp}(:))*1.1],'k--','linewidth',1.5);
+            text(medianAzi{pp},max(n_diff{pp}(:))*1.2,num2str(medianAzi{pp}));
+            axis on;hold off;
+        end
+        suptitle(['Distribution of \Delta preferred direction   (Monkey = ',monkey_to_print,')']);
+        % text necessary infos
+        axes('pos',[0.1 0.55 0.8 0.05]);
+        text(0.1,0,['Translation, n = ',num2str(length(preDir_sPeak_diff{1}))]);
+        text(0.7,0,['Rotation, n = ',num2str(length(preDir_sPeak_diff{2}))]);
+        axis off;
+        axes('pos',[0.03 0.1 0.1 0.9]);
+        text(0,0.6,'Single-peaked','rotation',90);text(0,0.25,'Double-peaked','rotation',90);
+        text(0.5,0.1,'Late peak','rotation',90);text(0.5,0.35,'Early peak','rotation',90);
         axis off;
         SetFigure(12);
         
@@ -1634,6 +1688,65 @@ c = 3;
         SetFigure(12);
     end
 
+    function f1p6(debug)      % PCA
+        if debug  ; dbstack;   keyboard;      end
+        
+        denoised_dim = 6; % how many PCs you want to plot
+        
+        for pp = 1:2
+            for jj = 1:2
+                temp = data_PCA{pp}{jj}(select_temporalSig{pp}(:,jj));
+                dataPCA{pp}{jj} = reshape(permute(reshape(cell2mat(temp),26,nBinsPCA,[]),[2 1 3]),nBinsPCA,[]);
+                %         dataPCA{pp}{jj} = dataPCA{pp}{jj}(select_temporalSig{pp}(:,jj));
+                % dataPCA{pp}{jj} = reshape(permute(reshape(cell2mat(data_PCA{pp}{jj}),26,300,[]),[1 3 2]),[],300);
+                % dataPCA{pp}{jj}(sum(isnan(dataPCA{pp}{jj}),2)>0,:) = [];
+                
+                [weights_PCA_PC{pp}{jj}, score{pp}{jj}, latent{pp}{jj}, ~, PCA_explained{pp}{jj}] = pca(dataPCA{pp}{jj}');
+                
+            end
+        end
+        
+        % ============  1. Variance explained =================
+        
+        figure(15);set(figure(15),'name','Variance explained','unit','pixels','pos',[-1070 300 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        
+        for pp = 1:2
+            for jj = 1:2 
+                axes(h_subplot((jj-1)*2+pp));hold on;
+                plot((1:length(PCA_explained{pp}{jj}))', cumsum(PCA_explained{pp}{jj}),'o-','markersize',8,'linew',1.5);
+                plot((1:denoised_dim)',cumsum(PCA_explained{pp}{jj}(1:denoised_dim)),'ro-','markersize',8,'linew',1.5,'markerfacecol','r');
+                plot([0 1],[0 PCA_explained{pp}{jj}(1)],'r-','linew',1.5);
+                plot(xlim,[1 1]*sum(PCA_explained{pp}{jj}(1:denoised_dim)),'r--');
+                text(denoised_dim,sum(PCA_explained{pp}{jj}(1:denoised_dim))*0.9,[num2str(sum(PCA_explained{pp}{jj}(1:denoised_dim))) '%'],'color','r');
+                xlabel('Num of principal components'); ylabel('Explained variability (%)'); ylim([0 100]);axis on;
+            end
+        end
+        SetFigure(12);
+
+        % ============  2. 1-D Trajectory of Eigen-neurons ===========
+        
+        ds = 1:denoised_dim;
+        
+        for pp = 1:2
+            for jj = 1:2
+                PCA_times = 1:size(dataPCA{pp}{jj},1);
+                figure(10+(jj-1)*2+pp);set(gcf,'name','Population Dynamics','unit','pixels','pos',[-1070 1050-450*((jj-1)*2+pp) 1050 350]); clf;
+                [~,h_subplot] = tight_subplot(fix(sqrt(length(ds))),ceil(length(ds)/fix(sqrt(length(ds)))),0.1,0.25,[0.1 0.1]);
+                for ii = 1:denoised_dim
+                    axes(h_subplot(ii));hold on;
+                    %        SeriesComparison(shiftdim(norm_proj_PC_this',-1),PCA_times,'Colors','b','LineStyles','-','axes',h);
+                    plot(PCA_times,weights_PCA_PC{pp}{jj}(:,ii),'k-','color',colors{pp},'linewidth',2);
+                    axis tight; xlim([0 length(PCA_times)])
+                    
+                    xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'ytick',(0:15:length(PCA_times))*duration/PCAStep);title(['Eigen-neuron PC' num2str(ii)]); axis on;
+                end
+                title('Population Dynamics');
+                SetFigure(12);
+            end
+        end
+    end
+
     function f2p1(debug)      % model fitting evaluation
         if debug  ; dbstack;   keyboard;      end
         
@@ -1708,6 +1821,171 @@ c = 3;
         %             text(0,0,['n visual (visSig) = ',num2str(sum(select_spatialSig{pp}(:,2)))],'color','r');
         axis off;
         suptitle('Distribution of R^2 across models');
+        SetFigure(12);
+    end
+
+    function f2p1p3(debug)      % VAF comparison (R2) across models
+        if debug  ; dbstack;   keyboard;      end
+        
+        for pp = 1:size(mat_address,1)
+            for jj = 1:2
+                
+                temp = 1: length(group_result);
+                R2_plot{pp}{jj} = R2{pp}{jj}(temp(select_temporalSig{pp}(:,jj)),:);
+                %                 RSS_temp{pp}{jj} = RSS{pp}{jj}(temp(select_temporalSig{pp}(:,jj)),:);
+                
+            end
+        end
+        
+        figure(11);set(figure(11),'name','Comparison of VAF(R2) of different models','unit','normalized','pos',[-0.55 -0.7 0.53 1.6]); clf;
+        [~,h_subplot] = tight_subplot(4,3,[0.1 0.02],0.1,0.01);
+        
+        if sum(strcmp(models,'PVAJ')) && sum(strcmp(models,'VAP'))
+            idx1 = find(strcmp(models,'PVAJ'));
+            idx2 = find(strcmp(models,'VAP'));
+            axes(h_subplot(1));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    %                     [~,seqF{pp}{jj}] = sequentialF(RSS_temp{pp}{jj}(:,idx1),nParaModel{model_cat}(idx1),RSS_temp{pp}{jj}(:,idx2),nParaModel{model_cat}(idx2),26*nBins);
+                    %                     R2_plot_sig{pp}{jj} = R2_plot{pp}{jj}(seqF{pp}{jj}<0.05,:);
+                    %                     plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor','w','markeredgecolor',colors{jj});
+                    %                     plot(R2_plot_sig{pp}{jj}(:,idx2),R2_plot_sig{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                    plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 1],[0 1],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 1],'ylim',[0 1]); xlabel('VAF (r^2), VAP model');ylabel('VAF (r^2), PVAJ model');
+        end
+        
+        if sum(strcmp(models,'PVAJ')) && sum(strcmp(models,'VAJ'))
+            idx1 = find(strcmp(models,'PVAJ'));
+            idx2 = find(strcmp(models,'VAJ'));
+            axes(h_subplot(2));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 1],[0 1],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 1],'ylim',[0 1]); xlabel('VAF (r^2), VAJ model');ylabel('VAF (r^2), PVAJ model');
+        end
+        
+        if sum(strcmp(models,'VAJ')) && sum(strcmp(models,'AJ'))
+            idx1 = find(strcmp(models,'VAJ'));
+            idx2 = find(strcmp(models,'AJ'));
+            axes(h_subplot(4));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 1],[0 1],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 1],'ylim',[0 1]); xlabel('VAF (r^2), AJ model');ylabel('VAF (r^2), VAJ model');
+        end
+        
+        if sum(strcmp(models,'VAJ')) && sum(strcmp(models,'VJ'))
+            idx1 = find(strcmp(models,'VAJ'));
+            idx2 = find(strcmp(models,'VJ'));
+            axes(h_subplot(5));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 1],[0 1],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 1],'ylim',[0 1]); xlabel('VAF (r^2), VJ model');ylabel('VAF (r^2), VAJ model');
+        end
+        
+        if sum(strcmp(models,'VAJ')) && sum(strcmp(models,'VA'))
+            idx1 = find(strcmp(models,'VAJ'));
+            idx2 = find(strcmp(models,'VA'));
+            axes(h_subplot(6));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 1],[0 1],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 1],'ylim',[0 1]); xlabel('VAF (r^2), VA model');ylabel('VAF (r^2), VAJ model');
+        end
+        
+        if sum(strcmp(models,'VAP')) && sum(strcmp(models,'AP'))
+            idx1 = find(strcmp(models,'VAP'));
+            idx2 = find(strcmp(models,'AP'));
+            axes(h_subplot(7));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 1],[0 1],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 1],'ylim',[0 1]); xlabel('VAF (r^2), AP model');ylabel('VAF (r^2), VAP model');
+        end
+        
+        if sum(strcmp(models,'VAP')) && sum(strcmp(models,'VP'))
+            idx1 = find(strcmp(models,'VAP'));
+            idx2 = find(strcmp(models,'VP'));
+            axes(h_subplot(8));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 1],[0 1],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 1],'ylim',[0 1]); xlabel('VAF (r^2), VP model');ylabel('VAF (r^2), VAP model');
+        end
+        
+        if sum(strcmp(models,'VAP')) && sum(strcmp(models,'VA'))
+            idx1 = find(strcmp(models,'VAP'));
+            idx2 = find(strcmp(models,'VA'));
+            axes(h_subplot(9));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 1],[0 1],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 1],'ylim',[0 1]); xlabel('VAF (r^2), VA model');ylabel('VAF (r^2), VAP model');
+        end
+        
+        if sum(strcmp(models,'VA')) && sum(strcmp(models,'VO'))
+            idx1 = find(strcmp(models,'VA'));
+            idx2 = find(strcmp(models,'VO'));
+            axes(h_subplot(10));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 1],[0 1],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 1],'ylim',[0 1]); xlabel('VAF (r^2), VO model');ylabel('VAF (r^2), VA model');
+        end
+        
+        if sum(strcmp(models,'VA')) && sum(strcmp(models,'AO'))
+            idx1 = find(strcmp(models,'VA'));
+            idx2 = find(strcmp(models,'AO'));
+            axes(h_subplot(11));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 1],[0 1],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 1],'ylim',[0 1]); xlabel('VAF (r^2), AO model');ylabel('VAF (r^2), VA model');
+        end
+        
+        
+        suptitle('Comparison of VAF(R^2) of different models');
         SetFigure(12);
     end
 

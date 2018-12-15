@@ -16,7 +16,7 @@ if ~isempty(config.batch_flag)  % Figures and raw data (always in "result" struc
     end
     savefilename = [outpath [result.FILE '_' num2str(result.SpikeChan)] '_' config.suffix '.mat'];
     
-    
+%     keyboard;
     % Overwrite or Append
     if exist([savefilename '.mat'],'file')
         if isfield(config,'append') && config.append  % Load already existing fields before deletion

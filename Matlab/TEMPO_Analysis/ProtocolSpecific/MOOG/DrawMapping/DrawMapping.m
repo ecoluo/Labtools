@@ -491,6 +491,15 @@ switch monkey_hemis{monkey_hemi}
         data = {
             %{[Session(s)], [LocX(Posterior) LoxY(Lateral)], [GuideTube(cm) Offset(cm)], [AreaType, Begin(100um), End(100um); ...] , electrode retrieval}
             % When you are not sure about one area, use "AreaType-100" instead
+            {0,[23,6],[2.55 0],[GM 18 27;PCC 58 92;GM 103 121]} % 20181211
+            {0,[23,8],[2.55 0],[GM 11 50;PCC 93 113]} % 20181211
+            {0,[21,4],[2.75 0],[GM 4 20;PCC 34 51;PCC 59 81]} % 20181213
+            
+            {174,[23,4],[2.55 0],[GM 19 68]}
+            {175,[21,6],[2.65 0],[GM 7 20;PCC 50 61]}
+            {175,[21,8],[2.65 0],[GM 5 16;GM 30 37;PCC 66 69]}
+            {175,[22,5],[2.75 0],[GM 13 21;GM 55 62]}
+            {175,[22,7],[2.75 0],[GM 0 22;GM 53 82]}
             
             }';
         

@@ -13,16 +13,20 @@ ProtocolDefs; %contains protocol specific keywords - 1/4/01 BJP
 
 %get the column of values for azimuth and elevation and stim_type
 temp_azimuth = data.moog_params(AZIMUTH,:,MOOG);
-temp_elevation = data.moog_params(ELEVATION,:,MOOG);
+% temp_elevation = data.moog_params(ELEVATION,:,MOOG);
+temp_elevation = data.moog_params(ROT_ELEVATION,:,MOOG);
 temp_stim_type = data.moog_params(STIM_TYPE,:,MOOG);
-temp_heading   = data.moog_params(HEADING, :, MOOG); 
-temp_amplitude = data.moog_params(AMPLITUDE,:,MOOG);
+
+% temp_amplitude = data.moog_params(AMPLITUDE,:,MOOG);
+temp_amplitude = data.moog_params(ROT_AMPLITUDE,:,CAMERAS);
 temp_num_sigmas = data.moog_params(NUM_SIGMAS,:,MOOG);
 temp_motion_coherence = data.moog_params(COHERENCE,:,MOOG);
 temp_total_trials = data.misc_params(OUTCOME, :);
 temp_mask_status = data.moog_params(MASK_STATUS,:,MOOG);
 temp_mask_radius = data.moog_params(MASK_RADIUS,:,MOOG);
 temp_microstim = data.moog_params(MICROSTIM,:,MOOG);
+% temp_heading   = data.moog_params(HEADING, :, MOOG); 
+temp_heading = temp_amplitude.*sign(temp_elevation);
 
 trials = 1:length(temp_heading);		% a vector of trial indices
 select_trials = ( (trials >= BegTrial) & (trials <= EndTrial) );

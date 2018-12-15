@@ -16,7 +16,7 @@
 
 function Tuning_3D_analysis_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, ~, StopOffset, PATH, FILE, batch_flag)
 
-tic;
+% tic;
 
 global PSTH3Dmodel PSTH;
 PSTH3Dmodel = [];PSTH = [];
@@ -126,7 +126,7 @@ unique_azimuth = munique(temp_azimuth');
 unique_elevation = munique(temp_elevation');
 unique_amplitude = munique(temp_amplitude');
 unique_duration = munique(temp_duration');
-
+unique_stimType = munique(temp_stimType');
 
 % time information?
 eye_timeWin = 1000/(data.htb_header{EYE_DB}.speed_units/data.htb_header{EYE_DB}.speed/(data.htb_header{EYE_DB}.skip+1)); % in ms
@@ -146,7 +146,7 @@ spike_data = squeeze(data.spike_data(SpikeChan,:,real_trials)); % sipke data in 
 spike_data( spike_data > 100 ) = 1; % something is absolutely wrong, recorrect to 1
 spon_spk_data = squeeze(data.spike_data(SpikeChan,:,spon_trials));
 
-
+max_reps = ceil(sum(real_trials)/length(unique_stimType)/26); % fake max repetations
 %% pack data for PSTH, modeling and analysis
 % conditions: k=1,2,3
 % Elevation: j= -90,-45,0,45,90 (up->down)
@@ -161,6 +161,10 @@ tOffset1 = 100; % in ms, time before stim on ( at least -100)
 tOffset2 = 100; % in ms, time after stim off
 % tOffset1 = 000; % in ms
 % tOffset2 = 000; % in ms
+
+PCAStep = 5; % for PCA
+PCAWin = 20; % for PCA
+nBinsPCA = floor(temp_duration(1)/PCAStep); % in ms
 
 if strcmp(PSTH.monkey ,'MSTd') == 1
     delay = 115; % in ms, MSTd, 1806
@@ -210,6 +214,9 @@ for k = 1:length(unique_stimType)
     PSTH.spk_data_bin_mean_rate{k} = []; % mean spike count per time window (for PSTH) % 1*nbins
     spk_data_bin_mean_rate_std{k} = [];
     PSTH.spk_data_bin_mean_rate_ste{k} = [];
+    PSTH.spk_data_bin_rate_aov{k} = [];% for PSTH ANOVA
+    
+    PSTH.spk_data_bin_rate_aov{k} = nan*ones(26,nBins,max_reps);
     
     for j = 1:length(unique_elevation)
         for i = 1:length(unique_azimuth)
@@ -227,10 +234,12 @@ for k = 1:length(unique_stimType)
             if sum(select)>0
                 spk_data{k,j,i}(:,:) = spike_data(:,select);
                 pc = pc+1;
+                
                 % for contour
                 spk_data_count_rate_anova{k,pc} = [];
                 % PSTH
-                PSTH.spk_data_bin_rate_aov{k,pc} = [];% for PSTH ANOVA
+                %                 PSTH.spk_data_bin_rate_aov{k,pc} = [];% for PSTH ANOVA
+                
                 try
                     spk_data_count_rate_anova{k,pc} =  sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOffT(1)-tEnd,:),1)/((unique_duration(1,1)-tBeg-tEnd)/1000);
                 catch
@@ -244,8 +253,16 @@ for k = 1:length(unique_stimType)
             
             % pack data for PSTH
             PSTH.spk_data_bin_rate{k,j,i} = PSTH_smooth( nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
-            PSTH.spk_data_bin_rate_aov{k,pc}(:,:) = PSTH_smooth( nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
-            PSTH.spk_data_bin_mean_rate_aov{k}(pc,:) = mean(PSTH.spk_data_bin_rate_aov{k,pc}(:,:),2);
+            try
+                temp = PSTH_smooth( nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
+                PSTH.spk_data_bin_rate_aov{k}(pc,:,1:size(temp,2)) = temp;
+                temp = PSTH_smooth( nBinsPCA, stimOnT, PCAWin, PCAStep, mean(spk_data{k,j,i}(:,:),2), 1, 0);
+                PSTH.spk_data_bin_rate_PCA{k}(pc,:,1:size(temp,2)) = temp;
+            catch
+                
+            end
+            PSTH.spk_data_bin_mean_rate_PCA{k}(pc,:) = nanmean(PSTH.spk_data_bin_rate_PCA{k}(pc,:,:),3);
+            PSTH.spk_data_bin_mean_rate_aov{k}(pc,:) = nanmean(PSTH.spk_data_bin_rate_aov{k}(pc,:,:),3);
             
             % calculate correlation coefficient between response and V/A curve
             [R,P] = corrcoef(v_timeProfile,PSTH.spk_data_bin_mean_rate_aov{k}(pc,:));
@@ -348,141 +365,162 @@ end
 %}
 %% Temporal analysis
 % %{
+% based on Chen, AH et al., 2010, JNS
 % wilcoxon rank sum test
 % 500 ms after stim. on to 50ms before stim off
 
 baselineBinBeg = stimOnBin-floor(100/timeStep);
-baselineBinEnd = stimOnBin+floor(300/timeStep);
+baselineBinEnd = stimOnBin+floor(200/timeStep);
 
 for k = 1:length(unique_stimType)
-    spk_data_bin_rate_mean_minusSpon{k} = PSTH.spk_data_bin_mean_rate_aov{k}-repmat(PSTH.spon_spk_data_bin_mean_rate',size(PSTH.spk_data_bin_mean_rate_aov{k},1),1);
-    % significant temporal modulation (response to the stimulus)
-    peak{k} = [];
+    %     spk_data_bin_rate_mean_minusSpon{k} = PSTH.spk_data_bin_mean_rate_aov{k}-repmat(PSTH.spon_spk_data_bin_mean_rate',size(PSTH.spk_data_bin_mean_rate_aov{k},1),1);
+    sPeak{k} = zeros(1,size(PSTH.spk_data_bin_rate_aov{k},1)); % store the number of significant bins
+    sTrough{k} = zeros(1,size(PSTH.spk_data_bin_rate_aov{k},1)); % store the number of significant bins
+    peakDir{k} = []; % the number of local peak direction
+    peakR{k} = []; % the response of local peak direction
+    localPeak{k} = []; % find the local peak bin of each direction
+    localTrough{k} = []; % find the local trough bin of each direction
     PSTH.peak{k} = []; % location of peaks
-    peak_DS{k} = [];
-    PSTH.peak_DS{k} = []; % location of peaks for direction tuning
+    PSTH.trough{k} = []; % location of troughs
+    PSTH.NoPeaks(k) = 0; % number of peaks
+    PSTH.NoTroughs(k) = 0; % location of troughs
     PSTH.respon_sigTrue(k) = 0; % PSTH.sigTrue(pc) -> sig. of this cell
-    for pc = 1:size(PSTH.spk_data_bin_rate_aov,2)
+    
+    
+    % --------- to test if this direction is temporally responded -------%
+    
+    for pc = 1:size(PSTH.spk_data_bin_rate_aov{k},1)
+        
         PSTH.sigBin{k,pc} = []; % find if this bin is sig.
         PSTH.sigTrue{k}(pc) = 0; % PSTH.sigTrue(pc) -> sig. of this direction
-        %         PSTH.respon_sigTrue(k) = 0; % PSTH.sigTrue(pc) -> sig. of this cell
-        PSTH.localPeak{k,pc} = []; % find the local peak bin of each direction
-        PSTH.localTrough{k,pc} = []; % find the local trough bin of each direction
-        PSTH.s{k,pc} = []; % just for check
-        %         peak{k} = [];
-        %         PSTH.peak{k} = []; % location of peaks
-        %         peak_DS{k} = [];
-        %         PSTH.peak_DS{k} = []; % location of peaks for direction tuning
-        %         for nn = stimOnBin+500/timeStep : stimOnBin+floor(stimOffBin - stimOnBin)-3
+        
+        % if 5 consecutive bins are sig.,then we say this bin is sig.
+        % That is, this direction is temporally responded
         for nn = stimOnBin : stimOffBin
-            %             pp{k}(pc,nn) = ranksum(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(nn,:))',squeeze(nanmean(PSTH.spk_data_bin_rate_aov{k,pc}(baselineBinBeg:baselineBinEnd,:)))');
-            PSTH.s{k,pc}(nn) = 0;
-            % if 5 consecutive bins are sig.,then we say this bin is sig.
+            s{k,pc}(nn) = 0;
             for ii = nn-2:nn+2
                 try
-                    if ranksum(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(ii,:))',squeeze(nanmean(PSTH.spk_data_bin_rate_aov{k,pc}(baselineBinBeg:baselineBinEnd,:)))') < 0.01
-                        PSTH.s{k,pc}(nn) =  PSTH.s{k,pc}(nn)+1;
+                    if ranksum(squeeze(PSTH.spk_data_bin_rate_aov{k}(pc,ii,:))',squeeze(nanmean(PSTH.spk_data_bin_rate_aov{k}(pc,baselineBinBeg:baselineBinEnd,:)))') < 0.01
+                        s{k,pc}(nn) =  s{k,pc}(nn)+1;
                     end
                 catch
                     keyboard;
                 end
             end
-            if  PSTH.s{k,pc}(nn) == 5
-                PSTH.sigBin{k,pc}= [PSTH.sigBin{k,pc};nn]; % find the bin with significant response to the stim.
+            if s{k,pc}(nn) == 5
+                PSTH.sigBin{k,pc} = [PSTH.sigBin{k,pc};nn]; %
             end
             
-            for ii = 1:length(PSTH.sigBin{k,pc})
-                pp = 0;tt = 0;
-                if (spk_data_bin_rate_mean_minusSpon{k}(pc,nn)>=spk_data_bin_rate_mean_minusSpon{k}(pc,nn-1)) &&(spk_data_bin_rate_mean_minusSpon{k}(pc,nn)>=spk_data_bin_rate_mean_minusSpon{k}(pc,nn-2))
-                    pp = pp+1;
-                    PSTH.localPeak{k,pc}(pp,1)= nn; % indicate the bin num.
-                    PSTH.localPeak{k,pc}(pp,2) = spk_data_bin_rate_mean_minusSpon{k}(pc,nn); % indicate the mean-value of this peak
-                else if (spk_data_bin_rate_mean_minusSpon{k}(pc,nn)<=spk_data_bin_rate_mean_minusSpon{k}(pc,nn-1)) &&(spk_data_bin_rate_mean_minusSpon{k}(pc,nn)<=spk_data_bin_rate_mean_minusSpon{k}(pc,nn-2))
-                        tt = tt+1;
-                        PSTH.localTrough{k,pc}(tt,1) = nn; % indicate the bin num.
-                        PSTH.localTrough{k,pc}(tt,2) = spk_data_bin_rate_mean_minusSpon{k}(pc,nn); % indicate the mean-value of this trough
-                    end
-                end
+            if ~isempty(PSTH.sigBin{k,pc})
+                PSTH.sigTrue{k}(pc) = 1; % PSTH.sigTrue(pc) == 1 -> sig. of this direction
             end
-        end
-        if (~isempty(PSTH.localPeak{k,pc})) || (~isempty(PSTH.localTrough{k,pc}))
-            PSTH.sigTrue{k}(pc) = 1; % PSTH.sigTrue(pc) -> sig. of this direction
         end
     end
     
-    % 不需要相邻2个方向
-    if sum(PSTH.sigTrue{k}(:)) >=2
-        PSTH.respon_sigTrue(k) = 1;
-        
-        % 相邻2个方向
-        %     if respon_True(PSTH.sigTrue{k}(:)) == 1
-        %         PSTH.respon_sigTrue(k) = 1;
-        
-        %         %%%%%%%%%%% find peaks & DS peaks %%%%%%%%%%%
-        
-        for nn = stimOnBin-2 : stimOffBin+2
-            [Rmax(nn,1),~]= max(mean(PSTH.spk_data_bin_rate_aov{k,pc}(nn,:),3));
-            Pmax(nn) = anova1(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(nn,:))','','off');
+    PSTH.sig(k) = sum(PSTH.sigTrue{k}(:)); % sig No.of directions
+    
+    % --------------- this cell is temporally responded ------------------%
+    
+    % 2个方向,不需要相邻
+        if sum(PSTH.sigTrue{k}(:)) >=2
+            PSTH.respon_sigTrue(k) = 1;
         end
+    % 相邻2个方向
+%     if respon_True(PSTH.sigTrue{k}(:)) == 1
+%         PSTH.respon_sigTrue(k) = 1;
+%         
+%     end
+    
+    p_anova_dire_t{k} = nan;
+    DDI_t{k} = nan;
+    preferDire_t{k} = nan(3,1);
+    
+    if PSTH.respon_sigTrue(k) == 1
+        
+        % --------- to find local peaks & throughs -------%
+        peakR{k} = NaN(1,nBins);peakDir{k} = NaN(1,nBins);p{k} = NaN(1,nBins);
         for nn = stimOnBin : stimOffBin
-            if (Rmax(nn,1)>Rmax(nn-1,1)) && (Rmax(nn,1)>Rmax(nn+1,1)) && Pmax(nn)<0.05 && Pmax(nn-1)<0.05 && Pmax(nn-2)<0.05 && Pmax(nn+1)<0.05 && Pmax(nn+2)<0.05
-                peak_DS{k} = [peak_DS{k},[ Rmax(nn,1);nn]];
-            end
-            if (Rmax(nn,1)>Rmax(nn-1,1)) && (Rmax(nn,1)>Rmax(nn+1,1))
-                peak{k} = [peak{k},[ Rmax(nn,1);nn]];
+            [peakR{k}(nn),peakDir{k}(nn)] = max(PSTH.spk_data_bin_mean_rate_aov{k}(:,nn));
+            try
+                p{k}(nn) = anova1(squeeze(PSTH.spk_data_bin_rate_aov{k}(:,nn,:))','','off');
+            catch
+                keyboard;
             end
         end
-        if ~isempty(peak{k})
-            peak{k} = sortrows(peak{k}',-1)';
-            PSTH.peak{k} = peak{k}(2,1); % True peaks
-            if length(peak{k})>1
+        pp = 0;th = 0;
+        for tt = stimOnBin+2 : stimOffBin-2
+            
+            if (peakR{k}(tt) > peakR{k}(tt-1)) && (peakR{k}(tt) > peakR{k}(tt+1))...
+                    && p{k}(tt) < 0.01 && p{k}(tt-1) < 0.01 && p{k}(tt-2) < 0.01 && p{k}(tt+1) < 0.01 && p{k}(tt+2) < 0.01
+                pp = pp+1; % how many peaks
+                localPeak{k}(pp,1)= tt;
+                localPeak{k}(pp,2)= peakR{k}(tt);
+            end
+            if (peakR{k}(tt) < peakR{k}(tt-1)) && (peakR{k}(tt) < peakR{k}(tt+1))...
+                    && p{k}(tt) < 0.01 && p{k}(tt-1) < 0.01 && p{k}(tt-2) < 0.01 && p{k}(tt+1) < 0.01 && p{k}(tt+2) < 0.01
+                th = th+1; % how many throughs
+                localTrough{k}(th,1)= tt;
+                localTrough{k}(th,2)= peakR{k}(tt);
+            end
+        end
+        
+        % --------- to find real peaks & throughs? -------%
+        
+        if ~isempty(localPeak{k})
+            localPeak{k} = sortrows(localPeak{k},-2)'; % sort according to response
+            PSTH.peak{k} = localPeak{k}(1,1); % True peaks, here the largest one is sure to be the 1st peak
+            
+            % find other peaks
+            % conpare the correlation coefficient between the largest one and each other bin
+            if size(localPeak{k},2)>1
                 n = 1;
-                while n < size(peak{k},2)
+                while n < size(localPeak{k},1)
                     ii = n+1;
-                    while ii < size(peak{k},2)+1
-                        [r,p] = corrcoef(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(peak{k}(2,n),:)),squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(peak{k}(2,ii),:)));
-                        if ~(r(1,2) > 0 && p(1,2) < 0.05)
-                            PSTH.peak{k} = [PSTH.peak{k} peak{k}(2,ii)];
+                    while ii < size(localPeak{k},1)+1
+                        try
+                            [rCorr,pCorr] = corrcoef(PSTH.spk_data_bin_mean_rate_aov{k}(:,localPeak{k}(1,n)),PSTH.spk_data_bin_mean_rate_aov{k}(:,localPeak{k}(1,ii)));
+                        catch
+                            
+                        end
+                        if ~(rCorr(1,2) > 0 && pCorr(1,2) < 0.05)
+                            PSTH.peak{k} = [PSTH.peak{k} localPeak{k}(1,ii)];
                             n = ii;
                             break;
                         else
                             ii = ii+1;
                         end
-                        
                     end
                     n = n+1;
                 end
             end
         end
-        if ~isempty(peak_DS{k})
-            peak_DS{k} = sortrows(peak_DS{k}',-1)';
-            PSTH.peak_DS{k} = peak_DS{k}(2,1); % True peak_DSs
-            if length(peak_DS{k})>1
-                n = 1;
-                while n < size(peak_DS{k},2)
-                    ii = n+1;
-                    while ii < size(peak_DS{k},2)+1
-                        [r,p] = corrcoef(squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(peak_DS{k}(2,n),:)),squeeze(PSTH.spk_data_bin_rate_aov{k,pc}(peak_DS{k}(2,ii),:)));
-                        if ~(r(1,2) > 0 && p(1,2) < 0.05)
-                            PSTH.peak_DS{k} = [PSTH.peak_DS{k} peak_DS{k}(2,ii)];
-                            n = ii;
-                            break;
-                        else
-                            ii = ii+1;
-                        end
-                        
-                    end
-                    n = n+1;
-                end
+        PSTH.NoPeaks(k) = length(PSTH.peak{k});
+        
+        
+        % calculate DDI for each peak time
+        for pt = 1:PSTH.NoPeaks(k)
+            for pc = 1:size(PSTH.spk_data_bin_rate_aov{k},1)
+                resp_sse_t{k}(pc,pt) = nansum((PSTH.spk_data_bin_rate_aov{k}(pc,PSTH.peak{k}(pt),:) - nanmean(PSTH.spk_data_bin_rate_aov{k}(pc,PSTH.peak{k}(pt),:))).^2); % for DDI
+                resp_trialnum_t{k}(pc,pt)= size(PSTH.spk_data_bin_rate_aov{k}(pc,PSTH.peak{k}(pt),:),3); % for DDI
+            end
+            
+            try
+                p_anova_dire_t{k}(pt) = anova1(squeeze(PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:))','','off'); % tuning anova
+                resp_std_t{k}(pt) = sum(resp_sse_t{k}(:,pt))/(sum(resp_trialnum_t{k}(:,pt))-26);
+                maxSpkRealMean_t{k}(pt) = max(max(squeeze((PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:)))));
+                minSpkRealMean_t{k}(pt) = min(min(squeeze((PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:)))));
+                DDI_t{k}(pt) = (maxSpkRealMean_t{k}(pt)-minSpkRealMean_t{k}(pt))/(maxSpkRealMean_t{k}(pt)-minSpkRealMean_t{k}(pt)+2*sqrt(resp_std_t{k}(pt)));
+                
+                [Azi, Ele, Amp] = vectorsum(squeeze(PSTH.spk_data_bin_vector{k}(:,:,PSTH.peak{k}(pt))));
+                preferDire_t{k}(:,pt) = [Azi, Ele, Amp];
+            catch
+                keyboard;
             end
         end
     end
-    PSTH.NoPeaks(k) = length(PSTH.peak{k});
-    PSTH.NoDSPeaks(k) = length(PSTH.peak_DS{k});
-    PSTH.sig(k) = sum(PSTH.sigTrue{k}(:)); % sig No.of directions
 end
+
 %}
-toc;
 %% plot figures
 %
 % k=1,2,3
@@ -510,13 +548,13 @@ markers = {
 Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+719-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+1074-PSTH_onT+timeStep)/timeStep];
 % preferDirectionOfTime;
 % CosineTuningPlot;
-% PSTH_3D_Tuning; % plot PSTHs across sessions;
-% Contour_3D_Tuning; % plot countour figures;
+PSTH_3D_Tuning; % plot PSTHs across sessions;
+Contour_3D_Tuning; % plot countour figures;
 % Contour_3D_Tuning_GIF; % plot countour figures(PD across time);
 % spatial_tuning;
 %% models nalysis
-% model_catg = 'Sync model'; % tau is the same
-model_catg = 'Out-sync model'; % each component has its own tau
+model_catg = 'Sync model'; % tau is the same
+% model_catg = 'Out-sync model'; % each component has its own tau
 % %{
 
 % models = {'VA','VO','AO'};
@@ -525,8 +563,8 @@ model_catg = 'Out-sync model'; % each component has its own tau
 % models = {'VO','AO','VA','VJ','AJ','VAJ'};
 % models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};
 
-% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
-% models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
+models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
 
 % models = {'PVAJ'};
 % models_color = {'k'};
@@ -534,14 +572,14 @@ model_catg = 'Out-sync model'; % each component has its own tau
 % models = {'VAJ','VA'};
 % models_color = {'k','g'};
 
-models = {'VA'};
-models_color = {'k'};
+% models = {'VA'};
+% models_color = {'k'};
 
 
 spon_flag = 0; % 0 means raw data; 1 means mean(raw)-mean(spon) data
 
 % reps = 20;
-reps = 10;
+reps = 20;
 
 for k = 1:length(unique_stimType)
     % for k = 1
@@ -550,7 +588,7 @@ for k = 1:length(unique_stimType)
         % fit data with raw PSTH data or - spon data
         switch spon_flag
             case 0 %raw data
-                models_fitting(a,model_catg,models,models_color,FILE,SpikeChan, Protocol,k,meanSpon,PSTH.spk_data_bin_mean_rate{k}(:,:,stimOnBin:stimOffBin),PSTH.spk_data_count_mean_rate_all{k},PSTH.spon_spk_data_bin_mean_rate(stimOnBin:stimOffBin),nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,unique_duration);
+                models_fitting(model_catg,models,models_color,FILE,SpikeChan, Protocol,k,meanSpon,PSTH.spk_data_bin_mean_rate{k}(:,:,stimOnBin:stimOffBin),PSTH.spk_data_count_mean_rate_all{k},PSTH.spon_spk_data_bin_mean_rate(stimOnBin:stimOffBin),nBins,reps,markers,stimOnBin,stimOffBin,aMax,aMin,timeStep,unique_duration);
             case 1 % - spon data, so meanspon == 0
                 PSTH.spk_data_bin_mean_rate{k} = PSTH.spk_data_bin_mean_rate{k} - permute(reshape(repmat(PSTH.spon_spk_data_bin_mean_rate,8,5),[],8,5),[3 2 1]);
                 PSTH.spk_data_count_mean_rate_all{k} = PSTH.spk_data_count_mean_rate_all{k} - meanSpkSponMean; % 会出现负值
@@ -735,7 +773,7 @@ for k = 1:length(unique_stimType)
         PSTH3Dmodel{k} = nan;
     end
 end
-% toc;
+
 %}
 %% Data Saving
 
@@ -753,8 +791,8 @@ end
 result = PackResult(FILE, PATH, SpikeChan, unique_stimType,Protocol, ... % Obligatory!!
     unique_azimuth, unique_elevation, unique_amplitude, unique_duration,...   % paras' info of trial
     markers,...
-    timeWin, timeStep, tOffset1, tOffset2,nBins,Bin, ... % PSTH slide window info
-    meanSpon, p_anova_dire, DDI,preferDire,PSTH,... % PSTH and mean FR info
+    timeWin, timeStep, tOffset1, tOffset2,nBins,Bin,PCAStep,PCAWin,nBinsPCA, ... % PSTH slide window info
+    meanSpon, p_anova_dire, DDI,preferDire,PSTH,p_anova_dire_t,DDI_t,preferDire_t, ... % PSTH and mean FR info
     PSTH3Dmodel); % model info
 
 switch Protocol
@@ -787,7 +825,7 @@ switch model_catg
             '0.1f','0.2f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f'};
             };
         config.sprint_loop_contents = {'result.preferDire{k}(1), result.preferDire{k}(2),result.DDI(k),result.p_anova_dire(k)';
-            'result.PSTH.respon_sigTrue(k),result.PSTH.NoDSPeaks(k), result.PSTH.sig(k)';
+            'result.PSTH.respon_sigTrue(k),result.PSTH.NoPeaks(k), result.PSTH.sig(k)';
             ['result.PSTH3Dmodel{k}.RSquared_VO,result.PSTH3Dmodel{k}.RSquared_AO,result.PSTH3Dmodel{k}.RSquared_VJ,result.PSTH3Dmodel{k}.RSquared_AJ,result.PSTH3Dmodel{k}.RSquared_VP,result.PSTH3Dmodel{k}.RSquared_AP,result.PSTH3Dmodel{k}.RSquared_VA,result.PSTH3Dmodel{k}.RSquared_VAP,result.PSTH3Dmodel{k}.RSquared_VAJ,result.PSTH3Dmodel{k}.RSquared_PVAJ,'...
             'result.PSTH3Dmodel{k}.BIC_VO,result.PSTH3Dmodel{k}.BIC_AO,result.PSTH3Dmodel{k}.BIC_VJ,result.PSTH3Dmodel{k}.BIC_AJ,result.PSTH3Dmodel{k}.BIC_VP,result.PSTH3Dmodel{k}.BIC_AP,result.PSTH3Dmodel{k}.BIC_VA,result.PSTH3Dmodel{k}.BIC_VAP,result.PSTH3Dmodel{k}.BIC_VAJ,result.PSTH3Dmodel{k}.BIC_PVAJ,'...
             'result.PSTH3Dmodel{k}.modelFitPara_VAJ(2),result.PSTH3Dmodel{k}.modelFitPara_VAJ(3),result.PSTH3Dmodel{k}.VAJ_wV,result.PSTH3Dmodel{k}.VAJ_wA,result.PSTH3Dmodel{k}.VAJ_wJ,result.PSTH3Dmodel{k}.VAJ_preDir_V(1),result.PSTH3Dmodel{k}.VAJ_preDir_V(2),result.PSTH3Dmodel{k}.VAJ_preDir_A(1),result.PSTH3Dmodel{k}.VAJ_preDir_A(2),result.PSTH3Dmodel{k}.VAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAJ(4),result.PSTH3Dmodel{k}.modelFitPara_VAJ(8),result.PSTH3Dmodel{k}.modelFitPara_VAJ(12),'...
@@ -817,7 +855,7 @@ switch model_catg
             '0.1f','0.2f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f','0.3f','0.3f'};
             };
         config.sprint_loop_contents = {'result.preferDire{k}(1), result.preferDire{k}(2),result.DDI(k),result.p_anova_dire(k)';
-            'result.PSTH.respon_sigTrue(k),result.PSTH.NoDSPeaks(k), result.PSTH.sig(k)';
+            'result.PSTH.respon_sigTrue(k),result.PSTH.NoPeaks(k), result.PSTH.sig(k)';
             ['result.PSTH3Dmodel{k}.RSquared_VO,result.PSTH3Dmodel{k}.RSquared_AO,result.PSTH3Dmodel{k}.RSquared_VJ,result.PSTH3Dmodel{k}.RSquared_AJ,result.PSTH3Dmodel{k}.RSquared_VP,result.PSTH3Dmodel{k}.RSquared_AP,result.PSTH3Dmodel{k}.RSquared_VA,result.PSTH3Dmodel{k}.RSquared_VAP,result.PSTH3Dmodel{k}.RSquared_VAJ,result.PSTH3Dmodel{k}.RSquared_PVAJ,'...
             'result.PSTH3Dmodel{k}.BIC_VO,result.PSTH3Dmodel{k}.BIC_AO,result.PSTH3Dmodel{k}.BIC_VJ,result.PSTH3Dmodel{k}.BIC_AJ,result.PSTH3Dmodel{k}.BIC_VP,result.PSTH3Dmodel{k}.BIC_AP,result.PSTH3Dmodel{k}.BIC_VA,result.PSTH3Dmodel{k}.BIC_VAP,result.PSTH3Dmodel{k}.BIC_VAJ,result.PSTH3Dmodel{k}.BIC_PVAJ,'...
             'result.PSTH3Dmodel{k}.modelFitPara_VAJ(2),result.PSTH3Dmodel{k}.modelFitPara_VAJ(3),result.PSTH3Dmodel{k}.VAJ_wV,result.PSTH3Dmodel{k}.VAJ_wA,result.PSTH3Dmodel{k}.VAJ_wJ,result.PSTH3Dmodel{k}.VAJ_preDir_V(1),result.PSTH3Dmodel{k}.VAJ_preDir_V(2),result.PSTH3Dmodel{k}.VAJ_preDir_A(1),result.PSTH3Dmodel{k}.VAJ_preDir_A(2),result.PSTH3Dmodel{k}.VAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAJ(4),result.PSTH3Dmodel{k}.modelFitPara_VAJ(8),result.PSTH3Dmodel{k}.modelFitPara_VAJ(12),result.PSTH3Dmodel{k}.VAJ_Delay_VA,result.PSTH3Dmodel{k}.VAJ_Delay_JA,'...
@@ -831,5 +869,5 @@ config.append = 1; % Overwrite or append
 % keyboard;
 SaveResult(config, result,model_catg);
 
-toc;
+% toc;
 end

@@ -5,6 +5,7 @@
 % p: number of function parameters
 % the lower the BIC value, the model is better
 % from ( Laurens et al., 2017, elife ; Konishi S and Kitagawa G. 2008.)
+% please check https://en.wikipedia.org/wiki/Bayesian_information_criterion
 % LBY 20170328
 
 function BIC =  BIC_fit(n,RSS,p)

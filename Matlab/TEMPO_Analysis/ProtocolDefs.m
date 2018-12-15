@@ -992,9 +992,10 @@ analysis_strings{ROTATION_TUNING_3D + 1} = ...
 analysis_strings{HEADING_DISCRIM + 1} = ...
     {  'Plot Psychometric_LBY',
     'Plot Discimination_PSTH_LBY',
-    'Plot CP_HH',
-    'Plot CP Distribution_HH',
-    'Plot CP_shiftwindow_HH',
+    
+    'Plot CP_LBY',
+    'Plot CP_shiftwindow_LBY',
+    
     '',
     'Plot HeadingDiscimination_PSTH_HH_dt_yuchen',
     'Plot HeadingDiscimination_PSTH_HH_dt_yuchen_patch_for_HD',
@@ -1027,17 +1028,18 @@ analysis_strings{HEADING_DISCRIM + 1} = ...
     };
 analysis_strings{ROTATION_DISCRIM + 1} = ...
     {  'Plot Psychometric_LBY',
-    'Plot Discimination_PSTH_LBY',
-    'Plot CP_HH',
+    'Plot CP_LBY',
+    'Plot Discimination_PSTH_LBY', 
     'Plot CP Distribution_HH',
     'Plot CP_shiftwindow_HH',
+    'Plot Psychometric',
     };
 analysis_strings{HEADING_DISCRIM_FIXONLY + 1} = ...
-    {   'Plot Heading_tuning_LBY',
+    {   'Plot local tuning',
     'Plot Accelerometer_cum',
     };
 analysis_strings{ROTATION_DISCRIM_FIXONLY + 1} = ...
-    {   'Plot Heading_tuning_LBY',
+    {   'Plot local tuning',
     'Plot Accelerometer_cum',
     };
 analysis_strings{HEADING_DISCRIM_LIP + 1} = ...

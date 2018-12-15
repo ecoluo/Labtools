@@ -110,7 +110,7 @@ switch(action)
         else	%data are loaded, now setup some interface items
             
             % Save the file name to disk. HH20130901
-            f = fopen('Z:\Labtools\Matlab\TEMPO_Analysis\LastFileName.txt','w');
+            f = fopen('Z:\Labtools\Tools\LastFileName.txt','w');
             fprintf(f, '%s\r\n', get(PathHandle,'String'));
             fprintf(f, get(FileHandle,'String'));
             fclose(f);

@@ -3,11 +3,11 @@
 % Last modified HH20140526
 %-----------------------------------------------------------------------------------------------------------------------
 
-function Dis_cum_PSTH_LBY(data, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, StartEventBin, StopEventBin, PATH, FILE, Protocol, batch_flag);
+function HeadingDis_cum_PSTH_LBY(data, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, StartEventBin, StopEventBin, PATH, FILE, Protocol, batch_flag);
 
 TEMPO_Defs;
 Path_Defs;
-ProtocolDefs; %contains protocol specific keywords - 1/4/01 BJP
+ProtocolDefs;
 
 % Override the default eye channel settings. HH20150722
 if data.one_time_params(LEFT_EYE_X_CHANNEL) > 0 % NOT (Is NaN (not overriden) or is zero (rescued from CED))
@@ -257,16 +257,8 @@ else
     keyboard;
 end
 
-switch Protocol
-    case HEADING_DISCRIM % for heading discrimination task
-        heading_per_trial   = data.moog_params(HEADING, select_trials, MOOG);
-    case ROTATION_DISCRIM % for rotation discrimination task
-        temp_elevation = data.moog_params(ELEVATION,:,MOOG);
-        temp_amplitude = data.moog_params(ROT_AMPLITUDE,:,CAMERAS);
-        heading_per_trial = temp_amplitude.*sign(temp_elevation);
-end
-
 stim_type_per_trial = data.moog_params(STIM_TYPE,select_trials,MOOG);
+heading_per_trial   = data.moog_params(HEADING, select_trials, MOOG);
 outcome_per_trial = data.misc_params(OUTCOME, select_trials)';
 
 unique_stim_type = munique(stim_type_per_trial');
@@ -505,7 +497,7 @@ SetFigure(15);
 
 
 %% 2. Calculate PSTH using sliding windows
-%{
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Time windows
 % binSize_rate = 80  % in ms
@@ -544,10 +536,10 @@ for j = 1:size(align_markers,1)    % For each desired marker
         end
     end
 end
-%}
+
 
 %% 3. Sort trials into different categories
-%{
+
 % Define colormap for headings
 colors = colormap(cool); % This is really cool.
 color_for_headings = colors(end-round(linspace(1,64,sum(unique_heading<0)))+1,:);
@@ -1036,9 +1028,9 @@ for sortInd = 1:length(sort_info) % For each figure
 end % sort_bases
 
 drawnow;
-%}
+
 %% 4. Choice Divergence and Preference
-%{
+
 % Depends on "sort_info"
 ALL_CHOICE = 1; CHOICE_ANGLE = 2; CHOICE_DIFFICULT = 3;
 
@@ -1118,9 +1110,8 @@ for j = 1:size(align_markers,1) % Include two align methods. @HH20150417
 %     print(1999,'-dbitmap',[mat_file_fullname{i} '_ChoiceDivergenceEasyMinusDifficult.bmp']);
    
 end;
-%}
+
 %% Choice preference (related to "PREF" of this cell).  @HH20150418
-%{
 % Will be transformed to be related to "Contralateral" in GROUP_GUI 
 %  @HH20160915
 
@@ -1164,9 +1155,9 @@ end
 
 set(0,'currentfig',1899);  xlims = xlim; ylims = ylim;
 text(xlims(1)*0.9,ylims(1)*0.7,sprintf('ChoicePref = %s',num2str(ChoicePreference(1,:))));
-%}
+
 %% 5. Modality Divergence and Modality Preference  @HH20150418
-%{
+
 modality_pair = {[1 2],[1 3],[2 3]};  % The later is set to be "Pref modality"
 
 for j = 1:size(align_markers,1) % Include two align methods. 
@@ -1202,9 +1193,9 @@ for j = 1:size(align_markers,1) % Include two align methods.
    plot(rate_ts{j},ModalityDivergence{j}(3,:),'color',[0.5 0.5 0.5],'linew',2,'linestyle',':');   % Comb - visual
     
 end
-%}
+
 %% --- Modality Preference ---
-%{
+
 j = 2;  % This is not too much time-sensitive, so I choose j = 2 (aligned to sac onset)
 
 ModalityPreference = nan(length(choice_or_mod_pref_timewin),3);
@@ -1249,7 +1240,7 @@ set(0,'currentfig',1899); xlims = xlim; ylims = ylim;
 text(xlims(1)*0.9,ylims(1)*0.9,sprintf('ModPref = %s',num2str(ModalityPreference(1,:))));
 
 drawnow;
-%}
+
 %% 6. Calculate sliding CP and Neuro-threshold (Rewrite, with CP_LBY function. @HH20140925)
 %  %{
 
@@ -1525,7 +1516,7 @@ SetFigure(15);
 %}
 
 %% Data Saving
-%{
+
 % Reorganized. HH20141124
 config.batch_flag = batch_flag;
 
@@ -1594,8 +1585,208 @@ config.append = 1; % Overwrite or append
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 SaveResult(config, result);
-%}                
+                
 
+%%%%%%%%%%%%%%%%%%%%%  Output   HH20140510 / HH20140621 / HH20141003 %%%%%%%%%%%%%%%%%
+
+% if ~isempty(batch_flag)  % Figures and raw data (always in "result" structure)
+%     
+%     %%%%%%%%%%%%%%%%%%%%% Change here %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     suffix = ['PSTH'];
+%     
+%     % Figures to save
+%     save_figures = [60 + (1:length(sort_info)) ,161];
+%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     
+%     outpath = ['Z:\Data\Tempo\Batch\' batch_flag(1:end-2) '\'];
+%    
+%     % Check directory
+%     if ~exist(outpath,'dir')
+%         mkdir(outpath);    
+%     end
+%     savefilename = [outpath [FILE '_' num2str(SpikeChan)] '_' suffix];
+%     
+%     % Delete existing data files
+%     if exist([savefilename '.mat'],'file')
+%         delete([savefilename '*.*']);
+%     end
+%     
+%     % Save raw data
+%     save(savefilename,'result');
+%     
+%     % Save figures
+%     for ff = 1:length(save_figures)
+% %         orient landscape;
+%         set(save_figures(ff),'Visible','on');
+%         print(save_figures(ff),'-dbitmap',[savefilename '_fig_' num2str(ff) '.bmp']);
+%         close(save_figures(ff));
+% %         saveas(save_figures(ff),[savefilename '_fig_' num2str(ff)],'bmp');
+%     end
+%         
+% end
+% 
+% 
+% % Print part of data to texts (clipboard or .dat file)
+% 
+% %%%%%%%%%%%%%%%%%%%%% Change here %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Only once
+% sprint_once_marker_temp = 'gs';
+% sprint_once_contents = 'repetitionN,num2str(PSTH{2,1,1}.ts)';
+% % Loop across each stim_type
+%     % sprint_loop_marker_temp = {'sss';
+%     %                        };  
+%     % sprint_loop_contents = {'num2str(PSTH{2,1,1}.ys((k-1)*2+1,:)), num2str(PSTH{2,1,1}.ys((k-1)*2+2,:)), num2str(PSTH{2,1,1}.ps(k,:))';
+%     %                        }; 
+%     
+% % sprint_loop_marker_temp = {};
+% % sprint_loop_contents = {};
+% sprint_loop_marker_temp = {'gg';
+%                            'gg';
+%                            'sss'};
+% sprint_loop_contents = {'CP{2,k}.Psy_para(2), CP{2,k}.Psy_para(1)';
+%                         'CP{2,k}.CP_grand_center, CP{2,k}.CP_grand_sac';
+%                         'num2str(PSTH{2,1,1}.ys((k-1)*2+1,:)), num2str(PSTH{2,1,1}.ys((k-1)*2+2,:)), num2str(PSTH{2,1,1}.ps(k,:))'};         
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% % HD_rep	HD_vest_psy_thres	HD_vis_psy_thres	HD_comb_psy_thres	HD_vest_CP_grand_center	HD_vest_CP_grand_sac	HD_vis_CP_grand_center	HD_vis_CP_grand_sac	HD_comb_CP_grand_center	HD_comb_CP_grand_sac
+% 
+% 
+% sprint_once_marker = [];
+% for i = 1:length(sprint_once_marker_temp)
+%     sprint_once_marker = [sprint_once_marker '%' sprint_once_marker_temp(i) '\t '];
+% end
+% 
+% if ~isempty(batch_flag)  % Print to file
+%     
+%     outfile = [outpath suffix '.dat'];
+%     printHead = 0;
+%     if (exist(outfile, 'file') == 0)   % file does not yet exist
+%         printHead = 1;
+%     end
+%     
+%     fid = fopen(outfile, 'a');
+%     % This line controls the output format
+% 
+%     if (printHead)
+%         fprintf(fid, ['FILE\t ' sprint_once_contents '|\t']);
+%         
+%         for ll = 1:length(sprint_loop_contents)
+%             fprintf(fid,[sprint_loop_contents{ll} '|\t']);
+%         end
+%         fprintf(fid, '\r\n');
+%     end
+%     
+%     fprintf(fid,'%s\t',[FILE '_' num2str(SpikeChan)]);
+%     
+% else  % Print to screen
+%     fid = 1;  
+% end
+% 
+% toClip = [];
+% 
+% % Print once
+% if ~isempty(sprint_once_marker_temp)
+%     eval(['buff = sprintf(sprint_once_marker,' sprint_once_contents ');']);
+%     fprintf(fid, '%s', buff);
+%     toClip = [toClip sprintf('%s', buff)];
+% end
+% 
+% % Print loops
+% for ll = 1:length(sprint_loop_contents)
+%     
+%     sprint_loop_marker = [];
+%     for i = 1:length(sprint_loop_marker_temp{ll})
+%         sprint_loop_marker = [sprint_loop_marker '%' sprint_loop_marker_temp{ll}(i) '\t '];
+%     end
+%     
+%     for conditions = 1:3 % Always output 3 conditions (if not exist, fill with NaNs)
+%         if sum(unique_stim_type == conditions)==0
+%             buff = sprintf(sprint_loop_marker,ones(1,sum(sprint_loop_marker=='%'))*NaN);
+%         else
+%             k = find(unique_stim_type == conditions);
+%             eval(['buff = sprintf(sprint_loop_marker,' sprint_loop_contents{ll} ');']);
+%         end
+%         fprintf(fid, '%s', buff);
+%         toClip = [toClip sprintf('%s', buff)];
+%     end
+%     
+% end
+% 
+% fprintf(fid, '\r\n');
+% toClip = [toClip sprintf('\r\n')];
+% clipboard('copy',toClip);
+% 
+% if ~isempty(batch_flag)  % Close file
+%     fclose(fid);
+% end
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%  Batch Output.   %%%%%%%%%%%%%%%%%
+% 
+% if ~isempty(batch_flag)
+%     
+%     outpath = ['Z:\Data\Tempo\Batch\' batch_flag(1:end-2) '\'];
+%    
+%     if ~exist(outpath,'dir')
+%         mkdir(outpath);    
+%     end
+%     
+%     % Save figures
+%     orient landscape;
+%     
+%     %%%%%%%%%%%%%%%%%%%%% Change here %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     suffix = ['PSTH'];
+%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     
+%     for sortInd = 1:length(sort_info)
+%         savefilename = [outpath [FILE '_' num2str(SpikeChan)] '_' suffix '_' num2str(sortInd) '.png'];
+%         if exist(savefilename)
+%             delete(savefilename);
+%         end
+%         saveas(60+sortInd,savefilename,'png');
+%     end
+%         
+%     % Print PSTHs
+%     
+%     %%%%%%%%%%%%%%%%%%%%% Change here %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     sprint_txt_temp = 'ss';  % For each stim_type
+%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     
+%     sprint_txt = [];
+%     for i = 1:length(sprint_txt_temp)
+%         sprint_txt = [sprint_txt '%' sprint_txt_temp(i) '\t '];
+%     end
+%     
+%     outfile = [outpath suffix '.dat'];
+%     printHead = 0;
+%     if (exist(outfile, 'file') == 0)   % file does not yet exist
+%         printHead = 1;
+%     end
+%     
+%     fid = fopen(outfile, 'a');
+%     if (printHead)
+%         fprintf(fid, 'FILE\t  reps, vest PREF, vest NULL, vis PREF, vis NULL, comb PREF, comb NULL ');
+%         fprintf(fid, '\r\n');
+%     end
+%     
+%     fprintf(fid,'%s\t %g\t %s\t',[FILE '_' num2str(SpikeChan)],repetitionN,num2str(PSTH{2,1,1}.ts));
+% 
+%     for conditions = 1:3 % Always output 3 conditions (if not exist, fill with NaNs)
+%         if sum(unique_stim_type == conditions)==0
+%             buff = sprintf(sprint_txt, ones(1,length(sprint_txt_temp))*NaN);
+%         else
+%             k = find(unique_stim_type == conditions);
+%             %%%%%%%%%%%%%%%%%%%%% Change here %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             buff = sprintf(sprint_txt, num2str(PSTH{2,1,1}.ys((k-1)*2+1,:)), num2str(PSTH{2,1,1}.ys((k-1)*2+2,:)));  % Fig = 1, row = 1, column(alignmarker) = 2
+%             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         end
+%         fprintf(fid, '%s', buff);
+%     end
+%     
+%     fprintf(fid, '\r\n');
+%     fclose(fid);
+%     
+% end;
 
 %%
 return;

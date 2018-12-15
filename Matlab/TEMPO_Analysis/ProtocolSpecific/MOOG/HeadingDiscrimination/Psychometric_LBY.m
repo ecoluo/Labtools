@@ -1,8 +1,7 @@
 %-----------------------------------------------------------------------------------------------------------------------
 %-- psychometric function for heading discrimination task
 %--	07/16/04 GY
-%-----------------------------------------------------------------------------------------------------------------------
-%% HH20141026
+% HH20141026
 % LBY 20181118
 
 function Psychometric_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
@@ -29,7 +28,7 @@ switch Protocol
         %get the column of values for azimuth and elevation and stim_type
         temp_stim_type = data.moog_params(STIM_TYPE,:,MOOG);
         temp_elevation = data.moog_params(ROT_ELEVATION,:,MOOG);
-        temp_amplitude = data.moog_params(ROT_AMPLITUDE,:,MOOG);
+        temp_amplitude = data.moog_params(ROT_AMPLITUDE,:,CAMERAS);
         temp_motion_coherence = data.moog_params(COHERENCE,:,MOOG);
         temp_outcome = data.misc_params(OUTCOME, :);
         temp_mask_status = data.moog_params(MASK_STATUS,:,MOOG);
@@ -105,6 +104,7 @@ RIGHT = 2;
 event_in_bin = squeeze(data.event_data(:,:,select_trials))';  % TrialNum * 5000
 
 choice_per_trial = LEFT * squeeze(sum(event_in_bin == IN_T2_WIN_CD,2))' + RIGHT * squeeze(sum(event_in_bin == IN_T1_WIN_CD,2))';
+% choice_per_trial = LEFT * squeeze(sum(event_in_bin == IN_T2_WIN_CD,2))' + RIGHT * squeeze(sum(event_in_bin == IN_T1_WIN_CD,2))';
 if length(unique(choice_per_trial)) > 2  % This is safer
     disp('Neither T1 or T2 chosen / More than one target chosen.  This should not happen! File must be bogus.');
     fprintf('%g cases...\n', sum(choice_per_trial==3));
@@ -136,7 +136,7 @@ for c = 1:length(unique_motion_coherence) % different coherence level
             fit_data_psycho_cum{c,condition} = nan;
             continue;
         end
-        
+        % find all trials fitting specific conditions
         if condition == 1 % for vestibular condition, take all the data regardless of visual coherence
             trials_select_ck =logical( (stim_type==condition) ) ;
         else
@@ -373,7 +373,7 @@ fitline{3,1} = 'b:';    fitline{3,2} = 'r:';    fitline{3,3} = 'g:';
 figure(2); clf;
 switch Protocol
     case HEADING_DISCRIM % for heading discrimination task
-set(2,'Position', [63 51 1080 500], 'Name', 'Heading Discrimination');
+        set(2,'Position', [63 51 1080 500], 'Name', 'Heading Discrimination');
     case ROTATION_DISCRIM % for heading discrimination task
         set(2,'Position', [63 51 1080 500], 'Name', 'Rotation Discrimination');
 end
@@ -429,8 +429,12 @@ params = data.moog_params(:,1,:);
 axes('position',[0.062 0.9 0.895 0.148] );
 xlim( [0,50] );
 ylim( [2,10] );
-text(0, 5, sprintf('%s,    reps = %g,   amp = %g m,   Nsigma = %g,   duration = %g ms', FILE,repetitionN,params(AMPLITUDE), params(NUM_SIGMAS),params(DURATION)));
-
+switch Protocol
+    case HEADING_DISCRIM % for heading discrimination task
+        text(0, 5, sprintf('%s,    reps = %g,   amp = %g m,   Nsigma = %g,   duration = %g ms', FILE,repetitionN,params(AMPLITUDE), params(NUM_SIGMAS),params(DURATION)));
+    case ROTATION_DISCRIM % for heading discrimination task
+        text(0, 5, sprintf('%s,    reps = %g,     Nsigma = %g,   duration = %g ms', FILE,repetitionN, params(ROT_NUM_SIGMAS),params(ROT_DURATION)));
+end
 
 % text(15,10,'coherence =');
 % text(30,10,'repeats =');
@@ -590,7 +594,7 @@ SetFigure(15);
 raw = [stim_type(:),motion_coherence(:),heading(:),choice_per_trial(:),outcome(:)];
 
 %% Data Saving
-
+%{
 % Reorganized. HH20141124
 config.batch_flag = batch_flag;
 
@@ -799,3 +803,6 @@ SaveResult(config, result);
 % fclose(fid);
 % %---------------------------------------------------------------------------------------
 return;
+%}
+
+end
