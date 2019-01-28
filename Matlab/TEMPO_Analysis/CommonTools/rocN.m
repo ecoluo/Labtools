@@ -1,6 +1,7 @@
+
 function [auROC,bestz,perm] = rocN(x,y,N,permuteN)
 % ROC	computes area under ROC given distributions x and y
-%	uses N points to construct the ROC
+%	uses N points to construct the ROC £¨N: threshold)
 %	usage area = rocN(x,y,N)
 %
 %   x, +; y, -
@@ -73,6 +74,7 @@ end
 
 fa = zeros(1,N); hit = fa; % Preallocation
 
+% calculate true positive rate(hit) and false positive rate(fa)
 for i = 1:N  
    fa(N-i+1) = sum(y > z(i));
    hit(N-i+1) = sum(x > z(i));

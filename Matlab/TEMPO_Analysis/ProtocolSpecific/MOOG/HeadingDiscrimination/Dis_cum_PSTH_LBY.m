@@ -9,6 +9,10 @@ TEMPO_Defs;
 Path_Defs;
 ProtocolDefs; %contains protocol specific keywords - 1/4/01 BJP
 
+stimType{1}='Vestibular';
+stimType{2}='Visual';
+stimType{3}='Combined';
+
 % Override the default eye channel settings. HH20150722
 if data.one_time_params(LEFT_EYE_X_CHANNEL) > 0 % NOT (Is NaN (not overriden) or is zero (rescued from CED))
     LEYE_H = data.one_time_params(LEFT_EYE_X_CHANNEL);
@@ -26,6 +30,7 @@ if data.one_time_params(RIGHT_EYE_Y_CHANNEL) > 0
     REYE_V = data.one_time_params(RIGHT_EYE_Y_CHANNEL);
 end
 
+% keyboard;
 %% Commented by HH20140523
 %{
 tic
@@ -229,7 +234,7 @@ toc;
 
 %%%%%%%%%%%%%%%%%%% Parameters %%%%%%%%%%%%%%%%%%%
 method = 0; % 0: Maximum likelihood; 1: Square error
-tolerance = 10; 
+tolerance = 10;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 tic;
@@ -288,7 +293,7 @@ event_in_bin = squeeze(data.event_data(:,:,select_trials))';  % TrialNum * 5000
 
 % -- Eye data --
 % Fix the bug that if the first selected trial > 1, the eye traces got messed up. @HH20160906
-eye_data = data.eye_data(:,:,select_trials); 
+eye_data = data.eye_data(:,:,select_trials);
 
 % Monkey's choice
 LEFT = 1;
@@ -302,17 +307,17 @@ if length(unique(choice_per_trial)) > 2  % This is safer
     %%%%%%%%%%%%  CAUTION HERE !! %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if strcmp(FILE,'m5c174r1') % This file is ugly (eye trace noise!! All LEFT actually)  HH20141224
         for ii = find(choice_per_trial==3)'
-%             figure(ii);
-%             plot(data.eye_data(1,:,ii)); hold on; 
+            %             figure(ii);
+            %             plot(data.eye_data(1,:,ii)); hold on;
             m7 = find(event_in_bin(ii,:)==7)/5;
             m8 = find(event_in_bin(ii,:)==8)/5;
             m9 = find(event_in_bin(ii,:)==9)/5;
-%             plot([m7 m7],[-20 20],'r',[m8 m8],[-20 20],'k',[m9 m9],[-20 20],'k');
+            %             plot([m7 m7],[-20 20],'r',[m8 m8],[-20 20],'k',[m9 m9],[-20 20],'k');
             disp(find(event_in_bin(ii,:)==8 |event_in_bin(ii,:)==9))
             
             choice_per_trial(ii) = LEFT;            % Overwrite all LEFT !!  HH20141224
         end
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     else
         keyboard; beep;
     end
@@ -328,8 +333,8 @@ align_markers = {
     % Marker    Before(ms)    After(ms)    Notes    Which other markers are presented?   Their notes
     VSTIM_ON_CD,  -500, 2200, 'Stim On' , [VSTIM_OFF_CD SACCADE_BEGIN_CD], {'Stim Off','Sac On'};
     SACCADE_BEGIN_CD,  -2000, 700, 'Saccade On' , [VSTIM_ON_CD VSTIM_OFF_CD], {'Stim On', 'Stim Off'};
-%     VSTIM_ON_CD,  -500, 2200, 'Stim On' , [VSTIM_OFF_CD SACCADE_BEGIN_CD], {'Stim Off','Sac On'};
-%     SACCADE_BEGIN_CD,  -500, 700, 'Saccade On' , [VSTIM_ON_CD VSTIM_OFF_CD], {'Stim On', 'Stim Off'};
+    %     VSTIM_ON_CD,  -500, 2200, 'Stim On' , [VSTIM_OFF_CD SACCADE_BEGIN_CD], {'Stim Off','Sac On'};
+    %     SACCADE_BEGIN_CD,  -500, 700, 'Saccade On' , [VSTIM_ON_CD VSTIM_OFF_CD], {'Stim On', 'Stim Off'};
     };
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -353,14 +358,14 @@ for j = 1:size(align_markers,1)    % For each desired marker
         spike_aligned{1,j}(i,:) = spike_in_bin (i, winBeg : winEnd);   % Align each trial
         
         % Note that sampling rate of eye traces (200 Hz) is lower than spike data (1000 Hz), so the alignment would be not perfect.
-        winBeg_eye = round(align_offsets(i,j) / eye_timeWin) + ceil(align_markers{j,2} / eye_timeWin); 
-
+        winBeg_eye = round(align_offsets(i,j) / eye_timeWin) + ceil(align_markers{j,2} / eye_timeWin);
+        
         % -- The below two lines are wrong because I failed to select trials for eye data!! @HH20160906
         % eyeX_aligned{1,j}(i,:) = squeeze(data.eye_data (LEYE_H, winBeg_eye : winBeg_eye + size(eyeX_aligned{1,j},2) -1 , i));   % Align each trial
         % eyeY_aligned{1,j}(i,:) = squeeze(data.eye_data (LEYE_V, winBeg_eye : winBeg_eye + size(eyeX_aligned{2,j},2) -1, i));   % Align each trial
         eyeX_aligned{1,j}(i,:) = squeeze(eye_data (LEYE_H, winBeg_eye : winBeg_eye + size(eyeX_aligned{1,j},2) -1 , i));   % Align each trial
         eyeY_aligned{1,j}(i,:) = squeeze(eye_data (LEYE_V, winBeg_eye : winBeg_eye + size(eyeX_aligned{2,j},2) -1, i));   % Align each trial
-
+        
         % Calibrate eye offset (average 200 ms after 04, then we calculate eye_offset when j = 1)
         if j == 1
             eye_offsetX(i) = mean(eyeX_aligned{1,1}(i,winBeg_eye : winBeg_eye + 200/eye_timeWin));
@@ -372,17 +377,17 @@ for j = 1:size(align_markers,1)    % For each desired marker
     end
     
     % Other time markers that are presented
-    for jj = 1:length(align_markers{j,5}) 
+    for jj = 1:length(align_markers{j,5})
         align_offsets_others{j}(:,jj) = mod(find(event_in_bin' == align_markers{j,5}(jj)),size(event_in_bin,2))-align_offsets(:,j);  % Fast way to find offsets for each trial
     end
 end
 
 %% 1.1 Preferred Direction
 %%%%%%%%  Define "Preferred direction" %%%%%%%%%%%
-% Use a global "preferred direction" for all conditions. 
+% Use a global "preferred direction" for all conditions.
 % But see pref. direction for CP below.  HH20141126  < XXX @HH20150417>
 
-% To prevent from getting a weird result that three conditions have different preferred directions, 
+% To prevent from getting a weird result that three conditions have different preferred directions,
 % now I decide to use the "global preferred direction" for CD and CP as well @HH20150417
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -394,13 +399,13 @@ right_all = sum(mean(spike_aligned{1,2}( choice_per_trial == RIGHT & outcome_per
 % Debugging.  HH20150125
 % figure();  hold on;
 % plot(t_centers{2},mean(spike_hist{2}(...
-%     choice_per_trial == LEFT & outcome_per_trial == CORRECT & stim_type_per_trial' >= 1,:))); 
+%     choice_per_trial == LEFT & outcome_per_trial == CORRECT & stim_type_per_trial' >= 1,:)));
 % plot(t_centers{2},mean(spike_hist{2}(...
-%     choice_per_trial == RIGHT & outcome_per_trial == CORRECT & stim_type_per_trial' >= 1,:)),'r'); 
-% 
+%     choice_per_trial == RIGHT & outcome_per_trial == CORRECT & stim_type_per_trial' >= 1,:)),'r');
+%
 % figure();  hold on;
 % plot(t_centers{2},mean(spike_hist{2}(...
-%     choice_per_trial == LEFT & outcome_per_trial == ERR_WRONG_CHOICE & stim_type_per_trial' <= 3,:)),'Linew',2); 
+%     choice_per_trial == LEFT & outcome_per_trial == ERR_WRONG_CHOICE & stim_type_per_trial' <= 3,:)),'Linew',2);
 % plot(t_centers{2},mean(spike_hist{2}(...
 %     choice_per_trial == RIGHT & outcome_per_trial == ERR_WRONG_CHOICE & stim_type_per_trial' <= 3,:)),'r','Linew',2);
 
@@ -421,11 +426,11 @@ end
 %   1. PREF determined above is opposite to their PREF in MemSac task (which is unreasonable)
 %   2. Their ramping activities are noisy per se (even PREFs of different modalities do not match), which makes PREF incorrect
 %   3. Examining the preference of post-sac activity further justifies my manual switch
-% This is a temporary workaround (the deadline of my progress report is coming man!!) 
+% This is a temporary workaround (the deadline of my progress report is coming man!!)
 % Maybe someday I will rewrite it in a more formal (soft-coded) way.
 % @HH20150524
 
-flip_PREF_cell = {   
+flip_PREF_cell = {
     % File name, SpikeChan
     'm5c211r3_4_5',5;
     'm5c145r1',5};
@@ -437,7 +442,7 @@ for ff = 1:size(flip_PREF_cell)
         beep;
     end
 end
- 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -452,13 +457,14 @@ eyeYs_pref = mean(eyeY_aligned{1,j}(choice_per_trial == PREF, eye_target_period)
 
 % Get mean location of PREF_target
 % This would let PREF_target_location be [-90,270] ... HH20160906
-PREF_target_location = median(atan(eyeYs_pref./eyeXs_pref)/pi * 180 + (eyeXs_pref < 0)*180)  
+PREF_target_location = median(atan(eyeYs_pref./eyeXs_pref)/pi * 180 + (eyeXs_pref < 0)*180)
 
 
 %% 1.5 Raster plot
-set(figure(59),'pos',[90 563 1525 398],'name','Raster plot'); clf;
+% set(figure(59),'pos',[90 563 1525 398],'name','Raster plot'); clf;
+set(figure(59),'pos',[-1050 360 1000 400],'name','Raster plot'); clf;
 
-j = 1; 
+j = 1;
 j_other = 2;
 num_trials_for_raster = 20;
 
@@ -468,10 +474,10 @@ spike_height = 0.3;
 for stim_type = 1:3
     find_trial_pref = find((stim_type_per_trial' == stim_type) & (choice_per_trial == PREF) & (outcome_per_trial == CORRECT));
     find_trial_null = find((stim_type_per_trial' == stim_type) & (choice_per_trial == NULL) & (outcome_per_trial == CORRECT));
-
+    
     if length(find_trial_pref) >= num_trials_for_raster && length(find_trial_null) >= num_trials_for_raster
-  
-        % Find and sort the "other marker" (saccade onset for j = 1)
+        
+        % Find and sort the "other marker" (saccade onset for j = 1(aligned with VIS_ON))
         other_time_marker_pref = align_offsets_others{j}(find_trial_pref,j_other);
         other_time_marker_null = align_offsets_others{j}(find_trial_null,j_other);
         
@@ -480,12 +486,12 @@ for stim_type = 1:3
         
         % Choose who are gonna to be plotted
         select_for_raster_pref = sort_pref(round(linspace(round(length(sort_pref)*0.05),round(length(sort_pref)*0.95),num_trials_for_raster)));
-%         select_for_raster_null = sort_null(round(linspace(round(length(sort_pref)*0.05),round(length(sort_pref)*0.95),num_trials_for_raster)));   % Bug found by Yuchen 20160321
+        %         select_for_raster_null = sort_null(round(linspace(round(length(sort_pref)*0.05),round(length(sort_pref)*0.95),num_trials_for_raster)));   % Bug found by Yuchen 20160321
         select_for_raster_null = sort_null(round(linspace(round(length(sort_null)*0.05),round(length(sort_null)*0.95),num_trials_for_raster)));
-                
+        
         other_time_marker_all = [other_time_marker_null(select_for_raster_null); other_time_marker_pref(select_for_raster_pref)];
         raster_spike_time_all = spike_aligned{1,j}([find_trial_null(select_for_raster_null);find_trial_pref(select_for_raster_pref)],:);
-        raster_t = spike_aligned{2,j}(1,:); 
+        raster_t = spike_aligned{2,j}(1,:);  % time stamps
         
         % Plotting
         subplot(1,3,stim_type); hold on
@@ -583,7 +589,7 @@ sort_info = {
 %         {   % stim_types (0 = all)   % Notes
 %              0, stim_type_names(0+1)
 %         };
-% 
+%
 %         % In each subplot (max nested level: 2)
 %         %  Variable(s) , Logical,  Values  , Colors,  LineStyles,    Notes,   Errorbar? (0:Nothing; 1:95% CI; 2: p<0.05; 3:both)
 %         {
@@ -668,7 +674,7 @@ sort_info = {
 %         {   % stim_types (0 = all)   % Notes
 %             unique_stim_type, stim_type_names(unique_stim_type+1)
 %         };
-% 
+%
 %         % In each subplot (max nested level: 2)
 %         {    %  Variable(s) ,  Logical,  Values  , Colors,  LineStyles,  Notes,   Errorbar? (0:Nothing; 1:95% CI; 2: p<0.05; 3:both)
 % %             'heading_per_trial''', {'=='}, unique_heading, color_for_headings, style_for_headings, cellstr(num2str(unique_heading)) , 0;
@@ -706,7 +712,7 @@ outcome_mask_enable = 1;
 
 for sortInd = 1:length(sort_info) % For each figure
     
-    set(figure(60+sortInd),'position',[187-1300*~isempty(batch_flag)  91   1100   600]); clf; 
+    set(figure(60+sortInd),'position',[187-1300*~isempty(batch_flag)  91   1100   600]); clf;
     set(61,'position',[-1110 80 1100 600]);
 
     
@@ -720,9 +726,9 @@ for sortInd = 1:length(sort_info) % For each figure
     nest_levels = size(sort_info{sortInd}{2},1);
         
     % Preallocation of legend
-    if nest_levels > 2 ; 
-        disp('Too many nest levels...'); keyboard; 
-        return; 
+    if nest_levels > 2 ;
+        disp('Too many nest levels...'); keyboard;
+        return;
     elseif nest_levels == 1
         catsOut = sort_info{sortInd}{2}{1,VALUES};
         logOut = sort_info{sortInd}{2}{1,LOGLS};
@@ -732,7 +738,7 @@ for sortInd = 1:length(sort_info) % For each figure
         txt_legend = cell(size(h_legend));
     elseif nest_levels == 2
         catsOut = sort_info{sortInd}{2}{1,VALUES};
-        logOut = sort_info{sortInd}{2}{1,LOGLS};        
+        logOut = sort_info{sortInd}{2}{1,LOGLS};
         if length(logOut) == 1; logOut = repmat(logOut,1,length(catsOut)); end
 
         catsIn = sort_info{sortInd}{2}{2,VALUES};
@@ -747,7 +753,7 @@ for sortInd = 1:length(sort_info) % For each figure
         for j = 1:size(align_markers,1)
             
             l = sub2ind([length(stim_type_to_plot) size(align_markers,1)],k,j);
-%             axes(h_subplot(l)); 
+%             axes(h_subplot(l));
             set(gcf,'CurrentAxes',h_subplot(l));
             
             if nest_levels == 1 % 1 nested condition
@@ -897,7 +903,7 @@ for sortInd = 1:length(sort_info) % For each figure
                             CI = sem*1.96;
                             h=shadedErrorBar(t_centers{j},ys,CI,{'Color',lineColor,'LineStyle',lineStyle},transparent);
                             set(h.mainLine,'LineWidth',2);  hold on;
-                        else  
+                        else
                             % Mean
                             h.mainLine=plot(t_centers{j},ys,'Color',lineColor,'LineStyle',lineStyle);
                             set(h.mainLine,'LineWidth',3);  hold on;
@@ -909,7 +915,7 @@ for sortInd = 1:length(sort_info) % For each figure
                         
                         if if_indicator
                             if catNum_In == 1 % Cache the first data
-                                firstData = spike_hist{j}(selected_condition,:);                            
+                                firstData = spike_hist{j}(selected_condition,:);
                             else % Draw indicators
                                 secondData = spike_hist{j}(selected_condition,:);
                                 try
@@ -984,7 +990,7 @@ for sortInd = 1:length(sort_info) % For each figure
             
             % Post-plot stuffs
             if k < length(stim_type_to_plot) ;set(gca,'xticklabel',''); end
-            if k == 1 ; 
+            if k == 1 ;
                 if j==2
                     title([FILE 'unit' num2str(SpikeChan) ', reps = '  num2str(repetitionN) '     ' align_markers{j,4}],'color','k');
                 else
@@ -1001,7 +1007,7 @@ for sortInd = 1:length(sort_info) % For each figure
             ylims(l,:) = ylim;
             
             % Other time markers
-            for jj = 1:length(align_markers{j,5}) 
+            for jj = 1:length(align_markers{j,5})
                 mean_minus_std = mean(align_offsets_others{j}(:,jj)) - std(align_offsets_others{j}(:,jj));
                 mean_plus_std = mean(align_offsets_others{j}(:,jj)) + std(align_offsets_others{j}(:,jj));
                 if (mean_plus_std-mean_minus_std)>=10
@@ -1015,7 +1021,7 @@ for sortInd = 1:length(sort_info) % For each figure
             end
             
             if j == 2
-                h_legends(k) = legend(h_legend,txt_legend,'Location','NorthWest','color','none'); 
+                h_legends(k) = legend(h_legend,txt_legend,'Location','NorthWest','color','none');
             end
 
         end % align_markers
@@ -1043,15 +1049,15 @@ drawnow;
 ALL_CHOICE = 1; CHOICE_ANGLE = 2; CHOICE_DIFFICULT = 3;
 
 %{
-% XXX @HH20150417.  
+% XXX @HH20150417.
 % Re-determine the preferred direction according to Anne's method (see above)
 % Note here the preferred direction is computed from j=2 (saccade-aligned)
 mean_rates = PSTH{2,ALL_CHOICE,1}.ys(2*k-1:2*k,:);      % Note for sortInd = 1 (ALL_CHOICE), all conditions are put together
 % first_larger = mean(mean_rates(1, rate_ts > -500 & rate_ts <= -200)) > mean(mean_rates(2,rate_ts > -500 & rate_ts <= -200));
 first_larger = mean(mean_rates(1, rate_ts > -500 & rate_ts <= -50)) > mean(mean_rates(2,rate_ts > -500 & rate_ts <= -50));
-%} 
+%}
 
-% To prevent from getting a weird result that three conditions have different preferred directions, 
+% To prevent from getting a weird result that three conditions have different preferred directions,
 % now I decide to use the "global preferred direction" for CD and CP as well. @HH20150417
 first_larger = 1; % Follow the preferred direction defined by PSTH before ("first" = PREF found at ~ LINE 370)
 
@@ -1068,7 +1074,7 @@ end
 
 for j = 1:size(align_markers,1) % Include two align methods. @HH20150417
     
-%     j = 1;  
+%     j = 1;
     rate_ts{j} = PSTH{j,1,1}.ts;
     ChoiceDivergence_ALL{j} = NaN(3,length(rate_ts{j}));
     ChoiceDivergence_Difficult{j} = NaN(3,length(rate_ts{j}));
@@ -1105,13 +1111,13 @@ for j = 1:size(align_markers,1) % Include two align methods. @HH20150417
     
     set(0,'defaultAxesColorOrder',[0 0 1; 1 0 0; 0 0.8 0;]);
 
-    set(0,'currentfig',1899);    
+    set(0,'currentfig',1899);
     subplot(1,2,j);
     plot(rate_ts{j}, ChoiceDivergence_ALL{j}','Linewidth',2); SetFigure(); axis tight;
     if j == 2 ;title([FILE 'unit' num2str(SpikeChan) ', reps = '  num2str(repetitionN) ', Choice Divergence']); end
 %     print(1899,'-dbitmap',[mat_file_fullname{i} '_ChoiceDivergenceAll.bmp']);
     
-    set(0,'currentfig',1999);    
+    set(0,'currentfig',1999);
     subplot(1,2,j);
     plot(rate_ts{j}, ChoiceDivergence_Easy{j}'- ChoiceDivergence_Difficult{j}','Linewidth',2); SetFigure(); axis tight;
     if j == 2 ;title([FILE 'unit' num2str(SpikeChan) ', reps = '  num2str(repetitionN) ', Easy - Difficult']); end
@@ -1121,7 +1127,7 @@ end;
 %}
 %% Choice preference (related to "PREF" of this cell).  @HH20150418
 %{
-% Will be transformed to be related to "Contralateral" in GROUP_GUI 
+% Will be transformed to be related to "Contralateral" in GROUP_GUI
 %  @HH20160915
 
 % j = 2;  % This is not too much time-sensitive, so I choose j = 2 (aligned to sac onset)
@@ -1129,7 +1135,7 @@ end;
 %     mean(align_offsets_others{2}(:,1)) <= rate_ts{2} & rate_ts{2} <= 0;   % Stimlus onset - saccade onset
 %     0 < rate_ts{2} & rate_ts{2} <= inf;   % Postsaccade period
 %     };
-choice_or_mod_pref_timewin = {   
+choice_or_mod_pref_timewin = {
     2, mean(align_offsets_others{2}(:,1)) <= rate_ts{2} & rate_ts{2} <= 0;   % Stimlus onset - saccade onset
     2, 0 < rate_ts{2} & rate_ts{2} <= inf;   % Postsaccade period
     1, 0 <= rate_ts{1} & rate_ts{1} <= mean(align_offsets_others{1}(:,1)); % I added a new choice preference which only includes stim-on to stim-off to better select out the ramping cells. HH20160918
@@ -1169,7 +1175,7 @@ text(xlims(1)*0.9,ylims(1)*0.7,sprintf('ChoicePref = %s',num2str(ChoicePreferenc
 %{
 modality_pair = {[1 2],[1 3],[2 3]};  % The later is set to be "Pref modality"
 
-for j = 1:size(align_markers,1) % Include two align methods. 
+for j = 1:size(align_markers,1) % Include two align methods.
     
     ModalityDivergence{j} = NaN(3,length(rate_ts{j}));
     
@@ -1184,7 +1190,7 @@ for j = 1:size(align_markers,1) % Include two align methods.
             null_mod = modality_pair{mp}(1);
             
             % Calculate modality divergence for Pref and Null choices separately and then average them. (Anne 2014)
-            for choice = 1:2  
+            for choice = 1:2
                 % Calculate auROC for each time bin
                 for tt = 1:length(rate_ts{j})
                     ModalityDivergence_choice_separate(choice,tt) = ...
@@ -1208,7 +1214,7 @@ end
 j = 2;  % This is not too much time-sensitive, so I choose j = 2 (aligned to sac onset)
 
 ModalityPreference = nan(length(choice_or_mod_pref_timewin),3);
-ModalityPreference_pvalue = nan(length(choice_or_mod_pref_timewin),3);        
+ModalityPreference_pvalue = nan(length(choice_or_mod_pref_timewin),3);
 
 
 if length(unique_stim_type) >= 3 % If we have all three modalities
@@ -1250,9 +1256,9 @@ text(xlims(1)*0.9,ylims(1)*0.9,sprintf('ModPref = %s',num2str(ModalityPreference
 
 drawnow;
 %}
-%% 6. Calculate sliding CP and Neuro-threshold (Rewrite, with CP_LBY function. @HH20140925)
+%% 6. Calculate sliding CP and Neuro-threshold (Rewrite, with CP_LBY function. @HH20140925 modified @LBY20190124)
 %  %{
-
+% keyboard;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Time windows
 binSize_CP = 500;  % in ms
@@ -1269,7 +1275,7 @@ stepSize_CP = 50; % in ms
 % E.g.: Anne 2014 paper: 100-200ms before decision. @ HH20141126
 
 % To prevent from getting a weird result that three conditions have different preferred directions,
-% now I decide to use a "global preferred direction" (*** same across time AND modalities***) 
+% now I decide to use a "global preferred direction" (*** same across time AND modalities***)
 % for CD and CP as well. @HH20150417
 
 PREF_CP = PREF;
@@ -1283,7 +1289,7 @@ for k = 1: length(unique_stim_type)   % For each stim type
         curr_heading = (selected_condition) & (heading_per_trial' == unique_heading(hh));
         resp_mean(hh) = sum(mean(spike_aligned{1,2}(curr_heading, -1000 <= spike_aligned{2,2} &  spike_aligned{2,2} <= -100)));
     end
-
+    
     [rr,pp] = corrcoef(unique_heading, resp_mean);
     PREF_CP_obsolete(k) = (rr(1,2) <= 0) * LEFT + (rr(1,2) > 0) * RIGHT;
 end
@@ -1302,7 +1308,7 @@ for k = 1: length(unique_stim_type)   % For each stim type
         num_headings(hh,1) = sum(headings == unique_heading(hh));
         rightward_prop(hh,1) = sum(choices(headings == unique_heading(hh)) == RIGHT)/ sum(headings == unique_heading(hh));
     end
-
+    
     % Fitting
     [Psy_bias,Psy_thres] = cum_gaussfit_max1([unique_heading, rightward_prop, num_headings],method,0);
     [Psy_bias_tol,Psy_thres_tol] = cum_gaussfit_max1([unique_heading, rightward_prop, num_headings],method,tolerance);
@@ -1317,7 +1323,7 @@ for k = 1: length(unique_stim_type)   % For each stim type
         CP{j,k}.Psy_para_tol = [Psy_bias_tol,Psy_thres_tol];
         
         CP_ts{j} = align_markers{j,2} + binSize_CP/2 : stepSize_CP : align_markers{j,3} - binSize_CP/2; % Centers of CP time windows
-
+        
         % Preallocation
         CP{j,k}.CP_grand = zeros(1,length(CP_ts{j}));
         CP{j,k}.CP_p = zeros(1,length(CP_ts{j}));
@@ -1332,8 +1338,8 @@ for k = 1: length(unique_stim_type)   % For each stim type
             % Time sliced spike counts
             spike_counts = sum(spike_aligned{1,j}(selected_condition,winBeg:winEnd),2) / binSize_CP * 1000;
             
-            if ~isempty(batch_flag) 
-                CP_result = CP_LBY(headings,choices,spike_counts,1000,0);    % Permutation for Batch 
+            if ~isempty(batch_flag)
+                CP_result = CP_LBY(headings,choices,spike_counts,1000,0);    % Permutation for Batch
                 CP{j,k}.CP_p(tt) = CP_result.CP_grand_p_perm;
             else
                 CP_result = CP_LBY(headings,choices,spike_counts,-1,0);    % Fast version
@@ -1351,15 +1357,15 @@ for k = 1: length(unique_stim_type)   % For each stim type
         end
         
         if ~isempty(CP_ts{j}) % In case there are no CP windows
-
+            % 在每个时间点上prefer不同？没啥道理
             % Flip CP if local pref direction (of each time bin) is not aligned with global pref. direction
             % That is, now the preferred direction is stable across *** time AND modality *** (@HH20150417)
             need_flip = (CP{j,k}.pref_CP ~= PREF_CP);
             CP{j,k}.CP_grand(need_flip) = 1 - CP{j,k}.CP_grand(need_flip);
-
+            
             % Center CP (For saccade alignment: Similar to the CP we called before)
             center_t = mean(align_offsets_others{j}(:,2) + align_offsets_others{j}(:,1))/2; % Other markers 2 - 1
-            [~,center_t_ind] = min(abs(CP_ts{j}-center_t));
+            [~,center_t_ind] = min(abs(CP_ts{j}-center_t)); % find the nearst time point
             CP{j,k}.CP_grand_center = CP{j,k}.CP_grand(center_t_ind);
             
             % Pre-alignment CP (For saccade alignment: The first CP window that has the saccade onset timepoint)
@@ -1367,10 +1373,10 @@ for k = 1: length(unique_stim_type)   % For each stim type
             [~,sac_t_ind] = min(abs(CP_ts{j}-sac_t));
             CP{j,k}.CP_grand_sac = CP{j,k}.CP_grand(sac_t_ind);
             
-%             % Other non-time sensitive
-%             CP{j,k}.Psy_para = CP_result.Psy_para;
-%             CP{j,k}.Psy_func = CP_result.Psy_func;
-
+            %             % Other non-time sensitive
+            %             CP{j,k}.Psy_para = CP_result.Psy_para;
+            %             CP{j,k}.Psy_func = CP_result.Psy_func;
+            
         else
             CP{j,k}.CP_grand_center = NaN;
             CP{j,k}.CP_grand_sac = NaN;
@@ -1384,13 +1390,15 @@ end
 %% Neuro tuning of different time duration (center, pre, post) % HH20150403
 % Note: This should be modified so that only the correct trials are
 % included !! (Already done. see below)
-
-set(figure(2000),'position',[383-1600*~isempty(batch_flag) 180 935 548]); clf;
+j = 2;
+aa = 6;
+% keyboard;
+%{
+% set(figure(2000),'position',[383-1600*~isempty(batch_flag) 180 935 548]); clf;
+set(figure(2000),'position',[-1050 300 1000 548]); clf;
 if ~isempty(batch_flag)
     set(2000,'Visible','off');
 end
-
-j = 2;
 
 for k = 1:length(unique_stim_type)   % For each stim type
     real_k = unique_stim_type(k);
@@ -1399,38 +1407,95 @@ for k = 1:length(unique_stim_type)   % For each stim type
     center_tuning = CP{j,k}.raw_CP_result{center_t_ind}.Neu_tuning ;
     errorbar(center_tuning(:,1),center_tuning(:,2),center_tuning(:,3),'color',stim_type_colors(real_k,:),'LineWid',2);
     axis tight; title('Center'); ylabel('All');
+    set(gca,'xtick',unique_heading);
     
     subplot(2,3,2); hold on;
     sac_tuning = CP{j,k}.raw_CP_result{sac_t_ind}.Neu_tuning;
     errorbar(sac_tuning(:,1),sac_tuning(:,2),sac_tuning(:,3),'color',stim_type_colors(real_k,:),'LineWid',2);
     axis tight; title('Pre-Sac');
+    set(gca,'xtick',unique_heading);
     
     subplot(2,3,3); hold on;
     post_tuning = CP{j,k}.raw_CP_result{end}.Neu_tuning;
     errorbar(post_tuning(:,1),post_tuning(:,2),post_tuning(:,3),'color',stim_type_colors(real_k,:),'LineWid',2);
     axis tight; title('Post-Sac');
+    set(gca,'xtick',unique_heading);
     
     subplot(2,3,4); hold on; ylabel('Correct only');
     center_tuning = CP{j,k}.raw_CP_result{center_t_ind}.Neu_tuning_correctonly ;
     errorbar(center_tuning(:,1),center_tuning(:,2),center_tuning(:,3),'color',stim_type_colors(real_k,:),'LineWid',2);
     axis tight; title('Center');
+    set(gca,'xtick',unique_heading);
     
     subplot(2,3,5); hold on;
     sac_tuning = CP{j,k}.raw_CP_result{sac_t_ind}.Neu_tuning_correctonly;
     errorbar(sac_tuning(:,1),sac_tuning(:,2),sac_tuning(:,3),'color',stim_type_colors(real_k,:),'LineWid',2);
     axis tight; title('Pre-Sac');
+    set(gca,'xtick',unique_heading);
     
     subplot(2,3,6); hold on;
     post_tuning = CP{j,k}.raw_CP_result{end}.Neu_tuning_correctonly;
     errorbar(post_tuning(:,1),post_tuning(:,2),post_tuning(:,3),'color',stim_type_colors(real_k,:),'LineWid',2);
     axis tight; title('Post-Sac');
+    set(gca,'xtick',unique_heading);
     
     
-    SetFigure(15);
+    
 end
+%}
 
+markers = {'Stim on','Sac on'};
+for k = 1:length(unique_stim_type)   % For each stim type
+    real_k = unique_stim_type(k);
+    for j = 1:2
+        set(figure(1000+k+j),'position',[0 0 1900 1000]); clf;
+        for tt = 1:length(CP_ts{j}) % sliding window
+            
+            subplot(aa,round(length(CP_ts{j})/aa),tt); hold on;
+            tuning = CP{j,k}.raw_CP_result{tt}.Neu_tuning ;
+            errorbar(tuning(:,1),tuning(:,2),tuning(:,3),'color',stim_type_colors(real_k,:),'LineWid',2);
+            axis tight;
+            set(gca,'xtick',unique_heading);
+            if CP{j,k}.ts(tt) == 0
+                title(markers{j});
+            end
+            %             if CP{j,k}.ts(tt) == -1500
+            %                 title('~ Stim on');
+            %             end
+        end
+        str = [FILE,' Ch ',num2str(SpikeChan),' all ',markers{j},' ',stimType{k}];
+        suptitle([str,'Neuro tuning for all choices   ']);
+        SetFigure(15);
+        ss = [str,'_activeTuning'];
+        saveas(gcf,['Z:\LBY\Recording data\Polo\HD\' ss], 'emf');
+        
+        set(figure(2000+k+j),'position',[0 20 1900 1000]); clf;
+        for tt = 1:length(CP_ts{j}) % sliding window
+            
+            subplot(aa,round(length(CP_ts{j})/aa),tt); hold on;
+            tuning = CP{j,k}.raw_CP_result{tt}.Neu_tuning_correctonly ;
+            errorbar(tuning(:,1),tuning(:,2),tuning(:,3),'color',stim_type_colors(real_k,:),'LineWid',2);
+            axis tight;
+            set(gca,'xtick',unique_heading);
+            if CP{j,k}.ts(tt) == 0
+                title(markers{j});
+            end
+            %             if CP{j,k}.ts(tt) == -1500
+            %                 title('~ Stim on');
+            %             end
+            
+        end
+        str = [FILE,' Ch ',num2str(SpikeChan),' correct ',markers{j},' ',stimType{k}];
+        suptitle([str,'Neuro tuning for correct choices   ']);
+        SetFigure(15);
+        ss = [str,'_activeTuning'];
+        saveas(gcf,['Z:\LBY\Recording data\Polo\HD\' ss], 'emf');
+    end
+end
 %% Plotting Psychometric, Neurometric functions, and CP
-set(figure(161),'position',[45-1300*~isempty(batch_flag)  126   1111 704]); clf;  clf
+% set(figure(161),'position',[45-1300*~isempty(batch_flag)  126   1111 704]); clf;  clf
+set(figure(161),'position',[-1050  -500   1000 704]); clf;  clf
+
 if ~isempty(batch_flag)
     set(161,'Visible','off');
 end
@@ -1441,16 +1506,17 @@ for k = 1:length(unique_stim_type)
     Psy_para = CP{2,k}.Psy_para;
     plot(unique_heading,Psy_func,'o','color',stim_type_colors(unique_stim_type(k),:),'markerfacecolor',stim_type_colors(unique_stim_type(k),:)); hold on
     xx = min(unique_heading):0.01:max(unique_heading);
-    plot(xx,cum_gaussfit(Psy_para,xx),'color',stim_type_colors(unique_stim_type(k),:));
-    
-    text(max(unique_heading)*0.5,0.25-k*0.07,sprintf('%6.3g',Psy_para(2)),'color',stim_type_colors(unique_stim_type(k),:));
+    plot(xx,cum_gaussfit(Psy_para,xx),'color',stim_type_colors(unique_stim_type(k),:),'linewidth',3);
+    set(gca,'xtick',unique_heading);
+    box off;
+    text(max(unique_heading)*0.5,0.25-k*0.07,sprintf('Threshold: %6.3g',Psy_para(2)),'color',stim_type_colors(unique_stim_type(k),:));
 end
 xlim([min(unique_heading),max(unique_heading)]);
 
 
 for j = 1:2
     
-    subplot_tight(2,3,[2+3 * (j-1): 3+3 * (j-1)],0.07,[0.1 0.1 0.1 0.05]);
+    subplot_tight(2,3,[2+3 * (j-1): 3+3 * (j-1)],0.07,[0.1 0.1 0.1 0.1]);
     
     % j = 2;   % Align to sac
     
@@ -1497,20 +1563,20 @@ for j = 1:2
     ylim(ylimCP);
     set(ax(1),'xtick',[],'ytick',[ylimCP(1):0.1:ylimCP(2)],'ycolor','k');
     ylabel(ax(1),'Grand CP (O)')
-        
+    
     set(gcf,'CurrentAxes',ax(2));ylim([1 200]);
     
     if j == 1
         % Center and sac markers for CP
         plot(ax(1),[CP_ts{j}(center_t_ind) CP_ts{j}(center_t_ind)],ylimCP,'k--');
         plot(ax(1),[CP_ts{j}(sac_t_ind) CP_ts{j}(sac_t_ind)],ylimCP,'k--');
-
-        title([FILE 'unit' num2str(SpikeChan) ', reps = '  num2str(repetitionN) '     ' align_markers{j,4}],'color','k');
+        
+        title([FILE '   ch\_' num2str(SpikeChan) ', reps = '  num2str(repetitionN) '     ' align_markers{j,4}],'color','k');
     else
         % Center and sac markers for CP
         plot(ax(1),[CP_ts{j}(center_t_ind) CP_ts{j}(center_t_ind)],ylimCP,'k--');
         plot(ax(1),[CP_ts{j}(sac_t_ind) CP_ts{j}(sac_t_ind)],ylimCP,'k--');
-      
+        
         xlabel(ax(2),['Center of ' num2str(binSize_CP) ' ms time window (ms)']);
     end
     
@@ -1519,8 +1585,11 @@ for j = 1:2
     
 end
 
-SetFigure(15); 
+SetFigure(15);
 
+str = [FILE,' Ch ',num2str(SpikeChan),' ',markers{j},' ',stimType{k}];
+ss = [str,'_CP'];
+saveas(gcf,['Z:\LBY\Recording data\Polo\HD\' ss], 'emf');
 
 %}
 
@@ -1580,7 +1649,7 @@ config.sprint_once_contents = 'result.repetitionN,num2str(result.PSTH{2,1,1}.ts)
 %                            'sss'};
 % config.sprint_loop_contents = {'result.CP{2,k}.Psy_para(2), result.CP{2,k}.Psy_para(1)';
 %                         'result.CP{2,k}.CP_grand_center, result.CP{2,k}.CP_grand_sac';
-%                         'num2str(result.PSTH{2,1,1}.ys((k-1)*2+1,:)), num2str(result.PSTH{2,1,1}.ys((k-1)*2+2,:)), num2str(result.PSTH{2,1,1}.ps(k,:))'};         
+%                         'num2str(result.PSTH{2,1,1}.ys((k-1)*2+1,:)), num2str(result.PSTH{2,1,1}.ys((k-1)*2+2,:)), num2str(result.PSTH{2,1,1}.ps(k,:))'};
 
 % Replace the meaningless CPs with ChoicePreference (surprisingly, they have the same abbreviation!). HH20160419
 config.sprint_loop_marker = {'gg';
@@ -1588,13 +1657,13 @@ config.sprint_loop_marker = {'gg';
                            'gg'};
 config.sprint_loop_contents = {'result.CP{2,k}.Psy_para(2), result.CP{2,k}.Psy_para(1)';
                         'result.CP{2,k}.CP_grand_center, result.CP{2,k}.CP_grand_sac';
-                        'result.ChoicePreference(1,k), result.ChoicePreference_pvalue(1,k)'};         
+                        'result.ChoicePreference(1,k), result.ChoicePreference_pvalue(1,k)'};
 
 config.append = 1; % Overwrite or append
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 SaveResult(config, result);
-%}                
+%}
 
 
 %%

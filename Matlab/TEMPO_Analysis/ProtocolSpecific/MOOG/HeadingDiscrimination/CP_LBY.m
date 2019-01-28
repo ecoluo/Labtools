@@ -84,19 +84,19 @@ end
 
 if ~if_fake
     
-    correct_trials = (sign(choices - 1.5) == sign(headings)) | (sign(headings)==0);
+    correct_trials = (sign(choices - 1.5) == sign(headings)) | (sign(headings)==0); % 把heading=0全部作为correct trials？
     Dora_tuning_matrix_mean = nan(2,length(unique_heading));
     Dora_tuning_matrix_sem = nan(2,length(unique_heading));
     
     % ---- Neuro tuning curve ----
     for hh = 1:length(unique_heading)
-        % (1) Sensory tuning (only heading matters, regardless of choices. Like tranditional MSTd/VIP)
+        % (1) Sensory tuning (only heading matters, regardless of choices. Like traditional MSTd/VIP)
         curr_heading = headings == unique_heading(hh);
         resp_mean(hh,1) = mean(spike_counts(curr_heading));
         resp_se(hh,1) = std(spike_counts(curr_heading)) / sqrt(sum(curr_heading));
         
         % (2) Correct only tuning (only includes correct trials for >0 trials, and all trials for =0 trials) @HH20150403
-        % This is like tranditional LIP tuning, but I failed to separate Null and Pref choices for 0 heading, so I had to
+        % This is like traditional LIP tuning, but I failed to separate Null and Pref choices for 0 heading, so I had to
         % patch the tuning of 0 headings (see ~ line 2000 in Group_HD @HH20160214)
         curr_heading_correctonly = (headings == unique_heading(hh)) & correct_trials;
         resp_mean_correctonly(hh,1) = mean(spike_counts(curr_heading_correctonly));
@@ -173,8 +173,8 @@ if ~if_fake
     
     %----------------
     % Fitting
-    %  [Neu_bias_with0,Neu_thres_with0] = cum_gaussfit_max1([unique_heading(unique_heading~=0), rightward_prop_neuro_with0]);
-    [Neu_bias_with0,Neu_thres_with0] = deal(NaN,NaN);
+     [Neu_bias_with0,Neu_thres_with0] = cum_gaussfit_max1([unique_heading(unique_heading~=0), rightward_prop_neuro_with0]);
+%     [Neu_bias_with0,Neu_thres_with0] = deal(NaN,NaN);
     [Neu_bias_anti,Neu_thres_anti] = cum_gaussfit_max1([unique_heading(unique_heading~=0), rightward_prop_neuro_anti],method,0); % No tolerance for neurometric curve
     
     % Negative and positive infinite value means flat tuning
@@ -192,6 +192,7 @@ if ~if_fake
     
     result.Neu_func_anti = [unique_heading(unique_heading~=0), rightward_prop_neuro_anti];
     result.Neu_para_anti = [Neu_bias_anti,Neu_thres_anti];
+    
     
     
     % Plotting

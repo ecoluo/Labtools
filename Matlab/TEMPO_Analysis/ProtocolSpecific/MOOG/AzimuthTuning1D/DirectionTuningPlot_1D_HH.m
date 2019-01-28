@@ -8,6 +8,10 @@ function DirectionTuningPlot_1D_HH(data, Protocol, Analysis, SpikeChan, StartCod
 Path_Defs;
 ProtocolDefs; %contains protocol specific keywords - 1/4/01 BJP
 
+stimType{1}='Vestibular';
+stimType{2}='Visual';
+stimType{3}='Combined';
+
 %get the column of values for azimuth and elevation and stim_type
 temp_azimuth = data.moog_params(AZIMUTH,:,MOOG);
 temp_elevation = data.moog_params(ELEVATION,:,MOOG);
@@ -443,9 +447,11 @@ for k=1:length(unique_stim_type)
 end
 axis off;
 
-
+str = [FILE,' Ch ',num2str(SpikeChan)];
+ss = [str,'_1D tuning'];
+saveas(gcf,['Z:\LBY\Recording data\Polo\HD\' ss], 'emf');
 %% Data Saving
-
+%{
 % Reorganized. HH20141124
 config.batch_flag = batch_flag;
 
@@ -606,6 +612,7 @@ SaveResult(config, result);
 % %---------------------------------------------------------------------------------------
 % %--------------------------------------------------------------------------
 % % SaveTrials(FILE,BegTrial,EndTrial,p_1D)
+%}
 return;
 end
 

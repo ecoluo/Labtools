@@ -176,8 +176,8 @@ else % for PCC
     %     aMax = 530; % in ms, peak acceleration time relative to stim on, measured time
     %     aMin = 900; % in ms, trough acceleration time relative to stim on, measured time
     delay = 170; % in ms, system time delay, LBY modified, 181012
-    aMax = 550; % in ms, peak acceleration time relative to stim on, measured time
-    aMin = 930; % in ms, trough acceleration time relative to stim on, measured time
+    aMax = 550; % in ms, peak acceleration time relative to real stim on time, measured time
+    aMin = 930; % in ms, trough acceleration time relative to real stim on time, measured time
 end
 
 stimOnT = stimOnT + delay;

@@ -173,7 +173,9 @@ for k=1:length(unique_stim_type)
 end
 axis off;
 
-
+str = [FILE,' Ch ',num2str(SpikeChan)];
+ss = [str,'_local tuning'];
+saveas(gcf,['Z:\LBY\Recording data\Polo\HD\' ss], 'emf');
 %% Data Saving
 %{
 % Reorganized. HH20141124
