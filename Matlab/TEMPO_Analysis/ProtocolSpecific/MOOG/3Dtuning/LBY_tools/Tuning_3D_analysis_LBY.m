@@ -42,6 +42,7 @@ switch PSTH.monkey_inx
         PSTH.monkey = 'MSTd';
 end
 
+data
 
 %% get data
 % stimulus type,azi,ele,amp and duration

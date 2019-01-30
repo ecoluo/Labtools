@@ -21,9 +21,10 @@
 BatchPath="/ion/gu_lab/byliu/Z/Data/TEMPO/BATCH/"
 
 #BatchFile="test.m"
-BatchFile="All.m"
+#BatchFile="All.m"
 #BatchFile="MSTd_vis.m"
 #BatchFile="Dark.m"
+BatchFile="Polo_HD.m"
 
 echo "Starting job: $n / ${config[@]}"
 
