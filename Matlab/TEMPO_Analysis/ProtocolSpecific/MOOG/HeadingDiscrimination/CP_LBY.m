@@ -94,6 +94,7 @@ if ~if_fake
         curr_heading = headings == unique_heading(hh);
         resp_mean(hh,1) = mean(spike_counts(curr_heading));
         resp_se(hh,1) = std(spike_counts(curr_heading)) / sqrt(sum(curr_heading));
+        resp_fano(hh,1) = std(spike_counts(curr_heading))./resp_mean(hh,1);
         
         % (2) Correct only tuning (only includes correct trials for >0 trials, and all trials for =0 trials) @HH20150403
         % This is like traditional LIP tuning, but I failed to separate Null and Pref choices for 0 heading, so I had to
@@ -120,7 +121,7 @@ if ~if_fake
     [rr,pp] = corrcoef(unique_heading, resp_mean);
     result.pref = (rr(1,2) <= 0) * LEFT + (rr(1,2) > 0) * RIGHT;
     
-    result.Neu_tuning = [unique_heading, resp_mean, resp_se];
+    result.Neu_tuning = [unique_heading, resp_mean, resp_se, resp_fano];
     result.Neu_tuning_correctonly = [unique_heading, resp_mean_correctonly, resp_se_correctonly];
     result.Neu_tuning_Dora_matrix_n = Dora_tuning_matrix_n;
     result.Neu_tuning_Dora_matrix_mean = Dora_tuning_matrix_mean;

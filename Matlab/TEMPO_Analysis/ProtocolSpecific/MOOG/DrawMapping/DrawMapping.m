@@ -7,7 +7,7 @@ monkey_hemis = {'Qiaoqiao_L','Qiaoqiao_R','Polo_L','Polo_R','Polo_L_HH','Polo_R_
 colorDefsLBY; % added by LBY 20161216
 
 if nargin == 0
-    monkey_hemi = 4;
+    monkey_hemi = 3;
 end
 
 
@@ -20,8 +20,8 @@ global linWid start_end_markers overlapping Qiaoqiao_right_AP0 Polo_right_AP0;
 
 linWid = 1.3; % linewidth for rectangles indicating mapping area
 % following: area & unit overlapping in coronal planes
-overlapping = [-1 1; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
-% overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation
+% overlapping = [-1 1; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
+overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation
 
 maxX = 30; % Grid size
 maxY = 30;
@@ -483,7 +483,7 @@ switch monkey_hemis{monkey_hemi}
         % Header
         toPlotTypes3D = [GM PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
         toPlotTypes_zview = [GM PCC RSC IPS B3a];    % Which area types do we want to plot ?
-        gridRange = [0 17; 1 22];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [16 31; 0 15];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 5;
         hemisphere = 1;
         AP0 = Polo_right_AP0; % 4;
@@ -504,8 +504,7 @@ switch monkey_hemis{monkey_hemi}
             }';
         
         MRI_path = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\';
-        MRI_offset = {[-68 79] - 5,[-240 500]+15, [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
-        
+        MRI_offset = {[-93 93]+0,[-355 715]+80, [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         %}
         
         case 'Polo_R'

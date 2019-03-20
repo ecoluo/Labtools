@@ -11,6 +11,16 @@ stimType{1}='Vestibular';
 stimType{2}='Visual';
 stimType{3}='Combined';
 
+PSTH.monkey_inx = FILE(strfind(FILE,'m')+1:strfind(FILE,'c')-1);
+
+switch PSTH.monkey_inx
+    case '5'
+        PSTH.monkey = 'Polo';
+    case '6'
+        PSTH.monkey = 'Qiaoqiao';
+    otherwise
+        PSTH.monkey = 'MSTd';
+end
 
 switch Protocol
     case HEADING_DISCRIM_FIXONLY % for heading discrimination task
@@ -29,7 +39,7 @@ switch Protocol
         temp_heading = temp_amplitude.*sign(temp_elevation);
 end
 
-
+temp_duration = data.moog_params(DURATION,:,MOOG); % in ms
 trials = 1:length(temp_heading);		% a vector of trial indices
 
 % If length(BegTrial) > 1 and all elements are positive, they are trials to be included.
@@ -55,12 +65,50 @@ unique_stim_type = munique(stim_type');
 unique_heading = munique(heading');
 motion_coherence = temp_motion_coherence(select_trials);
 unique_motion_coherence = munique(motion_coherence');
+duration = munique(temp_duration');
 
 temp_spike_rates = data.spike_rates(SpikeChan, :);
+
 temp_total_trials = data.misc_params(OUTCOME, :);
 spike_rates = temp_spike_rates( select_trials);
+spike_data = squeeze(data.spike_data(SpikeChan,:,select_trials));
 
 one_repetition = length(unique_heading)*length(unique_stim_type);
+
+% time marks for each trial
+event_in_bin = squeeze(data.event_data(:,:,trials));
+stimOnT = find(event_in_bin == VSTIM_ON_CD);
+stimOffT = find(event_in_bin == VSTIM_OFF_CD);
+stimOnT = stimOnT(1);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Time windows
+binSize = 200;  % in ms
+timeStep = 50; % in ms
+gau_sig = 100; % parameters for smoothing
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if strcmp(PSTH.monkey ,'MSTd') == 1
+    delay = 115; % in ms, MSTd, 1806
+    %for MSTd delay is 100 ms
+    aMax = 770; % in ms, peak acceleration time, measured time
+    aMin = 1250; % in ms, trough acceleration time, measured time
+else % for PCC
+    %     delay = 200; % in ms, system time delay, LBY added, 180523
+    %     aMax = 530; % in ms, peak acceleration time relative to stim on, measured time
+    %     aMin = 900; % in ms, trough acceleration time relative to stim on, measured time
+    delay = 170; % in ms, system time delay, LBY modified, 181012
+    aMax = 550; % in ms, peak acceleration time relative to real stim on time, measured time
+    aMin = 930; % in ms, trough acceleration time relative to real stim on time, measured time
+end
+
+stimOnT = stimOnT + delay;
+stimOffT = stimOffT + delay;
+tOffset1 = 0;
+tOffset2 = 0;
+PSTH_onT = stimOnT(1) - floor(tOffset1/timeStep)*timeStep; % the exact PSTH-ontime point
+stimOnBin = floor(tOffset1/timeStep)+1;
+stimOffBin = floor(tOffset1/timeStep)+floor(temp_duration(1)/timeStep);
 
 % creat basic matrix represents each response vector
 resp = [];
@@ -100,9 +148,18 @@ for c=1:length(unique_motion_coherence)  % motion coherence
                 
                 resp_trial{c,k}(1:rep_this,i) = resp_trial{1,k}(1:rep_this,i);
             end
+            resp_trial{c,k}(all(isnan(resp_trial{c,k}),2),:) = []; % Trim the large matrix by removing unnecessary NaNs. HH20150704
+            
+            % pack tuning data according to small time window
+            nBins = duration/timeStep;
+            
+            resp_t{c,k}(i, :) = mean(PSTH_smooth( nBins, stimOnT, binSize, timeStep, spike_data(:,select), 2, gau_sig),2);
+            resp_std_t{c,k}(i, :) = std(PSTH_smooth( nBins, stimOnT, binSize, timeStep, spike_data(:,select), 2, gau_sig),0,2);
+            resp_err_t{c,k}(i, :) = resp_std_t{c,k}(i, :)/sqrt(rep_this);
+            resp_fano_t{c,k}(i, :) = resp_std_t{c,k}(i, :)./resp_t{c,k}(i, :);
         end
-        
-        resp_trial{c,k}(all(isnan(resp_trial{c,k}),2),:) = []; % Trim the large matrix by removing unnecessary NaNs. HH20150704
+        maxResp{c,k} = max(resp_t{c,k}(:));
+        maxRespErr{c,k} = max(resp_err_t{c,k}(:));
         
     end
     
@@ -116,11 +173,28 @@ unique_rep = unique_rep(unique_rep>0);
 % % ------------------------------------------------------------------
 % Define figure
 
+% initialize default properties
+set(0,'defaultaxesfontsize',24);
+colorDefsLBY;
+
+% the lines markers
+markers = {
+    % markerName % markerTime % marker bin time % color % linestyle
+    %     'FPOnT',FPOnT(1),(FPOnT(1)-PSTH_onT+timeStep)/timeStep,colorDGray;
+    %     'stim_on',stimOnT,stimOnBin,colorDRed,'.';
+    %     'stim_off',stimOffT,stimOffBin,colorDRed,'.';
+    'aMax',stimOnT+aMax,(stimOnT+aMax-PSTH_onT+timeStep)/timeStep,colorDBlue,'--';
+    'aMin',stimOnT+aMin,(stimOnT+aMin-PSTH_onT+timeStep)/timeStep,colorDBlue,'--';
+    'v',stimOnT+aMax+(aMin-aMax)/2,(stimOnT(1)+aMax+(aMin-aMax)/2-PSTH_onT+timeStep)/timeStep,'r','--';
+    };
+
+%%%%%%%%%%% local tuning the whole duration of stimulus on %%%%%%%%%%%%%
+%{
 figure(3); clf;
 set(gcf,'color','white');
 set(3,'Position', [-1050,500 900,400], 'Name', 'Local direction tuning');
 [~,h_subplot] = tight_subplot(1,length(unique_stim_type),0.1,0.25,[0.1 0.1]);
-if ~isempty(batch_flag); set(2,'visible','off'); end
+if ~isempty(batch_flag); set(3,'visible','off'); end
 orient landscape;
 
 % temporarily hard coded, will be probematic if there are more than 3*3 conditions
@@ -176,6 +250,122 @@ axis off;
 str = [FILE,' Ch ',num2str(SpikeChan)];
 ss = [str,'_local tuning'];
 saveas(gcf,['Z:\LBY\Recording data\Polo\HD\' ss], 'emf');
+%}
+
+%%%%%%%%%%% local tuning with sliding time window %%%%%%%%%%%%%
+%{
+aa = 4;
+stim_type_colors = [0 0 1; 1 0 0; 0 0.8 0.4];
+for k = 1:length(unique_stim_type)   % For each stim type
+    real_k = unique_stim_type(k);
+    set(figure(1000+k),'position',[0 0 1900 1000]); clf;
+    maxY = max(resp_t{1,k}(:));
+    selected_condition = stim_type == unique_stim_type(k);
+    headings = heading(selected_condition);
+    choices = ones(sum(selected_condition),1);
+    spike_tt = PSTH_smooth( nBins, stimOnT, binSize, timeStep, spike_data(:,selected_condition), 2, gau_sig);
+    for tt = 1:nBins % sliding window
+        % calculate the neuronal threshold
+        spike_counts = spike_tt(tt,:);
+        CP_result = CP_LBY(headings,choices,spike_counts,1000,0);
+        CP{k}.Neu_thres(tt) = CP_result.Neu_para_anti(2);
+        subplot(aa,round(nBins/aa),tt); hold on;
+        errorbar(unique_heading,resp_t{1,k}(:, tt),resp_err_t{1,k}(:, tt),'color',stim_type_colors(real_k,:),'LineWid',2);
+        axis tight;
+        ylim([0 maxY]);
+        set(gca,'xtick',unique_heading,'xticklabel',[]);
+        
+        %             text neurothreshold
+        title(CP{k}.Neu_thres(tt));
+        
+    end
+    
+    switch Protocol
+        case HEADING_DISCRIM_FIXONLY % for heading discrimination task
+            suptitle(['Local tuning (Heading, Fix only)    ',FILE, '     ch\_',num2str(SpikeChan)]);
+        case ROTATION_DISCRIM_FIXONLY % for rotation discrimination task
+            suptitle(['Local tuning (Rotation, Fix only)    ',FILE, '     ch\_',num2str(SpikeChan)]);
+    end
+    SetFigure(15);
+    str = [FILE,' Ch ',num2str(SpikeChan),'_',stimType{k}];
+    ss = [str,'_local tuning_T'];
+    saveas(gcf,['Z:\LBY\Recording data\Polo\HD\' ss], 'emf');
+end
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% temporal tuning  %%%%%%%%%%%%%%%%%%%%%%%%%
+% %{
+for k = 1:length(unique_stim_type)
+    figure(30+k);set(figure(30+k),'name','Temporal tuning(Passive, HD)','unit','normalized','pos',[-0.55 0.3 0.53 0.4]); clf;
+    [~,h_subplot] = tight_subplot(2,floor(length(unique_heading)/2)+1,[0.15 0.03],0.25);
+    
+    % rightward
+    for i = 1: floor(length(unique_heading)/2)
+        axes(h_subplot(i));
+        errorbar(resp_t{1,k}(length(unique_heading)+1-i, :),resp_err_t{1,k}(length(unique_heading)+1-i, :),'color','k');
+        hold on;
+        for n = 1:size(markers,1)
+            plot([markers{n,3} markers{n,3}], [0 maxResp{1,k}+maxRespErr{1,k}], '--','color',markers{n,4},'linewidth',3);
+            hold on;
+        end
+        set(gca,'ylim',[0 maxResp{1,k}+maxRespErr{1,k}],'xlim',[1 nBins]);
+        %             axis off;
+        set(gca,'xtick',[],'xticklabel',[]);
+        %             set(gca,'yticklabel',[]);
+        title(unique_heading(length(unique_heading)+1-i));
+    end
+    
+    % leftward
+    for i = 1: floor(length(unique_heading)/2)
+        axes(h_subplot(floor(length(unique_heading)/2)+1+i));
+        errorbar(resp_t{1,k}(i, :),resp_err_t{1,k}(i, :),'color','k');
+        hold on;
+        for n = 1:size(markers,1)
+            plot([markers{n,3} markers{n,3}], [0 maxResp{1,k}+maxRespErr{1,k}], '--','color',markers{n,4},'linewidth',3);
+            hold on;
+        end
+        set(gca,'ylim',[0 maxResp{1,k}+maxRespErr{1,k}],'xlim',[1 nBins]);
+        %             axis off;
+        
+        set(gca,'xtick',[],'xticklabel',[]);
+        %             set(gca,'yticklabel',[]);
+        title(unique_heading(i));
+    end
+    FileNameTemp = num2str(FILE);
+    FileNameTemp =  FileNameTemp(1:end);
+    str = ['PSTH(Passive tuning, HD)    ', FileNameTemp,'\_Ch' num2str(SpikeChan),'    ',stimType{k}];
+    str1 = ['PSTH_Passive_tuning_HD_',FileNameTemp,'_Ch' num2str(SpikeChan),'_',stimType{k}];
+    suptitle(str);
+    SetFigure(10);
+    saveas(gcf,['Z:\LBY\Recording data\Polo\HD\' str1], 'emf');
+end
+%}
+%%%%%%%%%%%%%%%%%%%%%%%%%% fano factor  %%%%%%%%%%%%%%%%%%%%%%%%%
+
+for k = 1:length(unique_stim_type)
+    figure(40+k);set(figure(40+k),'name','Fano factor(Passive, HD)','unit','normalized','pos',[-0.55 0.3 0.53 0.3]); clf;
+    [~,h_subplot] = tight_subplot(1,floor(length(unique_heading)/2)+1,[0.15 0.03],0.25);
+    
+    for i = 1: floor(length(unique_heading)/2)
+        axes(h_subplot(i));
+        plot(resp_fano_t{1,k}(length(unique_heading)+1-i, :),'color','k');
+        hold on;
+        set(gca,'ylim',[0 1],'xlim',[1 nBins]);
+        %             axis off;
+        set(gca,'xtick',[],'xticklabel',[]);
+        %             set(gca,'yticklabel',[]);
+        title(unique_heading(length(unique_heading)+1-i));
+    end
+    
+    FileNameTemp = num2str(FILE);
+    FileNameTemp =  FileNameTemp(1:end);
+    str = [FileNameTemp,'Fano factor (Passive, HD) \_Ch' num2str(SpikeChan),'    ',stimType{k}];
+    str1 = [FileNameTemp,'Fano_Passive_HD_Ch' num2str(SpikeChan),'_',stimType{k}];
+    suptitle(str);
+    SetFigure(10);
+    saveas(gcf,['Z:\LBY\Recording data\Polo\HD\' str1], 'emf');
+end
+
 %% Data Saving
 %{
 % Reorganized. HH20141124
