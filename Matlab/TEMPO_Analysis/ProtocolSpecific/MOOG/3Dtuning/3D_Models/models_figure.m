@@ -439,7 +439,7 @@ end
 %}
 
 % % ------ fig.140 plot V,A spatial tuning for VA models (Contour, use fitted data) ------%
-% %{
+%{
 if sum(ismember(models,'VA')) ~= 0
     components = {'V','A'};
     figure(140);clf;set(gcf,'pos',[120 200 1400 750]);
@@ -501,7 +501,7 @@ end
 
 
 % % ------ fig.150 plot V,A for VA model (PSTH) ------%
-% %{
+%{
 if sum(ismember(models,'VA')) ~= 0
     components = {'V','A'};
     color_com = {'r',colorDBlue};
@@ -630,7 +630,7 @@ end
 %}
 
 % ------ fig.160 plot V,A,J spatial tuning for VAJ models (Contour, use fitted data) ------%
-% %{
+%{
 if sum(ismember(models,'VAJ')) ~= 0
     components = {'V','A','J'};
     figure(160);clf;set(gcf,'pos',[20 200 1800 600]);
@@ -692,7 +692,7 @@ end
 
 
 % ------ fig.170 plot V,A,J for VAJ model (PSTH) ------%
-% %{
+%{
 if sum(ismember(models,'VAJ')) ~= 0
     components = {'V','A','J'};
     color_com = {'r',colorDBlue,colorDOrange};
@@ -899,7 +899,7 @@ end
 %}
 
 % ------ fig.190 plot V,A,P spatial tuning for VAP models (Contour, use fitted data) ------%
-% %{
+%{
 if sum(ismember(models,'VAP')) ~= 0
     components = {'V','A','P'};
     figure(190);clf;set(gcf,'pos',[20 200 1800 600]);
@@ -961,7 +961,7 @@ end
 
 
 % ------ fig.200 plot V,A,P for VAP model (PSTH) ------%
-% %{
+%{
 if sum(ismember(models,'VAP')) ~= 0
     components = {'V','A','P'};
     color_com = {'r',colorDBlue,colorDOrange};
@@ -1090,7 +1090,7 @@ end
 %}
 
 % ------ fig.210 plot V,A,J,P spatial tuning for PVAJ models (Contour, use fitted data) ------%
-% %{
+%{
 if sum(ismember(models,'PVAJ')) ~= 0
     components = {'V','A','J','P'};
     figure(210);clf;set(gcf,'pos',[20 220 1800 600]);
@@ -1152,7 +1152,7 @@ end
 
 
 % ------ fig.220 plot V,A,J,P for PVAJ model (PSTH) ------%
-% %{
+%{
 if sum(ismember(models,'PVAJ')) ~= 0
     components = {'V','A','J','P'};
     color_com = {'r',colorDBlue,colorDOrange,colorDGray};
@@ -1279,4 +1279,4 @@ else
     disp('No PVAJ model!');
 end
 %}
-toc;
+

@@ -22,7 +22,7 @@ ele_azi = reshape(ele_azi, length(u_azi), length(u_ele));
 r = zeros(size(ele_azi,1), size(ele_azi,2), length(pos_time));
 for i=1:size(r,1)
     for j=1:size(r,2)
-        rr = a(8)*(1-a(9))*(1-a(10))*a(1)*ele_azi(i,j)*pos_time + a(2);
+        rr = a(7)*(1-a(8))*(1-a(9))*a(1)*ele_azi(i,j)*pos_time + a(2);
         rr(find(rr<0))  = 0;
         r(i,j,:) = rr;
     end
