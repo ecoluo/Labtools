@@ -4,7 +4,7 @@
 % u_ele is unique elevation ( 0, -+45, -+90 )
 % t is PSTH time points
 
-function r = VAJ_V_Com(a,st_data)
+function r = VAJ_V_Com_O(a,st_data)
 
 u_ele = st_data(1:5);
 u_azi = st_data(6:13);
@@ -12,7 +12,7 @@ t = st_data(14:end);
 
 
 %time profile
-vel_time = vel_func(a(3), t);
+vel_time = vel_func(a(3)+a(9), t);
 
 %spatial profiles
 ele_azi = cos_tuning(a(4:7), [u_ele; u_azi]);

@@ -4,7 +4,7 @@
 % u_ele is unique elevation ( 0, -+45, -+90 )
 % t is PSTH time points
 
-function r = VA_V_Com(a,st_data)
+function r = VA_V_Com_O(a,st_data)
 
 u_ele = st_data(1:5);
 u_azi = st_data(6:13);

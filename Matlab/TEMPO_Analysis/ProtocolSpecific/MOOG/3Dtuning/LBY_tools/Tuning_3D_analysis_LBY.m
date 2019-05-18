@@ -435,7 +435,7 @@ for k = 1:length(unique_stimType)
     
     p_anova_dire_t{k} = nan;
     DDI_t{k} = nan;
-    DDI_p_t{k}(pt) = nan;
+    DDI_p_t{k} = nan;
     preferDire_t{k} = nan(3,1);
     
     if PSTH.respon_sigTrue(k) == 1
@@ -800,9 +800,9 @@ end
 
 %}
 %% 1D models nalysis
-model_catg = 'Sync model'; % tau is the same
-% model_catg = 'Out-sync model'; % each component has its own tau
-%{
+% model_catg = 'Sync model'; % tau is the same
+model_catg = 'Out-sync model'; % each component has its own tau
+% %{
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
@@ -853,9 +853,9 @@ for k = 1:length(unique_stimType)
             [PSTH1Dmodel{k}.PVAJ_preDir_A(1),PSTH1Dmodel{k}.PVAJ_preDir_A(2),PSTH1Dmodel{k}.PVAJ_preDir_A(3) ] = vectorsum(PSTH1Dmodel{k}.modelFitTrans_spatial_PVAJ.A);
             PSTH1Dmodel{k}.PVAJ_angleDiff_VA = angleDiff(PSTH1Dmodel{k}.PVAJ_preDir_V(1),PSTH1Dmodel{k}.PVAJ_preDir_V(2),PSTH1Dmodel{k}.PVAJ_preDir_V(3),PSTH1Dmodel{k}.PVAJ_preDir_A(1),PSTH1Dmodel{k}.PVAJ_preDir_A(2),PSTH1Dmodel{k}.PVAJ_preDir_A(3));
             if strcmp(model_catg,'Out-sync model') == 1
-                PSTH1Dmodel{k}.PVAJ_Delay_VA = PSTH1Dmodel{k}.modelFitPara_PVAJ(23);
-                PSTH1Dmodel{k}.PVAJ_Delay_JA = PSTH1Dmodel{k}.modelFitPara_PVAJ(24);
-                PSTH1Dmodel{k}.PVAJ_Delay_PA = PSTH1Dmodel{k}.modelFitPara_PVAJ(25);
+                PSTH1Dmodel{k}.PVAJ_Delay_VA = PSTH1Dmodel{k}.modelFitPara_PVAJ(19);
+                PSTH1Dmodel{k}.PVAJ_Delay_JA = PSTH1Dmodel{k}.modelFitPara_PVAJ(20);
+                PSTH1Dmodel{k}.PVAJ_Delay_PA = PSTH1Dmodel{k}.modelFitPara_PVAJ(21);
             end
             
         elseif sum(ismember(models,'PVAJ')) == 0
@@ -899,8 +899,8 @@ for k = 1:length(unique_stimType)
             [PSTH1Dmodel{k}.VAJ_preDir_A(1),PSTH1Dmodel{k}.VAJ_preDir_A(2),PSTH1Dmodel{k}.VAJ_preDir_A(3) ] = vectorsum(PSTH1Dmodel{k}.modelFitTrans_spatial_VAJ.A);
             PSTH1Dmodel{k}.VAJ_angleDiff_VA = angleDiff(PSTH1Dmodel{k}.VAJ_preDir_V(1),PSTH1Dmodel{k}.VAJ_preDir_V(2),PSTH1Dmodel{k}.VAJ_preDir_V(3),PSTH1Dmodel{k}.VAJ_preDir_A(1),PSTH1Dmodel{k}.VAJ_preDir_A(2),PSTH1Dmodel{k}.VAJ_preDir_A(3));
             if strcmp(model_catg,'Out-sync model') == 1
-                PSTH1Dmodel{k}.VAJ_Delay_VA = PSTH1Dmodel{k}.modelFitPara_VAJ(18);
-                PSTH1Dmodel{k}.VAJ_Delay_JA = PSTH1Dmodel{k}.modelFitPara_VAJ(19);
+                PSTH1Dmodel{k}.VAJ_Delay_VA = PSTH1Dmodel{k}.modelFitPara_VAJ(15);
+                PSTH1Dmodel{k}.VAJ_Delay_JA = PSTH1Dmodel{k}.modelFitPara_VAJ(16);
             end
         elseif sum(ismember(models,'VAJ')) == 0
             PSTH1Dmodel{k}.VAJ_wV = nan;
@@ -941,8 +941,8 @@ for k = 1:length(unique_stimType)
             [PSTH1Dmodel{k}.VAP_preDir_A(1),PSTH1Dmodel{k}.VAP_preDir_A(2), PSTH1Dmodel{k}.VAP_preDir_A(3)] = vectorsum(PSTH1Dmodel{k}.modelFitTrans_spatial_VAP.A);
             PSTH1Dmodel{k}.VAP_angleDiff_VA = angleDiff(PSTH1Dmodel{k}.VAP_preDir_V(1),PSTH1Dmodel{k}.VAP_preDir_V(2),PSTH1Dmodel{k}.VAP_preDir_V(3),PSTH1Dmodel{k}.VAP_preDir_A(1),PSTH1Dmodel{k}.VAP_preDir_A(2),PSTH1Dmodel{k}.VAP_preDir_A(3));
             if strcmp(model_catg,'Out-sync model') == 1
-                PSTH1Dmodel{k}.VAP_Delay_VA = PSTH1Dmodel{k}.modelFitPara_VAP(18);
-                PSTH1Dmodel{k}.VAP_Delay_PA = PSTH1Dmodel{k}.modelFitPara_VAP(19);
+                PSTH1Dmodel{k}.VAP_Delay_VA = PSTH1Dmodel{k}.modelFitPara_VAP(15);
+                PSTH1Dmodel{k}.VAP_Delay_PA = PSTH1Dmodel{k}.modelFitPara_VAP(16);
             end
         elseif sum(ismember(models,'VAP')) == 0
             PSTH1Dmodel{k}.VAP_wV = nan;
@@ -967,7 +967,7 @@ for k = 1:length(unique_stimType)
             [PSTH1Dmodel{k}.VA_preDir_A(1),PSTH1Dmodel{k}.VA_preDir_A(2),PSTH1Dmodel{k}.VA_preDir_A(3) ] = vectorsum(PSTH1Dmodel{k}.modelFitTrans_spatial_VA.A);
             PSTH1Dmodel{k}.VA_angleDiff_VA = angleDiff(PSTH1Dmodel{k}.VA_preDir_V(1),PSTH1Dmodel{k}.VA_preDir_V(2),PSTH1Dmodel{k}.VA_preDir_V(3),PSTH1Dmodel{k}.VA_preDir_A(1),PSTH1Dmodel{k}.VA_preDir_A(2),PSTH1Dmodel{k}.VA_preDir_A(3));
             if strcmp(model_catg,'Out-sync model') == 1
-                PSTH1Dmodel{k}.VA_Delay_VA = PSTH1Dmodel{k}.modelFitPara_VA(13);
+                PSTH1Dmodel{k}.VA_Delay_VA = PSTH1Dmodel{k}.modelFitPara_VA(11);
             end
             if sum(ismember(models,'AO')) ~= 0
                 PSTH1Dmodel{k}.VA_R2V = ((PSTH1Dmodel{k}.RSquared_VA)^2 - (PSTH1Dmodel{k}.RSquared_AO)^2)/(1-(PSTH1Dmodel{k}.RSquared_AO)^2);

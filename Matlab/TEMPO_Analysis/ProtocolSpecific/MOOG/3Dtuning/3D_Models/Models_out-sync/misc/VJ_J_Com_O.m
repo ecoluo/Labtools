@@ -4,14 +4,14 @@
 % u_ele is unique elevation ( 0, -+45, -+90 )
 % t is PSTH time points
 
-function r = VJ_J_Com(a,st_data)
+function r = VJ_J_Com_O(a,st_data)
 
 u_ele = st_data(1:5);
 u_azi = st_data(6:13);
 t = st_data(14:end);
 
 %time profile
-jerk_time = jerk_func(a(3), t);
+jerk_time = jerk_func(a(9), t);
 % jerk_time = jerk_func([a(3) a(4) a(end)], t);
 
 %spatial profiles
