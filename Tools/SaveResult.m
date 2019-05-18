@@ -197,8 +197,8 @@ if ~isempty(config.batch_flag) && isfield(config,'xls_column_begin')
                 %                 xlswrite1('Z:\Data\MOOG\Results\Result_MST.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
                 switch model_catg
                     case 'Sync model'
-                        xlswrite1('Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
-%                 [a b] = xlswrite('Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm',toXls,2,range_name)  % Speed-up of xlswrite
+%                         xlswrite1('Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
+                [a b] = xlswrite('Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
                     case 'Out-sync model'
                         xlswrite1('Z:\Data\MOOG\Results\Result_LBY_outSyncModel.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
                 end

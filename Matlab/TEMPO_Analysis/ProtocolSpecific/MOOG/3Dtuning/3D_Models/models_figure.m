@@ -630,7 +630,7 @@ end
 %}
 
 % ------ fig.160 plot V,A,J spatial tuning for VAJ models (Contour, use fitted data) ------%
-%{
+% %{
 if sum(ismember(models,'VAJ')) ~= 0
     components = {'V','A','J'};
     figure(160);clf;set(gcf,'pos',[20 200 1800 600]);

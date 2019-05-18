@@ -7,7 +7,7 @@ monkey_hemis = {'Qiaoqiao_L','Qiaoqiao_R','Polo_L','Polo_R','Polo_L_HH','Polo_R_
 colorDefsLBY; % added by LBY 20161216
 
 if nargin == 0
-    monkey_hemi = 3;
+    monkey_hemi = 1;
 end
 
 
@@ -20,8 +20,8 @@ global linWid start_end_markers overlapping Qiaoqiao_right_AP0 Polo_right_AP0;
 
 linWid = 1.3; % linewidth for rectangles indicating mapping area
 % following: area & unit overlapping in coronal planes
-% overlapping = [-1 1; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
-overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation
+overlapping = [-1 1; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
+% overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation
 
 maxX = 30; % Grid size
 maxY = 30;
@@ -61,8 +61,8 @@ switch monkey_hemis{monkey_hemi}
         % %{
         
         % Header
-        toPlotTypes3D = [GM PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
-        toPlotTypes_zview = [GM PCC RSC IPS B3a];    % Which area types do we want to plot ?
+        toPlotTypes3D = [PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
+        toPlotTypes_zview = [PCC RSC IPS B3a];    % Which area types do we want to plot ?
         gridRange = [15 31; 1 16];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 6;
         hemisphere = 2;  % L = 1, R = 2
@@ -214,8 +214,8 @@ switch monkey_hemis{monkey_hemi}
         % %{
         
         % Header
-        toPlotTypes3D = [GM PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
-        toPlotTypes_zview = [GM PCC RSC IPS B3a];    % Which area types do we want to plot ?
+        toPlotTypes3D = [PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
+        toPlotTypes_zview = [PCC RSC IPS B3a];    % Which area types do we want to plot ?
         gridRange = [10 26; 1 16];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 6;
         hemisphere = 1;  % L = 1, R = 2
@@ -481,8 +481,8 @@ switch monkey_hemis{monkey_hemi}
         % %{
         
         % Header
-        toPlotTypes3D = [GM PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
-        toPlotTypes_zview = [GM PCC RSC IPS B3a];    % Which area types do we want to plot ?
+        toPlotTypes3D = [PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
+        toPlotTypes_zview = [PCC RSC IPS B3a];    % Which area types do we want to plot ?
         gridRange = [16 31; 0 15];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 5;
         hemisphere = 1;
@@ -513,8 +513,8 @@ switch monkey_hemis{monkey_hemi}
         % %{
         
         % Header
-        toPlotTypes3D = [GM PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
-        toPlotTypes_zview = [GM PCC RSC IPS B3a];    % Which area types do we want to plot ?
+        toPlotTypes3D = [PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
+        toPlotTypes_zview = [PCC RSC IPS B3a];    % Which area types do we want to plot ?
         gridRange = [6 31; 1 22];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 5;
         hemisphere = 2;  % L = 1, R = 2
@@ -1294,7 +1294,7 @@ for i =  1:size(to_plot_num,1)
         offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
         xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
         yy = offSet + round(to_plot_num(i,xls.Depth)/100);
-        plot(xx,yy,'.','color','w','markersize',13);
+        plot(xx,yy,'.','color','w','markersize',18);
     end
 %     if strcmp(to_plot_txt(i,xls.Area),'PCCu')
 %         offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!

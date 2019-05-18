@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VAJ,modelFit_VAJ, modelFit_VAJ_spatial, modelFitPara_VAJ, BIC_VAJ, RSquared_VAJ, rss_VAJ, time] = fitVAJ(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VAJ model...')
+% sprintf('Fitting VAJ model...')
 
 %-- initialize global using parameters
 
@@ -67,6 +67,8 @@ a_DC = 0.5;
 j_DC = 0.5;
 wv = 0.3;
 wj = 0.3;
+delay = 0.2;
+advance = 0;
 
 %Inital fits
 param = [A, ...       %1
@@ -92,7 +94,7 @@ init_param(1,:) = param;
 
 LB = [0.25*A, ...`  %1  A
     0, ...          %2  R_0
-    mu, ...       %3  mu_t
+    mu+advance, ...       %3  mu_t
     0.001, ...      %4  n
     0, ...          %5  a_0
     -90, ...      %6  e_0
@@ -110,7 +112,7 @@ LB = [0.25*A, ...`  %1  A
 
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
-    mu+0.2, ...      %3  mu_t
+    mu+delay, ...      %3  mu_t
     10, ...         %4  n
     360, ...       %5  a_0
     90, ...       %6  e_0

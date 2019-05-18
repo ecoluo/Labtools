@@ -159,11 +159,13 @@ timeStep = 25; % in ms
 gau_sig = 100; % parameters for smoothing
 tOffset1 = 100; % in ms, time before stim on ( at least -100)
 tOffset2 = 100; % in ms, time after stim off
+
+% just for report
 % tOffset1 = 000; % in ms
 % tOffset2 = 000; % in ms
 
-PCAStep = 5; % for PCA
-PCAWin = 20; % for PCA
+PCAStep = 20; % for PCA
+PCAWin = 100; % for PCA
 nBinsPCA = floor(temp_duration(1)/PCAStep); % in ms
 
 if strcmp(PSTH.monkey ,'MSTd') == 1
@@ -422,17 +424,18 @@ for k = 1:length(unique_stimType)
     % --------------- this cell is temporally responded ------------------%
     
     % 2个方向,不需要相邻
-        if sum(PSTH.sigTrue{k}(:)) >=2
-            PSTH.respon_sigTrue(k) = 1;
-        end
+    if sum(PSTH.sigTrue{k}(:)) >=2
+        PSTH.respon_sigTrue(k) = 1;
+    end
     % 相邻2个方向
-%     if respon_True(PSTH.sigTrue{k}(:)) == 1
-%         PSTH.respon_sigTrue(k) = 1;
-%         
-%     end
+    %     if respon_True(PSTH.sigTrue{k}(:)) == 1
+    %         PSTH.respon_sigTrue(k) = 1;
+    %
+    %     end
     
     p_anova_dire_t{k} = nan;
     DDI_t{k} = nan;
+    DDI_p_t{k}(pt) = nan;
     preferDire_t{k} = nan(3,1);
     
     if PSTH.respon_sigTrue(k) == 1
@@ -511,12 +514,31 @@ for k = 1:length(unique_stimType)
                 minSpkRealMean_t{k}(pt) = min(min(squeeze((PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:)))));
                 DDI_t{k}(pt) = (maxSpkRealMean_t{k}(pt)-minSpkRealMean_t{k}(pt))/(maxSpkRealMean_t{k}(pt)-minSpkRealMean_t{k}(pt)+2*sqrt(resp_std_t{k}(pt)));
                 
+                % DDI permutation
+                num_perm = 1000;
+                for nn = 1 : num_perm
+                    temp = squeeze(PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:));
+                    temp = temp(:);
+                    temp = temp(randperm(26*size(PSTH.spk_data_bin_rate_aov{k},3)));
+                    temp = reshape(temp,26,[]);
+                    temp = nanmean(temp,2);
+                    maxSpkRealMean_perm_t{k}(nn,pt) = max(temp);
+                    minSpkRealMean_perm_t{k}(nn,pt) = min(temp);
+                    DDI_perm_t{k}(pt,nn) = (maxSpkRealMean_perm_t{k}(nn,pt)-minSpkRealMean_perm_t{k}(nn,pt))/(maxSpkRealMean_perm_t{k}(nn,pt)-minSpkRealMean_perm_t{k}(nn,pt)+2*sqrt(resp_std_t{k}(pt)));
+                    
+                end
+                DDI_p_t{k}(pt) = sum(DDI_perm_t{k}(pt,:)>DDI_t{k}(pt))/num_perm;
+                
+                % preferred direction
                 [Azi, Ele, Amp] = vectorsum(squeeze(PSTH.spk_data_bin_vector{k}(:,:,PSTH.peak{k}(pt))));
                 preferDire_t{k}(:,pt) = [Azi, Ele, Amp];
             catch
                 keyboard;
             end
         end
+        
+        
+        
     end
 end
 
@@ -538,8 +560,8 @@ colorDefsLBY;
 markers = {
     % markerName % markerTime % marker bin time % color % linestyle
     %     'FPOnT',FPOnT(1),(FPOnT(1)-PSTH_onT+timeStep)/timeStep,colorDGray;
-    'stim_on',stimOnT(1),stimOnBin,colorDRed,'.';
-    'stim_off',stimOffT(1),stimOffBin,colorDRed,'.';
+    %     'stim_on',stimOnT(1),stimOnBin,colorDRed,'.';
+    %     'stim_off',stimOffT(1),stimOffBin,colorDRed,'.';
     'aMax',stimOnT(1)+aMax,(stimOnT(1)+aMax-PSTH_onT+timeStep)/timeStep,colorDBlue,'--';
     'aMin',stimOnT(1)+aMin,(stimOnT(1)+aMin-PSTH_onT+timeStep)/timeStep,colorDBlue,'--';
     'v',stimOnT(1)+aMax+(aMin-aMax)/2,(stimOnT(1)+aMax+(aMin-aMax)/2-PSTH_onT+timeStep)/timeStep,'r','--';
@@ -572,7 +594,7 @@ model_catg = 'Sync model'; % tau is the same
 % models = {'VAJ','VA'};
 % models_color = {'k','g'};
 
-models = {'VA'};
+models = {'VAJ'};
 models_color = {'k'};
 
 % models = {'VA','VAJ','VAP','PVAJ'};
@@ -580,8 +602,8 @@ models_color = {'k'};
 
 spon_flag = 0; % 0 means raw data; 1 means mean(raw)-mean(spon) data
 
-% reps = 20;
-reps = 2;
+reps = 20;
+% reps = 2;
 
 for k = 1:length(unique_stimType)
     % for k = 1
@@ -780,7 +802,7 @@ end
 %% 1D models nalysis
 model_catg = 'Sync model'; % tau is the same
 % model_catg = 'Out-sync model'; % each component has its own tau
-% %{
+%{
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
@@ -796,7 +818,7 @@ models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorL
 
 % models = {'VAJ','VA'};
 % models_color = {'k','g'};
-% 
+%
 % models = {'VA','VAJ','VAP','PVAJ'};
 % models_color = {'k','k','k','k'};
 
@@ -1017,7 +1039,7 @@ result = PackResult(FILE, PATH, SpikeChan, unique_stimType,Protocol, ... % Oblig
     unique_azimuth, unique_elevation, unique_amplitude, unique_duration,...   % paras' info of trial
     markers,...
     timeWin, timeStep, tOffset1, tOffset2,nBins,Bin,PCAStep,PCAWin,nBinsPCA, ... % PSTH slide window info
-    meanSpon, p_anova_dire, DDI,preferDire,PSTH,p_anova_dire_t,DDI_t,preferDire_t, ... % PSTH and mean FR info
+    meanSpon, p_anova_dire, DDI,preferDire,PSTH,p_anova_dire_t,DDI_t,DDI_p_t,preferDire_t, ... % PSTH and mean FR info
     PSTH3Dmodel,PSTH1Dmodel); % model info
 
 switch Protocol

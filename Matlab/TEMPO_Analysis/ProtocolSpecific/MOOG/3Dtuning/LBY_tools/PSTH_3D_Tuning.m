@@ -153,7 +153,7 @@ end
 %}
 
 % % ------ fig.30 plot mean PSTHs across directions (with errorbar)------%
-% %{
+%{
 for k = 1:length(unique_stimType)
     figure(30+k);
     set(gcf,'pos',[60 100 1800 900]);
@@ -383,7 +383,7 @@ end
 %}
 
 % % ------ fig.40 plot mean PSTHs across directions (normal/with peak time)------%
-% %{
+%{
 peakColor = {colorDRed,colorDBlue,colorDGreen,colorLRed,colorLBlue,colorDGray,colorDOrange};
 
 for k = 1:length(unique_stimType)

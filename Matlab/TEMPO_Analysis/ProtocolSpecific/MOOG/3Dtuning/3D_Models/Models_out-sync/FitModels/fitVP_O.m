@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VP,modelFit_VP, modelFit_VP_spatial, modelFitPara_VP, BIC_VP, RSquared_VP, rss_VP, time] = fitVP_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VP model...')
+% sprintf('Fitting VP model...')
 
 %-- initialize global using parameters
 
@@ -62,6 +62,8 @@ v_DC = 0.5;
 p_DC = 0.5;
 w = 0.5;
 p_laten = 0.1;
+advance = 0;
+delay = 0.2;
 
 %Inital fits
 param = [A, ...       %1
@@ -83,7 +85,7 @@ init_param(1,:) = param;
 
 LB = [0.25*A, ...`  %1  A
     0, ...          %2  R_0
-    mu, ...       %3  mu_t
+    mu+advance, ...       %3  mu_t
     0.001, ...      %4  n
     0, ...          %5  a_0
     -90, ...      %6  e_0
@@ -97,7 +99,7 @@ LB = [0.25*A, ...`  %1  A
 
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
-    mu+0.4, ...      %3  mu_t
+    mu+delay, ...      %3  mu_t
     10, ...         %4  n
     360, ...       %5  a_0
     90, ...       %6  e_0
@@ -107,7 +109,7 @@ UB = [4*A, ...      %1  A
     90, ...      %10 a_e_0
     1,...          %7 a_DC
     1,...         %12 wV
-    0.2];            %13 p_latency
+    0.5];            %13 p_latency
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VA,modelFit_VA, modelFit_VA_spatial, modelFitPara_VA, BIC_VA, RSquared_VA, rss_VA, time] = fitVA_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VA model...')
+% sprintf('Fitting VA model...')
 
 %-- initialize global using parameters
 
@@ -63,8 +63,11 @@ a_a_0 = u_azi(max_idx_a);
 v_DC = 0.5;
 a_DC = 0.5;
 w = 0.5;
-v_laten = 0.1;
 
+a = 0.5;
+v_laten = a;
+advance = 0;
+delay = 0.2;
 %Inital fits
 param = [A, ...       %1
     R_0, ...     %2
@@ -85,7 +88,7 @@ init_param(1,:) = param;
 
 LB = [0.25*A, ...`  %1  A
     0, ...          %2  R_0
-    mu, ...       %3  mu_t
+    mu+advance, ...       %3  mu_t
     0.001, ...      %4  n
     0, ...          %5  a_0
     -90, ...      %6  e_0
@@ -95,11 +98,11 @@ LB = [0.25*A, ...`  %1  A
     -90, ...      %10 a_e_0
     0, ...         %11 a_DC
     0, ...         %12 wV
-    0];             %13 v_latency
+    a];             %13 v_latency
 
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
-    mu+0.2, ...      %3  mu_t
+    mu+delay, ...      %3  mu_t
     10, ...         %4  n
     360, ...       %5  a_0
     90, ...       %6  e_0
@@ -109,7 +112,7 @@ UB = [4*A, ...      %1  A
     90, ...      %10 a_e_0
     1 ...         %11 a_DC
     1,...         %12 wV
-    0.2];            %13 v_latency
+    a];            %13 v_latency
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VAP,modelFit_VAP, modelFit_VAP_spatial, modelFitPara_VAP, BIC_VAP, RSquared_VAP, rss_VAP, time] = fitVAP_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VAP model...')
+% sprintf('Fitting VAP model...')
 
 %-- initialize global using parameters
 
@@ -69,6 +69,8 @@ wv = 0.3;
 wp = 0.3;
 v_laten = 0.1;
 p_laten = 0.2;
+advance = 0;
+delay = 0.2;
 
 %Inital fits
 param = [A, ...       %1
@@ -96,7 +98,7 @@ init_param(1,:) = param;
 
 LB = [0.25*A, ...`  %1  A
     0, ...          %2  R_0
-    mu, ...       %3  mu_t
+    mu+advance, ...       %3  mu_t
     0.001, ...      %4  n
     0, ...          %5  a_0
     -90, ...      %6  e_0
@@ -116,7 +118,7 @@ LB = [0.25*A, ...`  %1  A
 
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
-    mu+0.2, ...      %3  mu_t
+    mu+delay, ...      %3  mu_t
     10, ...         %4  n
     360, ...       %5  a_0
     90, ...       %6  e_0
@@ -131,8 +133,8 @@ UB = [4*A, ...      %1  A
     1, ...         %15 a_DC
     1, ...         %16 wV
     1,...          %17 wP
-    0.2,...          %18 v_laten
-    0.4];             %19 p_laten
+    0.5,...          %18 v_laten
+    0.5];             %19 p_laten
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

@@ -9,7 +9,7 @@
 
 function [modelFitRespon_VO, modelFit_VO, modelFit_VO_spatial,modelFitPara_VO, BIC_VO, RSquared_VO, rss_VO, time] = fitVO(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-sprintf('Fitting VO model...')
+% sprintf('Fitting VO model...')
 
 %-- initialize global using parameters
 
@@ -94,6 +94,8 @@ DC = recon_v(4);
 
 R_0 = baseline;
 A = t_A*s_A;
+delay = 0.2;
+advance = 0;
 
 %-- 2nd, fit VO model
 
@@ -113,7 +115,7 @@ init_param(1,:) = param;
 
 LB = [0.25*A, ...`  %1  A amplitude
     0, ...          %2  R_0 baseline
-    mu, ...         %3  mu_0
+    mu+advance, ...         %3  mu_0
     0.001, ...      %4  n
     0, ...          %5  a_0
     -90, ...      %6  e_0
@@ -122,7 +124,7 @@ LB = [0.25*A, ...`  %1  A amplitude
     
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
-    mu+0.2, ...     %3  mu_0
+    mu+delay, ...     %3  mu_0
     10, ...         %4  n
     360, ...       %5  a_0
     90, ...       %6  e_0

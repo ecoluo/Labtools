@@ -119,13 +119,16 @@ function ReadXls_Callback(hObject, eventdata, handles)
 clear global group_result;
 
 if ismember('control',get(gcf,'currentModifier'))
-    winopen('Z:\Data\MOOG\Results\Result_LBY.xlsm');
+%     winopen('Z:\Data\MOOG\Results\Result_LBY.xlsm');
+winopen('Z:\Data\MOOG\Results\Result_MST.xlsm');
     return;
 end
 
 set(handles.num_entries,'string',0); drawnow;
 
-handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
+% handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
+handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_MST.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
+
 handles.N = size(handles.XlsData.num,1);
 
 set(handles.num_entries,'string',num2str(handles.N));
