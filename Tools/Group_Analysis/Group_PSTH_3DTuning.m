@@ -21,13 +21,13 @@ mat_address = {
     %     'Z:\Data\TEMPO\BATCH\20181008_3D&1DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
     %     'Z:\Data\TEMPO\BATCH\20181008_3D&1DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
     %     % %
-    'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
-    'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
+    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
+    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT_dark';
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR_dark';
     
-    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT';
-    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR';
+    'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT';
+    'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR';
     %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT_dark';
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR_dark';
     
@@ -1846,7 +1846,7 @@ c = 3;
         
         
         % ============   1-D Trajectory of Eigen-neurons ===========
-        %         %{
+        %{
         %         colorsPCA{1} = {[8 32 51]/255,[23 70 107]/255,[15 139 184]/255,[138 188 209]/255,[204 207 226]/255,[239 239 247]/255};
         %         colorsPCA{2} = {[90 19 27]/255,[192 44 38]/255,[221 82 96]/255,[240 161 168]/255,[230 210 213]/255,[249 244 245]/255};
         colorsPCA{1} = {'b', 'r', 'g', 'k', 'm','c'};
@@ -4228,6 +4228,8 @@ view(3);axis on;
 
     function f2p2p12(debug)      % Weight V/A vs. PCA
         if debug  ; dbstack;   keyboard;      end
+        figure(31);set(figure(31),'name','Cluster: PC1 - PC2 - PC3','unit','pixels','pos',[-1000 300 900 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         
         %--------------- PCA
         denoised_dim = 4; % how many PCs you want to plot
@@ -4355,41 +4357,30 @@ view(3);axis on;
                 colors = {[239 239 247]/255, [204 207 226]/255, [138 188 209]/255, [15 139 184]/255, [23 70 107]/255, [8 32 51]/255};h = [];
                 
                 %--------------- Weight
-                figure(31);set(figure(31),'name','Cluster: PC1 - PC2 - PC3','unit','pixels','pos',[-1000 300 900 600]); clf;
-                [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+                
                 
                 if sum(strcmp(models,'VA'))
-                    figure(11);set(figure(11),'name','Distribution of weight (VA model)','unit','normalized' ,'pos',[-0.55 0 0.4 0.7]); clf;
-                    [~,h_subplot] = tight_subplot(2,2,0.1,0.1,[0.1 0.02]);
-                    for pp = 1:2
-                        for jj = 1:2
-                            wV_VA_plot{pp}{jj} = wV_VA_3D{pp}(select_temporalSig{pp}(:,jj),jj);
-                            wA_VA_plot{pp}{jj} = wA_VA_3D{pp}(select_temporalSig{pp}(:,jj),jj);
-                            
-                            %%%%%%%%%%%%%%%2 只要最大反应方向（Preferred direction）
-                            
-                            axes(h_subplot((jj-1)*2+pp));hold on;
-                            pc = 0;
-                            for ii = 0:0.2:0.9
-                                pc = pc+1;
+                    
+                    wV_VA_plot{pp}{jj} = wV_VA_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wA_VA_plot{pp}{jj} = wA_VA_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    
+                    %%%%%%%%%%%%%%%2 只要最大反应方向（Preferred direction）
+                    
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    pc = 0;
+                    for ii = 0:0.2:0.9
+                        pc = pc+1;
+                        try
+                            if ~isempty(find(wV_VA_plot{pp}{jj}>ii))
                                 plot3(projPC2{pp}{jj}{1}(wV_VA_plot{pp}{jj}>ii),projPC2{pp}{jj}{2}(wV_VA_plot{pp}{jj}>ii),projPC2{pp}{jj}{3}(wV_VA_plot{pp}{jj}>ii),'k.','color',colors{pc});
                             end
-                            xlabel('PC1');ylabel('PC2');zlabel('PC3');
-                            view(3);axis on;
-                            
+                        catch
+                            keyboard;
                         end
                     end
-                    SetFigure(12);
+                    xlabel('PC1');ylabel('PC2');zlabel('PC3');
+                    view(3);axis on;
                     
-                    % text necessary infos
-                    axes('pos',[0.05 0.2 0.1 0.7]);
-                    text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
-                    axis off;
-                    axes('pos',[0.2 0.9 0.7 0.1]);
-                    text(0.15,0,'Translation');text(0.85,0,'Rotation');
-                    axis off;
-                    suptitle(['Distribution of weight (VA model) (Monkey = ',monkey_to_print,')']);
-                    SetFigure(12);
                 end
                 
                 %%%%%%%%%%%%%%%3 最大反应方向+最小反应方向（Preferred direction+Null condition）
@@ -4446,7 +4437,17 @@ view(3);axis on;
             end
         end
         
+        SetFigure(12);
         
+        % text necessary infos
+        axes('pos',[0.05 0.2 0.1 0.7]);
+        text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+        axis off;
+        axes('pos',[0.2 0.9 0.7 0.1]);
+        text(0.15,0,'Translation');text(0.85,0,'Rotation');
+        axis off;
+        suptitle(['Distribution of weight (VA model) (Monkey = ',monkey_to_print,')']);
+        SetFigure(12);
         
     end
 
