@@ -263,6 +263,7 @@ for k = 1:length(unique_stimType)
             catch
                 
             end
+            
             PSTH.spk_data_bin_mean_rate_PCA{k}(pc,:) = nanmean(PSTH.spk_data_bin_rate_PCA{k}(pc,:,:),3);
             PSTH.spk_data_bin_mean_rate_aov{k}(pc,:) = nanmean(PSTH.spk_data_bin_rate_aov{k}(pc,:,:),3);
             
@@ -437,6 +438,7 @@ for k = 1:length(unique_stimType)
     DDI_t{k} = nan;
     DDI_p_t{k} = nan;
     preferDire_t{k} = nan(3,1);
+    PSTH.spk_data_sorted_PCA{k} = nan;
     
     if PSTH.respon_sigTrue(k) == 1
         
@@ -537,14 +539,21 @@ for k = 1:length(unique_stimType)
             end
         end
         
-        
-        
+        % sort PCA according to the maximum of direction
+        if ~isempty(PSTH.peak{k})
+            [~, temp_inx] = sortrows(PSTH.spk_data_bin_mean_rate_PCA{k}(:,PSTH.peak{k}(1)),-1);
+            PSTH.spk_data_sorted_PCA{k} = PSTH.spk_data_bin_mean_rate_PCA{k}(temp_inx,:);
+        else
+            PSTH.spk_data_sorted_PCA{k} = PSTH.spk_data_bin_mean_rate_PCA{k};
+        end
     end
 end
+
 
 %}
 %% plot figures
 %
+
 % k=1,2,3
 % j= -90,-45,0,45,90 (up->down)
 % i=0 45 90 135 180 225 270 315
@@ -570,7 +579,7 @@ markers = {
 Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+719-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+1074-PSTH_onT+timeStep)/timeStep];
 % preferDirectionOfTime;
 % CosineTuningPlot;
-% PSTH_3D_Tuning; % plot PSTHs across sessions;
+PSTH_3D_Tuning; % plot PSTHs across sessions;
 % Contour_3D_Tuning; % plot countour figures;
 % Contour_3D_Tuning_GIF; % plot countour figures(PD across time);
 % spatial_tuning;
