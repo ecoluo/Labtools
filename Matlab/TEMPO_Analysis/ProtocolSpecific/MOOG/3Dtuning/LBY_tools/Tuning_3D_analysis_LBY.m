@@ -435,7 +435,8 @@ for k = 1:length(unique_stimType)
     DDI_t{k} = nan;
     DDI_p_t{k} = nan;
     preferDire_t{k} = nan(3,1);
-    PSTH.respon_sigTrue(k)
+    PSTH.spk_data_sorted_PCA{k} = nan;
+    
     if PSTH.respon_sigTrue(k) == 1
         
         % --------- to find local peaks & throughs -------%
@@ -511,7 +512,7 @@ for k = 1:length(unique_stimType)
                 maxSpkRealMean_t{k}(pt) = max(max(squeeze((PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:)))));
                 minSpkRealMean_t{k}(pt) = min(min(squeeze((PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:)))));
                 DDI_t{k}(pt) = (maxSpkRealMean_t{k}(pt)-minSpkRealMean_t{k}(pt))/(maxSpkRealMean_t{k}(pt)-minSpkRealMean_t{k}(pt)+2*sqrt(resp_std_t{k}(pt)));
-                                % DDI permutation
+                % DDI permutation
                 num_perm = 1000;
                 
                 for nn = 1 : num_perm
@@ -533,6 +534,14 @@ for k = 1:length(unique_stimType)
             catch
                 keyboard;
             end
+        end
+        
+        % sort PCA according to the maximum of direction
+        if ~isempty(PSTH.peak{k})
+            [~, temp_inx] = sortrows(PSTH.spk_data_bin_mean_rate_PCA{k}(:,PSTH.peak{k}(1)),-1);
+            PSTH.spk_data_sorted_PCA{k} = PSTH.spk_data_bin_mean_rate_PCA{k}(temp_inx,:);
+        else
+            PSTH.spk_data_sorted_PCA{k} = PSTH.spk_data_bin_mean_rate_PCA{k};
         end
     end
 end
@@ -572,7 +581,7 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 %% 3D models nalysis
 model_catg = 'Sync model'; % tau is the same
 % model_catg = 'Out-sync model'; % each component has its own tau
-%{
+% %{
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
@@ -795,7 +804,7 @@ end
 %% 1D models nalysis
 model_catg = 'Sync model'; % tau is the same
 % model_catg = 'Out-sync model'; % each component has its own tau
-% %{
+%{
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
