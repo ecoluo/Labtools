@@ -227,10 +227,10 @@ for m_inx = 1:length(models)
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_T'];
-        saveas(100+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+        saveas(100+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
     elseif Protocol == 112
         ss = [str3, '_R'];
-        saveas(100+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+        saveas(100+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 end
 %}
@@ -282,10 +282,10 @@ for m_inx = 1:length(models)
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_Contour_T'];
-        saveas(100+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+        saveas(100+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
     elseif Protocol == 112
         ss = [str3, '_Contour_R'];
-        saveas(110+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+        saveas(110+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 
 end
@@ -338,10 +338,10 @@ str3 = [str, '_VAJmodel_',stimType{stimTypeInx}];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
-    saveas(120,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+    saveas(120,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
 elseif Protocol == 112
     ss = [str3, '_Contour_R'];
-    saveas(120,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+    saveas(120,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
 end
 else
     disp('No VAJ model!');
@@ -395,10 +395,10 @@ str3 = [str, '_VAJmodel_peakT_',stimType{stimTypeInx}];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
-    saveas(130,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+    saveas(130,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
 elseif Protocol == 112
     ss = [str3, '_Contour_R'];
-    saveas(130,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+    saveas(130,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
 end
 else
     disp('No VAJ model!');
@@ -453,10 +453,10 @@ set(h,'linestyle','-','linewidth',4,'color','k');
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_Contour_T'];
-        saveas(140,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+        saveas(140,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
     elseif Protocol == 112
         ss = [str3, '_Contour_R'];
-        saveas(140,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+        saveas(140,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 else
     disp('No VA model!');
@@ -552,10 +552,10 @@ if sum(ismember(models,'VA')) ~= 0
         set(gcf,'paperpositionmode','auto');
         if Protocol == 100
             ss = [str3, '_T'];
-            saveas(150+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+            saveas(150+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
         elseif Protocol == 112
             ss = [str3, '_R'];
-            saveas(150+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+            saveas(150+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
         end
     end
 else
@@ -614,10 +614,10 @@ if sum(ismember(models,'VAJ')) ~= 0
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_Contour_T'];
-        saveas(160,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+        saveas(160,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
     elseif Protocol == 112
         ss = [str3, '_Contour_R'];
-        saveas(160,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+        saveas(160,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 else
     disp('No VAJ model!');
@@ -712,10 +712,10 @@ if sum(ismember(models,'VAJ')) ~= 0
         set(gcf,'paperpositionmode','auto');
         if Protocol == 100
             ss = [str3, '_T'];
-            saveas(170+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+            saveas(170+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
         elseif Protocol == 112
             ss = [str3, '_R'];
-            saveas(170+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+            saveas(170+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
         end
     end
 else
@@ -784,10 +784,10 @@ str3 = [str, '_VAmodel_',stimType{stimTypeInx}];
 set(gcf,'paperpositionmode','auto');
 if Protocol == 100
     ss = [str3, '_Contour_T'];
-    file = ['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/Translation\' ss,'.gif'];
+    file = ['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/Translation\' ss,'.gif'];
 elseif Protocol == 112
     ss = [str3, '_Contour_R'];
-    saveas(180,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'\1D_Tuning/Translation/' ss], 'tif');
+    saveas(180,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'\1D_Tuning/Translation/' ss], 'tif');
 end
 if pic_num == 1
             imwrite(I,map, file,'gif', 'Loopcount',inf,'DelayTime',0.2);
@@ -852,10 +852,10 @@ if sum(ismember(models,'VAP')) ~= 0
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_Contour_T'];
-        saveas(190,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+        saveas(190,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
     elseif Protocol == 112
         ss = [str3, '_Contour_R'];
-        saveas(190,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+        saveas(190,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 else
     disp('No VAP model!');
@@ -949,10 +949,10 @@ if sum(ismember(models,'VAP')) ~= 0
         set(gcf,'paperpositionmode','auto');
         if Protocol == 100
             ss = [str3, '_T'];
-            saveas(200+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+            saveas(200+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
         elseif Protocol == 112
             ss = [str3, '_R'];
-            saveas(200+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+            saveas(200+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
         end
     end
 else
@@ -1011,10 +1011,10 @@ if sum(ismember(models,'PVAJ')) ~= 0
     set(gcf,'paperpositionmode','auto');
     if Protocol == 100
         ss = [str3, '_Contour_T'];
-        saveas(210,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+        saveas(210,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
     elseif Protocol == 112
         ss = [str3, '_Contour_R'];
-        saveas(210,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+        saveas(210,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
     end
 else
     disp('No PVAJ model!');
@@ -1108,10 +1108,10 @@ if sum(ismember(models,'PVAJ')) ~= 0
         set(gcf,'paperpositionmode','auto');
         if Protocol == 100
             ss = [str3, '_T'];
-            saveas(220+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
+            saveas(220+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Translation/' ss], 'tif');
         elseif Protocol == 112
             ss = [str3, '_R'];
-            saveas(220+m_inx,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
+            saveas(220+m_inx,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/1D_Tuning_models/',model_catg,'/Rotation/' ss], 'tif');
         end
     end
 else

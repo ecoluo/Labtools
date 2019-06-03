@@ -110,10 +110,10 @@ for k = 1:length(unique_stimType)
         
         if Protocol == DIRECTION_TUNING_3D
             ss = [str, '_T'];
-            file = ['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss,'.gif'];
+            file = ['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss,'.gif'];
         elseif Protocol == ROTATION_TUNING_3D
             ss = [str, '_R'];
-            file = ['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss,'.gif'];
+            file = ['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss,'.gif'];
         end
         
         if pic_num == 1

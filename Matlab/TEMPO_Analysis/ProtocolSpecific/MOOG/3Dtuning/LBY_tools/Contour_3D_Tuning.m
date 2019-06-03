@@ -86,10 +86,10 @@ for k = 1:length(unique_stimType)
     str4 = [str, '_Tuning_totalT'];
     if Protocol == DIRECTION_TUNING_3D
         ss = [str4, '_T'];
-        saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
+        saveas(gcf,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
     elseif Protocol == ROTATION_TUNING_3D
         ss = [str4, '_R'];
-        saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
+        saveas(gcf,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
     end
 
 end
@@ -177,10 +177,10 @@ for k = 1:length(unique_stimType)
         
         if Protocol == DIRECTION_TUNING_3D
             ss = [str, '_T'];
-            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
+            saveas(gcf,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
         elseif Protocol == ROTATION_TUNING_3D
             ss = [str, '_R'];
-            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
+            saveas(gcf,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
         end
     end
 end
@@ -273,10 +273,10 @@ for k = 1:length(unique_stimType)
         
         if Protocol == DIRECTION_TUNING_3D
             ss = [str, '_T'];
-            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
+            saveas(gcf,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
         elseif Protocol == ROTATION_TUNING_3D
             ss = [str, '_R'];
-            saveas(gcf,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
+            saveas(gcf,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
         end
     end
 end

@@ -143,10 +143,10 @@ for k = 1:length(unique_stimType)
     switch Protocol
         case DIRECTION_TUNING_3D
             ss = [str2, '_T'];
-            saveas(20+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
+            saveas(20+k,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
         case ROTATION_TUNING_3D
             ss = [str2, '_R'];
-            saveas(20+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
+            saveas(20+k,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
     end
 end
 %}
@@ -252,10 +252,10 @@ for k = 1:length(unique_stimType)
     set(gcf,'paperpositionmode','auto');
     if Protocol == DIRECTION_TUNING_3D
         ss = [str3, '_T'];
-        saveas(30+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
+        saveas(30+k,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
     elseif Protocol == ROTATION_TUNING_3D
         ss = [str3, '_R'];
-        saveas(30+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
+        saveas(30+k,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
     end
     
 end
@@ -369,10 +369,10 @@ for k = 1:length(unique_stimType)
     set(gcf,'paperpositionmode','auto');
     if Protocol == DIRECTION_TUNING_3D
         ss = [str3, '_T'];
-        saveas(30+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
+        saveas(30+k,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
     elseif Protocol == ROTATION_TUNING_3D
         ss = [str3, '_R'];
-        saveas(30+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
+        saveas(30+k,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
     end
 
 end
@@ -495,10 +495,10 @@ for k = 1:length(unique_stimType)
     set(gcf,'paperpositionmode','auto');
     if Protocol == DIRECTION_TUNING_3D
         ss = [str3, '_T'];
-        saveas(40+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
+        saveas(40+k,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
     elseif Protocol == ROTATION_TUNING_3D
         ss = [str3, '_R'];
-        saveas(40+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
+        saveas(40+k,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
     end
     
 end
@@ -591,10 +591,10 @@ for k = 1:length(unique_stimType)
     set(gcf,'paperpositionmode','auto');
     if Protocol == DIRECTION_TUNING_3D
         ss = [str3, '_T'];
-        saveas(50+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
+        saveas(50+k,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Translation/' ss], 'tif');
     elseif Protocol == ROTATION_TUNING_3D
         ss = [str3, '_R'];
-        saveas(50+k,['/ion/gu_lab/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
+        saveas(50+k,['/gpfsdata/home/byliu/Z/',PSTH.monkey,'/3D_Tuning/Rotation/' ss], 'tif');
     end
 end
 %}

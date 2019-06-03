@@ -8,7 +8,7 @@ function SaveResult(config, result)
 
 if ~isempty(config.batch_flag)  % Figures and raw data (always in "result" structure)
     
-    outpath = ['/ion/gu_lab/byliu/Z/Data/TEMPO/BATCH/' config.batch_flag(1:end-2) '/'];
+    outpath = ['/gpfsdata/home/byliu/Z/Data/TEMPO/BATCH/' config.batch_flag(1:end-2) '/'];
     
     % Check directory
     if ~exist(outpath,'dir')

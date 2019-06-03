@@ -143,6 +143,7 @@ FixInT = find(event_in_bin == IN_FIX_WIN_CD);
 
 % spike data
 % 5000*260 (for 5 repetitions)
+% keyboard;
 spike_data = squeeze(data.spike_data(SpikeChan,:,real_trials)); % sipke data in 5000ms for each trial
 spike_data( spike_data > 100 ) = 1; % something is absolutely wrong, recorrect to 1
 spon_spk_data = squeeze(data.spike_data(SpikeChan,:,spon_trials));
@@ -581,7 +582,7 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 %% 3D models nalysis
 model_catg = 'Sync model'; % tau is the same
 % model_catg = 'Out-sync model'; % each component has its own tau
-% %{
+%{
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
@@ -589,11 +590,11 @@ model_catg = 'Sync model'; % tau is the same
 % models = {'VO','AO','VA','VJ','AJ','VAJ'};
 % models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};
 
-models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
-models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
+% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+% models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
 
-% models = {'PVAJ'};
-% models_color = {'k'};
+models = {'PVAJ'};
+models_color = {'k'};
 
 % models = {'VA'};
 % models_color = {'k'};

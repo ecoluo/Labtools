@@ -6,21 +6,22 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Decide number of workers on the cluster based on "fileToRun" HH20180621
+% changed to LSF for ION new cluster-LSF platform, LBY
 % fileToRun Syntax: -[thisNode, node1, nCPU1, node2, nCPU2, node3, nCPU3, ...]
 
-if any(config < 0) % SGE control (submitted by qsub)
-    SGE = 1;
+if any(config < 0) % LSF control (submitted by bsub)
+    LSF = 1;
     thisNode = - config(1); % Which node is this node?
     nodeCPUPairs = - config(2:end);
-    numWorkers = nodeCPUPairs(thisNode*2); % Number of CPU of this node
+    numWorkers = nodeCPUPairs(thisNode*3); % Number of CPU of this node
 else
-    SGE = 0; % config is nan or is all positive
-    numWorkers = 20; % Default
+    LSF = 0; % config is nan or is all positive
+    numWorkers = config; % Default
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-cd /home/byliu
+cd /gpfsdata/home/byliu
 
 % hostname = char( getHostName( java.net.InetAddress.getLocalHost)); % Get host name
 
@@ -143,11 +144,11 @@ while (line ~= -1)
             
             % Add protocol names manually to files that have been rescued from CED. HH20150723
             switch logfile
-                case { '/ion/gu_lab/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c605r1.log'
+                case { '/gpfsdata/home/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c605r1.log'
                         }   % 3DT tasks rescued from CED
                     beep;
                     protocol_name = 100;
-                case {'/ion/gu_lab/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c617r2.log'}   % 3DR tasks rescued from CED
+                case {'/gpfsdata/home/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c617r2.log'}   % 3DR tasks rescued from CED
                     beep;
                     protocol_name = 112;
                 otherwise
@@ -256,8 +257,8 @@ if isnan(config)
 toRunIndex = 1:N;
 nBegin = 1;
 nEnd = N;
-elseif SGE % SGE control
-    nCPUs = nodeCPUPairs(2:2:end);
+elseif LSF % LSF control
+    nCPUs = nodeCPUPairs(3:3:end);
     nNode = length(nCPUs);
     
     nEnd = 0;
@@ -285,7 +286,7 @@ errorFiles(N).fileName = [];
 
 % ======================== Do parallel processing ===================
 
-if ~SGE, parfor_progress(N); end   % Because there could be conflict of parfor_progress.m
+if ~LSF, parfor_progress(N); end   % Because there could be conflict of parfor_progress.m
 
 PROTOCOLForParWorkers = PROTOCOL;
 parfor nn = 1:N
@@ -346,9 +347,9 @@ parfor nn = 1:N
         fprintf('\t%s\n\tLine%g\n\t%s\n', exception.message, exception.stack(1).line, exception.stack(1).file)
     end
     
-    if ~ SGE, parfor_progress; end
+    if ~ LSF, parfor_progress; end
 end
-if ~ SGE, parfor_progress(0); end
+if ~ LSF, parfor_progress(0); end
 
 fclose(fid);
 
@@ -365,7 +366,7 @@ if print_flag == -999
     
 else
 
-    outpath = ['/ion/gu_lab/byliu/Z/Data/TEMPO/BATCH/' ori_filename(1:end-2) '/'];
+    outpath = ['/gpfsdata/home/byliu/Z/Data/TEMPO/BATCH/' ori_filename(1:end-2) '/'];
     
     if ~exist(outpath,'dir')
         mkdir(outpath);

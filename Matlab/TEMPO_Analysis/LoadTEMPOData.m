@@ -31,9 +31,9 @@ end
 % and extra 2: Ele = -90 & 90;
 % order: stim_type azimuth elevation amplitude coherence
 rescue_from_CED = {   % FileName   Protocol   Conditions   Headings  Coherence Duration Amplitude
-    '/ion/gu_lab/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c605r1.htb','3DT',[1 2],[0:45:315,-45:45:45], nan, 1500,0.11;
-    '/ion/gu_lab/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c617r2.htb','3DR',[1],[0:45:315,-45:45:45], nan, 1500,8;
-    '/ion/gu_lab/byliu/Z/Data/MOOG/Polo/raw/m5c1583r2.htb','3DR',[1 2],[0:45:315,-45:45:45], nan, 1500,8;    };
+    '/gpfsdata/home/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c605r1.htb','3DT',[1 2],[0:45:315,-45:45:45], nan, 1500,0.11;
+    '/gpfsdata/home/byliu/Z/Data/MOOG/Qiaoqiao/raw/m6c617r2.htb','3DR',[1],[0:45:315,-45:45:45], nan, 1500,8;
+    '/gpfsdata/home/byliu/Z/Data/MOOG/Polo/raw/m5c1583r2.htb','3DR',[1 2],[0:45:315,-45:45:45], nan, 1500,8;    };
 
 ff = 1;
 while ff <= size(rescue_from_CED,1) && isempty(strfind(rescue_from_CED{ff,1},[PATH FILE]))
@@ -305,7 +305,7 @@ else
     
     % Check to see if the htb file was in a standard location.
     PATH2 = upper(PATH);
-    wasinstdloc = findstr(PATH2, 'Z:\DATA\TEMPO');
+    wasinstdloc = findstr(PATH2, '/gpfsdata/home/byliu/Z/Data/TEMPO');
     
     % This adds the good data from spikesort2.
     fa = find(PATH == '\');
@@ -362,7 +362,7 @@ end
 return_value = 1;		%indicates completed OK
 %add by AHC 02-22-06
 fa = find(PATH == '/');
-sName = ['/ion/gu_lab/byliu/Z/Data/MOOG', PATH(fa(7):fa(8)), 'Analysis/sortedspikes2/', FILE(1:length(FILE) - 4),'.mat'];
+sName = ['/gpfsdata/home/byliu/Z/Data/MOOG', PATH(fa(7):fa(8)), 'Analysis/sortedspikes2/', FILE(1:length(FILE) - 4),'.mat'];
 if (exist(sName,'file'))
     
     [good_data SortedChannel] = PackData(good_data,sName);%get the Spike2 sorted data
