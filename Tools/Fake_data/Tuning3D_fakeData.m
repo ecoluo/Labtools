@@ -10,7 +10,7 @@ clc;
 colorDefsLBY;
 
 if nargin == 0
-    a = 6;
+    a = 1;
 end;
 
 meanSpon = 10;
@@ -23,15 +23,20 @@ coord = [-90 -45 0 45 90 270 225 180 135 90 45 0 315];
 maxSPK = 30; % the max value of spike
 mu = duration/2;
 sig = sqrt(sqrt(2))/6;
-preDir = [45 30]; % [azimuth, elevation]
-preDir_V = [45 30]; % [azimuth, elevation]
-preDir_A = [30 60]; % [azimuth, elevation]
+
+preDir = [68 20]; % [azimuth, elevation]
+preDir_V = [0 30]; % [azimuth, elevation]
+preDir_A = [60 0]; % [azimuth, elevation]
+preDir_J = [0 90]; % [azimuth, elevation]
+preDir_P = [40 -90]; % [azimuth, elevation]
 
 switch a
+%     %{
     case 1 % velocity dominated, directionally tuned
         
         R = exp((-(t-mu).^2)./(2*sig.^2));
         spatialTuning = abs(cosTuning(preDir, coord))+0.1; % +0.1 for value==0
+spatialTuning = linspace(0,2,40);
         Respon = repmat(R,length(spatialTuning),1) .* (repmat(spatialTuning,length(R),1))';
         Respon = reshape(Respon,[8 5 length(R)])*(maxSPK/max(max(max(Respon))));
         % Respon = repmat(Respon,[1 1 1 5]); % five repetitions
@@ -88,13 +93,13 @@ switch a
         
     case 6 % V&A, both direction tuned(V&A with different spatial tuning,i.e. case1+3 with respective weight)
         
-        % velocity
-                Rv = exp((-(t-mu).^2)./(2*sig.^2));
+        %----- velocity
+        Rv = exp((-(t-mu).^2)./(2*sig.^2));
         spatialTuningV = abs(cosTuning(preDir_V, coord))+0.1; % +0.1 for value==0
         ResponV = repmat(Rv,length(spatialTuningV),1) .* (repmat(spatialTuningV,length(Rv),1))';
         ResponV = reshape(ResponV,[8 5 length(Rv)])*(maxSPK/max(max(max(ResponV))));
         
-        % acceleration
+        %----- acceleration
         Ra = -(t-mu)./sig.^2.*exp((-(t-mu).^2)./(2*sig.^2));
         Ra = Ra + max(Ra);
         ResponA = repmat(Ra,40,1);
@@ -104,7 +109,7 @@ switch a
         % Ampilutde tuning
         spatialTuningA = abs(cosTuning(preDir_A, coord))+0.1; % +0.1 for value==0
         ResponA = ResponA .* (repmat(spatialTuningA,length(Ra),1))'; %
-
+        
         % sign tuning
         for nn = 1:size(ResponA,1)
             if signS(nn)<0
@@ -115,12 +120,141 @@ switch a
         ResponA = reshape(ResponA,[8 5 length(Ra)])*(maxSPK/max(max(max(ResponA))));
         
         % V&A (weight)
-        wV = 0.9;
-        wA = 0.1;
+        wV = 0.5;
+        wA = 0.5;
         Respon = ResponV.*wV+ResponA.*wA+meanSpon;
+   
+        %}
+    
+    case 7 % V&A&J&P, all direction tuned, with respective weight)
+        
+        %----- velocity
+        Rv = exp((-(t-mu).^2)./(2*sig.^2));
+        spatialTuningV = abs(cosTuning(preDir_V, coord))+0.1; % +0.1 for value==0
+        ResponV = repmat(Rv,length(spatialTuningV),1) .* (repmat(spatialTuningV,length(Rv),1))';
+        ResponV = reshape(ResponV,[8 5 length(Rv)])*(maxSPK/max(max(max(ResponV))));
+        
+        %----- acceleration
+        Ra = -(t-mu)./sig.^2.*exp((-(t-mu).^2)./(2*sig.^2));
+        Ra = Ra + max(Ra);
+        ResponA = repmat(Ra,40,1);
+        spatialTuningA = cosTuning(preDir_A, coord);
+        signS = sign(spatialTuningA);
+        
+        % Ampilutde tuning
+        spatialTuningA = abs(cosTuning(preDir_A, coord))+0.1; % +0.1 for value==0
+        ResponA = ResponA .* (repmat(spatialTuningA,length(Ra),1))'; %
+        
+        % sign tuning
+        for nn = 1:size(ResponA,1)
+            if signS(nn)<0
+                ResponA(nn,:) = fliplr(ResponA(nn,:));
+            end
+        end
+        ResponA = reshape(ResponA,[8 5 length(Ra)])*(maxSPK/max(max(max(ResponA))));
+        
+        %----- Jerk
+        Rj = ((t-mu).^2-sig.^2)./sig.^4.*exp((-(t-mu).^2)./(2*sig.^2));
+        %         spatialTuningJ = abs(cosTuning(preDir_J, coord))+0.1; % +0.1 for value==0
+        spatialTuningJ = cosTuning(preDir_J, coord);
+        signS = repmat(sign(spatialTuningJ),length(Rj),1)';
+        ResponJ = repmat(Rj,40,1);
+        
+        % Ampilutde tuning
+        spatialTuningJ = abs(cosTuning(preDir_J, coord))+0.1; % +0.1 for value==0
+        ResponJ = ResponJ .* (repmat(spatialTuningJ,length(Rj),1))'; %
+        
+        % sign tuning
+        ResponJ = ResponJ.*signS;
+        ResponJ = reshape(ResponJ,[8 5 length(Rj)])*(maxSPK/max(max(max(ResponJ))));
+        ResponJ(ResponJ<0) = 0;
+        
+        Rp = cumsum(exp((-(t-mu).^2)./(2*sig.^2)));
+        spatialTuningP = cosTuning(preDir_P, coord);
+        signS = repmat(sign(spatialTuningP),length(Rp),1)';
+        ResponP = repmat(Rp,40,1);
+        
+        % Ampilutde tuning
+        spatialTuningP = abs(cosTuning(preDir_P, coord))+0.1; % +0.1 for value==0
+        ResponP = ResponP .* (repmat(spatialTuningP,length(Rp),1))'; %
+        
+        % sign tuning
+        for nn = 1:size(ResponP,1)
+            if signS(nn)<0
+                ResponP(nn,:) = fliplr(ResponP(nn,:));
+            end
+        end
+        
+        ResponP = reshape(ResponP,[8 5 length(Rp)])*(maxSPK/max(max(max(ResponP))));
+        
+        % V&A (weight)
+        wV = 0.25;
+        wA = 0.25;
+        wJ = 0.25;
+        wP = 0.25;
+        Respon = ResponV.*wV+ResponA.*wA+ResponJ.*wJ+ResponP.*wP+meanSpon;
+    %{    
+    case 8 % Jerk, direction tuning
+        
+        Rj = ((t-mu).^2-sig.^2)./sig.^4.*exp((-(t-mu).^2)./(2*sig.^2));
+        %         spatialTuningJ = abs(cosTuning(preDir_J, coord))+0.1; % +0.1 for value==0
+        spatialTuningJ = cosTuning(preDir_J, coord);
+        signS = repmat(sign(spatialTuningJ),length(Rj),1)';
+        ResponJ = repmat(Rj,40,1);
+        
+        % Ampilutde tuning
+        spatialTuningJ = abs(cosTuning(preDir_J, coord))+0.1; % +0.1 for value==0
+        ResponJ = ResponJ .* (repmat(spatialTuningJ,length(Rj),1))'; %
+        
+        % sign tuning
+        ResponJ = ResponJ.*signS;
+        
+        Respon = reshape(ResponJ,[8 5 length(Rj)])*(maxSPK/max(max(max(ResponJ))));
+        Respon(Respon<0) = 0;
+        
+    case 9 % Position, direction tuning
+        Rp = cumsum(exp((-(t-mu).^2)./(2*sig.^2)));
+        spatialTuningP = cosTuning(preDir_P, coord);
+        signS = repmat(sign(spatialTuningP),length(Rp),1)';
+        ResponP = repmat(Rp,40,1);
+        
+        % Ampilutde tuning
+        spatialTuningP = abs(cosTuning(preDir_P, coord))+0.1; % +0.1 for value==0
+        ResponP = ResponP .* (repmat(spatialTuningP,length(Rp),1))'; %
+        
+        % sign tuning
+        for nn = 1:size(ResponP,1)
+            if signS(nn)<0
+                ResponP(nn,:) = fliplr(ResponP(nn,:));
+            end
+        end
+        
+        Respon = reshape(ResponP,[8 5 length(Rp)])*(maxSPK/max(max(max(ResponP))));
+       %} 
+        
+        case 8 % velocity dominated, with jitters in time
+        
+        R = exp((-(t-mu).^2)./(2*sig.^2));
+%         jitter = round((rand(1,40)-0.5)*length(R)/duration/2); % 
+        jitter = round(linspace(-0.8,0.8,40)*length(R)/duration); % +0.1 for value==0
+        Respon = repmat(R,length(jitter),1);
+        for ii = 1:40
+            
+            Respon(ii,:) = circshift(Respon(ii,:),[0 jitter(ii)]);
+            if jitter(ii)>0
+            Respon(ii,1:jitter(ii)) = zeros(1,length(jitter(ii)));
+            else
+                Respon(ii,end+jitter(ii):end) = zeros(1,length(jitter(ii)));
+            end
+        end
+        
+        Respon = reshape(Respon,[8 5 length(R)])*(maxSPK/max(max(max(Respon))));
+
 end
 
+% save('Z:\Labtools\Tools\Fake_data\Faked neurons V1\v3','Respon');
 %% fit models
+%{
 reps = 50;
 stimOnBin = 1;
 stimOffBin = bin+1;
@@ -140,7 +274,7 @@ for m_inx = 1:length(models)
         ',PSTH3Dmodel.RSquared_',models{m_inx},',PSTH3Dmodel.rss_',models{m_inx},',PSTH3Dmodel.time]=fit',models{m_inx},...
         '(meanSpon,fitData,spatialData,bin+1,reps,stimOnBin,stimOffBin,aMax,aMin);']);
 end
-
+%}
 
 %% figures;
 
@@ -152,6 +286,19 @@ markers = {
     };
 
 %% Original data
+% 
+% figure(103);
+% set(gcf,'pos',[30 50 1000 500]);
+% clf;
+% axes;hold on;
+% % for ii = 1:size(Respon,1)
+% plot(Respon(:,:)','k','linewidth',1.5);
+% set(gca,'xlim',[0 length(R)]);
+% % for n = 1:size(markers,1)
+% %             plot([markers{n,3} markers{n,3}], [0,max(Respon(:))], '--','color',markers{n,4},'linewidth',0.5);
+% %             hold on;
+% %         end
+
 
 figure(101);
 set(gcf,'pos',[30 50 1800 900]);
@@ -200,9 +347,9 @@ set(gca,'xtick',[],'xticklabel',[]);
 % spontaneous
 %     axes(h_subplot(1+(1-1)*9));
 
-% keyboard;
+keyboard;
 %% model figures
-
+%{
 for m_inx = 1:length(models)
     figure(102+m_inx);
     set(gcf,'pos',[30 50 1800 900]);
@@ -257,9 +404,9 @@ for m_inx = 1:length(models)
     SetFigure(15);
     set(gca,'xtick',[],'xticklabel',[]);
 end
-
+%}
 %% model figures for V & A respectively
-
+%{
 % VA-V
 figure(110);
 set(gcf,'pos',[30 50 1800 900]);
@@ -366,6 +513,7 @@ set(gca,'ylim',[0 max(Respon(:))],'xlim',[1 size(Respon,3)]);
 SetFigure(15);
 set(gca,'xtick',[],'xticklabel',[]);
 
+%}
 keyboard;
 end
 

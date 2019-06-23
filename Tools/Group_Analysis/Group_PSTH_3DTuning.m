@@ -20,9 +20,9 @@ mat_address = {
     
     %     'Z:\Data\TEMPO\BATCH\20181008_3D&1DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
     %     'Z:\Data\TEMPO\BATCH\20181008_3D&1DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
-    %     % %
-    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
-    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
+    
+    %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
+    %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT_dark';
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR_dark';
     
@@ -32,9 +32,9 @@ mat_address = {
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR_dark';
     
     %--------------------MSTd
-    %     'Z:\Data\TEMPO\BATCH\MSTd_vis_sync','PSTH_T','3DT';
+    %         'Z:\Data\TEMPO\BATCH\MSTd_vis_sync','PSTH_T','3DT';
     
-    %     'Z:\Data\TEMPO\BATCH\MSTd_vis_out-sync','PSTH_T','3DT';
+    %         'Z:\Data\TEMPO\BATCH\MSTd_vis_out-sync','PSTH_T','3DT';
     };
 
 % %{
@@ -782,7 +782,9 @@ function_handles = {
     '    Rmax-Rmin',@f1p4p2;
     '    DDI distribution',@f1p4p3; % 需要改成peak time
     'Spontaneous FR',@f1p5;
-    'PCA',@f1p6;
+    'PCA',@f1p6
+    '    ''Eigen-Time''',@f1p6p1;
+    '    ''Eigen-Neuron''',@f1p6p2;
     };
     
     'Temporal-spatial 3D models', {
@@ -1774,12 +1776,13 @@ c = 3;
         SetFigure(12);
     end
 
-    function f1p6(debug)      % PCA
+    function f1p6p1(debug)      % PCA,'Eigen-Time'
         if debug  ; dbstack;   keyboard;      end
         
         denoised_dim = 4; % how many PCs you want to plot
         
-        for pp = 1:2
+                for pp = 1:2
+%         for pp = 1
             for jj = 1:2
                 temp = data_PCA{pp}{jj}(select_temporalSig{pp}(:,jj));
                 
@@ -1794,7 +1797,7 @@ c = 3;
                 end
                 
                 %%%%%%%%%%%%%%%1 对每个神经元按照最大反应方向排序
-                %{
+                %                 %{
                 dataPCA_raw1{pp}{jj} = cell2mat(cellfun(@(x) x(:),temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
                 % dataPCA{pp}{jj}(sum(isnan(dataPCA{pp}{jj}),2)>0,:) = [];
                 dataPCA1{pp}{jj} = (dataPCA_raw1{pp}{jj} - repmat(mean(dataPCA_raw1{pp}{jj},1),size(dataPCA_raw1{pp}{jj},1),1))./repmat(std(dataPCA_raw1{pp}{jj},1,1),size(dataPCA_raw1{pp}{jj},1),1); % z-score Normalize
@@ -1845,107 +1848,131 @@ c = 3;
         
         
         
-        % ============   1-D Trajectory of Eigen-neurons ===========
-        %{
+        % ============   Weight distribution of PCs ===========
+        %         %{
         %         colorsPCA{1} = {[8 32 51]/255,[23 70 107]/255,[15 139 184]/255,[138 188 209]/255,[204 207 226]/255,[239 239 247]/255};
         %         colorsPCA{2} = {[90 19 27]/255,[192 44 38]/255,[221 82 96]/255,[240 161 168]/255,[230 210 213]/255,[249 244 245]/255};
         colorsPCA{1} = {'b', 'r', 'g', 'k', 'm','c'};
         colorsPCA{2} = {'b', 'r', 'g', 'k', 'm','c'};
+        labels = {{'T, vesti','T, vis'},{'R, vesti','R, vis'}};
         ds = 1:denoised_dim;
         
         %%%%%%%%%%%%%%%0
-        for pp = 1:2
+        figure(10);set(figure(10),'name','Eigen-time','unit','pixels','pos',[-1000 300 900 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        
+                for pp = 1:2
+%         for pp = 1
             for jj = 1:2
                 PCA_times = 1:size(dataPCA{pp}{jj},1);
-                figure(10+(jj-1)*2+pp);set(gcf,'name','Population Dynamics','unit','pixels','pos',[-1070 1050-450*((jj-1)*2+pp) 950 350]); clf;
-                %                 [~,h_subplot] = tight_subplot(fix(sqrt(length(ds))),ceil(length(ds)/fix(sqrt(length(ds)))),[0.2 0.1],0.2,[0.1 0.1]);
                 for ii = 1:denoised_dim
-                    %                     axes(h_subplot(ii));hold on;
-                    %        SeriesComparison(shiftdim(norm_proj_PC_this',-1),PCA_times,'Colors','b','LineStyles','-','axes',h);
-                    plot(PCA_times,weights_PCA_PC{pp}{jj}(:,ii),'k-','color',colorsPCA{jj}{ii},'linewidth',4);hold on;
-                    xlim([0 length(PCA_times)])
-                    ylim([min(weights_PCA_PC{pp}{jj}(:)) max(weights_PCA_PC{pp}{jj}(:))]);
-                    xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'});title(['Eigen-neuron PC' num2str(ii)]); axis on;
+                    %                     
+%                     plot(PCA_times,weights_PCA_PC{pp}{jj}(:,ii),'k-','color',colorsPCA{jj}{ii},'linewidth',4);hold on;
+axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(PCA_times,weights_PCA_PC{pp}{jj}(:,ii),'k-','linewidth',3,'color',colorsPCA{jj}{ii});
+
+                    
                 end
-                title('Population Dynamics, All directions');
-                SetFigure(12);
+                xlim([0 length(PCA_times)])
+                    ylim([min(weights_PCA_PC{pp}{jj}(:)) max(weights_PCA_PC{pp}{jj}(:))]);
+                                        xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'}); axis on;
+%                     xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','1000','2000'});title(['Eigen-time PC' num2str(ii)]); axis on;
+                title(labels{pp}{jj});
                 legend('PC1','PC2','PC3','PC4','PC5','PC6');
             end
-        end
+                end
+                
+        suptitle('Eigen-time, All directions');
+                SetFigure(12);
         
         %%%%%%%%%%%%%%%1
-        %{
+%         %{
+figure(20);set(figure(20),'name','Eigen-time','unit','pixels','pos',[-1000 300 900 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        
         for pp = 1:2
+%         for pp = 1
             for jj = 1:2
                 PCA_times = 1:size(dataPCA1{pp}{jj},1);
-                figure(20+(jj-1)*2+pp);set(gcf,'name','Population Dynamics','unit','pixels','pos',[-1070 1050-450*((jj-1)*2+pp) 950 350]); clf;
-                %                 [~,h_subplot] = tight_subplot(fix(sqrt(length(ds))),ceil(length(ds)/fix(sqrt(length(ds)))),[0.2 0.1],0.2,[0.1 0.1]);
+               
                 for ii = 1:denoised_dim
-                    %                     axes(h_subplot(ii));hold on;
-                    %        SeriesComparison(shiftdim(norm_proj_PC_this',-1),PCA_times,'Colors','b','LineStyles','-','axes',h);
-                    plot(PCA_times,weights_PCA_PC1{pp}{jj}(:,ii),'k-','color',colorsPCA{jj}{ii},'linewidth',4);hold on;
-                    xlim([0 length(PCA_times)])
-                    ylim([min(weights_PCA_PC1{pp}{jj}(:)) max(weights_PCA_PC1{pp}{jj}(:))]);
-                    xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'});title(['Eigen-neuron PC' num2str(ii)]); axis on;
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(PCA_times,weights_PCA_PC1{pp}{jj}(:,ii),'k-','linewidth',3,'color',colorsPCA{jj}{ii});
                 end
-                title('Population Dynamics, All neurons (with all directions)');
-                SetFigure(12);
+                xlim([0 length(PCA_times)])
+                    ylim([min(weights_PCA_PC1{pp}{jj}(:)) max(weights_PCA_PC1{pp}{jj}(:))]);
+                                        xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'}); axis on;
+%                     xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','1000','2000'});title(['Eigen-time PC' num2str(ii)]); axis on;
+                title(labels{pp}{jj});
                 legend('PC1','PC2','PC3','PC4','PC5','PC6');
             end
-        end
+                end
+                
+        suptitle('Eigen-time, All neurons(with all directions)');
+                SetFigure(12);
         %}
         %%%%%%%%%%%%%%%2
-        for pp = 1:2
+        figure(20);set(figure(20),'name','Eigen-time','unit','pixels','pos',[-1000 300 900 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        
+                for pp = 1:2
+%         for pp = 1
             for jj = 1:2
                 PCA_times = 1:size(dataPCA2{pp}{jj},1);
-                figure(30+(jj-1)*2+pp);set(gcf,'name','Population Dynamics','unit','pixels','pos',[-1070 1050-450*((jj-1)*2+pp) 950 350]); clf;
-                %                 [~,h_subplot] = tight_subplot(fix(sqrt(length(ds))),ceil(length(ds)/fix(sqrt(length(ds)))),[0.2 0.1],0.2,[0.1 0.1]);
                 for ii = 1:denoised_dim
-                    %                     axes(h_subplot(ii));hold on;
-                    %        SeriesComparison(shiftdim(norm_proj_PC_this',-1),PCA_times,'Colors','b','LineStyles','-','axes',h);
-                    plot(PCA_times,weights_PCA_PC2{pp}{jj}(:,ii),'k-','color',colorsPCA{jj}{ii},'linewidth',4);hold on;
-                    xlim([0 length(PCA_times)])
-                    ylim([min(weights_PCA_PC2{pp}{jj}(:)) max(weights_PCA_PC2{pp}{jj}(:))]);
-                    xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'});title(['Eigen-neuron PC' num2str(ii)]); axis on;
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(PCA_times,weights_PCA_PC2{pp}{jj}(:,ii),'k-','linewidth',3,'color',colorsPCA{jj}{ii});
                 end
-                title('Population Dynamics, All neurons (Preferred directions)');
-                SetFigure(12);
+                xlim([0 length(PCA_times)])
+                    ylim([min(weights_PCA_PC2{pp}{jj}(:)) max(weights_PCA_PC2{pp}{jj}(:))]);
+                                        xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'}); axis on;
+%                     xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','1000','2000'});title(['Eigen-time PC' num2str(ii)]); axis on;
+                title(labels{pp}{jj});
                 legend('PC1','PC2','PC3','PC4','PC5','PC6');
             end
-        end
+                end
+                
+        suptitle('Eigen-time, All neurons(Preferred direction)');
+                SetFigure(12);
         
         %%%%%%%%%%%%%%%3
-        %{
+%         %{
+figure(30);set(figure(30),'name','Eigen-time','unit','pixels','pos',[-1000 300 900 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        
         for pp = 1:2
+%         for pp = 1
             for jj = 1:2
                 PCA_times = 1:size(dataPCA3{pp}{jj},1);
-                figure(40+(jj-1)*2+pp);set(gcf,'name','Population Dynamics','unit','pixels','pos',[-1070 1050-450*((jj-1)*2+pp) 950 350]); clf;
-                %                 [~,h_subplot] = tight_subplot(fix(sqrt(length(ds))),ceil(length(ds)/fix(sqrt(length(ds)))),[0.2 0.1],0.2,[0.1 0.1]);
+                
                 for ii = 1:denoised_dim
-                    %                     axes(h_subplot(ii));hold on;
-                    %        SeriesComparison(shiftdim(norm_proj_PC_this',-1),PCA_times,'Colors','b','LineStyles','-','axes',h);
-                    plot(PCA_times,weights_PCA_PC3{pp}{jj}(:,ii),'k-','color',colorsPCA{jj}{ii},'linewidth',4);hold on;
-                    xlim([0 length(PCA_times)])
-                    ylim([min(weights_PCA_PC3{pp}{jj}(:)) max(weights_PCA_PC3{pp}{jj}(:))]);
-                    xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/6:length(PCA_times),'xticklabel',{'0','500','1000','1500','500','1000','1500'});title(['Eigen-neuron PC' num2str(ii)]); axis on;
+                   axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(PCA_times,weights_PCA_PC3{pp}{jj}(:,ii),'k-','linewidth',3,'color',colorsPCA{jj}{ii});
                 end
-                title('Population Dynamics, All neurons (Preferred + Null directions)');
-                SetFigure(13);
+                xlim([0 length(PCA_times)])
+                    ylim([min(weights_PCA_PC3{pp}{jj}(:)) max(weights_PCA_PC3{pp}{jj}(:))]);
+                                        xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'}); axis on;
+%                     xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','1000','2000'});title(['Eigen-time PC' num2str(ii)]); axis on;
+                title(labels{pp}{jj});
                 legend('PC1','PC2','PC3','PC4','PC5','PC6');
             end
-        end
+                end
+                
+        suptitle('Eigen-time, All neurons(max & min direction)');
+                SetFigure(12);
         %}
         %}
         
         % ============   clusters of neurons of different directions ===========
-        %         %{
-        %%%%%%%%%%%%%%%0 将每一个方向全部打乱
         %{
+        %%%%%%%%%%%%%%%0 将每一个方向全部打乱
+%         %{
         figure(17);set(figure(17),'name','Cluster: PC1 - PC2 - PC3','unit','pixels','pos',[-1000 300 900 600]); clf;
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         numClassics = 3;
         
-        for pp = 1:2
+%         for pp = 1:2
+for pp = 1
             for jj = 1:2
                 
                 axes(h_subplot((jj-1)*2+pp));hold on;
@@ -1961,7 +1988,8 @@ view(3);axis on;
         figure;
         col = {'b', 'r', 'g', 'k', 'm'};
         
-        for pp = 1:2
+%         for pp = 1:2
+for pp = 1
             for jj = 1:2
                 [Index{pp}{jj},~] = kmeans([projPC{pp}{jj}{1}, projPC{pp}{jj}{2}], numClassics,'start','uniform','emptyaction','drop');
                 axes(h_subplot((jj-1)*2+pp));hold on;
@@ -2012,13 +2040,14 @@ view(3);axis on;
         %}
         
         %%%%%%%%%%%%%%%2 只要最大反应方向（Preferred direction）
-        %         %{
+        %{
         %---------------- raw data
         figure(37);set(figure(37),'name','Cluster: PC1 - PC2 - PC3','unit','pixels','pos',[-1000 300 900 600]); clf;
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         numClassics = 3;
         
-        for pp = 1:2
+%         for pp = 1:2
+            for pp = 1
             for jj = 1:2
                 
                 axes(h_subplot((jj-1)*2+pp));hold on;
@@ -2035,7 +2064,8 @@ view(3);axis on;
         figure;
         col = {'b', 'r', 'g', 'k', 'm'};
         
-        for pp = 1:2
+%         for pp = 1:2
+for pp = 1
             for jj = 1:2
                 [Index{pp}{jj},~] = kmeans([projPC2{pp}{jj}{1}, projPC2{pp}{jj}{2}], numClassics,'start','uniform','emptyaction','drop');
                 axes(h_subplot((jj-1)*2+pp));hold on;
@@ -2087,12 +2117,13 @@ view(3);axis on;
         %}
         
         % ============   Variance explained =================
-        %{
+%                 %{
         %%%%%%%%%%%%%%%%%0
         figure(15);set(figure(15),'name','Variance explained, All directions','unit','pixels','pos',[-1070 300 1050 600]); clf;
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         
-        for pp = 1:2
+                for pp = 1:2
+%         for pp = 1
             for jj = 1:2
                 axes(h_subplot((jj-1)*2+pp));hold on;
                 plot((1:length(PCA_explained{pp}{jj}))', cumsum(PCA_explained{pp}{jj}),'o-','markersize',8,'linew',1.5);
@@ -2108,7 +2139,7 @@ view(3);axis on;
         axis off;
         SetFigure(12);
         
-         %%%%%%%%%%%%%%%%%1
+        %%%%%%%%%%%%%%%%%1
         %{
         figure(25);set(figure(25),'name','Variance explained, All neurons (with all directions)','unit','pixels','pos',[-1070 300 1050 600]); clf;
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
@@ -2126,11 +2157,12 @@ view(3);axis on;
         end
         SetFigure(12);
         %}
-         %%%%%%%%%%%%%%%%%2
+        %%%%%%%%%%%%%%%%%2
         figure(35);set(figure(35),'name','Variance explained, All neurons (Preferred directions)','unit','pixels','pos',[-1070 300 1050 600]); clf;
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         
-        for pp = 1:2
+                for pp = 1:2
+%         for pp = 1
             for jj = 1:2
                 axes(h_subplot((jj-1)*2+pp));hold on;
                 plot((1:length(PCA_explained2{pp}{jj}))', cumsum(PCA_explained2{pp}{jj}),'o-','markersize',8,'linew',1.5);
@@ -2144,10 +2176,12 @@ view(3);axis on;
         SetFigure(12);
         
         %%%%%%%%%%%%%%%%%3
+        %{
         figure(45);set(figure(45),'name','Variance explained, All neurons (Preferred + Null directions)','unit','pixels','pos',[-1070 300 1050 600]); clf;
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         
         for pp = 1:2
+%         for pp = 1
             for jj = 1:2
                 axes(h_subplot((jj-1)*2+pp));hold on;
                 plot((1:length(PCA_explained3{pp}{jj}))', cumsum(PCA_explained3{pp}{jj}),'o-','markersize',8,'linew',1.5);
@@ -2159,8 +2193,10 @@ view(3);axis on;
             end
         end
         SetFigure(12);
-        % ============  3. 2-D Trajectory  ===========
+        %}
         
+        % ============  3. 2-D Trajectory  ===========
+        %{
         figure(16);set(figure(16),'name','Population Dynamics','unit','pixels','pos',[-1000 -300 900 400]); clf;hold on;
         %         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         for pp = 1:2
@@ -2172,10 +2208,195 @@ view(3);axis on;
         end
         xlabel('PC1'); ylabel('PC2'); axis on;
         SetFigure(12);
-       
+        %}
+        
         %}
         
     end
+
+    function f1p6p2(debug)      % PCA,'Eigen-Neuron'
+        if debug  ; dbstack;   keyboard;      end
+        
+        denoised_dim = 4; % how many PCs you want to plot
+        
+        for pp = 1:2
+            %         for pp = 1
+            for jj = 1:2
+                temp = data_PCA{pp}{jj}(select_temporalSig{pp}(:,jj));
+                
+                %%%%%%%%%%%%%%%0 将每一个方向全部打乱
+                dataPCA_raw{pp}{jj} = reshape(permute(reshape(cell2mat(temp),26,nBinsPCA,[]),[2 1 3]),nBinsPCA,[]);
+                dataPCA{pp}{jj} = (dataPCA_raw{pp}{jj} - repmat(mean(dataPCA_raw{pp}{jj},2),1,size(dataPCA_raw{pp}{jj},2)))./repmat(std(dataPCA_raw{pp}{jj},1,2),1,size(dataPCA_raw{pp}{jj},2)); % z-score Normalize
+                [weights_PCA_PC{pp}{jj}, score{pp}{jj}, latent{pp}{jj}, ~, PCA_explained{pp}{jj}] = pca(dataPCA{pp}{jj});
+                
+                % latent: eigenvalues
+                for ii = 1:denoised_dim
+                    projPC{pp}{jj}{ii} = dataPCA_raw{pp}{jj} * weights_PCA_PC{pp}{jj}(:,ii);
+                end
+                
+                %%%%%%%%%%%%%%%1 对每个神经元按照最大反应方向排序
+                %{
+                dataPCA_raw1{pp}{jj} = cell2mat(cellfun(@(x) x(:),temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
+                dataPCA1{pp}{jj} = (dataPCA_raw1{pp}{jj} - repmat(mean(dataPCA_raw1{pp}{jj},2),1,size(dataPCA_raw1{pp}{jj},2)))./repmat(std(dataPCA_raw1{pp}{jj},1,2),1,size(dataPCA_raw1{pp}{jj},2)); % z-score Normalize
+                [weights_PCA_PC1{pp}{jj}, score1{pp}{jj}, latent1{pp}{jj}, ~, PCA_explained1{pp}{jj}] = pca(dataPCA1{pp}{jj});
+                
+                % latent: eigenvalues
+                for ii = 1:denoised_dim
+                    projPC1{pp}{jj}{ii} = dataPCA_raw1{pp}{jj} * weights_PCA_PC1{pp}{jj}(:,ii);
+                end
+                %}
+                
+                %%%%%%%%%%%%%%%2 只要最大反应方向（Preferred direction）
+                dataPCA_raw2{pp}{jj} = cell2mat(cellfun(@(x) x(1,:)',temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
+                % dataPCA{pp}{jj}(sum(isnan(dataPCA{pp}{jj}),2)>0,:) = [];
+                dataPCA2{pp}{jj} = (dataPCA_raw2{pp}{jj} - repmat(mean(dataPCA_raw2{pp}{jj},2),1,size(dataPCA_raw2{pp}{jj},2)))./repmat(std(dataPCA_raw2{pp}{jj},1,2),1,size(dataPCA_raw2{pp}{jj},2)); % z-score Normalize
+                [weights_PCA_PC2{pp}{jj}, score2{pp}{jj}, latent2{pp}{jj}, ~, PCA_explained2{pp}{jj}] = pca(dataPCA2{pp}{jj});
+                
+                % latent: eigenvalues
+                for ii = 1:denoised_dim
+                    projPC2{pp}{jj}{ii} = dataPCA_raw2{pp}{jj} * weights_PCA_PC2{pp}{jj}(:,ii);
+                end
+                
+                %%%%%%%%%%%%%%%3 最大反应方向+最小反应方向（Preferred direction+Null condition）
+                %{
+                dataPCA_raw3{pp}{jj} = cell2mat(cellfun(@(x) [x(1,:)'; x(26,:)'],temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
+                dataPCA3{pp}{jj} = (dataPCA_raw3{pp}{jj} - repmat(mean(dataPCA_raw3{pp}{jj},2),1,size(dataPCA_raw3{pp}{jj},2)))./repmat(std(dataPCA_raw3{pp}{jj},1,2),1,size(dataPCA_raw3{pp}{jj},2)); % z-score Normalize
+                [weights_PCA_PC3{pp}{jj}, score3{pp}{jj}, latent2{pp}{jj}, ~, PCA_explained3{pp}{jj}] = pca(dataPCA3{pp}{jj});
+                
+                % latent: eigenvalues
+                for ii = 1:denoised_dim
+                    projPC3{pp}{jj}{ii} = dataPCA_raw3{pp}{jj} * weights_PCA_PC3{pp}{jj}(:,ii);
+                end
+                %}
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                %{
+                [Index{pp}{jj},~] = kmeans([projPC{pp}{jj}{1}, projPC{pp}{jj}{2}, projPC{pp}{jj}{3}], 3,'start','uniform','emptyaction','drop');
+                figure;
+                col = {'b', 'r', 'g', 'k', 'm'};
+                
+                % Add colors according to the sorting result.
+                for i=1: length(unique(Index{pp}{jj}))
+                    plot(1:75,dataPCA_raw{pp}{jj}(:,Index{pp}{jj}==i),col{i}); hold on;
+                end
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                %}
+                
+            end
+        end
+        
+        
+        %%%%%%%%%%%%%%%%%figures
+        colors = {'b', 'r', 'g', 'k', 'm'};
+        labels = {{'T, vesti','T, vis'},{'R, vesti','R, vis'}};
+        % ============   1-D Trajectory of Eigen-neurons ===========
+        %         %{
+        %%%%%%%%%%%%%%%0 将每一个方向全部打乱
+        %         %{
+        figure(16);set(figure(16),'name','Eigen-neurons','unit','pixels','pos',[-1000 300 900 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        
+        PCA_times = 1:size(dataPCA{pp}{jj},1);
+        for pp = 1:2
+            % for pp = 1
+            for jj = 1:2
+                for ii = 1:denoised_dim
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(1:length(projPC{pp}{jj}{ii}),projPC{pp}{jj}{ii},'k-','linewidth',3,'color',colors{ii});
+                end
+                axis on;legend('PC1','PC2','PC3','PC4');
+                    xlim([0 length(PCA_times)])
+%                     ylim([min(projPC{pp}{jj}{ii}(:)) max(projPC{pp}{jj}{ii}(:))]);
+                    %                     xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'});title(['Eigen-time PC' num2str(ii)]); axis on;
+                    xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','1000','1500'});
+                title(labels{pp}{jj});
+            end
+        end
+        suptitle('Eigen-neurons, firing rate');
+        SetFigure(12);
+        %}
+        
+        % ============   Variance explained =================
+%         %{
+        %%%%%%%%%%%%%%%%%0
+        figure(15);set(figure(15),'name','Variance explained, All directions','unit','pixels','pos',[-1070 300 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        
+                for pp = 1:2
+%         for pp = 1
+            for jj = 1:2
+                axes(h_subplot((jj-1)*2+pp));hold on;
+                plot((1:length(PCA_explained{pp}{jj}))', cumsum(PCA_explained{pp}{jj}),'o-','markersize',8,'linew',1.5);
+                plot((1:denoised_dim)',cumsum(PCA_explained{pp}{jj}(1:denoised_dim)),'ro-','markersize',8,'linew',1.5,'markerfacecol','r');
+                plot([0 1],[0 PCA_explained{pp}{jj}(1)],'r-','linew',1.5);
+                plot(xlim,[1 1]*sum(PCA_explained{pp}{jj}(1:denoised_dim)),'r--');
+                text(denoised_dim,sum(PCA_explained{pp}{jj}(1:denoised_dim))*0.9,[num2str(sum(PCA_explained{pp}{jj}(1:denoised_dim))) '%'],'color','r');
+                xlabel('Num of principal components'); ylabel('Explained variability (%)'); ylim([0 100]);axis on;
+            end
+        end
+        axes('unit','pixels','pos',[20 20 900 20]);hold on;
+        text(0.25,0,'Translation');text(0.8,0,'Rotation');
+        axis off;
+        SetFigure(12);
+        
+        %%%%%%%%%%%%%%%%%1
+        %{
+        figure(25);set(figure(25),'name','Variance explained, All neurons (with all directions)','unit','pixels','pos',[-1070 300 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        
+        for pp = 1:2
+            for jj = 1:2
+                axes(h_subplot((jj-1)*2+pp));hold on;
+                plot((1:length(PCA_explained1{pp}{jj}))', cumsum(PCA_explained1{pp}{jj}),'o-','markersize',8,'linew',1.5);
+                plot((1:denoised_dim)',cumsum(PCA_explained1{pp}{jj}(1:denoised_dim)),'ro-','markersize',8,'linew',1.5,'markerfacecol','r');
+                plot([0 1],[0 PCA_explained1{pp}{jj}(1)],'r-','linew',1.5);
+                plot(xlim,[1 1]*sum(PCA_explained1{pp}{jj}(1:denoised_dim)),'r--');
+                text(denoised_dim,sum(PCA_explained1{pp}{jj}(1:denoised_dim))*0.9,[num2str(sum(PCA_explained1{pp}{jj}(1:denoised_dim))) '%'],'color','r');
+                xlabel('Num of principal components'); ylabel('Explained variability (%)'); ylim([0 100]);axis on;
+            end
+        end
+        SetFigure(12);
+        %}
+        %%%%%%%%%%%%%%%%%2
+        figure(35);set(figure(35),'name','Variance explained, All neurons (Preferred directions)','unit','pixels','pos',[-1070 300 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        
+        %         for pp = 1:2
+        for pp = 1
+            for jj = 1:2
+                axes(h_subplot((jj-1)*2+pp));hold on;
+                plot((1:length(PCA_explained2{pp}{jj}))', cumsum(PCA_explained2{pp}{jj}),'o-','markersize',8,'linew',1.5);
+                plot((1:denoised_dim)',cumsum(PCA_explained2{pp}{jj}(1:denoised_dim)),'ro-','markersize',8,'linew',1.5,'markerfacecol','r');
+                plot([0 1],[0 PCA_explained2{pp}{jj}(1)],'r-','linew',1.5);
+                plot(xlim,[1 1]*sum(PCA_explained2{pp}{jj}(1:denoised_dim)),'r--');
+                text(denoised_dim,sum(PCA_explained2{pp}{jj}(1:denoised_dim))*0.9,[num2str(sum(PCA_explained2{pp}{jj}(1:denoised_dim))) '%'],'color','r');
+                xlabel('Num of principal components'); ylabel('Explained variability (%)'); ylim([0 100]);axis on;
+            end
+        end
+        SetFigure(12);
+        
+        %%%%%%%%%%%%%%%%%3
+        %{
+        figure(45);set(figure(45),'name','Variance explained, All neurons (Preferred + Null directions)','unit','pixels','pos',[-1070 300 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        
+        for pp = 1:2
+%         for pp = 1
+            for jj = 1:2
+                axes(h_subplot((jj-1)*2+pp));hold on;
+                plot((1:length(PCA_explained3{pp}{jj}))', cumsum(PCA_explained3{pp}{jj}),'o-','markersize',8,'linew',1.5);
+                plot((1:denoised_dim)',cumsum(PCA_explained3{pp}{jj}(1:denoised_dim)),'ro-','markersize',8,'linew',1.5,'markerfacecol','r');
+                plot([0 1],[0 PCA_explained3{pp}{jj}(1)],'r-','linew',1.5);
+                plot(xlim,[1 1]*sum(PCA_explained3{pp}{jj}(1:denoised_dim)),'r--');
+                text(denoised_dim,sum(PCA_explained3{pp}{jj}(1:denoised_dim))*0.9,[num2str(sum(PCA_explained3{pp}{jj}(1:denoised_dim))) '%'],'color','r');
+                xlabel('Num of principal components'); ylabel('Explained variability (%)'); ylim([0 100]);axis on;
+            end
+        end
+        SetFigure(12);
+        %}
+        %}
+        
+    end
+
 
 %%%%% 3D models
 
