@@ -47,7 +47,7 @@ function varargout = GROUP_GUI_LBY(varargin)
 
 % Edit the above text to modify the response to help GROUP_GUI
 
-% Last Modified by GUIDE v2.5 19-Oct-2018 20:47:23
+% Last Modified by GUIDE v2.5 10-Jul-2019 19:24:57
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -120,14 +120,13 @@ clear global group_result;
 
 if ismember('control',get(gcf,'currentModifier'))
     winopen('Z:\Data\MOOG\Results\Result_LBY.xlsm');
-% winopen('Z:\Data\MOOG\Results\Result_MST.xlsm');
+
     return;
 end
 
 set(handles.num_entries,'string',0); drawnow;
 
 handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
-% handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_MST.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
 
 handles.N = size(handles.XlsData.num,1);
 
@@ -169,7 +168,7 @@ function Psychometric_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if ismember('control',get(gcf,'currentModifier'))
-    edit Group_Psychometric;
+    edit Group_inactivation;
     return;
 end
 
@@ -197,14 +196,14 @@ guidata(hObject,handles);
 load_function_handles(hObject,handles); % Update possible function_handles
 
 
-% --- Executes on button press in PCC_HD.
-function PCC_HD_Callback(hObject, eventdata, handles)
-% hObject    handle to PCC_HD (see GCBO)
+% --- Executes on button press in PCC_Discrim.
+function PCC_Discrim_Callback(hObject, eventdata, handles)
+% hObject    handle to PCC_Discrim (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 if ismember('control',get(gcf,'currentModifier'))
-    edit Group_HD;
+    edit Group_Discrim;
     return;
 end
 
@@ -220,7 +219,7 @@ handles.level2_selected = [];
 set(findall(handles.uipanel1, '-property', 'Enable'), 'Enable', 'on');
 set(findall(handles.cell_counter, '-property', 'Enable'), 'Enable', 'on');
 
-function_handles = Group_HD(data);
+function_handles = Group_Discrim(data);
 
 handles.function_handles = function_handles;
 guidata(hObject,handles);
@@ -547,9 +546,9 @@ function go_CreateFcn(hObject, eventdata, handles)
 
 
 % --- If Enable == 'on', executes on mouse press in 5 pixel border.
-% --- Otherwise, executes on mouse press in 5 pixel border or over text1.
-function text1_ButtonDownFcn(hObject, eventdata, handles)
-% hObject    handle to text1 (see GCBO)
+% --- Otherwise, executes on mouse press in 5 pixel border or over Title.
+function Title_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to Title (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 guide GROUP_GUI_LBY;
@@ -625,3 +624,27 @@ function t_criterion_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on key press with focus on pushbutton16 and none of its controls.
+function pushbutton16_KeyPressFcn(hObject, eventdata, handles)
+% hObject    handle to pushbutton16 (see GCBO)
+% eventdata  structure with the following fields (see UICONTROL)
+%	Key: name of the key that was pressed, in lower case
+%	Character: character interpretation of the key(s) that was pressed
+%	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes during object creation, after setting all properties.
+function Title_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to Title (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object deletion, before destroying properties.
+function Title_DeleteFcn(hObject, eventdata, handles)
+% hObject    handle to Title (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)

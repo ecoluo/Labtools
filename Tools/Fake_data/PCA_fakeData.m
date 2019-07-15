@@ -10,11 +10,11 @@ colorDefsLBY;
 if nargin == 0
     
 %     pathname = 'Z:\Labtools\Tools\Fake_data\Faked neurons V';
-%     pathname = 'Z:\Labtools\Tools\Fake_data\Faked neurons V1'; % continuously
+    pathname = 'Z:\Labtools\Tools\Fake_data\Faked neurons V1'; % continuously
 %     pathname = 'Z:\Labtools\Tools\Fake_data\Faked neurons A';
 %     pathname = 'Z:\Labtools\Tools\Fake_data\Faked neurons V5A5';
 %     pathname = 'Z:\Labtools\Tools\Fake_data\Faked neurons V25A25J25P25';
-pathname = 'Z:\Labtools\Tools\Fake_data\Faked neurons V_jitter';
+% pathname = 'Z:\Labtools\Tools\Fake_data\Faked neurons V_jitter';
 % pathname = 'Z:\Labtools\Tools\Fake_data\Faked neurons V_noDS';
 
     
@@ -35,7 +35,7 @@ denoised_dim = 2; % how many PCs you want to plot
 %%%%%%%%%%%%%%%0 将每一个方向全部打乱
 dataPCA_raw = temp1';
 dataPCA = (dataPCA_raw - repmat(mean(dataPCA_raw,1),size(dataPCA_raw,1),1))./repmat(std(dataPCA_raw,1,1),size(dataPCA_raw,1),1); % z-score Normalize
-[weights_PCA_PC, score, latent, ~, PCA_explained] = pca(dataPCA');
+[weights_PCA_PC, score, latent, ~, PCA_explained] = pca(dataPCA(:,:)');
 
 % latent: eigenvalues
 for ii = 1:denoised_dim

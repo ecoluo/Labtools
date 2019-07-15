@@ -39,8 +39,7 @@ switch a
 spatialTuning = linspace(0,2,40);
         Respon = repmat(R,length(spatialTuning),1) .* (repmat(spatialTuning,length(R),1))';
         Respon = reshape(Respon,[8 5 length(R)])*(maxSPK/max(max(max(Respon))));
-        % Respon = repmat(Respon,[1 1 1 5]); % five repetitions
-        
+% 
     case 2 % velocity dominated, no direction tuning
         
         R = exp((-(t-mu).^2)./(2*sig.^2));
@@ -68,8 +67,7 @@ spatialTuning = linspace(0,2,40);
         %         Respon = Respon .*signS;
         Respon = reshape(Respon,[8 5 length(R)])*(maxSPK/max(max(max(Respon))));
         
-        
-        
+
     case 4 % acceleration dominated, no direction tuning
         
         R = -(t-mu)./sig.^2.*exp((-(t-mu).^2)./(2*sig.^2));
@@ -236,8 +234,11 @@ spatialTuning = linspace(0,2,40);
         
         R = exp((-(t-mu).^2)./(2*sig.^2));
 %         jitter = round((rand(1,40)-0.5)*length(R)/duration/2); % 
-        jitter = round(linspace(-0.8,0.8,40)*length(R)/duration); % +0.1 for value==0
+        jitter = round(linspace(-0.2,0.2,40)*length(R)/duration); % +0.1 for value==0
+%         jitter([6:10 end-5:end]) = 0;
+%         jitter([16:20 end-15:end-19]) = 0;
         Respon = repmat(R,length(jitter),1);
+        
         for ii = 1:40
             
             Respon(ii,:) = circshift(Respon(ii,:),[0 jitter(ii)]);
@@ -248,11 +249,11 @@ spatialTuning = linspace(0,2,40);
             end
         end
         
-        Respon = reshape(Respon,[8 5 length(R)])*(maxSPK/max(max(max(Respon))));
+%         Respon = reshape(Respon,[8 5 length(R)])*(maxSPK/max(max(max(Respon))));
 
 end
 
-% save('Z:\Labtools\Tools\Fake_data\Faked neurons V1\v3','Respon');
+save('Z:\Labtools\Tools\Fake_data\Faked neurons V1\v2','Respon');
 %% fit models
 %{
 reps = 50;
@@ -287,17 +288,17 @@ markers = {
 
 %% Original data
 % 
-% figure(103);
-% set(gcf,'pos',[30 50 1000 500]);
-% clf;
-% axes;hold on;
-% % for ii = 1:size(Respon,1)
-% plot(Respon(:,:)','k','linewidth',1.5);
-% set(gca,'xlim',[0 length(R)]);
-% % for n = 1:size(markers,1)
-% %             plot([markers{n,3} markers{n,3}], [0,max(Respon(:))], '--','color',markers{n,4},'linewidth',0.5);
-% %             hold on;
-% %         end
+figure(103);
+set(gcf,'pos',[30 50 1000 500]);
+clf;
+axes;hold on;
+% for ii = 1:size(Respon,1)
+plot(Respon(:,:)','k','linewidth',1.5);
+set(gca,'xlim',[0 length(R)]);
+% for n = 1:size(markers,1)
+%             plot([markers{n,3} markers{n,3}], [0,max(Respon(:))], '--','color',markers{n,4},'linewidth',0.5);
+%             hold on;
+%         end
 
 
 figure(101);

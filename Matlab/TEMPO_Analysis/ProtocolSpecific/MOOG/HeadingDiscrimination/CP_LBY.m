@@ -89,11 +89,27 @@ if ~if_fake
     Dora_tuning_matrix_sem = nan(2,length(unique_heading));
     
     % ---- Neuro tuning curve ----
+    resp_mean_left = nan(length(unique_heading),1);
+    resp_se_left = nan(length(unique_heading),1);
+    resp_mean_right = nan(length(unique_heading),1);
+    resp_se_right = nan(length(unique_heading),1);
+    
     for hh = 1:length(unique_heading)
         % (1) Sensory tuning (only heading matters, regardless of choices. Like traditional MSTd/VIP)
         curr_heading = headings == unique_heading(hh);
+        curr_heading_left = headings == unique_heading(hh) & choices == LEFT;
+        curr_heading_right = headings == unique_heading(hh) & choices == RIGHT;
+        resp{hh} = spike_counts(curr_heading);
         resp_mean(hh,1) = mean(spike_counts(curr_heading));
         resp_se(hh,1) = std(spike_counts(curr_heading)) / sqrt(sum(curr_heading));
+        if ~isempty(curr_heading_left)
+        resp_mean_left(hh,1) = mean(spike_counts(curr_heading_left));
+        resp_se_left(hh,1) = std(spike_counts(curr_heading_left)) / sqrt(sum(curr_heading_left));
+        end
+        if ~isempty(curr_heading_right)
+        resp_mean_right(hh,1) = mean(spike_counts(curr_heading_right));
+        resp_se_right(hh,1) = std(spike_counts(curr_heading_right)) / sqrt(sum(curr_heading_right));
+        end
         resp_fano(hh,1) = std(spike_counts(curr_heading))./resp_mean(hh,1);
         
         % (2) Correct only tuning (only includes correct trials for >0 trials, and all trials for =0 trials) @HH20150403
@@ -121,7 +137,10 @@ if ~if_fake
     [rr,pp] = corrcoef(unique_heading, resp_mean);
     result.pref = (rr(1,2) <= 0) * LEFT + (rr(1,2) > 0) * RIGHT;
     
+    result.Neu_tuning_raw = resp;
     result.Neu_tuning = [unique_heading, resp_mean, resp_se, resp_fano];
+    result.Neu_tuning_left = [unique_heading, resp_mean_left, resp_se_left];
+    result.Neu_tuning_right = [unique_heading, resp_mean_right, resp_se_right];
     result.Neu_tuning_correctonly = [unique_heading, resp_mean_correctonly, resp_se_correctonly];
     result.Neu_tuning_Dora_matrix_n = Dora_tuning_matrix_n;
     result.Neu_tuning_Dora_matrix_mean = Dora_tuning_matrix_mean;
