@@ -55,6 +55,18 @@ unique_heading = munique(headings);
 % HeadingDis_cum_PSTH_HH), where the input heading, choice, etc., are therefore called "fake". @hh20150418
 if_fake = ~(length(unique_heading) > 1 && abs(sum(unique_heading)) < 0.0001);  % More than one heading and symmetric
 
+%% Partial correlation
+
+% heading vs. choice
+[rh,ph] = partialcorr(spike_counts,headings,choices);
+
+% choice vs. heading
+[rc,pc] = partialcorr(spike_counts,choices,headings);
+
+% Saving
+result.ParCorrHead = [rh,ph];
+result.ParCorrChoi = [rc,pc];
+
 %% Psychometric function (Only when we need a figure)
 
 if IF_FIGURE

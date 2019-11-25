@@ -3,11 +3,11 @@ function DrawMapping(monkey_hemi)
 % First version by HH @ Gu Lab 2013
 % Modified by LBY 2016-
 
-monkey_hemis = {'Qiaoqiao_L','Qiaoqiao_R','Polo_L','Polo_R','Polo_L_HH','Polo_R_HH'};
+monkey_hemis = {'Qiaoqiao_L','Qiaoqiao_R','Polo_L','Polo_R','Manda','Polo_L_HH','Polo_R_HH'};
 colorDefsLBY; % added by LBY 20161216
 
 if nargin == 0
-    monkey_hemi = 1;
+    monkey_hemi = 5;
 end
 
 
@@ -649,6 +649,41 @@ switch monkey_hemis{monkey_hemi}
         
         
         %}
+        
+        case 'Manda'
+        
+        %  Polo_left
+        % %{
+        
+        % Header
+        toPlotTypes3D = [GM];    % Which area types do we want to plot in 3D plot?
+        toPlotTypes_zview = [GM];    % Which area types do we want to plot ?
+        gridRange = [-10 10; -10 10]+10;  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        monkey = 11;
+        hemisphere = 2;
+        AP0 = Polo_right_AP0; % 4;
+        
+        data = {
+            %{[Session(s)], [LocX(Posterior) LoxY(Lateral)], [GuideTube(cm) Offset(cm)], [AreaType, Begin(100um), End(100um); ...] , electrode retrieval}
+            % When you are not sure about one area, use "AreaType-100" instead
+            
+            % R
+            {1,[0,1]+10,[2.45 0],[GM 40 60;GM 68 97;GM 148 152]}
+            {1,[-2,1]+10,[2.45 0],[GM 34 51;GM 56 98;GM 140 153]}
+            {1,[-4,1]+10,[2.45 0],[GM 75 93;GM 98 100]}
+            {1,[-2,3]+10,[2.45 0],[GM 0 11;GM 18 26;GM 36 57;GM 122 143]}
+            {1,[2,1]+10,[2.45 0],[GM 146 151]}
+            
+            % L
+            {1,[-2,-3]+10,[2.45 0],[GM 24 104;GM 140 156]}
+            {0,[-4,-1]+10,[2.45 0],[GM 0 0]}
+            {0,[-2,-1]+10,[2.45 0],[GM 0 0]}
+            
+            }';
+        
+%         MRI_path = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\';
+%         MRI_offset = {[-93 93]+0,[-355 715]+80, [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        %}
 end
 
 
@@ -796,7 +831,7 @@ xLoc = intersect(x1:x2,1:interval:100);
 yLoc = intersect(y1:y2,1:interval:100);
 xLines = line(repmat([y1-1;y2+1],1,length(xLoc)),repmat(xLoc,2,1));  % xLines
 switch monkey_hemis{monkey_hemi} % changed sth.for Qiaoqiao's new grid(left hemi)  LBY20170927
-    case {'Qiaoqiao_R','Polo_R','Polo_R_HH'}
+    case {'Qiaoqiao_R','Polo_R','Manda','Polo_R_HH'}
         yLines = line(repmat(yLoc+0.25,2,1), repmat([x1-1;x2+1],1,length(yLoc)));  % yLines
     case {'Qiaoqiao_L','Polo_L','Polo_L_HH'}
         yLines = line(repmat(yLoc-0.25,2,1), repmat([x1-1;x2+1],1,length(yLoc)));  % yLines
@@ -818,7 +853,7 @@ end
 t = linspace(0,2*pi,100)';
 
 switch monkey_hemis{monkey_hemi} % changed sth.for Qiaoqiao's new grid(left hemi)  LBY20170927
-    case {'Qiaoqiao_R','Polo_R','Polo_R_HH'}
+    case {'Qiaoqiao_R','Polo_R','Manda','Polo_R_HH'}
         xGrid = radius * repmat(sin(t),1,length(xOffsets)) + repmat(xOffsets,length(t),1);
     case {'Qiaoqiao_L','Polo_L','Polo_L_HH'}
         xGrid = radius * repmat(sin(t),1,length(xOffsets)) + repmat(xOffsets+1,length(t),1);
@@ -832,7 +867,7 @@ set(fill(yGrid,xGrid,[1 1 1]),'LineWidth',1.5,'ButtonDownFcn',@SelectChannel);  
 for channel = 1:length(data)
     xCenter = data{channel}{2}(1);
     switch monkey_hemis{monkey_hemi} % changed sth.for Qiaoqiao's new grid(left hemi)  LBY20170927
-        case {'Qiaoqiao_R','Polo_R','Polo_R_HH'}
+        case {'Qiaoqiao_R','Polo_R','Manda','Polo_R_HH'}
             yCenter =  data{channel}{2}(2) + 0.5 * ~mod(data{channel}{2}(1),2);
         case {'Qiaoqiao_L','Polo_L','Polo_L_HH'}
             yCenter =  data{channel}{2}(2) + 0.5 *( ~mod(data{channel}{2}(1),2)-1);
@@ -1092,130 +1127,131 @@ end
 set(findall(gcf,'tickdir','i'),'tickdir','o');
 % axis off;
 
-% %-------------------   for saggital plane  -----------------------%
-%
-% set(figure(804),'Position',figurePosition, 'color','w'); clf;
-% h_saggital = axes('Position',[0.2 0.1 0.7 0.8]);
-% axis ij; hold on;
-%
-% % Frame
-% xlim([gridRange(1,1) gridRange(1,2)+1]);
-% set(gca,'xtick',[gridRange(1,1):5:gridRange(1,2)]);
-% ylim([-30 maxZ]); %?
-% grid minor;
-% set(h_coronal,'XMinorGrid','on','XMinorTick','on');
-% % title(sprintf('Monkey %g, %s[%g], AP 「 %g',monkey, hemisphere_text{hemisphere},xSelect,(AP0-xSelect)*0.8));
-% % add minus for Qiaoqiao LBY20161219
-% title(sprintf('Saggital M%g, %s[y,%g], AP 「 %g',monkey, hemisphere_text{hemisphere},ySelect,-(AP0-xSelect)*0.8));
-%
-% % Keep scale
-% aspectRatio = (range(ylim) * 100) / (range(xlim) * 800);  % grid interval = 0.8 mm
-% set(figure(804),'Position',[1200 figurePosition(2) figurePosition(4)/aspectRatio figurePosition(4)]);
-%
-% for channel = 1:length(data)
-%     %     if data{channel}{2}(1) == xSelect  % Only plot the line we select
-%     if data{channel}{2}(2) >= ySelect + overlapping(1,1) && data{channel}{2}(2) <= ySelect + overlapping(1,2)   % Overlapping neighboring slices
-%         xLoc = data{channel}{2}(1)-0.5;
-%         GMData = data{channel}{4};
-%         if isempty(GMData); continue; end;
-%
-%         GuideTubeAndOffset = data{channel}{3};
-%         offSet = round((GuideTubeAndOffset(2) + GuideTubeAndOffset(1) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
-%
-%         for GMType = -size(GMTypes,1):-1  % For each area type
-%             GMThisType = find(GMData(:,1) == GMType);   % Read out ranges for this type
-%             if isempty(GMThisType); continue; end       % If absent, next type
-%
-%             for i = 1:length(GMThisType)  % For each appearance
-%                 zBegin = GMData(GMThisType(i),2) + offSet;
-%                 zEnd = GMData(GMThisType(i),3) + offSet;
-%
-%                 if overlapping(1,1)~=0 || overlapping(1,2)~=0  % If we overlap neighboring slices
-%                     p = patch([xLoc xLoc xLoc+1 xLoc+1],[zEnd,zBegin,zBegin,zEnd],GMTypes{-GMType,2},'EdgeColor','none','FaceAlpha',0.4);
-%                 else
-%                     rectangle('Position',[xLoc,zBegin,1,zEnd-zBegin],'LineWidth',linWid,...
-%                         'EdgeColor',GMTypes{-GMType,2});
-%                 end
-%             end
-%
-%         end
-%
-%         for GMType = -size(GMTypes,1):-1  % For each area type (that we are NOT SURE!!)
-%             GMThisType = find(GMData(:,1) == GMType - 100);   % Read out ranges for this type (that we are NOT SURE!!)
-%             if isempty(GMThisType); continue; end       % If absent, next type
-%
-%             for i = 1:length(GMThisType)  % For each appearance
-%                 zBegin = GMData(GMThisType(i),2) + offSet;
-%                 zEnd = GMData(GMThisType(i),3) + offSet;
-%
-%                 % Note we use dotted line here to mark areas that we are not sure
-%                 rectangle('Position',[xLoc,zBegin,1,zEnd-zBegin],'LineWidth',linWid,'EdgeColor',GMTypes{-GMType,2},'LineStyle',':');
-%             end
-%
-%         end
-%
-%         % Add start and end markers
-%         if start_end_markers
-%             if xLoc+0.5 == xSelect
-%                 col_temp = 'c';
-%                 rectangle('Position',[yLoc,offSet,1,1],'LineWidth',linWid,'FaceColor',col_temp,'EdgeColor',col_temp);
-%                 offSet_selected = offSet;
-%                 if length(data{channel})<5
-%                     rectangle('Position',[xLoc,offSet + movDis,1,1],'LineWidth',linWid,'FaceColor',col_temp,'EdgeColor',col_temp);
-%                 else
-%                     rectangle('Position',[xLoc,offSet + data{channel}{5},1,1],'LineWidth',linWid,'FaceColor',col_temp,'EdgeColor',col_temp);
-%                 end
-%             else
-%                 rectangle('Position',[xLoc,offSet,1,1],'LineWidth',linWid,'FaceColor','k');
-%                 if length(data{channel})<5
-%                     rectangle('Position',[xLoc,offSet + movDis,1,1],'LineWidth',linWid,'FaceColor','k');
-%                 else
-%                     rectangle('Position',[xLoc,offSet + data{channel}{5},1,1],'LineWidth',linWid,'FaceColor','k');
-%                 end
-%             end
-%
-%
-%         end
-%
-%     end
-% end
-%
-% if exist('h_MRI')
-%     if exist('offSet_selected')
-%         set(h_MRI,'ButtonDownFcn',{@ShowDepth,offSet_selected});
-%     else
-%         set(h_MRI,'ButtonDownFcn','');
-%     end
-% else
-%     set(gca,'color',[0.5 0.5 0.5]);
-%     set(804,'color',[0.5 0.5 0.5]);
-%     %     set(gcf,'foregroundcolor','w');
-% end
-%
-% if start_end_markers
-%     % Channel indicator
-%     plot(xlim,[xSelect xSelect],'r--','LineW',0.5);
-% end
-%
-% xlabel('Grid X No. (x 0.8 mm)');
-%
-% % Set y scale to mm
-% ytick_temp = 0:50:200;
-% set(gca,'ytick',ytick_temp);
-% set(gca,'yticklabel',ytick_temp/10);
-% ylabel('Depth (mm)');
-%
-% % rectangle('Position',[ySelect+0.2,maxZ*0.95,0.6,10],'FaceColor','r','EdgeColor','r');
-%
-% if hemisphere == 1
-%     set(gca,'xdir','rev');
-% end
-%
-% for oldsize = 5:100
-%     set(findall(gcf,'fontsize',oldsize),'fontsize',13);
-% end
-% set(findall(gcf,'tickdir','i'),'tickdir','o');
-% % axis off;
+%-------------------   for saggital plane  -----------------------%
+% %{
+set(figure(804),'Position',figurePosition, 'color','w'); clf;
+h_saggital = axes('Position',[0.2 0.1 0.7 0.8]);
+axis ij; hold on;
+
+% Frame
+xlim([gridRange(1,1) gridRange(1,2)+1]);
+set(gca,'xtick',[gridRange(1,1):5:gridRange(1,2)]);
+ylim([-30 maxZ]); %?
+grid minor;
+set(h_coronal,'XMinorGrid','on','XMinorTick','on');
+% title(sprintf('Monkey %g, %s[%g], AP 「 %g',monkey, hemisphere_text{hemisphere},xSelect,(AP0-xSelect)*0.8));
+% add minus for Qiaoqiao LBY20161219
+title(sprintf('Saggital M%g, %s[y,%g], AP 「 %g',monkey, hemisphere_text{hemisphere},ySelect,-(AP0-xSelect)*0.8));
+
+% Keep scale
+aspectRatio = (range(ylim) * 100) / (range(xlim) * 800);  % grid interval = 0.8 mm
+set(figure(804),'Position',[1200 figurePosition(2) figurePosition(4)/aspectRatio figurePosition(4)]);
+
+for channel = 1:length(data)
+    %     if data{channel}{2}(1) == xSelect  % Only plot the line we select
+    if data{channel}{2}(2) >= ySelect + overlapping(1,1) && data{channel}{2}(2) <= ySelect + overlapping(1,2)   % Overlapping neighboring slices
+        xLoc = data{channel}{2}(1)-0.5;
+        GMData = data{channel}{4};
+        if isempty(GMData); continue; end;
+
+        GuideTubeAndOffset = data{channel}{3};
+        offSet = round((GuideTubeAndOffset(2) + GuideTubeAndOffset(1) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+
+        for GMType = -size(GMTypes,1):-1  % For each area type
+            GMThisType = find(GMData(:,1) == GMType);   % Read out ranges for this type
+            if isempty(GMThisType); continue; end       % If absent, next type
+
+            for i = 1:length(GMThisType)  % For each appearance
+                zBegin = GMData(GMThisType(i),2) + offSet;
+                zEnd = GMData(GMThisType(i),3) + offSet;
+
+                if overlapping(1,1)~=0 || overlapping(1,2)~=0  % If we overlap neighboring slices
+                    p = patch([xLoc xLoc xLoc+1 xLoc+1],[zEnd,zBegin,zBegin,zEnd],GMTypes{-GMType,2},'EdgeColor','none','FaceAlpha',0.4);
+                else
+                    rectangle('Position',[xLoc,zBegin,1,zEnd-zBegin],'LineWidth',linWid,...
+                        'EdgeColor',GMTypes{-GMType,2});
+                end
+            end
+
+        end
+
+        for GMType = -size(GMTypes,1):-1  % For each area type (that we are NOT SURE!!)
+            GMThisType = find(GMData(:,1) == GMType - 100);   % Read out ranges for this type (that we are NOT SURE!!)
+            if isempty(GMThisType); continue; end       % If absent, next type
+
+            for i = 1:length(GMThisType)  % For each appearance
+                zBegin = GMData(GMThisType(i),2) + offSet;
+                zEnd = GMData(GMThisType(i),3) + offSet;
+
+                % Note we use dotted line here to mark areas that we are not sure
+                rectangle('Position',[xLoc,zBegin,1,zEnd-zBegin],'LineWidth',linWid,'EdgeColor',GMTypes{-GMType,2},'LineStyle',':');
+            end
+
+        end
+
+        % Add start and end markers
+        if start_end_markers
+            if xLoc+0.5 == xSelect
+                col_temp = 'c';
+                rectangle('Position',[yLoc,offSet,1,1],'LineWidth',linWid,'FaceColor',col_temp,'EdgeColor',col_temp);
+                offSet_selected = offSet;
+                if length(data{channel})<5
+                    rectangle('Position',[xLoc,offSet + movDis,1,1],'LineWidth',linWid,'FaceColor',col_temp,'EdgeColor',col_temp);
+                else
+                    rectangle('Position',[xLoc,offSet + data{channel}{5},1,1],'LineWidth',linWid,'FaceColor',col_temp,'EdgeColor',col_temp);
+                end
+            else
+                rectangle('Position',[xLoc,offSet,1,1],'LineWidth',linWid,'FaceColor','k');
+                if length(data{channel})<5
+                    rectangle('Position',[xLoc,offSet + movDis,1,1],'LineWidth',linWid,'FaceColor','k');
+                else
+                    rectangle('Position',[xLoc,offSet + data{channel}{5},1,1],'LineWidth',linWid,'FaceColor','k');
+                end
+            end
+
+
+        end
+
+    end
+end
+
+if exist('h_MRI')
+    if exist('offSet_selected')
+        set(h_MRI,'ButtonDownFcn',{@ShowDepth,offSet_selected});
+    else
+        set(h_MRI,'ButtonDownFcn','');
+    end
+else
+    set(gca,'color',[0.5 0.5 0.5]);
+    set(804,'color',[0.5 0.5 0.5]);
+    %     set(gcf,'foregroundcolor','w');
+end
+
+if start_end_markers
+    % Channel indicator
+    plot(xlim,[xSelect xSelect],'r--','LineW',0.5);
+end
+
+xlabel('Grid X No. (x 0.8 mm)');
+
+% Set y scale to mm
+ytick_temp = 0:50:200;
+set(gca,'ytick',ytick_temp);
+set(gca,'yticklabel',ytick_temp/10);
+ylabel('Depth (mm)');
+
+% rectangle('Position',[ySelect+0.2,maxZ*0.95,0.6,10],'FaceColor','r','EdgeColor','r');
+
+if hemisphere == 1
+    set(gca,'xdir','rev');
+end
+
+for oldsize = 5:100
+    set(findall(gcf,'fontsize',oldsize),'fontsize',13);
+end
+set(findall(gcf,'tickdir','i'),'tickdir','o');
+% axis off;
+%}
 drawnow;
 
 

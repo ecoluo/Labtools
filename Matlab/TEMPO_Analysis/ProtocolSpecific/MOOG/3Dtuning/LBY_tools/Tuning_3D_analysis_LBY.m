@@ -811,7 +811,7 @@ end
 %% 1D models nalysis
 % model_catg = 'Sync model'; % tau is the same
 model_catg = 'Out-sync model'; % each component has its own tau
-% %{
+%{
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};

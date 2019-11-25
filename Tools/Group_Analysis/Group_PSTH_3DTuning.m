@@ -785,6 +785,9 @@ function_handles = {
     'PCA',@f1p6
     '    ''Eigen-Time''',@f1p6p1;
     '    ''Eigen-Neuron''',@f1p6p2;
+    'Targeted dimensionality reduction',@f1p7;
+    '    v&a',@f1p7p1;
+    '    ',@f1p7p2;
     };
     
     'Temporal-spatial 3D models', {
@@ -2319,7 +2322,7 @@ for pp = 1
         
         % ============   2-D Trajectory  ===========
 %         %{
-        figure(16);set(figure(16),'name','2-D Trajectory (PC1 vs PC2)','unit','pixels','pos',[-1000 -300 900 400]); clf;
+        figure(18);set(figure(18),'name','2-D Trajectory (PC1 vs PC2)','unit','pixels','pos',[-1000 -300 900 400]); clf;
                 [~,h_subplot] = tight_subplot(1,2,0.1,0.15,[0.1 0.1]);
         for pp = 1:2
             axes(h_subplot(pp));hold on;
@@ -2435,6 +2438,26 @@ for pp = 1
         %}
         %}
         
+    end
+
+    function f1p7p1(debug)      % Targeted dimensionality reduction, 'v&a'
+        if debug  ; dbstack;   keyboard;      end
+        
+        for pp = 1:2
+            for jj = 1:2
+                temp = data_PCA{pp}{jj}(select_temporalSig{pp}(:,jj));
+                
+                dataPCA_raw{pp}{jj} = reshape(permute(reshape(cell2mat(temp),26,nBinsPCA,[]),[2 1 3]),nBinsPCA,[]);
+                dataPCA{pp}{jj} = (dataPCA_raw{pp}{jj} - repmat(mean(dataPCA_raw{pp}{jj},2),1,size(dataPCA_raw{pp}{jj},2)))./repmat(std(dataPCA_raw{pp}{jj},1,2),1,size(dataPCA_raw{pp}{jj},2)); % z-score Normalize
+                [weights_PCA_PC{pp}{jj}, score{pp}{jj}, latent{pp}{jj}, ~, PCA_explained{pp}{jj}] = pca(dataPCA{pp}{jj});
+                
+                % latent: eigenvalues
+                for ii = 1:denoised_dim
+                    projPC{pp}{jj}{ii} = dataPCA_raw{pp}{jj} * weights_PCA_PC{pp}{jj}(:,ii);
+                end
+                
+            end
+        end
     end
 
 
