@@ -18,41 +18,68 @@ cd(pathname);
 % cellname = get(FileHandle,'string');
 filename = dir([pathname,'\*-*.mat']);
 
+if isempty(filename)
+    set(infoHandle,'string',[]);
+    %     set(infoHandle,'string','There''re no files in this directory!!!');
+    disp('There''re no files in this directory!!!');
+    return;
+end
+showlist = [];set(infoHandle,'string',showlist);
+
 switch (action)
+    
     case 'load data'
-        showlist = [];set(infoHandle,'string',showlist);
-        showlist{1} = ['Loading spike data of ', cellname, '...'];
-        showlist{2} = ['There are ', num2str(length(filename)), 'files in total.'];
-        showlist{3} = 'All data have been loaded!';
-        
+
+        % load spike data
         ori_data  =[];
         for fs = 1:length(filename)
-            % load spike data
             ori_data{fs} = load([pathname '\' filename(fs).name]);
         end
         
+        % Change file & path name
+        set(FileHandle,'string',cellname); % Refresh the file name
+        f = fopen('Z:\Labtools\Tools\MergeAO_LastFileName.txt','w'); % Save the file name to disk.
+        fprintf(f, cellname);
+        fclose(f);
+        set(SaveHandle,'string',pathname); % Refresh the save path
+        
+        % Window vibration, HaHa. From HH20130829
+        set(gcf,'Unit','pixel');
+        currPos = get(gcf,'Position');
+        
+        for ii = 1:6
+            set(gcf,'Position',[currPos(1) + 10*mod(ii,2) currPos(2) currPos(3) currPos(4)]);
+            drawnow;
+            pause(0.02);
+        end
+        
+        % Show infomation
+        showlist{1} = ['Loading spike data of ', cellname, '...'];
+        showlist{2} = ['There are ', num2str(length(filename)), ' files in total.'];
+        showlist{3} = 'All data have been loaded!';
         set(infoHandle,'string',showlist);
         
     case 'merge files'
+        
         output = [];
-        disp('Merging files...');showlist = [];set(infoHandle,'string',showlist);
+        disp('Merging files...');
+        
+        % Merge files
         for ch = 1:chN
             tempSPK = [];
             for fs = 1:length(filename)
-                
                 eval(['tempSPK = [tempSPK, ori_data{',num2str(fs),'}.CSPK_',chName{ch},'.Samples];']);
                 % tempSPK = [tempSPK, ori_data{1}.CSPK_001.Samples];
-                
             end
             
             eval(['tempSR = ori_data{1}.CSPK_',chName{ch},'.KHz * 1000;']);
             % tempSR = ori_data{1}.CSPK_001.KHz * 1000;
-            eval(['tempT = ori_data{1}.CSPK_',chName{ch},'.TimeEnd - ori_data{1}.CSPK_',chName{ch},'.TimeBegin;']);
+%             eval(['tempT = ori_data{1}.CSPK_',chName{ch},'.TimeEnd - ori_data{1}.CSPK_',chName{ch},'.TimeBegin;']);
             
-            % save all infos into output
+            % save all infos into output ( for Wave_clus)
             output.spk{ch} = tempSPK; data = tempSPK; % spike data (voltage)
             output.sr{ch} = tempSR; sr = tempSR; % Sample rate, Hz
-            output.time{ch} = tempT;  % Total time, ms
+%             output.time{ch} = tempT;  % Total time, ms
             
             % save files (for wave_clus)
             save([savepath,'\',cellname, '_ch', chName{ch}, '.mat'],'data','sr');
@@ -65,9 +92,20 @@ switch (action)
         
     case 'show info'
         % show basic informations about the data
-        infoshowlist{1} = ['Session: ',cellname, ' ', num2str(length(filename)), ' files in total.'];
-        infoshowlist{2} = ['Sampling rate: Hz ', num2str(cell2mat(output.sr))];
-        infoshowlist{3} = ['Total time: ',num2str(output.time{1}), ' ms'];
+        for ch = 1:chN
+            eval(['tempSR = ori_data{1}.CSPK_',chName{ch},'.KHz * 1000;']);
+            % tempSR = ori_data{1}.CSPK_001.KHz * 1000;
+            eval(['tempT = ori_data{1}.CSPK_',chName{ch},'.TimeEnd - ori_data{1}.CSPK_',chName{ch},'.TimeBegin;']);
+            
+            % save all infos into output
+            infoSr{ch} = tempSR; % Sample rate, Hz
+            infoT{ch} = tempT; % Total time, ms
+            
+        end
+        
+        infoshowlist{1} = ['Session: ',cellname, '. ', num2str(length(filename)), ' files in total.'];
+        infoshowlist{2} = ['Sampling rate: Hz ', num2str(cell2mat(infoSr))];
+        infoshowlist{3} = ['Total time: ',num2str(infoT{1}), ' ms'];
         %         infoshowlist{4} = nan;
         set(infoHandle,'string',infoshowlist);
         
