@@ -1,0 +1,18 @@
+site_name: phy
+pages:
+- Getting started:
+  - Introduction: 'index.md'
+  - Release notes: 'release.md'
+  - Installation: 'installation.md'
+- User guide:
+  - Terminology: 'terminology.md'
+  - Interactive visualization: 'visualization.md'
+  - Manual clustering: 'clustering.md'
+  - Keyboard shortcuts and snippets: 'shortcuts.md'
+- Tutorials:
+  - Manual Clustering Practical Guide (by S. Lenzi and N. Steinmetz): 'sorting_user_guide.md'
+- Developer guide:
+  - Customization: 'customization.md'
+  - Plugin examples: 'plugins.md'
+  - API documentation: 'api.md'
+theme: readthedocs

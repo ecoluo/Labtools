@@ -1,0 +1,10 @@
+git+https://github.com/cortex-lab/phylib
+colorcet
+pyopengl
+requests
+traitlets
+qtconsole
+tqdm
+joblib
+click
+mkdocs==1.0.4

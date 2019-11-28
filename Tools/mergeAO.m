@@ -1,12 +1,14 @@
 % Catenate *.mat files converted from alpha-omega *.mpx files (limited by 1G) together
-% converted by Mapfile
+% These .mat files were converted by Mapfile
 % LBY 20191122
 
-function fig = mergeAO(action)
+function mergeAO(action)
 
 global ori_data output;
 chName = {'001','002','003','004','005','006','007','008','009','010','011','012','013','014','015','016',...
-    '017','018','019','020','021','022','023','024','025','026','027','028','029','030','031','032'};
+    '017','018','019','020','021','022','023','024','025','026','027','028','029','030','031','032',...
+    '033','034','035','036','037','038','039','040','041','042','043','044','045','046','047','048',...
+    '049','050','051','052','053','054','055','056','057','058','059','060','061','062','063','064'};
 
 PathHandle = findobj(gcbf, 'Tag', 'Pathname');pathname = get(PathHandle,'string');
 SaveHandle = findobj(gcbf, 'Tag', 'SavePath');savepath = get(SaveHandle,'string');
@@ -31,7 +33,7 @@ switch (action)
     case 'load data'
 
         % load spike data
-        ori_data  =[];
+        ori_data  = [];
         for fs = 1:length(filename)
             ori_data{fs} = load([pathname '\' filename(fs).name]);
         end
@@ -62,6 +64,7 @@ switch (action)
     case 'merge files'
         
         output = [];
+        delete('detection.txt','cluster.txt'); % if there're exsited before, delete them.
         disp('Merging files...');
         
         % Merge files
@@ -84,6 +87,17 @@ switch (action)
             % save files (for wave_clus)
             save([savepath,'\',cellname, '_ch', chName{ch}, '.mat'],'data','sr');
             % m5c1665r1_ch001.mat
+            
+            % write filenames for spike detection and clustering
+            fid = fopen('detection.txt','a');
+            ss1 = [cellname, '_ch', chName{ch}, '.mat'];
+            fprintf(fid,'%s\n',ss1);
+            fclose(fid);
+
+            fid = fopen('cluster.txt','a');
+            ss2 = [cellname, '_ch', chName{ch}, '_spikes.mat'];
+            fprintf(fid,'%s\n',ss2);
+            fclose(fid);
             
         end
         %         showlist = ['All ',num2str(chN),' channels have been saved!'];
@@ -110,7 +124,8 @@ switch (action)
         set(infoHandle,'string',infoshowlist);
         
     case 'save files'
-        % save as different format
+        % save as different format for different spike sorting algorithms
+        % ÏÈÍÚ‚€¿Ó
 end
 
 end

@@ -18,7 +18,7 @@ end
 
 
 
-% added for previous data without recovered codes LBY20161217
+% added this for previous data without recovered codes LBY20161217
 if isempty(find(good_data.event_data>=48)) == 1
     temp_good_event_data = good_data.event_data(find(good_data.event_data));
     condition_TEMPO = 1:length(find(temp_good_event_data == 15));
