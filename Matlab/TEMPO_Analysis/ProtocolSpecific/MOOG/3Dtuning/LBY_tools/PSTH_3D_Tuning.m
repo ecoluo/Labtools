@@ -3,7 +3,7 @@
 global PSTH;
 
 % % ------ fig.20 plot PSTH for each trial and raster plot across directions ------%
-% %{
+%{
 for k = 1:length(unique_stimType)
     figure(20+k);
     set(gcf,'pos',[0 0 1900 1000]);
@@ -161,9 +161,9 @@ for k = 1:length(unique_stimType)
     [~,h_subplot] = tight_subplot(5,9,0.04,0.15);
     
     for j = 2:length(unique_elevation)-1
-        for i = 1:length(unique_azimuth)+1
+        for i = 1:length(unique_azimuth)
             axes(h_subplot(i+(j-1)*9));
-            errorbar(PSTH.spk_data_bin_mean_rate{k}(j,iAzi(i),:),PSTH.spk_data_bin_mean_rate_ste{k}(j,iAzi(i),:),'color','k');
+            errorbar(squeeze(PSTH.spk_data_bin_mean_rate{k}(j,iAzi(i),:)),squeeze(PSTH.spk_data_bin_mean_rate_ste{k}(j,iAzi(i),:)),'color','k');
             hold on;
             for n = 1:size(markers,1)
                 plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',3);
@@ -179,7 +179,7 @@ for k = 1:length(unique_stimType)
     
     % 2 extra conditions
     axes(h_subplot(5+(1-1)*9));
-    errorbar(PSTH.spk_data_bin_mean_rate{k}(1,iAzi(5),:),PSTH.spk_data_bin_mean_rate_ste{k}(1,iAzi(5),:),'color','k');
+    errorbar(squeeze(PSTH.spk_data_bin_mean_rate{k}(1,iAzi(5),:)),squeeze(PSTH.spk_data_bin_mean_rate_ste{k}(1,iAzi(5),:)),'color','k');
     hold on;
     for n = 1:size(markers,1)
         plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',3);
@@ -190,7 +190,7 @@ for k = 1:length(unique_stimType)
     set(gca,'xtick',[],'xticklabel',[]);
     
     axes(h_subplot(5+(5-1)*9));
-    errorbar(PSTH.spk_data_bin_mean_rate{k}(5,iAzi(5),:),PSTH.spk_data_bin_mean_rate_ste{k}(5,iAzi(5),:),'color','k');
+    errorbar(squeeze(PSTH.spk_data_bin_mean_rate{k}(5,iAzi(5),:)),squeeze(PSTH.spk_data_bin_mean_rate_ste{k}(5,iAzi(5),:)),'color','k');
     hold on;
     for n = 1:size(markers,1)
         plot([markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',3);
@@ -254,19 +254,19 @@ for k = 1:length(unique_stimType)
     
     if Protocol == DIRECTION_TUNING_3D
         ss = [str3, '_T'];
-        %         saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Translation\' ss], 'emf');
-        saveas(30+k,['Z:\LBY\Recording data\Position cell\' ss], 'emf');
+                saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Translation\' ss], 'emf');
+%         saveas(30+k,['Z:\LBY\Recording data\Position cell\' ss], 'emf');
     elseif Protocol == ROTATION_TUNING_3D
         ss = [str3, '_R'];
-        %         saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Rotation\' ss], 'emf');
-        saveas(30+k,['Z:\LBY\Recording data\Position cell\' ss], 'emf');
+                saveas(30+k,['Z:\LBY\Recording data\',PSTH.monkey,'\3D_Tuning\Rotation\' ss], 'emf');
+%         saveas(30+k,['Z:\LBY\Recording data\Position cell\' ss], 'emf');
     end
     
 end
 %}
 %% for report
 % ------ fig.30 plot mean PSTHs across directions (no errorbar)------%
-%{
+% %{
 for k = 1:length(unique_stimType)
     figure(30+k);
     set(gcf,'pos',[60 100 1800 900]);
@@ -274,7 +274,7 @@ for k = 1:length(unique_stimType)
     [~,h_subplot] = tight_subplot(5,9,0.03,0.15);
 
     for j = 2:length(unique_elevation)-1
-        for i = 1:length(unique_azimuth)+1
+        for i = 1:length(unique_azimuth)
             axes(h_subplot(i+(j-1)*9));
             
             for n = 1:size(markers,1)

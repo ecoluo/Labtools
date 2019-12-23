@@ -106,7 +106,7 @@ switch(action)
         if (return_val == -1)  %problem opening file
             listtext{length(listtext)+1} = 'ERROR: File could not be opened';
             set(ListHandle, 'String', listtext);
-            wavplay(wavread('Z:\LabTools\Matlab\TEMPO_Analysis\type.wav'),200000,'async');
+%             wavplay(audioread('Z:\LabTools\Matlab\TEMPO_Analysis\type.wav'),200000,'async');
         else	%data are loaded, now setup some interface items
             
             % Save the file name to disk. HH20130901

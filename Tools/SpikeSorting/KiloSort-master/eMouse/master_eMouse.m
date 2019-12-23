@@ -2,11 +2,11 @@ useGPU = 1; % do you have a GPU? Kilosorting 1000sec of 32chan simulated data ta
 
 fpath    = 'C:\DATA\Spikes\eMouse\'; % where on disk do you want the simulation? ideally and SSD...
 if ~exist(fpath, 'dir'); mkdir(fpath); end
+cd(fpath);
 
 % This part adds paths
-addpath(genpath('D:\CODE\GitHub\copies\KiloSort')) % path to kilosort folder
-addpath(genpath('D:\CODE\GitHub\npy-matlab')) % path to npy-matlab scripts
-pathToYourConfigFile = 'D:\CODE\GitHub\copies\KiloSort\eMouse'; % for this example it's ok to leave this path inside the repo, but for your own config file you *must* put it somewhere else!  
+% For your own config file you *must* put it somewhere else!  
+pathToYourConfigFile = 'Z:\Labtools\Tools\SpikeSorting\KiloSort-master\eMouse';
 
 % Run the configuration file, it builds the structure of options (ops)
 run(fullfile(pathToYourConfigFile, 'config_eMouse.m'))

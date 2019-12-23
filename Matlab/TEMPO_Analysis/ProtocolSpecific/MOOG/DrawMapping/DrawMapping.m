@@ -3,11 +3,12 @@ function DrawMapping(monkey_hemi)
 % First version by HH @ Gu Lab 2013
 % Modified by LBY 2016-
 
-monkey_hemis = {'Qiaoqiao_L','Qiaoqiao_R','Polo_L','Polo_R','Manda','Polo_L_HH','Polo_R_HH'};
+
+monkey_hemis = {'Qiaoqiao_L','Qiaoqiao_R','Qiaoqiao_QY_L','Qiaoqiao_QY_R','Polo_L','Polo_R','Manda','Polo_L_HH','Polo_R_HH'};
 colorDefsLBY; % added by LBY 20161216
 
 if nargin == 0
-    monkey_hemi = 5;
+    monkey_hemi = 1;
 end
 
 
@@ -21,7 +22,8 @@ global linWid start_end_markers overlapping Qiaoqiao_right_AP0 Polo_right_AP0;
 linWid = 1.3; % linewidth for rectangles indicating mapping area
 % following: area & unit overlapping in coronal planes
 overlapping = [-1 1; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
-% overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation
+% overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation, no overlapping
+% overlapping = [0 0; -1 1]; start_end_markers = false; % First row for area annotation; second for unit annotation
 
 maxX = 30; % Grid size
 maxY = 30;
@@ -35,7 +37,7 @@ Polo_right_AP0 = 18; % For MRI alignment. This controls MRI-AP alignment so will
 %% Define our area types here
 GMTypes = { % 'Type', ColorCode (RGB);
     'GM',[0.3 0.3 0.3];    % Gray matter without visual modulation
-    'WM',[1 1 1];          
+    'WM',[1 1 1];
     'PCC',[0.2 0.8 0.2];
     'IPS',[1 0.6 0];
     'RSC',[0.8 0.2 0.2];
@@ -46,6 +48,9 @@ GMTypes = { % 'Type', ColorCode (RGB);
     'MT',[0.8 0 0];
     'MIP',[0.6 0.6 0.6];  % [0 0.6 0]
     'AUD',[1 0 1];
+    'A23',[1 0.38 0];
+    'PCCu',[0.2 0.8 0.2];
+    'PCCl',[0.2 0.8 0.2];
     };
 for i = 1:length(GMTypes)
     eval([GMTypes{i,1} '= -' num2str(i) ';']);  % This is a trick.
@@ -316,6 +321,128 @@ switch monkey_hemis{monkey_hemi}
         
         %}
         
+    case 'Qiaoqiao_QY_L'
+        
+        %  Qiaoqiao_left
+        % %{
+        
+        % Header
+        toPlotTypes3D = [PCCu PCCl RSC A23];    % Which area types do we want to plot in 3D plot?
+        toPlotTypes_zview = [PCCu PCCl RSC A23];    % Which area types do we want to plot ?
+%         gridRange = [15 26; 1 11];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [15 31; 1 16];
+        monkey = 6;
+        hemisphere = 1;  % L = 1, R = 2
+        AP0 =  Qiaoqiao_right_AP0; % 6;
+        
+        data = {
+            %{[Session(s)], [LocX(Posterior) LoxY(Lateral)], [GuideTube(cm) Offset(cm)], [AreaType, Begin(100um), End(100um); ...] , electrode retrieval}
+            % When you are not sure about one area, use "AreaType-100" instead
+            
+            {4,[17,2],[2.3 0],[PCCu 43 57; PCCl 64 82;A23 85 91;]}; %20180817
+            {44,[17,2],[2.1 0],[PCCu 37 58; PCCl 67 85;A23 85 151;]}; %20190408
+            {3,[17,3],[2.3 0],[PCCu 42 52; PCCl 62 78;A23 91 98;RSC 111 125]}; %20180816
+            {42,[17,3],[2.1 0],[RSC 188 200;]}; %20190328
+            {2,[17,5],[2.3 0],[PCC 54 69;A23 125 135;]}; %20180815
+            {43,[17,5],[2.1 0.05],[PCCu 45 53; PCCl 60 77;A23 113 142]}; %20190403
+            {45,[18,2],[2.1 0],[PCCu 40 64; PCCl 72 90;A23 96 131;]}; %20190409
+            {92,[18,4],[2.2 0],[PCCu 30 46; PCCl 53 69;A23 90 112;]}; %20191106
+            {97,[18,5],[2.2 0],[PCCu 30 42;PCCl 47 60;A23 80 100;]}; %20191113
+            {8,[19,1],[2.4 0],[PCCu 33 55; PCCl 60 72;A23 84 110;RSC 120 135;]}; %20180823
+            {52,[19,2],[2.2 0],[PCCu 52 64; PCCl 72 85;A23 85 125;]}; %20190612
+            {9,[19,3],[2.4 0],[PCCu 43 57; PCCl 62 74;A23 83 100;RSC 124 160;]}; %20180827
+            {10,[19,4],[2.3 0],[PCCu 40 48; PCCl 52 68;A23 82 100;RSC 122 140;]}; %20180828
+            {11,[19,4],[2.4 0],[PCCu 60 73; PCCl 77 94;RSC 129 148;]}; %20180829
+            {14,[20,2],[2.3 0],[PCCu 40 50; PCCl 56 66;A23 94 99;RSC 111 137;]}; %20180906
+            {12,[20,3],[2.3 0],[PCCu 40 52; PCCl 56 70;A23 89 97;RSC 125 140;]}; %20180904
+            {13,[20,4],[2.3 0],[PCCu 45 56; PCCl 60 75;RSC 121 132;]}; %20180905
+            {94,[20,5],[2.2 0],[PCCu 38 51; PCCl 59 75;]}; %20191109
+            {103,[20,6],[2.2 0],[PCCu 39 52; PCCl 60 82;]}; %20191129
+            {39,[21,2],[2.1 0],[PCCu 32 55; PCCl 61 80;A23 81 101;RSC 115 142;]}; %20190114
+            {15,[21,3],[2.2 0],[PCCu 30 40; PCCl 50 75;A23 87 113;RSC 123 140;]}; %20180907
+            {16,[21,4],[2.3 0],[PCCu 51 62; PCCl 67 84;RSC 118 133;]}; %20180911
+            {96,[21,5],[2.2 0],[PCCu 44 60; PCCl 68 80;]}; %20191112
+            {40,[22,2],[2.1 0],[PCCu 38 55;PCCl 67 80; A23 85 100;]}; %20190128
+            {16,[22,3],[2.3 0],[PCCu 32 48; PCCl 50 66;A23 98 117;RSC 128 141;]}; %20180911
+            {17,[22,4],[2.3 0],[;PCCl 63 74;A23 86 95;RSC 121 132;]}; %20180912
+            {98,[22,5],[2.2 0],[PCCu 49 66; PCCl 75 86;]}; %20190115
+            {77,[23,1],[2.2 0],[PCCu 40 57; PCCl 64 88;]}; %20190926
+            {19,[23,2],[2.3 0],[PCCu 45 56; PCCl 58 75;A23 82 90;RSC 123 145;]}; %20180917
+            {18,[23,3],[2.3 0],[PCCl 57 73;A23 87 92;RSC 119 138;]}; %20180915
+            {75,[23,4],[2.2 0],[PCCl 64 81;]}; %20190922
+            {21,[24,2],[2.3 0],[PCCu 50 64; PCCl 70 90;;A23 91 114;RSC 115 130;]}; %20180920
+            {20,[24,3],[2.3 0],[PCCu 41 67; PCCl 77 82;A23 92 101;RSC 117 138;]}; %20180918
+            {72,[24,4],[2.2 0],[PCCu 45 62; RSC 123 140;]}; %20190918
+            {71,[24,5],[2.2 0],[PCCu 43 67; PCCl 73 92;]}; %20190913
+            
+            
+            }';
+        
+        MRI_path = 'Z:\Data\MOOG\Qiaoqiao\Mapping\MRI\QiaoqiaoOutput\forDrawMapping\';
+        MRI_offset = {[-93 93]+1,[-455 615]+5, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        
+        
+        %}
+        
+    case 'Qiaoqiao_QY_R'
+        
+        %  Qiaoqiao_left
+        % %{
+        
+        % Header
+        toPlotTypes3D = [PCCu PCCl RSC A23];    % Which area types do we want to plot in 3D plot?
+        toPlotTypes_zview = [PCCu PCCl RSC A23];    % Which area types do we want to plot ?
+%         gridRange = [15 26; 1 11];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [15 31; 1 16];
+        monkey = 6;
+        hemisphere = 2;  % L = 1, R = 2
+        AP0 =  Qiaoqiao_right_AP0; % 6;
+        
+        data = {
+            %{[Session(s)], [LocX(Posterior) LoxY(Lateral)], [GuideTube(cm) Offset(cm)], [AreaType, Begin(100um), End(100um); ...] , electrode retrieval}
+            % When you are not sure about one area, use "AreaType-100" instead
+            
+            {47,[17,2],[2.1 0],[PCCl 80 90;A23 92 110;]}; %20190420
+            {46,[17,3],[2.1 0],[PCCu 36 50; PCCl 57 70;A23 110 139;]}; %20180412
+            {26,[18,3],[2.3 0],[PCCu 45 60; PCCl 67 89;A23 90 100;RSC 100 132;]}; %20181023
+            {51,[19,1],[2.2 0],[PCCl 59 88;A23 88 98;RSC 110 135;]}; %20190605
+            {25,[19,2],[2.3 0],[PCCu 40 55; PCCl 64 66;A23 86 110;RSC 133 162;]}; %20181022
+            %         {58,[19,2.5],[2.2 0],[PCCl 69 85;]}; %20190729
+            {58,[19,2],[2.2 0],[PCCl 69 85;]}; %20190729
+            {24,[19,3],[2.4 0],[PCCu 43 64; PCCl 77 80;A23 84 124;RSC 130 155;]}; %20181019
+            %         {59,[19,3.5],[2.2 0],[PCCu 45 55; PCCl 67 83;A23 111 125;]}; %20190730
+%             {59,[19,3],[2.2 0],[PCCu 45 55; PCCl 67 83;A23 111 125;]}; %20190730
+            {35,[19,4],[2.1 0],[PCCu 47 61; PCCl 67 91;RSC 132 145;]}; %20181217
+            %         {60,[20,2.5],[2.2 0],[PCCu 49 62; RSC 112 130;]}; %20190802
+            {60,[20,2],[2.2 0],[PCCu 49 62; RSC 112 130;]}; %20190802
+            {22,[20,3],[2.3 0],[PCCu 34 44; PCCl 54 75;A23 86 99;RSC 105 138;]}; %20181016
+            {23,[20,4],[2.4 0],[PCCl 71 87;A23 91 95;RSC 105 125;]}; %20181018
+            {34,[20,5],[2.1 0],[PCCu 47 68; PCCl 75 90;RSC 126 147;]}; %20181214
+            {62,[20,6],[2.2 0],[PCCu 33 55; PCCl 61 70;]}; %20190829
+            {38,[21,2],[2.1 0],[PCC 48 76; RSC 140 167;]}; %20181226
+            {27,[21,3],[2.3 0],[PCCl 60 72;A23 102 118;RSC 130 171;]}; %20181024
+            {29,[22,2],[2.2 0],[PCCu 40 61; PCCl 79 95;A23 95 115;RSC 115 145;]}; %20181116
+            {28,[22,3],[2.2 0],[PCC 50 72; PCCl 83 85;RSC 134 157;]}; %20181115
+            {36,[22,4],[2.1 0],[PCCu 55 69; RSC 130 146;]}; %20181220
+            {64,[22,5],[2.2 0],[PCCu 43 56; PCCl 63 80;]}; %20190902
+            {64,[22,6],[2.2 0],[PCCu 42 64; PCCl 68 84;]}; %20190903
+            {69,[23,1],[2.2 0],[PCCl 68 82;]}; %20190910
+            {31,[23,2],[2.2 0],[PCCu 40 53; PCCl 68 90;A23 90 105;RSC 105 139;]}; %20181120
+            {30,[23,3],[2.2 0],[PCCu 40 54; PCCl 61 76;RSC 115 134;]}; %20181119
+            {66,[23,4],[2.2 0],[PCCu 37 58; PCCl 64 83;]}; %20190905
+            {65,[23,5],[2.2 0],[PCCu 42 62; PCCl 69 84;]}; %20190904
+            {32,[24,3],[2.2 0],[PCCu 45 61; RSC 120 139;]}; %20181121
+            {33,[25,2],[2.1 0],[PCCu 50 69; PCCl 77 90;RSC 110 144;]}; %20181206
+            {32,[25,3],[2.1 0],[PCCu 50 70; PCCl 77 92;RSC 120 137;]}; %20181203
+            
+            }';
+        
+        MRI_path = 'Z:\Data\MOOG\Qiaoqiao\Mapping\MRI\QiaoqiaoOutput\forDrawMapping\';
+        MRI_offset = {[-93 93]+0,[-455 615]-5, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        
+        
+        %}
+        
     case 'Polo_L_HH'
         
         %  Polo_left
@@ -475,7 +602,7 @@ switch monkey_hemis{monkey_hemi}
         
         
         %}
-        case 'Polo_L'
+    case 'Polo_L'
         
         %  Polo_left
         % %{
@@ -507,7 +634,7 @@ switch monkey_hemis{monkey_hemi}
         MRI_offset = {[-93 93]+0,[-355 715]+80, [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         %}
         
-        case 'Polo_R'
+    case 'Polo_R'
         
         %  Polo_right
         % %{
@@ -518,7 +645,7 @@ switch monkey_hemis{monkey_hemi}
         gridRange = [6 31; 1 22];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 5;
         hemisphere = 2;  % L = 1, R = 2
-%         AP0 =  10; % 6;
+        %         AP0 =  10; % 6;
         AP0 =  Polo_right_AP0; % 6; % changed by LBY 180416
         
         data = {
@@ -537,7 +664,7 @@ switch monkey_hemis{monkey_hemi}
             {0,[21,7],[2.45 0],[B3a 9 28;PCC 59 69;]} % 20180423
             {0,[22,7],[2.45 0],[B3a 28 40;PCC 70 88;PCC 101 121;]} % 20180423
             {0,[26,6],[2.35 0],[GM 13 27;PCC 77 106;]} % 20180425
-%             {0,[28,5],[2.35 0],[GM 18 43;]} % 20180426
+            %             {0,[28,5],[2.35 0],[GM 18 43;]} % 20180426
             {0,[23,5],[2.45 0],[PCC 47 61;PCC 100 120;]} % 20180426
             {0,[21,8],[2.45 0],[B3a 7 27;PCC 56 72;]} % 20180411
             {0,[20,9],[2.45 0],[GM 49 62;GM 73 87;]} % 20180413
@@ -561,7 +688,7 @@ switch monkey_hemis{monkey_hemi}
             {0,[27,6],[2.4 0],[PCC 88 105;PCC 125 137;]} % 20180517
             {0,[23,18],[2.4 0],[GM 117 147;]} % 20180518
             {0,[23,19],[2.4 0],[GM 105 130;GM 135 150;]} % 20180518
-%             {0,[27,7],[2.55 0],[WM 0 150;]} % 20180522
+            %             {0,[27,7],[2.55 0],[WM 0 150;]} % 20180522
             {0,[25,6],[2.55 0],[PCC 65 79;PCC 91 107;]} % 20180523
             {0,[28,7],[2.55 0],[GM 10 15;]} % 20180524
             {0,[24,4],[2.55 0],[PCC 20 76;PCC 88 110;]} % 20180524
@@ -590,67 +717,67 @@ switch monkey_hemis{monkey_hemi}
             {109,[10,6],[2.25 0],[GM 37 56;PCC 69 75]}
             {110,[11,5],[2.25 0],[GM 3.6 19;GM 36 56;PCC 63 115]}
             {111,[14,6],[2.25 0],[GM 9.5 23;GM 33 48;PCC 72 94;PCC 103 123]}
-%             {112,[9,5],[2.25 0],[GM 33.5 44;GM 68 80;GM 11500 13100]}
+            %             {112,[9,5],[2.25 0],[GM 33.5 44;GM 68 80;GM 11500 13100]}
             {113,[22,8],[2.45 0],[B3a 47 58]}
             {114,[20,6],[2.45 0],[GM 10 30;PCC 61 73;]}
             {115,[23,6],[2.55 0],[B3a 6 12;PCC 50 67;PCC 79 96;]}
             {116,[24,8],[2.55 0],[B3a 9 16;PCC 64 85;PCC 94 108;]}
             {117,[25,8],[2.55 0],[B3a 15 34;PCC 63 82;PCC 101 119;]}
             {118,[27,7],[2.35 0],[PCC 57 77;]}
-            {118,[25,7],[2.35 0],[B3a 26 39;PCC 78 81;]} 
-            {119,[23,7],[2.45 0],[B3a 37 52;PCC 76 85;PCC 100 118;]} 
-            {119,[25,5],[2.45 0],[PCC 22 66;]} 
-            {120,[26,8],[2.45 0],[GM 63 78;]} 
-            {121,[24,5],[2.45 0],[B3a 0 15;PCC 65 68;]} 
-            {122,[26,5],[2.45 0],[GM 9 55;PCC 67 84;PCC 94 110;]} 
-            {123,[22,7],[2.45 0],[B3a 12 34;PCC 67 80;PCC 110 120;]} 
-            {124,[24,6],[2.4 0],[PCC 69 83;PCC 107 123;]} 
-            {125,[25,4],[2.55 0],[PCC 33 73;PCC 82 90;]} 
-            {126,[22,3],[2.55 0],[PCC 14 42;PCC 47 65;]} 
-            {127,[23,4],[2.55 0],[PCC 33.5 38;]} 
-            {128,[26,4],[2.55 0],[PCC 70 90;PCC 103 121;]} 
-            {129,[27,8],[2.55 0],[PCC 43 57;PCC 111 134;]} 
-            {130,[27,5],[2.55 0],[PCC 78 105;PCC 131 136;]} 
-            {131,[27,9],[2.55 0],[GM 17.5 30;PCC 105 129;PCC 139 147;]} 
-            {131,[28,6],[2.55 0],[PCC 108 136;]} 
-            {132,[28,4],[2.55 0],[GM 15 26;PCC 75 105;]} 
-            {133,[28,5],[2.55 0],[PCC 60 81;]} 
-            {134,[24,6],[2.55 0],[PCC 75 92;PCC 107 128;]} 
-            {135,[23,5],[2.55 0],[B3a 10 26;PCC 68 81;PCC 97 109;PCC 111 122;]} 
-            {136,[23,7],[2.55 0],[B3a 11 35;PCC 69 82;PCC 100 115;]} 
-            {137,[23,6],[2.55 0],[B3a 9 20;]} 
-            {138,[23,4],[2.65 0],[PCC 11 53;PCC 72 81;]} 
-            {139,[22,5],[2.55 0],[PCC 105 110;]} 
-            {139,[21,5],[2.55 0],[B3a 22 40;PCC 77 92;PCC 103 115;]} 
-            {140,[19,8],[2.65 0],[PCC 10 15;PCC 40 54;IPS 75 95;]} 
-            {141,[19,5],[2.85 0],[PCC 29 39;PCC 45 68;RSC 130 141;]} 
-            {142,[18,5],[2.85 0],[PCC 36 49;PCC 60 82;GM 99 148;]} 
-            {143,[18,7],[2.55 0],[PCC 12 46;PCC 63 77.5;IPS 105 132;]} 
-            {144,[17,8],[2.65 0],[PCC 12 33;PCC 46 58;]} 
-            {145,[17,7],[2.65 0],[PCC 9 39;PCC 51 71;RSC 140 156;]} 
-            {146,[17,5],[2.85 0],[PCC 13 26;PCC 39 46;]} 
-            {147,[20,5],[2.65 0],[PCC 41 55;PCC 66 81;]} 
-            {148,[20,9],[2.65 0],[GM 37 49;IPS 69 86;]} 
-            {149,[22,8],[2.55 0],[B3a 17 28;PCC 60 76;PCC 90 107;]} 
+            {118,[25,7],[2.35 0],[B3a 26 39;PCC 78 81;]}
+            {119,[23,7],[2.45 0],[B3a 37 52;PCC 76 85;PCC 100 118;]}
+            {119,[25,5],[2.45 0],[PCC 22 66;]}
+            {120,[26,8],[2.45 0],[GM 63 78;]}
+            {121,[24,5],[2.45 0],[B3a 0 15;PCC 65 68;]}
+            {122,[26,5],[2.45 0],[GM 9 55;PCC 67 84;PCC 94 110;]}
+            {123,[22,7],[2.45 0],[B3a 12 34;PCC 67 80;PCC 110 120;]}
+            {124,[24,6],[2.4 0],[PCC 69 83;PCC 107 123;]}
+            {125,[25,4],[2.55 0],[PCC 33 73;PCC 82 90;]}
+            {126,[22,3],[2.55 0],[PCC 14 42;PCC 47 65;]}
+            {127,[23,4],[2.55 0],[PCC 33.5 38;]}
+            {128,[26,4],[2.55 0],[PCC 70 90;PCC 103 121;]}
+            {129,[27,8],[2.55 0],[PCC 43 57;PCC 111 134;]}
+            {130,[27,5],[2.55 0],[PCC 78 105;PCC 131 136;]}
+            {131,[27,9],[2.55 0],[GM 17.5 30;PCC 105 129;PCC 139 147;]}
+            {131,[28,6],[2.55 0],[PCC 108 136;]}
+            {132,[28,4],[2.55 0],[GM 15 26;PCC 75 105;]}
+            {133,[28,5],[2.55 0],[PCC 60 81;]}
+            {134,[24,6],[2.55 0],[PCC 75 92;PCC 107 128;]}
+            {135,[23,5],[2.55 0],[B3a 10 26;PCC 68 81;PCC 97 109;PCC 111 122;]}
+            {136,[23,7],[2.55 0],[B3a 11 35;PCC 69 82;PCC 100 115;]}
+            {137,[23,6],[2.55 0],[B3a 9 20;]}
+            {138,[23,4],[2.65 0],[PCC 11 53;PCC 72 81;]}
+            {139,[22,5],[2.55 0],[PCC 105 110;]}
+            {139,[21,5],[2.55 0],[B3a 22 40;PCC 77 92;PCC 103 115;]}
+            {140,[19,8],[2.65 0],[PCC 10 15;PCC 40 54;IPS 75 95;]}
+            {141,[19,5],[2.85 0],[PCC 29 39;PCC 45 68;RSC 130 141;]}
+            {142,[18,5],[2.85 0],[PCC 36 49;PCC 60 82;GM 99 148;]}
+            {143,[18,7],[2.55 0],[PCC 12 46;PCC 63 77.5;IPS 105 132;]}
+            {144,[17,8],[2.65 0],[PCC 12 33;PCC 46 58;]}
+            {145,[17,7],[2.65 0],[PCC 9 39;PCC 51 71;RSC 140 156;]}
+            {146,[17,5],[2.85 0],[PCC 13 26;PCC 39 46;]}
+            {147,[20,5],[2.65 0],[PCC 41 55;PCC 66 81;]}
+            {148,[20,9],[2.65 0],[GM 37 49;IPS 69 86;]}
+            {149,[22,8],[2.55 0],[B3a 17 28;PCC 60 76;PCC 90 107;]}
             {150,[23,4],[2.65 0],[GM 0 8;PCC 20 56;PCC 63 83;RSC 110 147;]}
-            {151,[23,6],[2.65 0],[PCC 45 50;]} 
-            {152,[25,5],[2.65 0],[PCC 4 54;PCC 66 76;]} 
-            {153,[25,5],[2.65 0],[PCC 4 54;PCC 66 76;]} 
-            {155,[24,6],[2.65 0],[PCC 61 79;PCC 97 107;]} 
-            {156,[20,5],[2.65 0],[PCC 43 54;PCC 65 84;]} 
-            {157,[25,4],[2.65 0],[PCC 0 47;PCC 61 77;RSC 106 114;]} 
-            {157,[25,6],[2.65 0],[PCC 35 63;PCC 74 81;]} 
-
+            {151,[23,6],[2.65 0],[PCC 45 50;]}
+            {152,[25,5],[2.65 0],[PCC 4 54;PCC 66 76;]}
+            {153,[25,5],[2.65 0],[PCC 4 54;PCC 66 76;]}
+            {155,[24,6],[2.65 0],[PCC 61 79;PCC 97 107;]}
+            {156,[20,5],[2.65 0],[PCC 43 54;PCC 65 84;]}
+            {157,[25,4],[2.65 0],[PCC 0 47;PCC 61 77;RSC 106 114;]}
+            {157,[25,6],[2.65 0],[PCC 35 63;PCC 74 81;]}
+            
             }';
         
         MRI_path = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\';
-%         MRI_offset = {[-100 100],[-200 720]-5, [0 -0.1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        %         MRI_offset = {[-100 100],[-200 720]-5, [0 -0.1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         MRI_offset = {[-93 93]+0,[-355 715]+80, [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
         
         %}
         
-        case 'Manda'
+    case 'Manda'
         
         %  Polo_left
         % %{
@@ -681,8 +808,8 @@ switch monkey_hemis{monkey_hemi}
             
             }';
         
-%         MRI_path = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\';
-%         MRI_offset = {[-93 93]+0,[-355 715]+80, [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        %         MRI_path = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\';
+        %         MRI_offset = {[-93 93]+0,[-355 715]+80, [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         %}
 end
 
@@ -821,7 +948,7 @@ xlim([y1-2,y2+2]);
 
 % Quick select monkey_hemi. HH20160122
 h_monkey_hemi = uicontrol('style','popupmenu','unit','norm','position',[0.01 0.94 0.131 0.035],...
-    'string','QQ_L|QQ_R|Polo_L|Polo_R|Polo_L_HH|Polo_R_HH','callback',@change_monkey_hemi);
+    'string','QQ_L|QQ_R|QQ_QY_L|QQ_QY_R|Polo_L|Polo_R|Polo_L_HH|Polo_R_HH','callback',@change_monkey_hemi);
 set(h_monkey_hemi,'value',monkey_hemi);
 
 % Frame
@@ -831,9 +958,9 @@ xLoc = intersect(x1:x2,1:interval:100);
 yLoc = intersect(y1:y2,1:interval:100);
 xLines = line(repmat([y1-1;y2+1],1,length(xLoc)),repmat(xLoc,2,1));  % xLines
 switch monkey_hemis{monkey_hemi} % changed sth.for Qiaoqiao's new grid(left hemi)  LBY20170927
-    case {'Qiaoqiao_R','Polo_R','Manda','Polo_R_HH'}
+    case {'Qiaoqiao_R','Qiaoqiao_QY_R','Polo_R','Manda','Polo_R_HH'}
         yLines = line(repmat(yLoc+0.25,2,1), repmat([x1-1;x2+1],1,length(yLoc)));  % yLines
-    case {'Qiaoqiao_L','Polo_L','Polo_L_HH'}
+    case {'Qiaoqiao_L','Qiaoqiao_QY_L','Polo_L','Polo_L_HH'}
         yLines = line(repmat(yLoc-0.25,2,1), repmat([x1-1;x2+1],1,length(yLoc)));  % yLines
 end
 
@@ -853,9 +980,9 @@ end
 t = linspace(0,2*pi,100)';
 
 switch monkey_hemis{monkey_hemi} % changed sth.for Qiaoqiao's new grid(left hemi)  LBY20170927
-    case {'Qiaoqiao_R','Polo_R','Manda','Polo_R_HH'}
+    case {'Qiaoqiao_R','Qiaoqiao_QY_R','Polo_R','Manda','Polo_R_HH'}
         xGrid = radius * repmat(sin(t),1,length(xOffsets)) + repmat(xOffsets,length(t),1);
-    case {'Qiaoqiao_L','Polo_L','Polo_L_HH'}
+    case {'Qiaoqiao_L','Qiaoqiao_QY_L','Polo_L','Polo_L_HH'}
         xGrid = radius * repmat(sin(t),1,length(xOffsets)) + repmat(xOffsets+1,length(t),1);
 end
 yGrid = radius * repmat(cos(t),1,length(yOffsets)) + repmat(yOffsets,length(t),1);
@@ -867,9 +994,9 @@ set(fill(yGrid,xGrid,[1 1 1]),'LineWidth',1.5,'ButtonDownFcn',@SelectChannel);  
 for channel = 1:length(data)
     xCenter = data{channel}{2}(1);
     switch monkey_hemis{monkey_hemi} % changed sth.for Qiaoqiao's new grid(left hemi)  LBY20170927
-        case {'Qiaoqiao_R','Polo_R','Manda','Polo_R_HH'}
+        case {'Qiaoqiao_R','Qiaoqiao_QY_R','Polo_R','Manda','Polo_R_HH'}
             yCenter =  data{channel}{2}(2) + 0.5 * ~mod(data{channel}{2}(1),2);
-        case {'Qiaoqiao_L','Polo_L','Polo_L_HH'}
+        case {'Qiaoqiao_L','Qiaoqiao_QY_L','Polo_L','Polo_L_HH'}
             yCenter =  data{channel}{2}(2) + 0.5 *( ~mod(data{channel}{2}(1),2)-1);
             
     end
@@ -920,7 +1047,8 @@ end
 global num txt raw xls;
 if isempty(num)
     % add dor LBY LBY20161212
-    XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',2,3);
+    %     XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',2,3);
+    XlsData = ReadXls('Z:\Data\MOOG\Results\Result_TQY.xlsm',2,3);
     num = XlsData.num;
     xls = XlsData.header;
     txt = XlsData.txt;
@@ -989,8 +1117,8 @@ try
         %         fileNo = xSelect + Qiaoqiao_right_AP0 - AP0;
         %     end
     end
-%     MRI = imread([MRI_path num2str(fileNo) '.bmp']);
-MRI = imread([MRI_path num2str(fileNo) '.jpg']);
+    %     MRI = imread([MRI_path num2str(fileNo) '.bmp']);
+    MRI = imread([MRI_path num2str(fileNo) '.jpg']);
     %     h_MRI = image(MRI_offset{1}+xSelect*MRI_offset{3}(1), MRI_offset{2} + xSelect*MRI_offset{3}(2),MRI);
     % previous MRI figure shows the same for two hemispheres, thus I changed to
     % correct it.
@@ -1128,7 +1256,7 @@ set(findall(gcf,'tickdir','i'),'tickdir','o');
 % axis off;
 
 %-------------------   for saggital plane  -----------------------%
-% %{
+%{
 set(figure(804),'Position',figurePosition, 'color','w'); clf;
 h_saggital = axes('Position',[0.2 0.1 0.7 0.8]);
 axis ij; hold on;
@@ -1153,18 +1281,18 @@ for channel = 1:length(data)
         xLoc = data{channel}{2}(1)-0.5;
         GMData = data{channel}{4};
         if isempty(GMData); continue; end;
-
+        
         GuideTubeAndOffset = data{channel}{3};
         offSet = round((GuideTubeAndOffset(2) + GuideTubeAndOffset(1) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
-
+        
         for GMType = -size(GMTypes,1):-1  % For each area type
             GMThisType = find(GMData(:,1) == GMType);   % Read out ranges for this type
             if isempty(GMThisType); continue; end       % If absent, next type
-
+            
             for i = 1:length(GMThisType)  % For each appearance
                 zBegin = GMData(GMThisType(i),2) + offSet;
                 zEnd = GMData(GMThisType(i),3) + offSet;
-
+                
                 if overlapping(1,1)~=0 || overlapping(1,2)~=0  % If we overlap neighboring slices
                     p = patch([xLoc xLoc xLoc+1 xLoc+1],[zEnd,zBegin,zBegin,zEnd],GMTypes{-GMType,2},'EdgeColor','none','FaceAlpha',0.4);
                 else
@@ -1172,23 +1300,23 @@ for channel = 1:length(data)
                         'EdgeColor',GMTypes{-GMType,2});
                 end
             end
-
+            
         end
-
+        
         for GMType = -size(GMTypes,1):-1  % For each area type (that we are NOT SURE!!)
             GMThisType = find(GMData(:,1) == GMType - 100);   % Read out ranges for this type (that we are NOT SURE!!)
             if isempty(GMThisType); continue; end       % If absent, next type
-
+            
             for i = 1:length(GMThisType)  % For each appearance
                 zBegin = GMData(GMThisType(i),2) + offSet;
                 zEnd = GMData(GMThisType(i),3) + offSet;
-
+                
                 % Note we use dotted line here to mark areas that we are not sure
                 rectangle('Position',[xLoc,zBegin,1,zEnd-zBegin],'LineWidth',linWid,'EdgeColor',GMTypes{-GMType,2},'LineStyle',':');
             end
-
+            
         end
-
+        
         % Add start and end markers
         if start_end_markers
             if xLoc+0.5 == xSelect
@@ -1208,10 +1336,10 @@ for channel = 1:length(data)
                     rectangle('Position',[xLoc,offSet + data{channel}{5},1,1],'LineWidth',linWid,'FaceColor','k');
                 end
             end
-
-
+            
+            
         end
-
+        
     end
 end
 
@@ -1288,68 +1416,86 @@ to_plot_txt = txt(mask_tuning,:);
 
 for i =  1:size(to_plot_num,1)
     
-%     if strcmp(to_plot_txt(i,xls.Protocol),'3DT')
-%         offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
-%         xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
-%         yy = offSet + round(to_plot_num(i,xls.Depth)/100);
-%         %         if to_plot_num(i,xls.p_M) < 0.01 % the peak/trough is significant
-%         %             if to_plot_num(i,xls.tuning) == 1 % excited cell
-%         plot(xx,yy,'k.','linewid',0.4,'markerfacecolor','r','markersize',12);
-%         %                 pref_Azi = ?;
-%         %                 aspect = daspect;
-%         %                 plot([xx xx+0.5*cos(pref_M)*sign((hemisphere==2)-0.5)],[yy yy+(-1)*0.5*sin(pref_M)*aspect(2)/aspect(1)],'r-','linew',1.5); % for preferred azimuth
-%         %                 plot([xx xx+0.5*cos(pref_M)*sign((hemisphere==2)-0.5)],[yy yy+(-1)*0.5*sin(pref_M)*aspect(2)/aspect(1)],'r:','linew',1.5); % for preferred elevation
-%         %             else if to_plot_num(i,xls.tuning) == -1 % inhibited cell
-%         %                     plot(xx,yy,'r.','linewid',0.4,'markerfacecol','b','markersize',15);
-%         %                     pref_Azi = ?;
-%         %                 aspect = daspect;
-%         %                 plot([xx xx+0.5*cos(pref_M)*sign((hemisphere==2)-0.5)],[yy yy+(-1)*0.5*sin(pref_M)*aspect(2)/aspect(1)],'b-','linew',1.5); % for preferred azimuth
-%         %                 plot([xx xx+0.5*cos(pref_M)*sign((hemisphere==2)-0.5)],[yy yy+(-1)*0.5*sin(pref_M)*aspect(2)/aspect(1)],'b:','linew',1.5); % for preferred elevation
-%         %                 end
-%         %             else  % non-T site
-%         %                 plot(xx,yy,'ro','linewid',0.4,'markerfacecol','none','markersize',5);
-%         %             end
-%         %         end
-%         
-%     end
-    
-    %     % added temporarily LBY 20161228
-%         if strcmp(to_plot_txt(i,xls.Protocol),'3DR')
-%             offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
-%             xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
-%             yy = offSet + round(to_plot_num(i,xls.Depth)/100);
-%             plot(xx,yy,'wo','linewid',1,'markersize',6);
-%         end
-    %     if strcmp(to_plot_txt(i,xls.Protocol),'DelSac')
+    %     if strcmp(to_plot_txt(i,xls.Protocol),'3DT')
     %         offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
     %         xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
     %         yy = offSet + round(to_plot_num(i,xls.Depth)/100);
-    %         plot(xx,yy,'yo','linewid',1,'markersize',8);
-%         end
-    if strcmp(to_plot_txt(i,xls.Area),'PCCl') || strcmp(to_plot_txt(i,xls.Area),'PCCu')
+    %         %         if to_plot_num(i,xls.p_M) < 0.01 % the peak/trough is significant
+    %         %             if to_plot_num(i,xls.tuning) == 1 % excited cell
+    %         plot(xx,yy,'k.','linewid',0.4,'markerfacecolor','r','markersize',12);
+    %         %                 pref_Azi = ?;
+    %         %                 aspect = daspect;
+    %         %                 plot([xx xx+0.5*cos(pref_M)*sign((hemisphere==2)-0.5)],[yy yy+(-1)*0.5*sin(pref_M)*aspect(2)/aspect(1)],'r-','linew',1.5); % for preferred azimuth
+    %         %                 plot([xx xx+0.5*cos(pref_M)*sign((hemisphere==2)-0.5)],[yy yy+(-1)*0.5*sin(pref_M)*aspect(2)/aspect(1)],'r:','linew',1.5); % for preferred elevation
+    %         %             else if to_plot_num(i,xls.tuning) == -1 % inhibited cell
+    %         %                     plot(xx,yy,'r.','linewid',0.4,'markerfacecol','b','markersize',15);
+    %         %                     pref_Azi = ?;
+    %         %                 aspect = daspect;
+    %         %                 plot([xx xx+0.5*cos(pref_M)*sign((hemisphere==2)-0.5)],[yy yy+(-1)*0.5*sin(pref_M)*aspect(2)/aspect(1)],'b-','linew',1.5); % for preferred azimuth
+    %         %                 plot([xx xx+0.5*cos(pref_M)*sign((hemisphere==2)-0.5)],[yy yy+(-1)*0.5*sin(pref_M)*aspect(2)/aspect(1)],'b:','linew',1.5); % for preferred elevation
+    %         %                 end
+    %         %             else  % non-T site
+    %         %                 plot(xx,yy,'ro','linewid',0.4,'markerfacecol','none','markersize',5);
+    %         %             end
+    %         %         end
+    %
+    %     end
+    
+    %     % added temporarily LBY 20161228
+    %         if strcmp(to_plot_txt(i,xls.Protocol),'3DR')
+    %             offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+    %             xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+    %             yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+    %             plot(xx,yy,'wo','linewid',1,'markersize',6);
+    %         end
+%         if strcmp(to_plot_txt(i,xls.Protocol),'DelSac')
+%             offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+%             xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+%             yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+%             plot(xx,yy,'yo','linewid',1,'markersize',8);
+%             end
+        if strcmp(to_plot_txt(i,xls.Area),'PCCl') || strcmp(to_plot_txt(i,xls.Area),'PCCu')
+            offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+            xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+            yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+            plot(xx,yy,'.','color','g','markersize',18);
+        end
+    if strcmp(to_plot_txt(i,xls.Area),'PCC')
         offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
         xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
         yy = offSet + round(to_plot_num(i,xls.Depth)/100);
-        plot(xx,yy,'.','color','w','markersize',18);
+        plot(xx,yy,'.','color','g','markersize',18);
     end
-%     if strcmp(to_plot_txt(i,xls.Area),'PCCu')
-%         offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
-%         xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
-%         yy = offSet + round(to_plot_num(i,xls.Depth)/100);
-%         plot(xx,yy,'.','color','w','markersize',13);
-%     end
-%     if strcmp(to_plot_txt(i,xls.Area),'PCCl')
-%         offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
-%         xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
-%         yy = offSet + round(to_plot_num(i,xls.Depth)/100);
-%         plot(xx,yy,'.','color','y','markersize',13);
-%     end
-%     if strcmp(to_plot_txt(i,xls.Area),'RSC')
-%         offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
-%         xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
-%         yy = offSet + round(to_plot_num(i,xls.Depth)/100);
-%         plot(xx,yy,'r.','linewid',0.4,'markerfacecolor','r','markersize',12);
-%     end
+    if strcmp(to_plot_txt(i,xls.Area),'A23')
+        offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+        xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+        yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+        plot(xx,yy,'.','color',[1 0.38 0],'markersize',18);
+    end
+    if strcmp(to_plot_txt(i,xls.Area),'RSC')
+        offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+        xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+        yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+        plot(xx,yy,'.','color','r','markersize',18);
+    end
+    %     if strcmp(to_plot_txt(i,xls.Area),'PCCu')
+    %         offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+    %         xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+    %         yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+    %         plot(xx,yy,'.','color','w','markersize',13);
+    %     end
+    %     if strcmp(to_plot_txt(i,xls.Area),'PCCl')
+    %         offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+    %         xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+    %         yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+    %         plot(xx,yy,'.','color','y','markersize',13);
+    %     end
+    %     if strcmp(to_plot_txt(i,xls.Area),'RSC')
+    %         offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+    %         xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+    %         yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+    %         plot(xx,yy,'r.','linewid',0.4,'markerfacecolor','r','markersize',12);
+    %     end
 end
 
 

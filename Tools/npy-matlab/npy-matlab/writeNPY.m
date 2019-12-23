@@ -10,11 +10,13 @@ function writeNPY(var, filename)
 % rather than (10,).
 
 
+
 shape = size(var);
 dataType = class(var);
 
 header = constructNPYheader(dataType, shape);
 
+% [fid,err] = fopen(filename, 'w');
 fid = fopen(filename, 'w');
 fwrite(fid, header, 'uint8');
 fwrite(fid, var, dataType);

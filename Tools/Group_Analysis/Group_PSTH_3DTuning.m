@@ -17,90 +17,120 @@ mat_address = {
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_noModel_PCC_m6_m5','PSTH_R','3DR';
     %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_noModel_PCC_m6_m5','PSTH_T','3DT_dark';
     %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_noModel_PCC_m6_m5','PSTH_R','3DR_dark';
+    %         'Z:\Data\TEMPO\BATCH\20191213_3DModel_noModel_RSC_m6','PSTH_T','3DT';
+    %         'Z:\Data\TEMPO\BATCH\20191213_3DModel_noModel_RSC_m6','PSTH_R','3DR';
     
     %     'Z:\Data\TEMPO\BATCH\20181008_3D&1DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
     %     'Z:\Data\TEMPO\BATCH\20181008_3D&1DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
     
-            'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
-            'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
-    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT_dark';
-    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR_dark';
-    
-%     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT';
-%     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR';
+%                 'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
+%                 'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
+%         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT_dark';
+%         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR_dark';
+%         'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_RSC_m6','PSTH_T','3DT';
+%             'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_RSC_m6','PSTH_R','3DR';
+%     'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_T','3DT';
+%     'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_R','3DR';
+        'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_T','3DT';
+            'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_R','3DR';
+
+%     
+    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT';
+    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR';
     %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT_dark';
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR_dark';
     
     %--------------------MSTd
-%             'Z:\Data\TEMPO\BATCH\MSTd_vis_sync','PSTH_T','3DT';
+    %             'Z:\Data\TEMPO\BATCH\MSTd_vis_sync','PSTH_T','3DT';
     
     %         'Z:\Data\TEMPO\BATCH\MSTd_vis_out-sync','PSTH_T','3DT';
     };
 
+% PCC
 % %{
 mask_all = {
-    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1')...
+    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
-    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1')...
+    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
-    strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1')...
-    & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
-    strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1')...
-    & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
+%     strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
+%     strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
     
     }; % Now no constraint on monkeys
-%}
-
-% no dark
-%{
+    %}
+    
+    % RSC
+    %{
+    mask_all = {
+        strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+        & strcmp(txt(:,header.Area),'RSC');
+        strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+        & strcmp(txt(:,header.Area),'RSC');
+%     strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%         & strcmp(txt(:,header.Area),'RSC');
+%         strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%         & strcmp(txt(:,header.Area),'RSC');
+        }; % Now no constraint on monkeys
+    %}
+    
+    % 23A
+    %{
 mask_all = {
-    strcmp(txt(:,header.Protocol),'3DT') ...
-    & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
-    strcmp(txt(:,header.Protocol),'3DR') ...
-    & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
-    
-    }; % Now no constraint on monkeys
-%}
+    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    & strcmp(txt(:,header.Area),'A23');
+    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    & strcmp(txt(:,header.Area),'A23');
+%     strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%     & strcmp(txt(:,header.Area),'A23');
+%     strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%     & strcmp(txt(:,header.Area),'A23');
 
-% PCCl
-%{
+    }; % Now no constraint on monkeys
+    %}
+    
+    
+    
+    % PCCl
+    %{
 mask_all = {
-    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1')...
+    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & strcmp(txt(:,header.Area),'PCCl');
-    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1')...
+    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & strcmp(txt(:,header.Area),'PCCl');
-    strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1')...
+    strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & strcmp(txt(:,header.Area),'PCCl');
-    strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1')...
+    strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & strcmp(txt(:,header.Area),'PCCl');
     
     }; % Now no constraint on monkeys
-%}
-
-% PCCu
-%{
+    %}
+    
+    % PCCu
+    %{
 mask_all = {
-    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1')...
+    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & strcmp(txt(:,header.Area),'PCCu');
-    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1')...
+    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & strcmp(txt(:,header.Area),'PCCu');
-    strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1')...
+    strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & strcmp(txt(:,header.Area),'PCCu');
-    strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1')...
+    strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & strcmp(txt(:,header.Area),'PCCu');
     
     }; % Now no constraint on monkeys
-%}
-
-
-
-% % Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
-monkey_included_for_loading = [6 5];
-Monkeys{5} = 'Polo';
-Monkeys{6} = 'QQ';
-
-% MSTd
-%{
+    %}
+    
+    
+    
+    % % Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
+    monkey_included_for_loading = [6 5];
+    Monkeys{5} = 'Polo';
+    Monkeys{6} = 'QQ';
+    
+    % MSTd
+    %{
 mask_all = {
     strcmp(txt(:,header.Protocol),'3DT') & (strcmp(txt(:,header.Area),'MSTd'));
     
@@ -111,19 +141,19 @@ monkey_included_for_loading = [3 1];
 Monkeys{3} = 'Que';
 Monkeys{1} = 'Zebulon';
 
-%}
-
-monkey_mask_for_loading = false(size(num,1),1);
-for mm = 1:length(monkey_included_for_loading)
-    monkey_mask_for_loading = monkey_mask_for_loading | (num(:,header.Monkey) == monkey_included_for_loading(mm));
-end
-
-% Now apply monkey mask
-for mm = 1:length(mask_all)
-    mask_all{mm} = mask_all{mm} & monkey_mask_for_loading;
-end
-
-%{
+    %}
+    
+    monkey_mask_for_loading = false(size(num,1),1);
+    for mm = 1:length(monkey_included_for_loading)
+        monkey_mask_for_loading = monkey_mask_for_loading | (num(:,header.Monkey) == monkey_included_for_loading(mm));
+    end
+    
+    % Now apply monkey mask
+    for mm = 1:length(mask_all)
+        mask_all{mm} = mask_all{mm} & monkey_mask_for_loading;
+    end
+    
+    %{
 % if monkey == 1 % Qiaoqiao
 %     mat_address = 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6\';
 %     mask_all = (strcmp(txt(:,header.Protocol),'3DT')| strcmp(txt(:,header.Protocol),'3DR') ) & (num(:,header.Monkey) == 6) & ~strcmp(txt(:,header.Dark),'1') & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
@@ -131,45 +161,45 @@ end
 %     mat_address = 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m5\';
 %     mask_all = (strcmp(txt(:,header.Protocol),'3DT')| strcmp(txt(:,header.Protocol),'3DR') ) & (num(:,header.Monkey) == 5) &  ~strcmp(txt(:,header.Dark),'1') & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
 % end
-%}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-cell_true = [];
-
-for pp = 1:size(mat_address,1)
-    % Xls Data
-    xls_num{pp} = num(mask_all{pp},:);
-    xls_txt{pp} = txt(mask_all{pp},:);
-    xls_raw{pp} = raw(mask_all{pp},:);
+    %}
     
-    % Basic information : E.g.  '20140721m05s034h2x04y12d08478u6m5c67r2'
-    % date,monkey,session,hemi,xloc,yloc,depth,unit
-    cell_info_tmp = xls_num{pp}(:,[header.Date:header.Yloc header.Depth header.Chan1]);
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    cell_true = [];
     
-    % Override MU with SU. HH20150422
-    cell_info_tmp(xls_num{pp}(:,header.Units_RealSU)==1 & xls_num{pp}(:,header.Chan1)==1,end) = 5;
+    for pp = 1:size(mat_address,1)
+        % Xls Data
+        xls_num{pp} = num(mask_all{pp},:);
+        xls_txt{pp} = txt(mask_all{pp},:);
+        xls_raw{pp} = raw(mask_all{pp},:);
+        
+        % Basic information : E.g.  '20140721m05s034h2x04y12d08478u6m5c67r2'
+        % date,monkey,session,hemi,xloc,yloc,depth,unit
+        cell_info_tmp = xls_num{pp}(:,[header.Date:header.Yloc header.Depth header.Chan1]);
+        
+        % Override MU with SU. HH20150422
+        cell_info_tmp(xls_num{pp}(:,header.Units_RealSU)==1 & xls_num{pp}(:,header.Chan1)==1,end) = 5;
+        
+        cell_info{pp} = strsplit(sprintf('%8dm%02ds%03dh%01dx%02dy%02dd%05du%02d\n',cell_info_tmp'),'\n')';
+        cell_info{pp} = strcat(cell_info{pp}(1:end-1),xls_txt{pp}(:,header.FileNo));
+        cell_true = cat(1,cell_true,cell_info{pp});
+    end
+    cd(mat_address{1,1});
     
-    cell_info{pp} = strsplit(sprintf('%8dm%02ds%03dh%01dx%02dy%02dd%05du%02d\n',cell_info_tmp'),'\n')';
-    cell_info{pp} = strcat(cell_info{pp}(1:end-1),xls_txt{pp}(:,header.FileNo));
-    cell_true = cat(1,cell_true,cell_info{pp});
-end
-cd(mat_address{1,1});
-
-% to find exactly how many cells
-cell_true = cellfun(@(x) x(1:end-2),cell_true,'UniformOutput',false);
-cell_true = unique(cell_true);
-
-%% Establish mat-to-xls relationship and load data into group_result.mat
-% %{
-
-global group_result; % This lets me reload the whole m.file without loading group_result, which speeds up my debugging.
-
-%
-if isempty(group_result)
-    group_result(size(cell_true,1)).cellID = [];  % The unique cellID
-    load_group_result();
-end
-
+    % to find exactly how many cells
+    cell_true = cellfun(@(x) x(1:end-2),cell_true,'UniformOutput',false);
+    cell_true = unique(cell_true);
+    
+    %% Establish mat-to-xls relationship and load data into group_result.mat
+    % %{
+    
+    global group_result; % This lets me reload the whole m.file without loading group_result, which speeds up my debugging.
+    
+    %
+    if isempty(group_result)
+        group_result(size(cell_true,1)).cellID = [];  % The unique cellID
+        load_group_result();
+    end
+    
     function load_group_result()
         %
         % Load .mat files and put the data into a large structure array "group_result(i).mat_raw"
@@ -232,16 +262,19 @@ end
 %% Get some values from group_result(i).mat_raw_xxx our to group_result(i) for easier access
 
 stimType = {'vestibular';'visual'};
-models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+models = {'VO','AO','VA','VJ','AJ','VAJ'};
 % models = {'VA','VAP','VAJ','PVAJ'};
 % models = {'VO'};
 model_cat = 1; % Sync model
 % model_cat = 2; % Out-sync model
-nParaModel_3D{1} = [7 7 12 12 12 12 12 17 17 22]; % how many free parameters for each 3D model
-nParaModel_3D{2} = [7 7 13 13 13 13 13 19 19 25];
+% nParaModel_3D{1} = [7 7 12 12 12 12 12 17 17 22]; % how many free parameters for each 3D model
+% nParaModel_3D{2} = [7 7 13 13 13 13 13 19 19 25];
+nParaModel_3D{1} = [7 7 12 12 12 17]; % how many free parameters for each 3D model
+nParaModel_3D{2} = [7 7 13 13 13 19];
 % nParaModel_3D{1} = [6 6 10 10 10 10 10 14 14 18]; % how many free parameters for each 1D model
 % nParaModel_3D{2} = [7 7 13 13 13 13 13 19 19 25];
-nParaModel_3D{1} = [6 6 10 10 10 10 10 14 14 18];
+% nParaModel_3D{1} = [6 6 10 10 10 10 10 14 14 18];
 % models = {'VA'};
 
 for i = 1:length(group_result)
@@ -1208,6 +1241,9 @@ c = 3;
                 peakT_plot{pp}{jj} = peakT{pp}{jj}(select_spatialSig{pp}(:,jj));
                 DDI_peak_plot{pp}{jj} = DDI_peak{pp}{jj}(select_spatialSig{pp}(:,jj));
                 DDI_pPeak_plot{pp}{jj} = DDI_pPeak{pp}{jj}(select_spatialSig{pp}(:,jj));
+% peakT_plot{pp}{jj} = peakT{pp}{jj}(select_temporalSig{pp}(:,jj));
+%                 DDI_peak_plot{pp}{jj} = DDI_peak{pp}{jj}(select_temporalSig{pp}(:,jj));
+%                 DDI_pPeak_plot{pp}{jj} = DDI_pPeak{pp}{jj}(select_temporalSig{pp}(:,jj));
                 dPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 2); % double peak
                 sPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 1); % single peak
                 nPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 0); % not tuned
@@ -1339,6 +1375,40 @@ c = 3;
         text(0.2,0,'Translation');text(0.7,0,'Rotation'); axis off;
         suptitle('Distribution of DDI at peak time (Double-peaked cells, early peak vs. late peak)');
         SetFigure(12);
+        
+        % plot figures for DDI distribution (Single-peaked cells and early peak of double-peaked cells)
+        xDDI = linspace(0,1,11);
+        figure(13);set(figure(13),'name','Distribution of DDI at peak time (Single-peaked cells and  early peak of double-peaked cells)','unit','pixels','pos',[-1070 300 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        for pp = 1:2
+            for jj = 1:2
+                axes(h_subplot((jj-1)*2+pp));hold on;
+                DDI_sdPeak{pp}{jj} = [DDI_sPeak{pp}{jj}, DDI_dPeak_early{pp}{jj}];
+                n_DDI{pp}{jj} = hist(DDI_sdPeak{pp}{jj},xDDI);
+                medianDDI{pp}(jj) = median(DDI_sdPeak{pp}{jj});
+                DDI_sdPeak_sig{pp}{jj} = [DDI_sPeak_sig{pp}{jj}, DDI_dPeak_early_sig{pp}{jj}];
+                n_DDI_sig{pp}{jj} = hist(DDI_sPeak_sig{pp}{jj},xDDI);
+                medianDDI_sig{pp}(jj) = median(DDI_sdPeak_sig{pp}{jj});
+                hbar{pp} = bar(xDDI,n_DDI{pp}{jj});set(hbar{pp},'facecolor','w','edgecolor',colors{jj});
+                hbar_sig{pp} = bar(xDDI,n_DDI_sig{pp}{jj});set(hbar_sig{pp},'facecolor',colors{jj},'edgecolor',colors{jj});
+                xlabel('DDI');ylabel('cell #');set(gca,'xlim',[0 1]);
+                plot([medianDDI_sig{pp}(jj) medianDDI_sig{pp}(jj)],[0 max(n_DDI_sig{pp}{jj})*1.1],'k--','color',colors{jj},'linewidth',1.5);
+                text(medianDDI_sig{pp}(jj),max(n_DDI_sig{pp}{jj})*1.2,num2str(medianDDI_sig{pp}(jj)));
+                text(0.1,max(n_DDI_sig{pp}{jj}),['n = ',num2str(length(DDI_sPeak_sig{pp}{jj}))]);
+                axis on;hold off;
+                
+                
+            end
+        end
+        % text necessary infos
+        axes('pos',[0.1 0.95 0.9 0.1]);
+        %             text(0.25,0.5,['Distribution of DDI   (Monkey = ',monkey_to_print,')']);
+        axis off;
+        axes('pos',[0.05 0.05 0.9 0.1]);
+        text(0.15,0,'Translation');text(0.75,0,'Rotation'); axis off;
+        suptitle('Distribution of DDI at peak time (Single-peaked cells and early peak of double-peaked cells)');
+        SetFigure(12);
+        
     end
 
     function f1p2p2(debug)      % Preferred direction distribution
@@ -1784,7 +1854,7 @@ c = 3;
         
         denoised_dim = 4; % how many PCs you want to plot
         
-%                 for pp = 1:2
+        %                 for pp = 1:2
         for pp = 1
             for jj = 1:2
                 temp = data_PCA{pp}{jj}(select_temporalSig{pp}(:,jj));
@@ -1800,7 +1870,7 @@ c = 3;
                 end
                 
                 %%%%%%%%%%%%%%%1 对每个神经元按照最大反应方向排序
-%                                 %{
+                %                                 %{
                 dataPCA_raw1{pp}{jj} = cell2mat(cellfun(@(x) x(:),temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
                 % dataPCA{pp}{jj}(sum(isnan(dataPCA{pp}{jj}),2)>0,:) = [];
                 dataPCA1{pp}{jj} = (dataPCA_raw1{pp}{jj} - repmat(mean(dataPCA_raw1{pp}{jj},1),size(dataPCA_raw1{pp}{jj},1),1))./repmat(std(dataPCA_raw1{pp}{jj},1,1),size(dataPCA_raw1{pp}{jj},1),1); % z-score Normalize
@@ -1864,29 +1934,29 @@ c = 3;
         figure(10);set(figure(10),'name','Eigen-time','unit','pixels','pos',[-1000 300 900 600]); clf;
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         
-%                 for pp = 1:2
+        %                 for pp = 1:2
         for pp = 1
             for jj = 1:2
                 PCA_times = 1:size(dataPCA{pp}{jj},1);
                 for ii = 1:denoised_dim
-                    %                     
-%                     plot(PCA_times,weights_PCA_PC{pp}{jj}(:,ii),'k-','color',colorsPCA{jj}{ii},'linewidth',4);hold on;
-axes(h_subplot((jj-1)*2+pp));hold on;
+                    %
+                    %                     plot(PCA_times,weights_PCA_PC{pp}{jj}(:,ii),'k-','color',colorsPCA{jj}{ii},'linewidth',4);hold on;
+                    axes(h_subplot((jj-1)*2+pp));hold on;
                     plot(PCA_times,weights_PCA_PC{pp}{jj}(:,ii),'k-','linewidth',3,'color',colorsPCA{jj}{ii});
-
+                    
                     
                 end
                 xlim([0 length(PCA_times)])
-                    ylim([min(weights_PCA_PC{pp}{jj}(:)) max(weights_PCA_PC{pp}{jj}(:))]);
-                                        xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'}); axis on;
-%                     xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','1000','2000'});title(['Eigen-time PC' num2str(ii)]); axis on;
+                ylim([min(weights_PCA_PC{pp}{jj}(:)) max(weights_PCA_PC{pp}{jj}(:))]);
+                xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'}); axis on;
+                %                     xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','1000','2000'});title(['Eigen-time PC' num2str(ii)]); axis on;
                 title(labels{pp}{jj});
                 legend('PC1','PC2','PC3','PC4','PC5','PC6');
             end
-                end
-                
+        end
+        
         suptitle('Eigen-time, All directions');
-                SetFigure(12);
+        SetFigure(12);
         
         %%%%%%%%%%%%%%%1
         %{
@@ -2121,12 +2191,12 @@ for pp = 1
         %}
         
         % ============   Variance explained =================
-%                 %{
+        %                 %{
         %%%%%%%%%%%%%%%%%0
         figure(15);set(figure(15),'name','Variance explained, All directions','unit','pixels','pos',[-1070 300 1050 600]); clf;
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         
-%                 for pp = 1:2
+        %                 for pp = 1:2
         for pp = 1
             for jj = 1:2
                 axes(h_subplot((jj-1)*2+pp));hold on;
@@ -2225,7 +2295,7 @@ for pp = 1
         denoised_dim = 4; % how many PCs you want to plot
         
         for pp = 1:2
-%                     for pp = 1
+            %                     for pp = 1
             for jj = 1:2
                 temp = data_PCA{pp}{jj}(select_temporalSig{pp}(:,jj));
                 
@@ -2302,17 +2372,17 @@ for pp = 1
         
         PCA_times = 1:size(dataPCA{pp}{jj},1);
         for pp = 1:2
-%             for pp = 1
+            %             for pp = 1
             for jj = 1:2
                 for ii = 1:denoised_dim
                     axes(h_subplot((jj-1)*2+pp));hold on;
                     plot(1:length(projPC{pp}{jj}{ii}),projPC{pp}{jj}{ii},'k-','linewidth',3,'color',colors{ii});
                 end
                 axis on;legend('PC1','PC2','PC3','PC4');
-                    xlim([0 length(PCA_times)])
-%                     ylim([min(projPC{pp}{jj}{ii}(:)) max(projPC{pp}{jj}{ii}(:))]);
-                    %                     xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'});title(['Eigen-time PC' num2str(ii)]); axis on;
-                    xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','1000','1500'});
+                xlim([0 length(PCA_times)])
+                %                     ylim([min(projPC{pp}{jj}{ii}(:)) max(projPC{pp}{jj}{ii}(:))]);
+                %                     xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'});title(['Eigen-time PC' num2str(ii)]); axis on;
+                xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','1000','1500'});
                 title(labels{pp}{jj});
             end
         end
@@ -2321,9 +2391,9 @@ for pp = 1
         %}
         
         % ============   2-D Trajectory  ===========
-%         %{
+        %         %{
         figure(18);set(figure(18),'name','2-D Trajectory (PC1 vs PC2)','unit','pixels','pos',[-1000 -300 900 400]); clf;
-                [~,h_subplot] = tight_subplot(1,2,0.1,0.15,[0.1 0.1]);
+        [~,h_subplot] = tight_subplot(1,2,0.1,0.15,[0.1 0.1]);
         for pp = 1:2
             axes(h_subplot(pp));hold on;
             for jj = 1:2
@@ -2339,9 +2409,9 @@ for pp = 1
         %}
         
         % ============   3-D Trajectory  ===========
-%         %{
+        %         %{
         figure(17);set(figure(17),'name','3-D Trajectory (PC1, PC2, PC3)','unit','pixels','pos',[-1000 -300 900 400]); clf;
-                [~,h_subplot] = tight_subplot(1,2,0.1,0.15,[0.1 0.1]);
+        [~,h_subplot] = tight_subplot(1,2,0.1,0.15,[0.1 0.1]);
         for pp = 1:2
             axes(h_subplot(pp));hold on;
             for jj = 1:2
@@ -2358,12 +2428,12 @@ for pp = 1
         
         
         % ============   Variance explained =================
-%         %{
+        %         %{
         %%%%%%%%%%%%%%%%%0
         figure(15);set(figure(15),'name','Variance explained, All directions','unit','pixels','pos',[-1070 300 1050 600]); clf;
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         
-%                 for pp = 1:2
+        %                 for pp = 1:2
         for pp = 1
             for jj = 1:2
                 axes(h_subplot((jj-1)*2+pp));hold on;
@@ -2474,6 +2544,7 @@ for pp = 1
         
         for pp = 1:size(mat_address,1)
             for jj = 1:2
+% for jj = 1
                 
                 [~, temp] =  min(BIC_3D{pp}{jj},[],2);
                 BIC_min{pp,jj} = temp(select_temporalSig{pp}(:,jj));
@@ -2485,7 +2556,8 @@ for pp = 1
         
         figure(11);set(figure(11),'name','Distribution of best fitting model (BIC)','unit','normalized','pos',[-0.55 0.4 0.53 0.35]); clf;
         h = axes('pos',[0.1 0.2 0.8 0.6]);
-        BestFitModel = [n_BIC{1}(1,:);n_BIC{1}(2,:);n_BIC{2}(1,:);n_BIC{2}(2,:)]';
+%         BestFitModel = [n_BIC{1}(1,:);n_BIC{1}(2,:);n_BIC{2}(1,:);n_BIC{2}(2,:)]';
+BestFitModel = [n_BIC{1}(1,:);n_BIC{2}(1,:)]';
         hbar = bar(1:length(models),BestFitModel,'grouped');
         % set(h(1),'facecolor',colorDBlue,'edgecolor',colorDBlue);
         % set(h(2),'facecolor',colorDRed,'edgecolor',colorDRed);
@@ -2494,8 +2566,9 @@ for pp = 1
         xlabel('Models');ylabel('Cell #');
         set(gca,'xticklabel',models);
         title('Distribution of best fitting model (BIC)');
-        legend(['Translation (Vestibular), n = ',num2str(sum(select_temporalSig{1}(:,1)))],['Translation (Visual), n = ',num2str(sum(select_temporalSig{1}(:,2)))],['Rotation (Vestibular), n = ',num2str(sum(select_temporalSig{2}(:,1)))],['Rotation (Visual), n = ',num2str(sum(select_temporalSig{2}(:,2)))],'location','NorthWest');
-        SetFigure(12);
+%         legend(['Translation (Vestibular), n = ',num2str(sum(select_temporalSig{1}(:,1)))],['Translation (Visual), n = ',num2str(sum(select_temporalSig{1}(:,2)))],['Rotation (Vestibular), n = ',num2str(sum(select_temporalSig{2}(:,1)))],['Rotation (Visual), n = ',num2str(sum(select_temporalSig{2}(:,2)))],'location','NorthWest');
+        legend(['Translation (Vestibular), n = ',num2str(sum(select_temporalSig{1}(:,1)))],['Rotation (Vestibular), n = ',num2str(sum(select_temporalSig{2}(:,1)))],'location','NorthWest');
+SetFigure(12);
         
     end
 
@@ -2721,15 +2794,18 @@ for pp = 1
             [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
             for pp = 1:2
                 n_VA_VA{pp} = [];
-                for jj = 1:2
+                %                 for jj = 1:2
+                for jj = 1
                     RatioVA_VA{pp}{jj} = log(wV_VA_3D{pp}(select_temporalSig{pp}(:,jj),jj)./wA_VA_3D{pp}(select_temporalSig{pp}(:,jj),jj));
                     
                     % only use which r2 > threshold (0.5)
                     r2_VA = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'VA')));
                     RatioVA_VA{pp}{jj} = RatioVA_VA{pp}{jj}(r2_VA>r2_thre);
-                    
-                    [p_VA(pp,jj),h_VA(pp,jj)] = ranksum(RatioVA_VA{pp}{jj},zeros(1,length(RatioVA_VA{pp}{jj})));
-                    
+                    try
+                        [p_VA(pp,jj),h_VA(pp,jj)] = ranksum(RatioVA_VA{pp}{jj},zeros(1,length(RatioVA_VA{pp}{jj})));
+                    catch
+                        keyboard;
+                    end
                     [n_VA_VA{pp}(jj,:), ~] = hist(RatioVA_VA{pp}{jj},xVA);
                     medianVA_VA{pp}(jj) = median(RatioVA_VA{pp}{jj});
                     axes(h_subplot((jj-1)*2+pp));hold on;

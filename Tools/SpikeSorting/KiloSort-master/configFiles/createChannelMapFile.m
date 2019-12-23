@@ -1,5 +1,5 @@
 %  create a channel map file
-
+%{
 Nchannels = 32;
 connected = true(Nchannels, 1);
 chanMap   = 1:Nchannels;
@@ -11,9 +11,9 @@ kcoords   = ones(Nchannels,1); % grouping of channels (i.e. tetrode groups)
 fs = 25000; % sampling frequency
 save('C:\DATA\Spikes\20150601_chan32_4_900s\chanMap.mat', ...
     'chanMap','connected', 'xcoords', 'ycoords', 'kcoords', 'chanMap0ind', 'fs')
-
+%}
 %%
-
+%{
 Nchannels = 32;
 connected = true(Nchannels, 1);
 chanMap   = 1:Nchannels;
@@ -28,6 +28,24 @@ kcoords   = ones(Nchannels,1); % grouping of channels (i.e. tetrode groups)
 fs = 25000; % sampling frequency
 
 save('C:\DATA\Spikes\Piroska\chanMap.mat', ...
+    'chanMap','connected', 'xcoords', 'ycoords', 'kcoords', 'chanMap0ind', 'fs')
+%}
+%% for linear array
+
+Nchannels = 16;
+connected = true(Nchannels, 1);
+chanMap   = 1:Nchannels;
+chanMap0ind = chanMap - 1;
+
+xcoords   = repmat([1]', 1, Nchannels/1);
+xcoords   = xcoords(:);
+ycoords   = repmat(1:Nchannels/1, 1, 1);
+ycoords   = ycoords(:);
+kcoords   = ones(Nchannels,1); % grouping of channels (i.e. tetrode groups)
+
+fs = 22000; % sampling frequency
+
+save('Z:\Data\MOOG\Polo\raw\LA\m5c1666r1\chanMap.mat', ...
     'chanMap','connected', 'xcoords', 'ycoords', 'kcoords', 'chanMap0ind', 'fs')
 %%
 

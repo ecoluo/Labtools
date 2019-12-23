@@ -1,4 +1,4 @@
-function varargout = GROUP_GUI_LBY(varargin)
+function varargout = GROUP_GUI_MSTd(varargin)
 % GROUP_GUI MATLAB code for GROUP_GUI.fig
 %      GROUP_GUI, by itself, creates a new GROUP_GUI or raises the existing
 %      singleton*.
@@ -47,7 +47,7 @@ function varargout = GROUP_GUI_LBY(varargin)
 
 % Edit the above text to modify the response to help GROUP_GUI
 
-% Last Modified by GUIDE v2.5 10-Jul-2019 19:24:57
+% Last Modified by GUIDE v2.5 25-Jun-2019 16:11:30
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -119,16 +119,13 @@ function ReadXls_Callback(hObject, eventdata, handles)
 clear global group_result;
 
 if ismember('control',get(gcf,'currentModifier'))
-%     winopen('Z:\Data\MOOG\Results\Result_LBY.xlsm');
-winopen('Z:\Data\MOOG\Results\Result_TQY.xlsm');
-
+winopen('Z:\Data\MOOG\Results\Result_MST.xlsm');
     return;
 end
 
 set(handles.num_entries,'string',0); drawnow;
 
-% handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
-handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_TQY.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string')));
+handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_MST.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
 
 handles.N = size(handles.XlsData.num,1);
 
@@ -164,9 +161,9 @@ handles.function_handles = function_handles;
 guidata(hObject,handles);
 load_function_handles(hObject,handles); % Update possible function_handles
 
-% --- Executes on button press in Psychometric.
-function Psychometric_Callback(hObject, eventdata, handles)
-% hObject    handle to Psychometric (see GCBO)
+% --- Executes on button press in Inactivation.
+function Inactivation_Callback(hObject, eventdata, handles)
+% hObject    handle to Inactivation (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if ismember('control',get(gcf,'currentModifier'))
@@ -221,7 +218,7 @@ handles.level2_selected = [];
 set(findall(handles.uipanel1, '-property', 'Enable'), 'Enable', 'on');
 set(findall(handles.cell_counter, '-property', 'Enable'), 'Enable', 'on');
 
-function_handles = Group_Discrim(data);
+function_handles = Group_HD(data);
 
 handles.function_handles = function_handles;
 guidata(hObject,handles);
@@ -449,8 +446,8 @@ end
 
 
 % --- Executes during object creation, after setting all properties.
-function monkey_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to monkey (see GCBO)
+function monkeys_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to monkeys (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -557,14 +554,14 @@ guide GROUP_GUI_LBY;
 edit GROUP_GUI_LBY;
 
 
-% --- Executes on selection change in monkey.
-function monkey_Callback(hObject, eventdata, handles)
-% hObject    handle to monkey (see GCBO)
+% --- Executes on selection change in monkeys.
+function monkeys_Callback(hObject, eventdata, handles)
+% hObject    handle to monkeys (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns monkey contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from monkey
+% Hints: contents = cellstr(get(hObject,'String')) returns monkeys contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from monkeys
 
 
 % --- Executes on button press in debug.
@@ -578,28 +575,28 @@ if length(handles.level2_selected) == 1
 end
 
 
-% --- Executes on button press in Polo_data.
-function Polo_data_Callback(hObject, eventdata, handles)
-% hObject    handle to Polo_data (see GCBO)
+% --- Executes on button press in Monkey2_data.
+function Monkey2_data_Callback(hObject, eventdata, handles)
+% hObject    handle to Monkey2_data (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 t_cell_selection_num = get(handles.t_criterion,'value'); 
 feval(handles.function_handles{end,2}{1},t_cell_selection_num);  % Update cell_selection
 
-% Hint: get(hObject,'Value') returns toggle state of Polo_data
+% Hint: get(hObject,'Value') returns toggle state of Monkey2_data
 
 
-% --- Executes on button press in QQ_data.
-function QQ_data_Callback(hObject, eventdata, handles)
-% hObject    handle to QQ_data (see GCBO)
+% --- Executes on button press in Monkey1_data.
+function Monkey1_data_Callback(hObject, eventdata, handles)
+% hObject    handle to Monkey1_data (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 t_cell_selection_num = get(handles.t_criterion,'value'); 
 feval(handles.function_handles{end,2}{1},t_cell_selection_num);  % Update cell_selection
 
-% Hint: get(hObject,'Value') returns toggle state of QQ_data
+% Hint: get(hObject,'Value') returns toggle state of Monkey1_data
 
 
 % --- Executes on selection change in t_criterion.

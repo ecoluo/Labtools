@@ -254,7 +254,7 @@ for k = 1:length(unique_stimType)
             end
             
             % pack data for PSTH
-            PSTH.spk_data_bin_rate{k,j,i} = PSTH_smooth( nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
+            PSTH.spk_data_bin_rate{k,j,i} = PSTH_smooth(nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
             try
                 temp = PSTH_smooth( nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
                 PSTH.spk_data_bin_rate_aov{k}(pc,:,1:size(temp,2)) = temp;
@@ -559,7 +559,8 @@ end
 % i=0 45 90 135 180 225 270 315
 
 % 270-225-180-135-90-45-0-315-270 for figures
-iAzi = [7 6 5 4 3 2 1 8 7];
+% iAzi = [7 6 5 4 3 2 1 8 7];
+iAzi = [7 6 5 4 3 2 1 8];
 
 % initialize default properties
 set(0,'defaultaxesfontsize',24);
@@ -579,20 +580,23 @@ markers = {
 Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+719-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+1074-PSTH_onT+timeStep)/timeStep];
 % preferDirectionOfTime;
 % CosineTuningPlot;
-PSTH_3D_Tuning; % plot PSTHs across sessions;
+% PSTH_3D_Tuning; % plot PSTHs across sessions;
 % Contour_3D_Tuning; % plot countour figures;
 % Contour_3D_Tuning_GIF; % plot countour figures(PD across time);
 % spatial_tuning;
+
+model_catg = [];
 %% 3D models nalysis
+
+% %{
 model_catg = 'Sync model'; % tau is the same
 % model_catg = 'Out-sync model'; % each component has its own tau
-%{
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
 
-% models = {'VO','AO','VA','VJ','AJ','VAJ'};
-% models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};
+models = {'VO','AO','VA','VJ','AJ','VAJ'};
+models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};
 
 % models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
 % models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
@@ -603,8 +607,8 @@ model_catg = 'Sync model'; % tau is the same
 % models = {'VAJ','VA'};
 % models_color = {'k','g'};
 
-models = {'VAJ'};
-models_color = {'k'};
+% models = {'VAJ'};
+% models_color = {'k'};
 
 % models = {'VA','VAJ','VAP','PVAJ'};
 % models_color = {'k','k','k','k'};
@@ -612,6 +616,7 @@ models_color = {'k'};
 spon_flag = 0; % 0 means raw data; 1 means mean(raw)-mean(spon) data
 
 reps = 20;
+
 % reps = 2;
 
 for k = 1:length(unique_stimType)
@@ -809,9 +814,10 @@ end
 
 %}
 %% 1D models nalysis
-% model_catg = 'Sync model'; % tau is the same
-model_catg = 'Out-sync model'; % each component has its own tau
+
 %{
+% model_catg = 'Sync model'; % tau is the same
+% model_catg = 'Out-sync model'; % each component has its own tau
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
@@ -1058,69 +1064,88 @@ switch Protocol
         config.suffix = 'PSTH_R';
 end
 
-switch model_catg
-    case 'Sync model'
-        config.xls_column_begin = 'meanSpon';
-        config.xls_column_end = 'nP_vis';
-        % config.xls_column_end = 'end';
-        % figures to save
-        config.save_figures = [];
-        
-        % Only once
-        config.sprint_once_marker = {'0.2f'};
-        config.sprint_once_contents = 'result.meanSpon';
-        
-        % loop across stim_type
-        config.sprint_loop_marker = {{'0.0f','0.0f','0.2f','g'};
-            {'d','d','d'};
-            {'0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f',...
-            '0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
-            '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
-            '0.1f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
-            '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
-            '0.1f','0.2f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f'};
-            };
-        config.sprint_loop_contents = {'result.preferDire{k}(1), result.preferDire{k}(2),result.DDI(k),result.p_anova_dire(k)';
-            'result.PSTH.respon_sigTrue(k),result.PSTH.NoPeaks(k), result.PSTH.sig(k)';
-            ['result.PSTH3Dmodel{k}.RSquared_VO,result.PSTH3Dmodel{k}.RSquared_AO,result.PSTH3Dmodel{k}.RSquared_VJ,result.PSTH3Dmodel{k}.RSquared_AJ,result.PSTH3Dmodel{k}.RSquared_VP,result.PSTH3Dmodel{k}.RSquared_AP,result.PSTH3Dmodel{k}.RSquared_VA,result.PSTH3Dmodel{k}.RSquared_VAP,result.PSTH3Dmodel{k}.RSquared_VAJ,result.PSTH3Dmodel{k}.RSquared_PVAJ,'...
-            'result.PSTH3Dmodel{k}.BIC_VO,result.PSTH3Dmodel{k}.BIC_AO,result.PSTH3Dmodel{k}.BIC_VJ,result.PSTH3Dmodel{k}.BIC_AJ,result.PSTH3Dmodel{k}.BIC_VP,result.PSTH3Dmodel{k}.BIC_AP,result.PSTH3Dmodel{k}.BIC_VA,result.PSTH3Dmodel{k}.BIC_VAP,result.PSTH3Dmodel{k}.BIC_VAJ,result.PSTH3Dmodel{k}.BIC_PVAJ,'...
-            'result.PSTH3Dmodel{k}.modelFitPara_VAJ(2),result.PSTH3Dmodel{k}.modelFitPara_VAJ(3),result.PSTH3Dmodel{k}.VAJ_wV,result.PSTH3Dmodel{k}.VAJ_wA,result.PSTH3Dmodel{k}.VAJ_wJ,result.PSTH3Dmodel{k}.VAJ_preDir_V(1),result.PSTH3Dmodel{k}.VAJ_preDir_V(2),result.PSTH3Dmodel{k}.VAJ_preDir_A(1),result.PSTH3Dmodel{k}.VAJ_preDir_A(2),result.PSTH3Dmodel{k}.VAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAJ(4),result.PSTH3Dmodel{k}.modelFitPara_VAJ(8),result.PSTH3Dmodel{k}.modelFitPara_VAJ(12),'...
-            'result.PSTH3Dmodel{k}.modelFitPara_VA(2),result.PSTH3Dmodel{k}.modelFitPara_VA(3),result.PSTH3Dmodel{k}.VA_wV,result.PSTH3Dmodel{k}.VA_wA,result.PSTH3Dmodel{k}.VA_preDir_V(1),result.PSTH3Dmodel{k}.VA_preDir_V(2),result.PSTH3Dmodel{k}.VA_preDir_A(1),result.PSTH3Dmodel{k}.VA_preDir_A(2),result.PSTH3Dmodel{k}.VA_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VA(4),result.PSTH3Dmodel{k}.modelFitPara_VA(8),'...
-            'result.PSTH3Dmodel{k}.modelFitPara_VAP(2),result.PSTH3Dmodel{k}.modelFitPara_VAP(3),result.PSTH3Dmodel{k}.VAP_wV,result.PSTH3Dmodel{k}.VAP_wA,result.PSTH3Dmodel{k}.VAP_wP,result.PSTH3Dmodel{k}.VAP_preDir_V(1),result.PSTH3Dmodel{k}.VAP_preDir_V(2),result.PSTH3Dmodel{k}.VAP_preDir_A(1),result.PSTH3Dmodel{k}.VAP_preDir_A(2),result.PSTH3Dmodel{k}.VAP_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAP(4),result.PSTH3Dmodel{k}.modelFitPara_VAP(8),result.PSTH3Dmodel{k}.modelFitPara_VAP(12),'...
-            'result.PSTH3Dmodel{k}.modelFitPara_PVAJ(2),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(3),result.PSTH3Dmodel{k}.PVAJ_wV,result.PSTH3Dmodel{k}.PVAJ_wA,result.PSTH3Dmodel{k}.PVAJ_wJ,result.PSTH3Dmodel{k}.PVAJ_wP,result.PSTH3Dmodel{k}.PVAJ_preDir_V(1),result.PSTH3Dmodel{k}.PVAJ_preDir_V(2),result.PSTH3Dmodel{k}.PVAJ_preDir_A(1),result.PSTH3Dmodel{k}.PVAJ_preDir_A(2),result.PSTH3Dmodel{k}.PVAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_PVAJ(4),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(8),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(12),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(16)']};
-        
-    case 'Out-sync model'
-        config.xls_column_begin = 'meanSpon';
-        config.xls_column_end = 'Delay_P_to_A_vis';
-        % config.xls_column_end = 'end';
-        % figures to save
-        config.save_figures = [];
-        
-        % Only once
-        config.sprint_once_marker = {'0.2f'};
-        config.sprint_once_contents = 'result.meanSpon';
-        
-        % loop across stim_type
-        config.sprint_loop_marker = {{'0.0f','0.0f','0.2f','g'};
-            {'d','d','d'};
-            {'0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f',...
-            '0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
-            '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f','0.3f',...
-            '0.1f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f',...
-            '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f','0.3f',...
-            '0.1f','0.2f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f','0.3f','0.3f'};
-            };
-        config.sprint_loop_contents = {'result.preferDire{k}(1), result.preferDire{k}(2),result.DDI(k),result.p_anova_dire(k)';
-            'result.PSTH.respon_sigTrue(k),result.PSTH.NoPeaks(k), result.PSTH.sig(k)';
-            ['result.PSTH3Dmodel{k}.RSquared_VO,result.PSTH3Dmodel{k}.RSquared_AO,result.PSTH3Dmodel{k}.RSquared_VJ,result.PSTH3Dmodel{k}.RSquared_AJ,result.PSTH3Dmodel{k}.RSquared_VP,result.PSTH3Dmodel{k}.RSquared_AP,result.PSTH3Dmodel{k}.RSquared_VA,result.PSTH3Dmodel{k}.RSquared_VAP,result.PSTH3Dmodel{k}.RSquared_VAJ,result.PSTH3Dmodel{k}.RSquared_PVAJ,'...
-            'result.PSTH3Dmodel{k}.BIC_VO,result.PSTH3Dmodel{k}.BIC_AO,result.PSTH3Dmodel{k}.BIC_VJ,result.PSTH3Dmodel{k}.BIC_AJ,result.PSTH3Dmodel{k}.BIC_VP,result.PSTH3Dmodel{k}.BIC_AP,result.PSTH3Dmodel{k}.BIC_VA,result.PSTH3Dmodel{k}.BIC_VAP,result.PSTH3Dmodel{k}.BIC_VAJ,result.PSTH3Dmodel{k}.BIC_PVAJ,'...
-            'result.PSTH3Dmodel{k}.modelFitPara_VAJ(2),result.PSTH3Dmodel{k}.modelFitPara_VAJ(3),result.PSTH3Dmodel{k}.VAJ_wV,result.PSTH3Dmodel{k}.VAJ_wA,result.PSTH3Dmodel{k}.VAJ_wJ,result.PSTH3Dmodel{k}.VAJ_preDir_V(1),result.PSTH3Dmodel{k}.VAJ_preDir_V(2),result.PSTH3Dmodel{k}.VAJ_preDir_A(1),result.PSTH3Dmodel{k}.VAJ_preDir_A(2),result.PSTH3Dmodel{k}.VAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAJ(4),result.PSTH3Dmodel{k}.modelFitPara_VAJ(8),result.PSTH3Dmodel{k}.modelFitPara_VAJ(12),result.PSTH3Dmodel{k}.VAJ_Delay_VA,result.PSTH3Dmodel{k}.VAJ_Delay_JA,'...
-            'result.PSTH3Dmodel{k}.modelFitPara_VA(2),result.PSTH3Dmodel{k}.modelFitPara_VA(3),result.PSTH3Dmodel{k}.VA_wV,result.PSTH3Dmodel{k}.VA_wA,result.PSTH3Dmodel{k}.VA_preDir_V(1),result.PSTH3Dmodel{k}.VA_preDir_V(2),result.PSTH3Dmodel{k}.VA_preDir_A(1),result.PSTH3Dmodel{k}.VA_preDir_A(2),result.PSTH3Dmodel{k}.VA_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VA(4),result.PSTH3Dmodel{k}.modelFitPara_VA(8),result.PSTH3Dmodel{k}.VA_Delay_VA,'...
-            'result.PSTH3Dmodel{k}.modelFitPara_VAP(2),result.PSTH3Dmodel{k}.modelFitPara_VAP(3),result.PSTH3Dmodel{k}.VAP_wV,result.PSTH3Dmodel{k}.VAP_wA,result.PSTH3Dmodel{k}.VAP_wP,result.PSTH3Dmodel{k}.VAP_preDir_V(1),result.PSTH3Dmodel{k}.VAP_preDir_V(2),result.PSTH3Dmodel{k}.VAP_preDir_A(1),result.PSTH3Dmodel{k}.VAP_preDir_A(2),result.PSTH3Dmodel{k}.VAP_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAP(4),result.PSTH3Dmodel{k}.modelFitPara_VAP(8),result.PSTH3Dmodel{k}.modelFitPara_VAP(12),result.PSTH3Dmodel{k}.VAP_Delay_VA,result.PSTH3Dmodel{k}.VAP_Delay_PA,'...
-            'result.PSTH3Dmodel{k}.modelFitPara_PVAJ(2),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(3),result.PSTH3Dmodel{k}.PVAJ_wV,result.PSTH3Dmodel{k}.PVAJ_wA,result.PSTH3Dmodel{k}.PVAJ_wJ,result.PSTH3Dmodel{k}.PVAJ_wP,result.PSTH3Dmodel{k}.PVAJ_preDir_V(1),result.PSTH3Dmodel{k}.PVAJ_preDir_V(2),result.PSTH3Dmodel{k}.PVAJ_preDir_A(1),result.PSTH3Dmodel{k}.PVAJ_preDir_A(2),result.PSTH3Dmodel{k}.PVAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_PVAJ(4),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(8),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(12),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(16),result.PSTH3Dmodel{k}.PVAJ_Delay_VA,result.PSTH3Dmodel{k}.PVAJ_Delay_JA,result.PSTH3Dmodel{k}.PVAJ_Delay_PA']};
-        
+if isempty(model_catg)
+    config.xls_column_begin = 'meanSpon';
+            config.xls_column_end = 'SigDireNum_vis';
+            % config.xls_column_end = 'end';
+            % figures to save
+            config.save_figures = [];
+            
+            % Only once
+            config.sprint_once_marker = {'0.2f'};
+            config.sprint_once_contents = 'result.meanSpon';
+            
+            % loop across stim_type
+            config.sprint_loop_marker = {{'0.0f','0.0f','0.2f','g'};
+                {'d','d','d'};
+                };
+            config.sprint_loop_contents = {'result.preferDire{k}(1), result.preferDire{k}(2),result.DDI(k),result.p_anova_dire(k)';
+                'result.PSTH.respon_sigTrue(k),result.PSTH.NoPeaks(k), result.PSTH.sig(k)';};
+            
+else
+    switch model_catg
+        case 'Sync model'
+            config.xls_column_begin = 'meanSpon';
+            config.xls_column_end = 'nP_vis';
+            % config.xls_column_end = 'end';
+            % figures to save
+            config.save_figures = [];
+            
+            % Only once
+            config.sprint_once_marker = {'0.2f'};
+            config.sprint_once_contents = 'result.meanSpon';
+            
+            % loop across stim_type
+            config.sprint_loop_marker = {{'0.0f','0.0f','0.2f','g'};
+                {'d','d','d'};
+                {'0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f',...
+                '0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
+                '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
+                '0.1f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
+                '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
+                '0.1f','0.2f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f'};
+                };
+            config.sprint_loop_contents = {'result.preferDire{k}(1), result.preferDire{k}(2),result.DDI(k),result.p_anova_dire(k)';
+                'result.PSTH.respon_sigTrue(k),result.PSTH.NoPeaks(k), result.PSTH.sig(k)';
+                ['result.PSTH3Dmodel{k}.RSquared_VO,result.PSTH3Dmodel{k}.RSquared_AO,result.PSTH3Dmodel{k}.RSquared_VJ,result.PSTH3Dmodel{k}.RSquared_AJ,result.PSTH3Dmodel{k}.RSquared_VP,result.PSTH3Dmodel{k}.RSquared_AP,result.PSTH3Dmodel{k}.RSquared_VA,result.PSTH3Dmodel{k}.RSquared_VAP,result.PSTH3Dmodel{k}.RSquared_VAJ,result.PSTH3Dmodel{k}.RSquared_PVAJ,'...
+                'result.PSTH3Dmodel{k}.BIC_VO,result.PSTH3Dmodel{k}.BIC_AO,result.PSTH3Dmodel{k}.BIC_VJ,result.PSTH3Dmodel{k}.BIC_AJ,result.PSTH3Dmodel{k}.BIC_VP,result.PSTH3Dmodel{k}.BIC_AP,result.PSTH3Dmodel{k}.BIC_VA,result.PSTH3Dmodel{k}.BIC_VAP,result.PSTH3Dmodel{k}.BIC_VAJ,result.PSTH3Dmodel{k}.BIC_PVAJ,'...
+                'result.PSTH3Dmodel{k}.modelFitPara_VAJ(2),result.PSTH3Dmodel{k}.modelFitPara_VAJ(3),result.PSTH3Dmodel{k}.VAJ_wV,result.PSTH3Dmodel{k}.VAJ_wA,result.PSTH3Dmodel{k}.VAJ_wJ,result.PSTH3Dmodel{k}.VAJ_preDir_V(1),result.PSTH3Dmodel{k}.VAJ_preDir_V(2),result.PSTH3Dmodel{k}.VAJ_preDir_A(1),result.PSTH3Dmodel{k}.VAJ_preDir_A(2),result.PSTH3Dmodel{k}.VAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAJ(4),result.PSTH3Dmodel{k}.modelFitPara_VAJ(8),result.PSTH3Dmodel{k}.modelFitPara_VAJ(12),'...
+                'result.PSTH3Dmodel{k}.modelFitPara_VA(2),result.PSTH3Dmodel{k}.modelFitPara_VA(3),result.PSTH3Dmodel{k}.VA_wV,result.PSTH3Dmodel{k}.VA_wA,result.PSTH3Dmodel{k}.VA_preDir_V(1),result.PSTH3Dmodel{k}.VA_preDir_V(2),result.PSTH3Dmodel{k}.VA_preDir_A(1),result.PSTH3Dmodel{k}.VA_preDir_A(2),result.PSTH3Dmodel{k}.VA_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VA(4),result.PSTH3Dmodel{k}.modelFitPara_VA(8),'...
+                'result.PSTH3Dmodel{k}.modelFitPara_VAP(2),result.PSTH3Dmodel{k}.modelFitPara_VAP(3),result.PSTH3Dmodel{k}.VAP_wV,result.PSTH3Dmodel{k}.VAP_wA,result.PSTH3Dmodel{k}.VAP_wP,result.PSTH3Dmodel{k}.VAP_preDir_V(1),result.PSTH3Dmodel{k}.VAP_preDir_V(2),result.PSTH3Dmodel{k}.VAP_preDir_A(1),result.PSTH3Dmodel{k}.VAP_preDir_A(2),result.PSTH3Dmodel{k}.VAP_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAP(4),result.PSTH3Dmodel{k}.modelFitPara_VAP(8),result.PSTH3Dmodel{k}.modelFitPara_VAP(12),'...
+                'result.PSTH3Dmodel{k}.modelFitPara_PVAJ(2),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(3),result.PSTH3Dmodel{k}.PVAJ_wV,result.PSTH3Dmodel{k}.PVAJ_wA,result.PSTH3Dmodel{k}.PVAJ_wJ,result.PSTH3Dmodel{k}.PVAJ_wP,result.PSTH3Dmodel{k}.PVAJ_preDir_V(1),result.PSTH3Dmodel{k}.PVAJ_preDir_V(2),result.PSTH3Dmodel{k}.PVAJ_preDir_A(1),result.PSTH3Dmodel{k}.PVAJ_preDir_A(2),result.PSTH3Dmodel{k}.PVAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_PVAJ(4),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(8),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(12),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(16)']};
+            
+        case 'Out-sync model'
+            config.xls_column_begin = 'meanSpon';
+            config.xls_column_end = 'Delay_P_to_A_vis';
+            % config.xls_column_end = 'end';
+            % figures to save
+            config.save_figures = [];
+            
+            % Only once
+            config.sprint_once_marker = {'0.2f'};
+            config.sprint_once_contents = 'result.meanSpon';
+            
+            % loop across stim_type
+            config.sprint_loop_marker = {{'0.0f','0.0f','0.2f','g'};
+                {'d','d','d'};
+                {'0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f','0.2f',...
+                '0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f',...
+                '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f','0.3f',...
+                '0.1f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f',...
+                '0.1f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f','0.3f',...
+                '0.1f','0.2f','0.2f','0.2f','0.2f','0.2f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.0f','0.3f','0.3f','0.3f'};
+                };
+            config.sprint_loop_contents = {'result.preferDire{k}(1), result.preferDire{k}(2),result.DDI(k),result.p_anova_dire(k)';
+                'result.PSTH.respon_sigTrue(k),result.PSTH.NoPeaks(k), result.PSTH.sig(k)';
+                ['result.PSTH3Dmodel{k}.RSquared_VO,result.PSTH3Dmodel{k}.RSquared_AO,result.PSTH3Dmodel{k}.RSquared_VJ,result.PSTH3Dmodel{k}.RSquared_AJ,result.PSTH3Dmodel{k}.RSquared_VP,result.PSTH3Dmodel{k}.RSquared_AP,result.PSTH3Dmodel{k}.RSquared_VA,result.PSTH3Dmodel{k}.RSquared_VAP,result.PSTH3Dmodel{k}.RSquared_VAJ,result.PSTH3Dmodel{k}.RSquared_PVAJ,'...
+                'result.PSTH3Dmodel{k}.BIC_VO,result.PSTH3Dmodel{k}.BIC_AO,result.PSTH3Dmodel{k}.BIC_VJ,result.PSTH3Dmodel{k}.BIC_AJ,result.PSTH3Dmodel{k}.BIC_VP,result.PSTH3Dmodel{k}.BIC_AP,result.PSTH3Dmodel{k}.BIC_VA,result.PSTH3Dmodel{k}.BIC_VAP,result.PSTH3Dmodel{k}.BIC_VAJ,result.PSTH3Dmodel{k}.BIC_PVAJ,'...
+                'result.PSTH3Dmodel{k}.modelFitPara_VAJ(2),result.PSTH3Dmodel{k}.modelFitPara_VAJ(3),result.PSTH3Dmodel{k}.VAJ_wV,result.PSTH3Dmodel{k}.VAJ_wA,result.PSTH3Dmodel{k}.VAJ_wJ,result.PSTH3Dmodel{k}.VAJ_preDir_V(1),result.PSTH3Dmodel{k}.VAJ_preDir_V(2),result.PSTH3Dmodel{k}.VAJ_preDir_A(1),result.PSTH3Dmodel{k}.VAJ_preDir_A(2),result.PSTH3Dmodel{k}.VAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAJ(4),result.PSTH3Dmodel{k}.modelFitPara_VAJ(8),result.PSTH3Dmodel{k}.modelFitPara_VAJ(12),result.PSTH3Dmodel{k}.VAJ_Delay_VA,result.PSTH3Dmodel{k}.VAJ_Delay_JA,'...
+                'result.PSTH3Dmodel{k}.modelFitPara_VA(2),result.PSTH3Dmodel{k}.modelFitPara_VA(3),result.PSTH3Dmodel{k}.VA_wV,result.PSTH3Dmodel{k}.VA_wA,result.PSTH3Dmodel{k}.VA_preDir_V(1),result.PSTH3Dmodel{k}.VA_preDir_V(2),result.PSTH3Dmodel{k}.VA_preDir_A(1),result.PSTH3Dmodel{k}.VA_preDir_A(2),result.PSTH3Dmodel{k}.VA_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VA(4),result.PSTH3Dmodel{k}.modelFitPara_VA(8),result.PSTH3Dmodel{k}.VA_Delay_VA,'...
+                'result.PSTH3Dmodel{k}.modelFitPara_VAP(2),result.PSTH3Dmodel{k}.modelFitPara_VAP(3),result.PSTH3Dmodel{k}.VAP_wV,result.PSTH3Dmodel{k}.VAP_wA,result.PSTH3Dmodel{k}.VAP_wP,result.PSTH3Dmodel{k}.VAP_preDir_V(1),result.PSTH3Dmodel{k}.VAP_preDir_V(2),result.PSTH3Dmodel{k}.VAP_preDir_A(1),result.PSTH3Dmodel{k}.VAP_preDir_A(2),result.PSTH3Dmodel{k}.VAP_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_VAP(4),result.PSTH3Dmodel{k}.modelFitPara_VAP(8),result.PSTH3Dmodel{k}.modelFitPara_VAP(12),result.PSTH3Dmodel{k}.VAP_Delay_VA,result.PSTH3Dmodel{k}.VAP_Delay_PA,'...
+                'result.PSTH3Dmodel{k}.modelFitPara_PVAJ(2),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(3),result.PSTH3Dmodel{k}.PVAJ_wV,result.PSTH3Dmodel{k}.PVAJ_wA,result.PSTH3Dmodel{k}.PVAJ_wJ,result.PSTH3Dmodel{k}.PVAJ_wP,result.PSTH3Dmodel{k}.PVAJ_preDir_V(1),result.PSTH3Dmodel{k}.PVAJ_preDir_V(2),result.PSTH3Dmodel{k}.PVAJ_preDir_A(1),result.PSTH3Dmodel{k}.PVAJ_preDir_A(2),result.PSTH3Dmodel{k}.PVAJ_angleDiff_VA,result.PSTH3Dmodel{k}.modelFitPara_PVAJ(4),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(8),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(12),result.PSTH3Dmodel{k}.modelFitPara_PVAJ(16),result.PSTH3Dmodel{k}.PVAJ_Delay_VA,result.PSTH3Dmodel{k}.PVAJ_Delay_JA,result.PSTH3Dmodel{k}.PVAJ_Delay_PA']};
+            
+    end
 end
-
 config.append = 1; % Overwrite or append
 % keyboard;
 SaveResult(config, result,model_catg);
