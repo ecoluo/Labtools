@@ -170,13 +170,15 @@ if ~isempty(config.batch_flag) && isfield(config,'xls_column_begin')
         if ~isempty(model_catg)
             switch model_catg
                 case 'Sync model'
-                    XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm',2,3);
+%                     XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm',2,3);
+XlsData = ReadXls('Z:\Data\MOOG\Results\Result_PCall.xlsm',2,3);
                 case 'Out-sync model'
                     XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY_outSyncModel.xlsm',2,3);
             end
         else
             %             XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',2,3);
-            XlsData = ReadXls('Z:\Data\MOOG\Results\Result_TQY.xlsm',2,3);
+%             XlsData = ReadXls('Z:\Data\MOOG\Results\Result_TQY.xlsm',2,3);
+XlsData = ReadXls('Z:\Data\MOOG\Results\Result_PCall.xlsm',2,3);
         end
     end
     
@@ -203,14 +205,16 @@ if ~isempty(config.batch_flag) && isfield(config,'xls_column_begin')
                 if ~isempty(model_catg)
                     switch model_catg
                         case 'Sync model'
-                            xlswrite1('Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
+%                             xlswrite1('Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
                             %                         [a b] = xlswrite('Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
+                        xlswrite1('Z:\Data\MOOG\Results\Result_PCall.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
                         case 'Out-sync model'
                             xlswrite1('Z:\Data\MOOG\Results\Result_LBY_outSyncModel.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
                     end
                 else
                     %             xlswrite1('Z:\Data\MOOG\Results\Result_LBY.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
-                    xlswrite1('Z:\Data\MOOG\Results\Result_TQY.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
+%                     xlswrite1('Z:\Data\MOOG\Results\Result_TQY.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
+xlswrite1('Z:\Data\MOOG\Results\Result_PCall.xlsm',toXls,2,range_name);  % Speed-up of xlswrite
                 end
                 disp('Writing to .xls finished...');
             catch

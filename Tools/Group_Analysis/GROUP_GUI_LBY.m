@@ -120,7 +120,8 @@ clear global group_result;
 
 if ismember('control',get(gcf,'currentModifier'))
 %     winopen('Z:\Data\MOOG\Results\Result_LBY.xlsm');
-winopen('Z:\Data\MOOG\Results\Result_TQY.xlsm');
+% winopen('Z:\Data\MOOG\Results\Result_TQY.xlsm');
+winopen('Z:\Data\MOOG\Results\Result_PCall.xlsm');
 
     return;
 end
@@ -128,7 +129,8 @@ end
 set(handles.num_entries,'string',0); drawnow;
 
 % handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
-handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_TQY.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string')));
+% handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_TQY.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string')));
+handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_PCall.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string')));
 
 handles.N = size(handles.XlsData.num,1);
 

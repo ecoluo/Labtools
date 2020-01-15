@@ -4,18 +4,18 @@ makeNewData = 1; % set this to 0 to just resort a previously created data set
 sortData = 1;
 runBenchmark = 1; %set to 1 to compare sorted data to ground truth for the simulation
 
-fpath    = 'D:\test_new_sim\SC_noise\'; % where on disk do you want the simulation? ideally an SSD...
+fpath    = 'C:\DATA\Spikes\'; % where on disk do you want the simulation? ideally an SSD...
 if ~exist(fpath, 'dir'); mkdir(fpath); end
 
 %KS2 path -- also has the waveforms for the simulation
-KS2path = 'Z:\workstation_backup\full_080119\Documents\KS2_current\';
+KS2path = 'Z:\Labtools\Tools\SpikeSorting\Kilosort2-master\';
 
 % add paths to the matlab path
-addpath(genpath('Z:\workstation_backup\full_080119\Documents\KS2_current\')); % path to kilosort2 folder
-addpath(genpath('D:\KS2\npy-matlab-master\'));
+% addpath(genpath('Z:\workstation_backup\full_080119\Documents\KS2_current\')); % path to kilosort2 folder
+% addpath(genpath('D:\KS2\npy-matlab-master\'));
 
 % path to whitened, filtered proc file (on a fast SSD)
-rootH = 'D:\KS2\kilosort_datatemp\';
+rootH = 'C:\DATA\Spikes\';
 
 % path to config file; if running the default config, no need to change.
 pathToYourConfigFile = [KS2path,'eMouse_drift\']; % path to config file

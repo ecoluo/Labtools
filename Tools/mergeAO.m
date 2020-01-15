@@ -64,7 +64,6 @@ switch (action)
     case 'merge files'
         
         output = [];
-        delete('detection.txt','cluster.txt'); % if there're exsited before, delete them.
         disp('Merging files...');
         
         % Merge files

@@ -31,8 +31,10 @@ mat_address = {
 %             'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_RSC_m6','PSTH_R','3DR';
 %     'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_T','3DT';
 %     'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_R','3DR';
-        'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_T','3DT';
-            'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_R','3DR';
+%         'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_T','3DT';
+%             'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_R','3DR';
+        'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
+            'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
 
 %     
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT';
@@ -45,6 +47,29 @@ mat_address = {
     
     %         'Z:\Data\TEMPO\BATCH\MSTd_vis_out-sync','PSTH_T','3DT';
     };
+
+% All
+%{
+mask_all = {
+    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
+    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
+    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+        & strcmp(txt(:,header.Area),'RSC');
+        strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+        & strcmp(txt(:,header.Area),'RSC');
+        strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    & strcmp(txt(:,header.Area),'A23');
+    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    & strcmp(txt(:,header.Area),'A23');
+%     strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
+%     strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
+    
+    }; % Now no constraint on monkeys
+    %}
 
 % PCC
 % %{

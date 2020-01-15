@@ -621,7 +621,7 @@ reps = 20;
 
 for k = 1:length(unique_stimType)
     % for k = 1
-    if PSTH.respon_sigTrue(k) == 1
+%     if PSTH.respon_sigTrue(k) == 1
         
         % fit data with raw PSTH data or - spon data
         switch spon_flag
@@ -807,9 +807,9 @@ for k = 1:length(unique_stimType)
             PSTH3Dmodel{k}.RSquared_AP = nan;
             PSTH3Dmodel{k}.BIC_AP = nan;
         end
-    else
-        PSTH3Dmodel{k} = nan;
-    end
+%     else
+%         PSTH3Dmodel{k} = nan;
+%     end
 end
 
 %}

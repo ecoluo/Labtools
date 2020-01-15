@@ -38,7 +38,7 @@ showlist = [];set(infoHandle,'string',showlist);
 switch (action)
     
     case 'load data'
-
+        
         % load spike data
         ori_data  = [];
         progressbar('Load AO .mat files');
@@ -72,14 +72,22 @@ switch (action)
         
     case 'merge files'
         
-        data = [];
-       
+        % preallocate memory for data
+        SPKLength = 0;
+        for fs = 1:length(filename)
+            eval(['SPKLength = SPKLength + length(ori_data{',num2str(fs),'}.CSPK_001.Samples);']);
+            % SPKLength = SPKLength + length(ori_data{1}.CSPK_001.Samples);
+        end
+        
+        data = ones(chN,SPKLength)*nan;
+        
         disp('Merging files...');
         progressbar('Merging files');
-        % Merge files
+        % Merge files for spike data
         for ch = 1:chN
             chTure = chOrder(ch);
             tempSPK = [];
+            
             for fs = 1:length(filename)
                 eval(['tempSPK = [tempSPK, ori_data{',num2str(fs),'}.CSPK_',chName{chTure},'.Samples];']);
                 % tempSPK = [tempSPK, ori_data{1}.CSPK_001.Samples];
@@ -87,18 +95,35 @@ switch (action)
             
             eval(['tempSR = ori_data{1}.CSPK_',chName{chTure},'.KHz * 1000;']);
             % tempSR = ori_data{1}.CSPK_001.KHz * 1000;
-%             eval(['tempT = ori_data{1}.CSPK_',chName{ch},'.TimeEnd - ori_data{1}.CSPK_',chName{ch},'.TimeBegin;']);
+            %             eval(['tempT = ori_data{1}.CSPK_',chName{ch},'.TimeEnd - ori_data{1}.CSPK_',chName{ch},'.TimeBegin;']);
             
             % save all infos into output (for kilosort)
+            %             data = nan(chN,length(ori_data{1}.CSPK_001));
             data(ch,:) = tempSPK;
             progressbar(ch/chN);
-
+            
         end
+        
         data = int16(data);
         fid =  fopen([savepath,'\',cellname, '.bin'], 'w'); % e.g.m5c1665r1.bin
-            fwrite(fid, data, 'int16'); % spike data with size of [nChannels*nTimepoints], in int16
-            fclose(fid);
-            
+        fwrite(fid, data, 'int16'); % spike data with size of [nChannels*nTimepoints], in int16
+        fclose(fid);
+        
+        % Save the sampling rate
+        SPK_fs = ori_data{1}.CSPK_001.KHz*1000;
+        save([cellname,'_fs'],'markers','SPK_fs');
+        
+        % Merge digital marker files
+        tempDM = [];
+        for fs = 1:length(filename)
+            eval(['tempDM = [tempDM, ori_data{',num2str(fs),'}.CInPort_001.Samples];']);
+        end
+        markers = tempDM;
+        DM_fs = ori_data{1}.CInPort_001.KHz*1000;
+        save([cellname,'_DM'],'markers','DM_fs');
+        
+        % clear the memory
+%         clear global ori_data;
         disp(['All ',num2str(chN),' channels have been saved!']);
         
     case 'show info'
@@ -119,6 +144,16 @@ switch (action)
         infoshowlist{3} = ['Total time: ',num2str(infoT{1}), ' ms'];
         %         infoshowlist{4} = nan;
         set(infoHandle,'string',infoshowlist);
+        
+    case 'load DM'
+        % Merge digital marker files
+        tempDM = [];
+        for fs = 1:length(filename)
+            eval(['tempDM = [tempDM, ori_data{',num2str(fs),'}.CInPort_001.Samples];']);
+        end
+        markers = tempDM;
+        DM_fs = ori_data{1}.CInPort_001.KHz*1000;
+        save([cellname,'_DM'],'markers','DM_fs');
         
     case 'save files'
         % save as different format for different spike sorting algorithms
