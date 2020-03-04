@@ -8,10 +8,10 @@ ops.fs = 22000;
 ops.fshigh = 300;   
 
 % minimum firing rate on a "good" channel (0 to skip)
-ops.minfr_goodchannels = 0.1; 
+ops.minfr_goodchannels = 0; 
 
 % threshold on projections (like in Kilosort1, can be different for last pass like [10 4])
-ops.Th = [10 4];  
+ops.Th = [15 6];  
 
 % how important is the amplitude penalty (like in Kilosort1, 0 means not used, 10 is average, 50 is a lot) 
 ops.lam = 10;  
@@ -29,7 +29,7 @@ ops.momentum = [20 400];
 ops.sigmaMask = 30; 
 
 % threshold crossings for pre-clustering (in PCA projection space)
-ops.ThPre = 8; 
+ops.ThPre = 6; 
 %% danger, changing these settings can lead to fatal errors
 % options for determining PCs
 ops.spkTh           = -6;      % spike threshold in standard deviations (-6)

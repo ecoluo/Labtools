@@ -13,7 +13,7 @@ chName = {'001','002','003','004','005','006','007','008','009','010','011','012
     '049','050','051','052','053','054','055','056','057','058','059','060','061','062','063','064'};
 
 %%%%%%%%%%%%%%%% CHANGE HERE !!!! %%%%%%%%%%%%%%%%%%%%%%
-chOrder = [9,10,11,12,13,14,15,16,8,7,6,5,4,3,2,1]; % True order of your electrodes corresponding to AO configs
+chOrder = [9,10,11,12,13,14,15,16,8,7,6,5,4,3,2,1]; % True order of your electrodes corresponding to AO configs, This is for v-probe
 % This means, from the top to the dip of the linear array, the channel numbers displayed in AO configs
 %%%%%%%%%%%%%%%% CHANGE HERE !!!! %%%%%%%%%%%%%%%%%%%%%%
 
@@ -25,6 +25,7 @@ infoHandle = findall(gcbf,'tag','InfoShowPanel');
 
 cd(pathname);
 % cellname = get(FileHandle,'string');
+
 filename = dir([pathname,'\*-*.mat']);
 
 if isempty(filename)
@@ -111,15 +112,17 @@ switch (action)
         
         % Save the sampling rate
         SPK_fs = ori_data{1}.CSPK_001.KHz*1000;
-        save([cellname,'_fs'],'markers','SPK_fs');
+        save([cellname,'_fs'],'SPK_fs');
         
         % Merge digital marker files
+        DM_fs = ori_data{1}.CInPort_001.KHz*1000;
         tempDM = [];
         for fs = 1:length(filename)
             eval(['tempDM = [tempDM, ori_data{',num2str(fs),'}.CInPort_001.Samples];']);
         end
+        spkTimeBegin = ori_data{1}.CSPK_001.TimeBegin*DM_fs; % the start time of the first SPK, in Hz of Digital Marker
+        tempDM(1,:) = tempDM(1,:) - spkTimeBegin;
         markers = tempDM;
-        DM_fs = ori_data{1}.CInPort_001.KHz*1000;
         save([cellname,'_DM'],'markers','DM_fs');
         
         % clear the memory
@@ -147,12 +150,15 @@ switch (action)
         
     case 'load DM'
         % Merge digital marker files
+        DM_fs = ori_data{1}.CInPort_001.KHz*1000;
+        
         tempDM = [];
         for fs = 1:length(filename)
             eval(['tempDM = [tempDM, ori_data{',num2str(fs),'}.CInPort_001.Samples];']);
         end
+        spkTimeBegin = ori_data{1}.CSPK_001.TimeBegin*DM_fs; % the start time of the first SPK, in Hz of Digital Marker
+        tempDM(1,:) = tempDM(1,:) - spkTimeBegin;
         markers = tempDM;
-        DM_fs = ori_data{1}.CInPort_001.KHz*1000;
         save([cellname,'_DM'],'markers','DM_fs');
         
     case 'save files'

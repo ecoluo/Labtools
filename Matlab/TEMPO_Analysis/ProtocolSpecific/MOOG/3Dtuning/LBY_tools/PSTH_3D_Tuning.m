@@ -9,7 +9,7 @@ for k = 1:length(unique_stimType)
     set(gcf,'pos',[0 0 1900 1000]);
     clf;
     for j = 2:length(unique_elevation)-1
-        for i = 1:length(unique_azimuth)+1
+        for i = 1:length(unique_azimuth)
             h1 = axes('unit','pixels','pos',[30+200*(i-1) 20+180*(5-j) 180 80]);
             for n = 1:size(markers,1)
                 plot(h1,[markers{n,3} markers{n,3}], [0,max(PSTH.maxSpkRealBinMean(k),PSTH.maxSpkSponBinMean)], '--','color',markers{n,4},'linewidth',0.5);
@@ -153,7 +153,7 @@ end
 %}
 
 % % ------ fig.30 plot mean PSTHs across directions (with errorbar)------%
-%{
+% %{
 for k = 1:length(unique_stimType)
     figure(30+k);
     set(gcf,'pos',[60 100 1800 900]);
@@ -266,7 +266,7 @@ end
 %}
 %% for report
 % ------ fig.30 plot mean PSTHs across directions (no errorbar)------%
-% %{
+%{
 for k = 1:length(unique_stimType)
     figure(30+k);
     set(gcf,'pos',[60 100 1800 900]);

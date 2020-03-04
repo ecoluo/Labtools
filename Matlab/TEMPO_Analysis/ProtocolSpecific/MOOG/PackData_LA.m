@@ -1,4 +1,4 @@
-function [good_data, outputChan] = PackData(good_data,fName)
+function [good_data, outputChan] = PackData_LA(good_data,fName)
 
 TEMPO_Defs;
 
@@ -8,8 +8,8 @@ load(fName);
 %If spsData2 is empty just return
 if(isempty(spsData2))
     beep;
-%     disp('*** CAUTION ***: Empty Spike2 file!');
-disp('*** CAUTION ***: Empty Spike file!');
+    %     disp('*** CAUTION ***: Empty Spike2 file!');
+    disp('*** CAUTION ***: Empty Spike file!');
     outputChan = -1;
     return;
 end
@@ -94,7 +94,8 @@ n=zeros(1,binCount);
 % Find UnitID for Marker0ID @HH20150207
 if isfield(spsData2,'UnitId')
     allID = [spsData2.UnitId];
-    Marker0ID = allID(find(diff(allID)>1,1,'last')+1);
+    %     Marker0ID = allID(find(diff(allID)>1,1,'last')+1);
+    Marker0ID = Inf;
 else % Backward compatibility
     allID = 1:length(spsData2);
     Marker0ID = Inf;

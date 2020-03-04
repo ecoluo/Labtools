@@ -4,7 +4,7 @@
 % addpath('Z:\Labtools\Tools\npy-matlab') % for converting to Phy
 rootZ = 'G:\drift_simulations\test'; % the raw data binary file is in this folder
 rootH = 'H:\'; % path to temporary binary file (same size as data, should be on fast SSD)
-pathToYourConfigFile = 'C:\DATA'; % take from Github folder and put it somewhere else (together with the master_file)
+pathToYourConfigFile = 'C:\data'; % take from Github folder and put it somewhere else (together with the master_file)
 chanMapFile = 'neuropixPhase3A_kilosortChanMap.mat';
 
 
