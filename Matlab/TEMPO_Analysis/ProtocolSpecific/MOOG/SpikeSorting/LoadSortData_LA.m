@@ -1,7 +1,7 @@
-function varargout = LoadSortData_MEA(varargin)
+function varargout = LoadSortData_LA(varargin)
 % LOADSORTDATA M-file for LoadSortData.fig
 % Last Modified by GUIDE v2.5 24-Jul-2017 16:13:41
-% Modified from LoadSortData, LBY 2019,11-2020,01
+% Modified from LoadSortData, LBY 2019,11-2020,03
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -232,22 +232,21 @@ global CHAN3;
 SPK_fs = 22000;
 CHAN3.sr = SPK_fs;
 % load the groups of each cluster ('good' for SU, 'mua' for MU, 'noise' for noise)
-fid = fopen(['C:\data\',dataFileName,'\cluster_group.tsv']);
+% fid = fopen(['C:\data\',dataFileName,'\cluster_group.tsv']);
+fid = fopen(['C:\data\',dataFileName(1:strfind(dataFileName, 'r')-1),'\cluster_group.tsv']);
 cGroup = textscan(fid, '%f %s', 'HeaderLines', 1);
 fclose(fid);
 % find the good (single units) spikes
 goodMarkersInd = cGroup{1,1}(strcmp(cGroup{1,2}, 'good'));
-% load the clusters and times of each spike
-clusters = readNPY(['C:\data\',dataFileName,'\spike_clusters.npy']);
-[NeuronID,SpikeNumber] = munique(clusters) % the cluster name of each SU
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% load spike timings
-time = readNPY(['C:\data\',dataFileName,'\spike_times.npy']);
-time = double(time);
+% load the clusters and times of each spike
+% clusters = readNPY(['C:\data\',dataFileName,'\spike_clusters.npy']);
+load([fileName?,'\clusters.mat']);
+[NeuronID,SpikeNumber] = munique(clusters) % the cluster name of each SU
 CHAN3.timings = time/CHAN3.sr; % unit in s
 
 % %reject some neuron if the firing rate is too low
+%{
 % MaxSpikeNumber=max(SpikeNumber);
 % k=0;
 % SelectNeuronID = [];
@@ -260,6 +259,7 @@ CHAN3.timings = time/CHAN3.sr; % unit in s
 %         end
 %     end
 % end
+%}
 
 %find the timings of the SelectNeuronID of realSU
 SelectNeuronID = goodMarkersInd

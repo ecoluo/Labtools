@@ -105,14 +105,25 @@ switch (action)
             
         end
         
+        % save 'data' into a .mat file, for combining files of different tasks into one
+        save([savepath(1:strfind(savepath, 'LA')+1),'\',cellname, '.mat'],'data','-v7.3'); % this will take time, I didn't find good ways to solve it.
+        
+        % write data into a .bin file for kilosort
         data = int16(data);
-        fid =  fopen([savepath,'\',cellname, '.bin'], 'w'); % e.g.m5c1665r1.bin
+        %         fid =  fopen([savepath,'\',cellname, '.bin'], 'w'); % e.g.Z:\Data\MOOG\Qiaoqiao\raw\LA\m5c1665r1\m5c1665r1.bin
+        fid =  fopen([savepath(1:strfind(savepath, 'LA')+1),'\',cellname, '.bin'], 'w'); % e.g.Z:\Data\MOOG\Qiaoqiao\raw\LA\m5c1665r1.bin
         fwrite(fid, data, 'int16'); % spike data with size of [nChannels*nTimepoints], in int16
         fclose(fid);
         
         % Save the sampling rate
         SPK_fs = ori_data{1}.CSPK_001.KHz*1000;
         save([cellname,'_fs'],'SPK_fs');
+        
+        % Save the time info, in s
+        SPKtBegin = ori_data{1}.CSPK_001.TimeBegin;
+        SPKtEnd = ori_data{end}.CSPK_001.TimeEnd;
+        SPK_dur = SPKtEnd - SPKtBegin + 1;
+        save([cellname,'_TimeDuration'],'SPK_dur');
         
         % Merge digital marker files
         DM_fs = ori_data{1}.CInPort_001.KHz*1000;
@@ -126,7 +137,7 @@ switch (action)
         save([cellname,'_DM'],'markers','DM_fs');
         
         % clear the memory
-%         clear global ori_data;
+        %         clear global ori_data;
         disp(['All ',num2str(chN),' channels have been saved!']);
         
     case 'show info'
@@ -164,6 +175,62 @@ switch (action)
     case 'save files'
         % save as different format for different spike sorting algorithms
         % ÏÈÍÚ‚€¿Ó
+        
+    case 'combine tasks'
+        
+        clear ori_data; % Or "out of memory"
+        
+        % first, find how many files you have for this neuron, and print the information
+        filenameCom = dir([savepath(1:strfind(savepath, 'LA')+1),'\',cellname(1:strfind(cellname, 'r')),'*.mat']);
+        cd([savepath(1:strfind(savepath, 'LA')+1),'\']);
+        disp(['There are ',num2str(length(filenameCom)),' files: ']);
+        for ii = 1:length(filenameCom)
+            disp(filenameCom(ii).name);
+        end
+        
+        % Now, write the data into a new .bin file for kilosort, This really take time 'cause the .mat file is too big
+        fid = fopen([savepath(1:strfind(savepath, 'LA')+1),'\',cellname(1:strfind(cellname, 'r')-1),'.bin'], 'a'); % e.g.m5c1665.bin
+        for ii = 1:length(filenameCom)
+            load(filenameCom(ii).name); % e.g.m5c1665r1.mat, spike data with size of [nChannels*nTimepoints]
+            data = int16(data);
+            fwrite(fid, data, 'int16'); % spike data with size of [nChannels*nTimepoints], in int16
+            clear data;
+        end
+        fclose(fid);
+  
+    case 'splitting' % splitting the results of the spike sorting. The time points are important
+        
+        % first, find how many files you have for this neuron, and print the information
+        filenameCom = dir([savepath(1:strfind(savepath, 'LA')+1),'\',cellname(1:strfind(cellname, 'r')),'*.mat']);
+%         cd([savepath(1:strfind(savepath, 'LA')+1),'\']);
+        disp(['There are ',num2str(length(filenameCom)),' files: ']);
+        for ii = 1:length(filenameCom)
+            disp(filenameCom(ii).name);
+        end
+        
+        % read cluster and time information from .npy files (kilosort)
+        filenameSplit = cellname(1:strfind(cellname, 'r')-1);
+        clustersCom = readNPY(['C:\data\',filenameSplit,'\spike_clusters.npy']); clustersCom = double(clustersCom);
+        timeCom = readNPY(['C:\data\',filenameSplit,'\spike_times.npy']); timeCom = double(timeCom);
+        
+        tBegin = 0;
+        for ii = 1:length(filenameCom)
+            cd([savepath(1:strfind(savepath, 'LA')+1),'\',cellname(1:strfind(cellname, 'r')),num2str(ii),'\']);
+            % find the time range of every task
+            load([cellname(1:strfind(cellname, 'r')),num2str(ii),'_fs.mat']); % 'SPK_fs', unit in Hz
+            load([cellname(1:strfind(cellname, 'r')),num2str(ii),'_TimeDuration.mat']); % 'SPK_dur', unit in s
+            SPK_dur = SPK_dur*SPK_fs;
+            tEnd = tBegin+SPK_dur;
+            tBeginInx = find(timeCom>tBegin); tBeginInx = tBeginInx(1);
+            tEndInx = find(timeCom<tEnd); tEndInx = tEndInx(end);
+            clusters = clustersCom(tBeginInx:tEndInx);
+            time = timeCom(tBeginInx:tEndInx) - tBegin;
+            save('clusters.mat','clusters','time');
+            tBegin = tEnd;
+        end
+        
+        disp(['Cluster files have splitted into ', num2str(length(filenameCom)), ' files, and saved in .mat in respective folders!']);
+        
 end
 
 end
