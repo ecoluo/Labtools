@@ -1,5 +1,5 @@
 function varargout = LoadSortData_LA(varargin)
-% LOADSORTDATA M-file for LoadSortData.fig
+% LOADSORTDATA M-file for LoadSortData_LA.fig
 % Last Modified by GUIDE v2.5 24-Jul-2017 16:13:41
 % Modified from LoadSortData, LBY 2019,11-2020,03
 
@@ -14,14 +14,12 @@ gui_State = struct('gui_Name',       mfilename, ...
 
 if nargin==0 || nargin == 1  %HH20140830
     fig = openfig(mfilename,'reuse');
-    set(fig,'toolbar','figure','name','=== Load Sorted Data (MEA) ===');
-    %     set(fig,'HandleVisibility','off');
+    set(fig,'toolbar','figure','name','=== Load Sorted Data (LA) ===');
     %Generate a structure of handles to pass to callbacks, and store it.
     handles = guihandles(fig);
     handles.isFileOpen=0;
     handles.spikeFigure = []; % HH20130905 Store the spike figures.
-    
-    
+
     if nargin==1
         set(handles.edit_FileName,'string',varargin{1});
     end
@@ -33,18 +31,13 @@ if nargin==0 || nargin == 1  %HH20140830
     end
     
 elseif nargin && ischar(varargin{1})
-    %gui_State.gui_Callback = str2func(varargin{1});
-    %     try
+
     if(nargout)
         [varargout{1:nargout}]=feval(varargin{:});
     else
         feval(varargin{:});
     end
-    %     catch error
-    %         disp(lasterr);
-    %         beep;
-    %         keyboard;
-    %     end
+
 end
 
 
@@ -171,8 +164,6 @@ for ii = 1:6
     pause(0.02);
 end
 
-
-
 % --- Executes on button press in OpenPlotButton.
 function OpenPlotButton_Callback(hObject, eventdata, handles)
 % hObject    handle to OpenPlotButton (see GCBO)
@@ -183,7 +174,6 @@ function OpenPlotButton_Callback(hObject, eventdata, handles)
 %try
 
 fileName = GetFileName(hObject, eventdata, handles);
-
 
 % The below line is important, because at the end of GetFileName(), we just updated the GUIDATA.
 % If we do not have this line, the 'handles' here will fail to catch up with the changes made in
@@ -216,23 +206,14 @@ dataFileName = get(handles.edit_FileName,'string');
 %Load ADCMarker (WaveMark) data CHAN3
 global CHAN3;
 
-% For wave_clus
-%{
-% load('Z:\Data\MOOG\Polo\raw\LA\m5c1666r1\times_m5c1666r1_ch008.mat');
-% CHAN3.markers = cluster_class(:,1); % 还是要好好想想要如何保存
-% CHAN3.timings = cluster_class(:,2)/1000; % unit in s
-% CHAN3.adc = spikes;
-% CHAN3.sr = par.sr;
-%}
+%%%%%% For kilosort
 
-% For kilosort
-% %{
-% load('Z:\Data\MOOG\Qiaoqiao\raw\LA\m5c1666r1\m5c1666r1.mat');% load the raw spike data
-% load('Z:\Data\MOOG\Qiaoqiao\raw\LA\m6c2000r1\m6c2000r1_fs.mat'); % load the sorted spike data
-SPK_fs = 22000;
+% load sampling rate
+load([fileName,'_fs.mat']);
 CHAN3.sr = SPK_fs;
+
 % load the groups of each cluster ('good' for SU, 'mua' for MU, 'noise' for noise)
-% fid = fopen(['C:\data\',dataFileName,'\cluster_group.tsv']);
+
 fid = fopen(['C:\data\',dataFileName(1:strfind(dataFileName, 'r')-1),'\cluster_group.tsv']);
 cGroup = textscan(fid, '%f %s', 'HeaderLines', 1);
 fclose(fid);
@@ -240,9 +221,10 @@ fclose(fid);
 goodMarkersInd = cGroup{1,1}(strcmp(cGroup{1,2}, 'good'));
 
 % load the clusters and times of each spike
-% clusters = readNPY(['C:\data\',dataFileName,'\spike_clusters.npy']);
-load([fileName?,'\clusters.mat']);
-[NeuronID,SpikeNumber] = munique(clusters) % the cluster name of each SU
+
+load([fileName,'_clusters.mat']);
+[NeuronID,SpikeNumber] = munique(clusters); % the cluster name of each SU
+
 CHAN3.timings = time/CHAN3.sr; % unit in s
 
 % %reject some neuron if the firing rate is too low
@@ -261,7 +243,7 @@ CHAN3.timings = time/CHAN3.sr; % unit in s
 % end
 %}
 
-%find the timings of the SelectNeuronID of realSU
+%find the timings of the SelectNeuronID of real SU
 SelectNeuronID = goodMarkersInd
 for k=1:length(SelectNeuronID)
     Index = find(clusters==SelectNeuronID(k));
@@ -269,17 +251,11 @@ for k=1:length(SelectNeuronID)
     clear Index;
 end
 
-% the voltage value to plot the waveform
-% CHAN3.adc = spikes;
-
-%}
-
 %Convert to tempo format
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Load Event channel 32 into memory
 global CHAN32;
 load([fileName,'_DM.mat']);
-DM_fs = 44000;
 CHAN32.sr = DM_fs;
 CHAN32.markers = markers(2,:);
 CHAN32.timings = markers(1,:)/CHAN32.sr; % time stamp, in s
@@ -327,7 +303,7 @@ end
 
 spikeNumberInGUI = zeros(1:length(SelectNeuronID));
 global spsData2;
-disp('SpikeNum in GUI, SNR, meanWaveform:');
+disp('ClusterID, SpikeNum in GUI, SNR:');
 
 % Stuff the spsData2 struct array with information about each successfull trial.
 for k= length(SelectNeuronID) :-1: 1
@@ -342,11 +318,7 @@ for k= length(SelectNeuronID) :-1: 1
     
     for i = 1:length(index) % Each trial
         % This is basically descriptive data about the spike area analyzed.
-        %         try
         spsData2(k).spikeInfo(i).startCodeTime = CHAN32.timings(index(i))*spsData2(k).sampleRate;  % 04
-        %         catch
-        %             keyboard
-        %         end
         spsData2(k).spikeInfo(i).endCodeTime = CHAN32.timings(index_end(i))*spsData2(k).sampleRate;   % 05
         spsData2(k).spikeInfo(i).startTime = spsData2(k).spikeInfo(i).startCodeTime - spsData2(k).prebuffer + 1;
         spsData2(k).spikeInfo(i).endTime = spsData2(k).spikeInfo(i).startCodeTime + spsData2(k).postbuffer;
@@ -365,7 +337,7 @@ for k= length(SelectNeuronID) :-1: 1
         CHAN32markers=real(CHAN32.markers(:));
         spsData2(k).spikeInfo(i).eventCodes([ceil((a - spsData2(k).spikeInfo(i).startTime + 1) / 25)]) =CHAN32markers(mrstupid);
         
-        %Find spike times of each trial 这里考虑一下
+        %Find spike times of each trial
         clear mrsuckass; mrsuckass=Neuron(k).SpikeTiming'*spsData2(k).sampleRate;
         clear mrstupid; mrstupid=find(mrsuckass >= mrstart & mrsuckass <= mrend);
         spsData2(k).spikeInfo(i).SpikeTimes=mrsuckass(mrstupid);
@@ -403,17 +375,15 @@ for k= length(SelectNeuronID) :-1: 1
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    %% Rater Plot and PSTH.   HH20130508
+    %% Rater Plot and PSTH.   HH20130508, modified by LBY20200306
     len = 0;
     h_f = figure(20+k);     clf;
     set(h_f,'position',[100 100 800 700])
     handles.spikeFigure = [handles.spikeFigure h_f];
     
     set(gcf, 'DefaultAxesXTickMode', 'auto','color','white');
-    %    subplot(2,2,1);
     axes('Position',[0.1 0.35 0.4 0.55]);
     box on;
-    
     PSThist = zeros(1,100);
     
     % For raster plotting
@@ -426,11 +396,8 @@ for k= length(SelectNeuronID) :-1: 1
         hold on;
         
         if ~isempty(spsData2(k).spikeInfo(i).SpikeTimes)  % If there is more than 1 spike in this trial
-            spikeTiming = (spsData2(k).spikeInfo(i).SpikeTimes-spsData2(k).spikeInfo(i).startCodeTime)/spsData2(k).sampleRate;
-            
+            spikeTiming = (spsData2(k).spikeInfo(i).SpikeTimes-spsData2(k).spikeInfo(i).startCodeTime)/spsData2(k).sampleRate;      
             spike_in_bin (i,fix(spikeTiming * 1000) + PreEventBuffer * 1000) = 1;
-            %             plot(spikeTiming,i,'b.','MarkerSize',5);
-            
             n = histc(spikeTiming,linspace(-PreEventBuffer,PostEventBuffer,100));
             PSThist = PSThist + n;
         end
@@ -438,7 +405,6 @@ for k= length(SelectNeuronID) :-1: 1
         % Plot the marker 05 (Vis Off)
         endThisTrial = (spsData2(k).spikeInfo(i).endCodeTime-spsData2(k).spikeInfo(i).startCodeTime)/spsData2(k).sampleRate;
         plot([endThisTrial endThisTrial],[i-0.3 i+0.3],'k','LineWidth',2);
-        
         len = len + length(spsData2(k).spikeInfo(i).SpikeTimes);
     end
     
@@ -448,9 +414,9 @@ for k= length(SelectNeuronID) :-1: 1
     PSThist = PSThist/length(spsData2(k).spikeInfo)/((PostEventBuffer+PreEventBuffer)/100);
     
     plot([0 0],[0 i],'k--','LineWidth',2);
-    %     title([get(handles.edit_FileName,'string') ' SU' num2str(SelectNeuronID(k)) ', N = ' ...
-    %         num2str(length(Neuron(k).SpikeTiming)) '(GUI:' num2str(spikeNumberInGUI(k)) ')' ]);
-    % text(0,i+10,'04-VisualOn');
+    title([get(handles.edit_FileName,'string') '  SU' num2str(k) ' ID:' num2str(SelectNeuronID(k)) ', N = ' ...
+        num2str(length(Neuron(k).SpikeTiming)) '(GUI:' num2str(spikeNumberInGUI(k)) ')' ]);
+    text(0,i+25,'04-VisualOn');
     xlim([-PreEventBuffer,PostEventBuffer]);
     ylim([0 max(1,i)]);
     set(gca,'xtick',[]);
@@ -465,36 +431,33 @@ for k= length(SelectNeuronID) :-1: 1
     xlabel('Time to visual onset (s)');
     ylabel('Firing rate (Hz)');
     
-    %% Spike Waveform Plot.   HH20130508
-    %{
-    colors = {'b','g','c','r','m'};
+    %% Spike Waveform Plot.   HH20130508, modified by LBY20200306
+    colors = {'b','g','c','r','m','y','b','g','c','r','m','b','g','c','r','m'};
     
-    %     if SelectNeuronID(k) < MU20ID  % Only plot waveform and ISI for real SUs
+    % plot the waveform of template and ISI for real SUs
     subplot(2,2,2);
-    waveForm = double(CHAN3.adc((CHAN3.markers(:,1)==SelectNeuronID(k)),:))';  % All the kth NEURON
-    % waveForm = waveForm - repmat(mean(waveForm(1:20,:)),size(waveForm,1),1);
-    meanWaveForm = mean(waveForm,2);
-    stdWaveForm = std(waveForm,0,2);
     
-    % Save spike waveform. HH20160920
-    spsData2(k).meanWaveForm = meanWaveForm;
-    spsData2(k).stdWaveForm = stdWaveForm;
+    % Find the waveform of the template of each cluster
+    WaveFormTempl = [];
+    clusterInxTemp = find(clusters == SelectNeuronID(k));
+    clusterInx = templatesInx(clusterInxTemp(1));
+    WaveFormTempl = templates(clusterInx,:,1);
+    spsData2(k).WaveFormTempl = WaveFormTempl;
     
-    % Signal-to-Noise Ratio
-    SNR(k) = range(meanWaveForm)/mean(stdWaveForm);
+    % Signal-to-Noise Ratio, it's not a good way
+    SNR(k) = range(WaveFormTempl)/mean(WaveFormTempl);
     
-    hold on; plot((1:size(waveForm,1))*1000/spsData2(k).sampleRate,waveForm(:,1:ceil(size(waveForm,2)/1000):end),'color',[0.5 0.5 1]);
-    plot((1:size(meanWaveForm,1))*1000/spsData2(k).sampleRate,meanWaveForm,'k','LineWidth',3);
-    plot((1:size(stdWaveForm,1))*1000/spsData2(k).sampleRate,[meanWaveForm - stdWaveForm meanWaveForm + stdWaveForm],'k');
+    hold on;
+    plot((1:length(WaveFormTempl))*1000/spsData2(k).sampleRate,WaveFormTempl,'k','LineWidth',3);
     set(gca,'ytick',[]);
-    xlim([0 size(meanWaveForm,1)*1000/spsData2(k).sampleRate]);
+    xlim([0 length(WaveFormTempl)*1000/spsData2(k).sampleRate]);
     xlabel('(ms)');
     title(['SNR = ' num2str(SNR(k))]);
     box on;
     
     % ISI Plot. HH20130508
     axes('Position', [0.5703    0.1100    0.3347    0.1743]);
-    timing = CHAN3.timings((CHAN3.markers(:,1)==SelectNeuronID(k)),:);
+    timing = Neuron(k).SpikeTiming;
     hist(diff(timing)*1000,0:0.1:100);
     xlim([0 30]);
     xlabel('Inter-spike-interval (ms)');
@@ -502,13 +465,11 @@ for k= length(SelectNeuronID) :-1: 1
     % Overdraw waveform
     axes(handles.axes1);
     hold on;
-    hh = shadedErrorBar((1:size(meanWaveForm,1))*1000/spsData2(k).sampleRate,meanWaveForm,stdWaveForm,colors{SelectNeuronID(k)},0.6);
-    set(hh.mainLine,'LineW',2);
+    hh = plot(spsData2(k).WaveFormTempl,'color',colors{k},'linewidth',3);
     axis tight;
-    
     figure(h_f);
-    %     end
-    %}
+    
+    
     %% Spike count over time
     axes('Position',[0.56625 0.334285714285714 0.345 0.171428571428571]);
     plot(1:size(spike_in_bin,1),sum(spike_in_bin,2)'); axis tight; box off;
@@ -519,27 +480,17 @@ for k= length(SelectNeuronID) :-1: 1
     
     % Output to command window for Excel. HH20130829
     
-%     handles.toClip{k} = sprintf('SU%g\t %g\t %s\n',SelectNeuronID(k), spikeNumberInGUI(k), num2str((meanWaveForm'-min(meanWaveForm))/range(meanWaveForm)));
-%     
-%     fprintf(handles.toClip{k});
-%     
-%     if k == 1  % Copy the first unit to clipboard
-%         clipboard('copy',handles.toClip{k});
-%     end
+    handles.toClip{k} = sprintf('SU%g: %g\t %g\t %g\t\n',k, SelectNeuronID(k), spikeNumberInGUI(k), SNR(k));
+    fprintf(handles.toClip{k});
+    
+    if k == 1  % Copy the first unit to clipboard
+        clipboard('copy',handles.toClip{k});
+    end
     
     figure(gcbf);
     
 end
 
-
-% spikeNumberInGUI'
-
-% catch lasterr
-%     rethrow(lasterr);
-%     keyboard
-% end
-
-%
 guidata(hObject,handles);
 
 %% --- Executes on button press in ClosePlotButton.

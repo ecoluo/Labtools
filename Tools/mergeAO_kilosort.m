@@ -2,7 +2,7 @@
 % (These .mat files were converted by Mapfile)
 % Then convert them into a binary file with size of [nChannels*nTimepoints], in int16
 % Change the order for different arrays
-% LBY 20191223
+% LBY 20191223-20200306
 
 function mergeAO_kilosort(action)
 
@@ -96,10 +96,7 @@ switch (action)
             
             eval(['tempSR = ori_data{1}.CSPK_',chName{chTure},'.KHz * 1000;']);
             % tempSR = ori_data{1}.CSPK_001.KHz * 1000;
-            %             eval(['tempT = ori_data{1}.CSPK_',chName{ch},'.TimeEnd - ori_data{1}.CSPK_',chName{ch},'.TimeBegin;']);
             
-            % save all infos into output (for kilosort)
-            %             data = nan(chN,length(ori_data{1}.CSPK_001));
             data(ch,:) = tempSPK;
             progressbar(ch/chN);
             
@@ -212,6 +209,9 @@ switch (action)
         filenameSplit = cellname(1:strfind(cellname, 'r')-1);
         clustersCom = readNPY(['C:\data\',filenameSplit,'\spike_clusters.npy']); clustersCom = double(clustersCom);
         timeCom = readNPY(['C:\data\',filenameSplit,'\spike_times.npy']); timeCom = double(timeCom);
+        templatesCom = readNPY(['C:\data\',filenameSplit,'\templates.npy']); templatesCom = double(templatesCom);
+        templatesInxCom = readNPY(['C:\data\',filenameSplit,'\spike_templates.npy']); templatesInxCom = double(templatesInxCom);
+        templates = templatesCom;
         
         tBegin = 0;
         for ii = 1:length(filenameCom)
@@ -225,11 +225,12 @@ switch (action)
             tEndInx = find(timeCom<tEnd); tEndInx = tEndInx(end);
             clusters = clustersCom(tBeginInx:tEndInx);
             time = timeCom(tBeginInx:tEndInx) - tBegin;
-            save('clusters.mat','clusters','time');
+            templatesInx = templatesInxCom(tBeginInx:tEndInx);
+            save([cellname(1:strfind(cellname, 'r')),num2str(ii),'_clusters.mat'],'clusters','time','templates','templatesInx');
             tBegin = tEnd;
         end
         
-        disp(['Cluster files have splitted into ', num2str(length(filenameCom)), ' files, and saved in .mat in respective folders!']);
+        disp(['Cluster files have splitted into ', num2str(length(filenameCom)), ' files, and saved in .mat in respective folder!']);
         
 end
 
