@@ -174,9 +174,7 @@ protocol_names(109) = {
 protocol_names(110) = {
     'MOOG: 1D El Direction Tuning Gaze'
     };
-% % protocol_names(111) = {
-% %     'MOOG: Heading Fixation'  %% changed to delayed saccade; Tunde 12/10/10
-% % };
+
 protocol_names(111) = {
     'MOOG: Heading fix only'
     };
@@ -236,6 +234,10 @@ protocol_names(128:130) = {
     'MOOG: Rotation discrimination'
     'MOOG: Rotation fix only'
     }; %Added by LBY 20181118
+
+protocol_names(131) = {
+    'MOOG: GRATING'
+    }; %Added by LBY 20200310
 
 
 
@@ -958,6 +960,11 @@ analysis_strings{DIRECTION_TUNING_3D + 1} = ...
     'MOOG_PSTH_xiongjie',
     };
 
+analysis_strings{GRATING + 1} = ...
+    {
+    'Grating vs optic flow (LBY)',
+    '',
+    };
 analysis_strings{ROTATION_TUNING_3D + 1} = ...
     {
     '3D Tuning Analysis_LBY',

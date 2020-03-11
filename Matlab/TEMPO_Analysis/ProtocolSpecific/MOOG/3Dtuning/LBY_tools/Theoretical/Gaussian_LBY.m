@@ -5,7 +5,7 @@
 clear all;
 colorDefsLBY;
 duration = 1.5; % unit in s
-num_sigs = 4.5;
+num_sigs = 4;
 amp = 0.11; % unit in m
 step = 0.0005;
 t = 0:step:duration;
@@ -139,19 +139,20 @@ set(gcf,'name','Gaussian Curve','pos',[200 200 1200 700]);
 axes('pos',[0.2,0.2,0.7,0.7]);
 % [h,hLines] = plotyyy(t(1:length(t)-1),veloc,t(1:length(t)-2),accel,t,pos);
 [h,hLines] = ploty4(t(1:length(t)-1),veloc,t(1:length(t)-2),accel,t,pos,t(1:length(t)-3),jerk);
+% [h,hLines] = plot(t(1:length(t)-1),veloc,t(1:length(t)-2),accel);
 
 set(hLines(1),'LineStyle','-','color','r','linewidth',4);
 set(hLines(2),'LineStyle','-','color',colorDBlue,'linewidth',4);
-set(hLines(3),'LineStyle','-','color','k','linewidth',4);
-set(hLines(4),'LineStyle','-','color',colorDOrange,'linewidth',4);
+% set(hLines(3),'LineStyle','-','color','k','linewidth',4);
+% set(hLines(4),'LineStyle','-','color',colorDOrange,'linewidth',4);
 set(h(1),'yColor','r');
 set(h(2),'yColor',colorDBlue);
-set(h(3),'yColor','k');
-set(h(4),'yColor',colorDOrange);
+% set(h(3),'yColor','k');
+% set(h(4),'yColor',colorDOrange);
 ylabel(h(1),'Velocity (m/s) ');
 ylabel(h(2),'Acceleration (m/s^2) ');
-ylabel(h(3),'Position (m) ');
-ylabel(h(4),'jerk (m/s^3) ');
+% ylabel(h(3),'Position (m) ');
+% ylabel(h(4),'jerk (m/s^3) ');
 xlabel('Time (s)');
 % title('Time profile');
 SetFigure(25);
