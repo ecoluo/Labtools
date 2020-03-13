@@ -2,28 +2,28 @@ function DrawMapping_HH(monkey_hemi)
 % DrawMapping.m
 % First version by HH @ Gu Lab 2013
 
-current_folder = fileparts(which(mfilename));
 monkey_hemis = {'Polo_L','Polo_R','Messi_L','Messi_R'};
 
 if nargin == 0
     % monkey_hemi = 'Polo_R'; % AP 0:5
     % monkey_hemi = 'Polo_L'; % AP -3:3.2
     % monkey_hemi = 'Messi_L'; % AP -4:0.8
-    monkey_hemi = 1; % 
+    monkey_hemi = 3; % 
 end;
-
+clc; clear global
 
 %% Parameters
-clc; clear global
 global maxX maxY maxZ movDis GMTypes data;
 global hemisphere monkey; global gridRange;
-global MRI_path MRI_offset AP0;
+global MRI_path MRI_offset AP0; global MRI_offset_new;
 global linWid start_end_markers overlapping Polo_right_AP0;
+global overlapTransparent; 
 
 linWid = 1.3;
-% overlapping = [-3 3; -3 3]; start_end_markers = false; % First row for area annotation; second for unit annotation
-overlapping = [-2 2; -3 3]; start_end_markers = false; % First row for area annotation; second for unit annotation
-% overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation
+% overlapping = [-10 10; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
+overlapping = [-3 0; -4 0]; start_end_markers = false; % First row for area annotation; second for unit annotation
+% overlapping = [0 0; 0 0]; start_end_markers =0; % First row for area annotation; second for unit annotation
+overlapTransparent = 0.5;
 
 maxX = 30; % Grid size
 maxY = 30;
@@ -37,7 +37,7 @@ Polo_right_AP0 = 9; % For MRI alignment. This controls MRI-AP alignment so will 
 GMTypes = { % 'Type', ColorCode (RGB);
     'GM',[1 1 1];    % Gray matter without visual modulation
     'VM',[0 0 0];          % Visual modulation but not sure to which area it belongs
-    'LIP',[0 1 0];
+    'LIP',[0.6 0.8 0.4];
     'VIP',[1 1 0];
     'MST',[0 0 1];
     'MT',[0.8 0 0];
@@ -52,125 +52,148 @@ end
 
 switch monkey_hemis{monkey_hemi}
     
-%     case 'Messi_R'
-%         
-%         %  Messi_right
-%         %  %{
-%         
-%         % Header
-%         toPlotTypes3D = [ MST VIP MT LIP AUD];    % Which area types do we want to plot in 3D plot?
-%         toPlotTypes_zview = [MST VIP MT LIP AUD];    % Which area types do we want to plot ?
-%         gridRange = [1 20; 1 25];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
-%         
-%         monkey = 10;
-%         hemisphere = 2;
-%         AP0 = 10; % 6;
-%         
-%         data = {
-%             %{[Session(s)], [LocX(Posterior) LoxY(Lateral)], [GuideTube(cm) Offset(cm)], [AreaType, Begin(100um), End(100um); ...] , electrode retrieval}
-%             % When you are not sure about one area, use "AreaType-100" instead
-%             {8,[11,10],[1.9 0.0],[GM 8 17; GM 58 72; VIP 95 118]}
-%             {40,[13,18],[2.2 0.0-0.3],[GM 31 60; MST 75 103;  MT 120 147]}
-%             {40,[13,8],[2.05 0.0],[GM 37 59; VIP 67 86]}
-%             {41,[13,13],[2.05 0.2],[GM 7 18; LIP 31 43], 43}
-%             {42,[13,12],[1.9 0],[GM 13 56; LIP 74 84],84}
-%             {43,[13,14],[2.05 0],[GM 8 28; LIP 38 70; MST 92 107; MST 117 135]}
-%             {44,[13,15],[2.2 0],[GM 7 13; LIP 23 45; MST 69 90; MT 100 130]}
-%             {45,[13,11],[1.9 0],[GM 5 17; GM 22 63; LIP 73 96], 150}
-%             {45,[13,2],[1.9 0],[GM 9 49]}
-%             {46,[11,14],[2.1 0],[GM 3 37; LIP 51 63],63}
-%             {47,[9,15],[2.2 0+0.1],[GM 10 20; LIP 32 63; MST 114 130]}
-%             {48,[7,17],[2.2 0],[GM 12 20; LIP 32 63; GM 82 112; GM 132 146]}
-%             {49,[9,15],[2.2 0],[GM 4 23; LIP 35 40],40}
-%             {50,[10,14],[2.2 0],[GM 0 22; LIP 16 60],60}
-%             {53,[13,12],[1.9 0],[GM 13 58; LIP 73 85],85}
-%             {54,[12,13],[2.05 0],[GM 4 34; LIP 52 67],67}
-%             {55,[12,12],[2.05 0],[GM 14 51; LIP 69 75],75}
-%             {72,[14,12],[2.05 0],[GM 2 30; LIP 51 75]}
-%             {73,[14,13],[1.9 0],[GM 13 34; LIP 50 67],67}
-%             {74,[14,11],[2.05 0],[GM 5 47; LIP 62 70],70}
-%             {75,[14,14],[1.9+0.15 0],[LIP 33 66; MST 92 95],95}
-%             {76,[15,10],[1.9 0],[GM 27 62; LIP 75 93],93}
-%             {77,[15,11],[2.05-0.2 0],[GM 27 59; LIP 72 83],83}
-%             {78,[15,12],[2.05+0.1 0],[GM 0 20; LIP 34 57],57}
-%             {79,[16,10],[2.05 0],[GM 2 32; LIP 43 75]}
-%             }';
-%         
-%         MRI_path = [current_folder '/forDrawMapping/'];
+    case 'Messi_R'
+        
+        %  Messi_right
+        %  %{
+        
+        % Header
+        toPlotTypes3D = [ MST VIP MT LIP AUD];    % Which area types do we want to plot in 3D plot?
+        toPlotTypes_zview = [MST VIP MT LIP AUD];    % Which area types do we want to plot ?
+        gridRange = [1 20; 1 25];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        
+        monkey = 10;
+        hemisphere = 2;
+        AP0 = 10 % 6;
+        
+        data = {
+            %{[Session(s)], [LocX(Posterior) LoxY(Lateral)], [GuideTube(cm) Offset(cm)], [AreaType, Begin(100um), End(100um); ...] , vode retrieval}
+            % When you are not sure about one area, use "AreaType-100" instead
+            {8,[11,10],[1.9 0.0],[GM 8 17; GM 58 72; VIP 95 118]}
+            {40,[13,18],[2.2 0.0-0.3],[GM 31 60; MST 75 103;  MT 120 147]}
+            {40,[13,8],[2.05 0.0],[GM 37 59; VIP 67 86]}
+            {41,[13,13],[2.05 0.2],[GM 7 18; LIP 31 43], 43}
+            {42,[13,12],[1.9 0],[GM 13 56; LIP 74 84],84}
+            {43,[13,14],[2.05 0],[GM 8 28; LIP 38 70; MST 92 107; MST 117 135]}
+            {44,[13,15],[2.2 0],[GM 7 13; LIP 23 45; MST 69 90; MT 100 130]}
+            {45,[13,11],[1.9 0],[GM 5 17; GM 22 63; LIP 73 96], 150}
+            {45,[13,2],[1.9 0],[GM 9 49]}
+            {46,[11,14],[2.1 0],[GM 3 37; LIP 51 63],63}
+            {47,[9,15],[2.2 0+0.1],[GM 10 20; LIP 32 63; MST 114 130]}
+            {48,[7,17],[2.2 0],[GM 12 20; LIP 32 63; GM 82 112; GM 132 146]}
+            {49,[9,15],[2.2 0],[GM 4 23; LIP 35 40],40}
+            {50,[10,14],[2.2 0],[GM 0 22; LIP 46 60],60}
+            {53,[13,12],[1.9 0],[GM 13 58; LIP 73 85],85}
+            {54,[12,13],[2.05 0],[GM 4 34; LIP 52 67],67}
+            {55,[12,12],[2.05 0],[GM 14 51; LIP 69 75],75}
+            {56,[12,11],[2.1 0],[GM 10 57; LIP 65 78],78}
+            {57,[13,14],[2.05 0.1],[GM 0 22; LIP 33 60],60}
+            {58,[13,15],[2.2 0],[LIP 20 39; MST 63 70],70}
+            {72,[14,12],[2.05 0],[GM 2 30; LIP 51 75]}
+            {73,[14,13],[1.9 0],[GM 13 34; LIP 50 67],67}
+            {74,[14,11],[2.05 0],[GM 5 47; LIP 62 70],70}
+            {75,[14,14],[1.9+0.15 0],[LIP 33 66; MST 92 95],95}
+            {76,[15,10],[1.9 0],[GM 27 62; LIP 75 93],93}
+            {77,[15,11],[2.05-0.2 0],[GM 27 59; LIP 72 83],83}
+            {78,[15,12],[2.05+0.1 0],[GM 0 20; LIP 34 57],57}
+            {79,[16,10],[2.05 0],[GM 2 32; LIP 43 75]}
+            }';
+        
+        MRI_path = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\';
 %         MRI_offset = {[-68 79]*1.1-9.5 ,[-240 500]*1.1+23 , [0 -2.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
-%         
-%         
-%         %}
-% 
-%     case 'Messi_L'
-%         %  Messi_left
-%         %  %{
-%         
-%         % Header
-%         toPlotTypes3D = [ MST VIP MT LIP AUD];    % Which area types do we want to plot in 3D plot?
-%         toPlotTypes_zview = [MST VIP MT LIP AUD];    % Which area types do we want to plot ?
-%         gridRange = [0 20; 0 21];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
-%         
-%         monkey = 10;
-%         hemisphere = 1;
-%         AP0 = 10 % 6;
-%         
-%         data = {
-%             %{[Session(s)], [LocX(Posterior) LoxY(Lateral)], [GuideTube(cm) Offset(cm)], [AreaType, Begin(100um), End(100um); ...] , electrode retrieval}
-%             % When you are not sure about one area, use "AreaType-100" instead
-%             {1,[15,15],[2.2 0.0],[GM 4 37; GM 56 74; MST 88 117]}
-%             {2,[15,13],[2.1 0.0],[GM 5 18; GM 31 52; MST 74 96; MST 106 124]}
-%             {3,[15,17],[2.4 0.0],[GM 26 56; MT 69 122]}
-%             {3,[15,11],[2.1 0.0 + 0.1],[GM 0 20; GM 29 47; MST 75 96;]}
-%             {3,[15,9],[2.1 0.0],[GM 6 36; GM 43 67; GM 116 149]}
-%             {4,[15,19],[2.25 0.0],[GM 7 79],79}
-%             {4,[13,20],[2.25 0.0],[GM 9 39; MST 89 135; MT 142 150]}
-%             {4,[13,13],[2.1 0.0],[GM 7 37; GM 44 72; MST 92 122; MT 134 150]}
-%             {5,[13,17],[2.25 0.0],[GM 5 50; MST 66 90; MT 109 140]}
-%             {6,[15,7],[2.05 0.0],[GM 33 59; GM 71 90; LIP 108 140]}
-%             {6,[11,5],[1.8 0.0],[GM 1 26; GM 39 58; GM 66 84; VIP 104 121; VIP 129 143]}
-%             {7,[11,9],[1.9 0.0],[GM 2 30; GM 65 97; LIP 105 125],125}
-%             {8,[11,10],[1.9 0.0],[GM 4 33; GM 55 85; LIP 97 123]}
-%             {9,[9,12],[2.0 0-0.2],[GM 18 39; GM 69 98; LIP 108 128]}
-%             {10,[9,11],[2.0 0],[GM 7 35;GM 67 95;LIP 106 121],121}
-%             {11,[13,9],[1.9 0+0.1],[GM 44 73; LIP 82 104]}
-%             {12,[13,8],[1.9 0],[GM 58 86; LIP 93 102],102}
-%             {13,[13,7],[1.8 0],[GM 0 13; GM 29 50; GM 70 96; LIP 104 116],116}
-%             {14,[13,6],[1.7 0],[GM 10 24; GM 37 49; GM 55 70; GM 89 111; LIP 117 129],129}
-%             {15,[12,8],[1.8 0.0 + 0.1],[GM 6 19; GM 64 93; LIP 102 116],116}
-%             {16,[12,7],[1.8 0.0 + 0.1],[GM 2 9; GM 31 46; GM 74 97; LIP 105 114; VIP 114 128]}
-%             {17,[12,9],[1.9 0.0 + 0.1],[GM 0 7; GM 49 79; LIP 86 90],90}
-%             {18,[12,10],[2.0 0 + 0.1],[GM 3 12; GM 37 64; LIP 73 80],80}
-%             {19,[12,11],[2.0 0 + 0.1],[GM 3 10; GM 26 55; LIP 64 88],96}
-%             {20,[11,11],[2.0 0 - 0.05],[GM 4 19; GM 44 79; LIP 88 105],105}
-%             {21,[14,7],[1.8 0 + 0.1],[GM 20 34; GM 56 81; LIP 89 101],101}
-%             {22,[14,8],[1.9 0 + 0.1],[GM 42 69; LIP 80 101],120}
-%             {23,[14,9],[1.9 0 + 0.1],[GM 36 64; LIP 72 79],79}
-%             {24,[10,12],[2.0 0-0.1],[GM 9 26; GM 48 82;LIP 94 115]}
-%             {24,[12,10],[2.0 0+0.1],[GM 3 12; GM 36 62; LIP 72 77],77}
-%             {25,[12,10],[2.0 0+0.1],[GM 36 62; LIP 72 86],86}
-%             {26,[12,11],[2.0 0+0.1],[GM 30 58; LIP 67 75],75}
-%             {27,[18,5],[1.7 0.4+0.05],[GM 11 36; LIP 47 65; GM 77 100; GM 109 130]}
-%             {28,[18,4],[1.7 0.4],[GM 18 42; LIP 53 61; GM 71 91; GM 103 125]}
-%             {29,[12,12],[2.0 0],[GM 9 18; GM 29 58; LIP 66 74],74}
-%             {30,[12,13],[2.1 0],[GM 19 39; LIP 50 60],60}
-%             {31,[11,13],[2.1 0],[GM 0 11; GM 22 55; LIP 65 80],80}
-%             {32,[11,12],[2.1 0],[GM 0 7; GM 26 57; LIP 69 82],82}
-%             {33,[11,11],[2.0 0.1],[GM 0 10; GM 34 61; LIP 76 97]}
-%             {34,[13,11],[2.0 0.1],[GM 26 52; LIP 62 80]}
-%             {35,[13,10],[2.0 0],[GM 35 65; LIP 75 96],96}
-%             {36,[14,10],[2.0 0+0.1],[GM 20 46; LIP 55 80],90}
-%             {37,[13,12],[2.0 0+0.1],[GM 3 8; GM 20 47; LIP 56 82]}
-%             {38,[14,11],[2.0 0+0.1],[GM 0 38; LIP 48 65]}
-%             {39,[15,10],[2.0 0],[GM 22 48; LIP 59 81; GM 120 150]}
-%             {70,[16,7],[1.9 0],[GM 41 69; LIP 77 101; VIP 138 150],150}
-%             }';
-%         
-%         MRI_path = [current_folder '/forDrawMapping/'];
-%         MRI_offset = {[-68 79]*1.1-12  ,[-240 500]*1.1+45 , [0 -2.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
-%         
-%         
-%         %}
+        
+        MRI_offset = {[-70.9547, 67.0547], [-233.02, 565.02],[0, -2.5]}; % Manual adjust HH20180604
+        
+        % Update version with ratio fixed {[x_center, y_center, x_range], [slopes]}. HH20180606
+        MRI_offset_new = {[-1.9500,  166,  138.0094 ], [0, -2.5]};
+
+        %}
+
+    case 'Messi_L'
+        %  Messi_left
+        %  %{
+        
+        % Header
+        toPlotTypes3D = [ MST VIP MT LIP AUD];    % Which area types do we want to plot in 3D plot?
+        toPlotTypes_zview = [MST VIP MT LIP AUD];    % Which area types do we want to plot ?
+        gridRange = [0 20; 0 21];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        
+        monkey = 10;
+        hemisphere = 1;
+        AP0 = 10 % 6;
+        
+        data = {
+            %{[Session(s)], [LocX(Posterior) LoxY(Lateral)], [GuideTube(cm) Offset(cm)], [AreaType, Begin(100um), End(100um); ...] , electrode retrieval}
+            % When you are not sure about one area, use "AreaType-100" instead
+            {1,[15,15],[2.2 0.0],[GM 4 37; GM 56 74; MST 88 117]}
+            {2,[15,13],[2.1 0.0],[GM 5 18; GM 31 52; MST 74 96; MST 106 124]}
+            {3,[15,17],[2.4 0.0],[GM 26 56; MT 69 122]}
+            {3,[15,11],[2.1 0.0 + 0.1],[GM 0 20; GM 29 47; MST 75 96;]}
+            {3,[15,9],[2.1 0.0 + 0.1],[GM 6 36; GM 43 67; GM 116 149]}
+            {4,[15,19],[2.25 0.0],[GM 7 79],79}
+            {4,[13,20],[2.25 0.0],[GM 9 39; MST 89 135; MT 142 150]}
+            {4,[13,13],[2.1 0.0],[GM 7 37; GM 44 72; MST 92 122; MT 134 150]}
+            {5,[13,17],[2.25 0.0],[GM 5 50; MST 66 90; MT 109 140]}
+            {6,[15,7],[2.05 0.0],[GM 33 59; GM 71 90; LIP 108 140]}
+            {6,[11,5],[1.8 0.0],[GM 1 26; GM 39 58; GM 66 84; VIP 104 121; VIP 129 143]}
+            {7,[11,9],[1.9 0.0],[GM 2 30; GM 65 97; LIP 105 125],125}
+            {8,[11,10],[1.9 0.0],[GM 4 33; GM 55 85; LIP 97 123]}
+            {9,[9,12],[2.0 0-0.2],[GM 18 39; GM 69 98; LIP 108 128]}
+            {10,[9,11],[2.0 0],[GM 7 35;GM 67 95;LIP 106 121],121}
+            {11,[13,9],[1.9 0+0.1],[GM 44 73; LIP 82 104]}
+            {12,[13,8],[1.9 0],[GM 58 86; LIP 93 102],102}
+            {13,[13,7],[1.8 0],[GM 0 13; GM 29 50; GM 70 96; LIP 104 116],116}
+            {14,[13,6],[1.7 0],[GM 10 24; GM 37 49; GM 55 70; GM 89 111; LIP 117 129],129}
+            {15,[12,8],[1.8 0.0 + 0.1],[GM 6 19; GM 64 93; LIP 102 116],116}
+            {16,[12,7],[1.8 0.0 + 0.1],[GM 2 9; GM 31 46; GM 74 97; LIP 105 114; VIP 114 128]}
+            {17,[12,9],[1.9 0.0 + 0.1],[GM 0 7; GM 49 79; LIP 86 90],90}
+            {18,[12,10],[2.0 0 + 0.1],[GM 3 12; GM 37 64; LIP 73 80],80}
+            {19,[12,11],[2.0 0 + 0.1],[GM 3 10; GM 26 55; LIP 64 88],96}
+            {20,[11,11],[2.0 0 - 0.05],[GM 4 19; GM 44 79; LIP 88 105],105}
+            {21,[14,7],[1.8 0 + 0.1],[GM 20 34; GM 56 81; LIP 89 101],101}
+            {22,[14,8],[1.9 0 + 0.1],[GM 42 69; LIP 80 101],120}
+            {23,[14,9],[1.9 0 + 0.1],[GM 36 64; LIP 72 79],79}
+            {24,[10,12],[2.0 0-0.1],[GM 9 26; GM 48 82;LIP 94 115]}
+            {24,[12,10],[2.0 0+0.1],[GM 3 12; GM 36 62; LIP 72 77],77}
+            {25,[12,10],[2.0 0+0.1],[GM 36 62; LIP 72 86],86}
+            {26,[12,11],[2.0 0+0.1],[GM 30 58; LIP 67 75],75}
+            {27,[18,5],[1.7 0.4+0.05],[GM 11 36; LIP 47 65; GM 77 100; GM 109 130]}
+            {28,[18,4],[1.7 0.4],[GM 18 42; LIP 53 61; GM 71 91; GM 103 125]}
+            {29,[12,12],[2.0 0],[GM 9 18; GM 29 58; LIP 66 74],74}
+            {30,[12,13],[2.1 0],[GM 19 39; LIP 50 60],60}
+            {31,[11,13],[2.1 0],[GM 0 11; GM 22 55; LIP 65 80],80}
+            {32,[11,12],[2.1 0],[GM 0 7; GM 26 57; LIP 69 82],82}
+            {33,[11,11],[2.0 0.1],[GM 0 10; GM 34 61; LIP 76 97]}
+            {34,[13,11],[2.0 0.1],[GM 26 52; LIP 62 80]}
+            {35,[13,10],[2.0 0],[GM 35 65; LIP 75 96],96}
+            {36,[14,10],[2.0 0+0.1],[GM 20 46; LIP 55 80],90}
+            {37,[13,12],[2.0 0+0.1],[GM 3 8; GM 20 47; LIP 56 82]}
+            {38,[14,11],[2.0 0+0.1],[GM 0 38; LIP 48 65]}
+            {39,[15,10],[2.0 0],[GM 22 48; LIP 59 81; GM 120 150]}
+            {59,[13,11],[2.05 0.0 + 0.1],[GM 13 39; LIP 56 74],74}
+            {60,[14,11],[2.0 0],[GM 3 52;LIP 57 60],60}
+            {61,[14,10],[2.0 0.0 + 0.1],[GM 21 45; LIP 57 75],75}
+            {62,[13,12],[2.0 0.0 + 0.2],[GM 2 36;LIP 45 65],65}
+            {64,[11,13],[2.1 0],[GM 15 33; LIP 65 78],78}
+            {65,[14,9],[1.9 0.0 + 0.2],[GM 22 51; LIP 63 84],84}
+            {66,[14,7],[1.8 0],[GM 29 41; GM 65 89; LIP 99 120],120}
+            {66,[17,7],[1.8 0.0 + 0.2],[GM 2 6; GM 35 59; LIP 70 90; LIP 113 150],150}
+            {67,[15,8],[1.9 0 + 0.1],[GM 34 62; LIP 74 84],84}
+            {68,[15,9],[1.9 0],[GM 47 58; LIP 75 83],83}
+            {69,[12,9],[1.9 0 + 0.15],[GM 45 73; LIP 86 97],97}
+            {70,[16,7],[1.9 0],[GM 41 69; LIP 77 101; VIP 138 150],150}
+            {71,[16,6],[1.9 0 + 0.1],[GM 7 19; GM 39 67; LIP 76 80],80}
+            {71,[13,7],[1.9 0],[GM 20 38; GM 62 89; LIP 96 110],110}
+            }';
+        
+        MRI_path = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\';
+%         MRI_offset = {[-68 79]*0.9-4  ,[-240 500]*1.1+45 , [0 -2.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        
+        MRI_offset = {[-69.2, 63.1], [-175.525, 591.525],[0, -4.33333]};  % Manual 20180604
+        
+        % Update version with ratio fixed {[x_center, y_center, x_range], [slopes]}. HH20180606
+        MRI_offset_new = {[-3.0500, 208, 132.3000], [0, -4.33333]};
+        %}
         
        
     case 'Polo_L'
@@ -181,7 +204,7 @@ switch monkey_hemis{monkey_hemi}
         % Header
         toPlotTypes3D = [ MST VIP MT LIP AUD];    % Which area types do we want to plot in 3D plot?
         toPlotTypes_zview = [MST VIP MT LIP AUD];    % Which area types do we want to plot ?
-        gridRange = [0 20; 3 22];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [0 20; 3 25];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         
         monkey = 5;
         hemisphere = 1;
@@ -202,7 +225,7 @@ switch monkey_hemis{monkey_hemi}
             {71,[5,17],[2.0 0.1],[GM 0 11; GM 27 48; LIP 57 70],70}
             {72,[6,19],[2.1 0],[LIP 46 65]}
             {73,[6,18],[2.1 0],[GM 0 12; GM 26 38; LIP 47 59],59}
-            {74,[7,18],[2.0 0],[GM 6 49; LIP 59 70],70}
+            {74,[7,18],[2.0 0],[GM 6 49; LIP 59 73],73}
             {75,[7,17],[2.0 0],[GM 7 54; LIP 62 75],75}
             {76,[7,16],[2.0 0],[GM 2 27; GM 40 61; LIP 73 80; VIP 80 86],86}
             {77,[7,19],[2.1 0],[GM 0 11; LIP 37 53],53}
@@ -243,10 +266,14 @@ switch monkey_hemis{monkey_hemi}
             {111,[10,15],[2.1 0+0.1],[GM 0 35; LIP 44 59],59}
             }';
         
-        MRI_path = [current_folder '/forDrawMapping/'];
-        MRI_offset = {[-68 79] - 5,[-240 500]+15, [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        MRI_path = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\';
+%         MRI_offset = {[-68 79] - 5,[-240 500]+15, [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
+        MRI_offset = {[-61.4862, 66.4862], [-220, 520],[0, -1.5]}; % Manual adjust HH20180604
         
+        % Update version with ratio fixed {[x_center, y_center, x_range], [slopes]}. HH20180606
+        MRI_offset_new = {[ 2.5000,   150,  127.9724 ], [0, -1.5]};
+
         %}
     case 'Polo_R'
         
@@ -256,7 +283,7 @@ switch monkey_hemis{monkey_hemi}
         % Header
         toPlotTypes3D = [ MST VIP MT LIP AUD];    % Which area types do we want to plot in 3D plot?
         toPlotTypes_zview = [MST VIP MT LIP AUD];    % Which area types do we want to plot ?
-        gridRange = [0 20; 3 22];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [0 20; 0 25];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
         monkey = 5;
         hemisphere = 2;  % L = 1, R = 2
         AP0 =  Polo_right_AP0 % 6;
@@ -294,7 +321,7 @@ switch monkey_hemis{monkey_hemi}
             {28,[6,12],[1.9 0],[GM 29 55; LIP 71 90; MST 142 150]}
             {29,[6,13],[2.1 0],[GM 13 36; LIP 44 60],60}
             {30,[8,10],[1.9 0],[GM 9 25; GM 34 54; LIP 63 73],73}
-            {31,[8,9],[1.9 0],[GM 11 22; GM 39 63; LIP 77 83],83}
+            {31,[8,9],[1.9 0],[GM 11 22; GM 39 63; LIP 77 84],84}
             {32,[7,10],[1.9 0],[GM 2 17; GM 39 64; LIP 74   98],98}
             {33,[8,12],[2.0 0],[GM 4 34; LIP 45 65; MST 108 110],110}
             {34,[4,12],[2.0 0],[GM 24 43; LIP 67 85],85}
@@ -324,13 +351,17 @@ switch monkey_hemis{monkey_hemi}
             {58,[6,13],[2.0 0],[GM 19 33; LIP 46 48],48}
             {59,[6,12],[1.9 0],[GM 40 50; LIP 71 86; MST 148 150]}
             {60,[5,13],[2.0 0],[GM 12 27; LIP 57 62],62}
-            {61,[5,14],[2.0 0],[LIP 58 65],65}
+            {61,[5,14],[2.0 0],[LIP 58 67],67}
             }';
         
-        MRI_path = [current_folder '/forDrawMapping/'];
-        MRI_offset = {[-68 79] - 10,[-240 500], [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        MRI_path = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\';
+%          MRI_offset = {[-68 79] - 10,[-240 500], [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
+        MRI_offset = {[-71.9026, 63.9026], [-244.948, 524.948],[0, -1.66667]};  % Manual adjust 20180604
         
+        % Update version with ratio fixed {[x_center, y_center, x_range], [slopes]}. HH20180606
+        MRI_offset_new = {[ -4.0000,   140 ,  135.8052 ], [0, -1.66667]};
+
         %}
 end
 
@@ -607,7 +638,10 @@ radius = 0.42;  % Radius of each hole (interval = 1)
 
 % Plot grid outline
 set(figure(802),'Position',[10 100 600 600]); clf
-hold on; axis equal ij;
+hold on; axis equal ij;  
+
+global h_grid_axis; h_grid_axis = gca;
+
 x1 = gridRange(1,1); x2 = gridRange(1,2);
 y1 = gridRange(2,1); y2 = gridRange(2,2);
 xlim([y1-2,y2+2]);
@@ -689,7 +723,7 @@ end
 %% Load xls file
 global num txt raw xls;
 if isempty(num)
-    XlsData = ReadXls([current_folder '/DataHub.xlsm'],2,3);
+    XlsData = ReadXls('Z:\Labtools\HH_Tools\DataHub\DataHub.xlsm',2,3);
     num = XlsData.num;
     xls = XlsData.header;
     txt = XlsData.txt;
@@ -698,22 +732,22 @@ if isempty(num)
 end
 
 %% Call back for 2-D Grid View
-function SelectChannel(~,~)
+function SelectChannel(source,event)
 
 global maxX maxY maxZ movDis GMTypes data Polo_right_AP0
-global MRI_path MRI_offset AP0;
+global MRI_path MRI_offset AP0; global MRI_offset_new;
 global monkey hemisphere ;
 global gridRange linWid start_end_markers overlapping;
 global handles;
 global num txt raw xls;
-
-headingToAzi = @(x)mod(90 - x,360);
+global overlapTransparent; 
+global h_grid_axis;
 
 hemisphere_text = {'Left','Right'};
 
 % Which channel do we select?
 
-pos = get(gca,'CurrentPoint');
+pos = get(h_grid_axis,'CurrentPoint');
 pos = pos(1,1:2);
 xSelect = round(pos(2));
 ySelect = round(pos(1)- 0.5 * ~mod(xSelect,2));
@@ -738,7 +772,7 @@ end
 title(sprintf('Monkey %g, session(s) for %s [%g,%g]: %s',monkey,hemisphere_text{hemisphere},xSelect,ySelect,num2str(sessions_match)));
 
 
-figurePosition = [700 100 100 600];
+figurePosition = [ 700  100  459  600 ];
 set(figure(803),'Position',figurePosition,'color','w'); clf
 
 
@@ -759,9 +793,37 @@ try
     
     MRI = imread([MRI_path num2str(fileNo) '.bmp']);
     
-    h_MRI = image(MRI_offset{1}+xSelect*MRI_offset{3}(1), MRI_offset{2} + xSelect*MRI_offset{3}(2),MRI);
+    % h_MRI = image(MRI_offset{1}+xSelect*MRI_offset{3}(1), MRI_offset{2} + xSelect*MRI_offset{3}(2),MRI);
     
-    set(h_MRI,'AlphaData',0.7);
+    % MRI_offset_new = {[x_center, y_center, x_range], [slopes]}
+    ratioyx = size(MRI,1)/size(MRI,2) * 10 * 0.8; % Auto keep ratio !!!   HH20180606
+    x_lims = [MRI_offset_new{1}(1) - MRI_offset_new{1}(3)/2, MRI_offset_new{1}(1) + MRI_offset_new{1}(3)/2];
+    y_lims = [MRI_offset_new{1}(2) - ratioyx * MRI_offset_new{1}(3)/2, MRI_offset_new{1}(2) + ratioyx * MRI_offset_new{1}(3)/2];
+    
+    h_MRI = image(x_lims + xSelect * MRI_offset_new{2}(1), y_lims + xSelect * MRI_offset_new{2}(2), MRI);
+    
+    set(h_MRI,'AlphaData',1);
+    
+    % 20180604
+    uicontrol('style','pushbutton','unit','norm','pos', [0.0630    0.9510    0.0300    0.0210],...
+                     'callback',{@ manual_adjust_mri, 1});
+    uicontrol('style','pushbutton','unit','norm','pos', [0.0630    0.9210    0.0300    0.0210],...
+                     'callback',{@ manual_adjust_mri, 2});
+    uicontrol('style','pushbutton','unit','norm','pos', [0.0330    0.9350    0.0300    0.0210],...
+                     'callback',{@ manual_adjust_mri, 3});
+    uicontrol('style','pushbutton','unit','norm','pos', [0.0930    0.9350    0.0300    0.0210],...
+                     'callback',{@ manual_adjust_mri, 4});
+
+    uicontrol('style','pushbutton','unit','norm','pos', [0.1630    0.9510    0.0300    0.0210],...
+                     'callback',{@ manual_adjust_mri, 5});
+    uicontrol('style','pushbutton','unit','norm','pos', [0.1630    0.9210    0.0300    0.0210],...
+                     'callback',{@ manual_adjust_mri, 6});
+                 
+    uicontrol('style','pushbutton','unit','norm','pos', [0.2430    0.9510    0.0300    0.0210],...
+                     'callback',{@ manual_adjust_mri, 7});
+    uicontrol('style','pushbutton','unit','norm','pos', [0.2430    0.9210    0.0300    0.0210],...
+                     'callback',{@ manual_adjust_mri, 8});
+
 catch
     disp('No MRI data found...');
 end
@@ -769,15 +831,16 @@ end
 % Frame
 xlim([gridRange(2,1) gridRange(2,2)+1]);
 ylim([-30 maxZ]);
+
 grid minor;
 set(h_coronal,'XMinorGrid','on','XMinorTick','on');
 % title(sprintf('Monkey %g, %s [%g, %g]',monkey, hemisphere,xSelect,ySelect));
-title(sprintf('Monkey %g, %s[%g], AP ¡Ö %g',monkey, hemisphere_text{hemisphere},xSelect,(AP0-xSelect)*0.8));
+title(sprintf('Monkey %g, %s[%g], AP \\approx %g',monkey, hemisphere_text{hemisphere},xSelect,(AP0-xSelect)*0.8));
 
 % Keep scale
 aspectRatio = (range(ylim) * 100) / (range(xlim) * 800);  % grid interval = 0.8 mm
 set(figure(803),'Position',[figurePosition(1:2) figurePosition(4)/aspectRatio figurePosition(4)]);
-
+daspect([1/0.8 10 1]); % This is betther man
 
 for channel = 1:length(data)
     %     if data{channel}{2}(1) == xSelect  % Only plot the line we select
@@ -798,7 +861,7 @@ for channel = 1:length(data)
                 zEnd = GMData(GMThisType(i),3) + offSet;
                 
                 if overlapping(1,1)~=0 || overlapping(1,2)~=0  % If we overlap neighboring slices
-                    p = patch([yLoc yLoc yLoc+1 yLoc+1],[zEnd,zBegin,zBegin,zEnd],GMTypes{-GMType,2},'EdgeColor','none','FaceAlpha',0.4);
+                    p = patch([yLoc yLoc yLoc+1 yLoc+1],[zEnd,zBegin,zBegin,zEnd],GMTypes{-GMType,2},'EdgeColor','none','FaceAlpha',overlapTransparent);
                 else
                     rectangle('Position',[yLoc,zBegin,1,zEnd-zBegin],'LineWidth',linWid,...
                         'EdgeColor',GMTypes{-GMType,2});
@@ -940,6 +1003,7 @@ figure(803);
 
 % --------------- MemSac Properties (MU & SU)
 % Mask: monkey & hemishpere & xLoc & significant visual tuning
+%{
 mask_tuning = (num(:,xls.Monkey) == monkey) & num(:,xls.Hemisphere)==hemisphere & ...
     (num(:,xls.Xloc) >= xSelect + overlapping(2,1) & num(:,xls.Xloc) <= xSelect + overlapping(2,2)) ;
 to_plot_num = num(mask_tuning,:);
@@ -963,26 +1027,47 @@ for i =  1:size(to_plot_num,1)
     end
     
 end
+%}
 
 % --------------- LIP SUs -------
 % % Mask: monkey & hemishpere & xLoc & significant visual tuning
-% mask_tuning = (num(:,xls.Monkey) == monkey) & num(:,xls.Hemisphere)==hemisphere & (num(:,xls.Xloc) >= xSelect + overlapping(2,1) & num(:,xls.Xloc) <= xSelect + overlapping(2,2)) ...
-%     &  strcmp(txt(:,xls.Protocol),'HD') & (strcmp(txt(:,xls.Area),'LIP')) & (num(:,xls.Chan1)>1)  & (num(:,xls.Chan1)<20);
-%
-% to_plot = num(mask_tuning,:);
-%
-% for i =  1:size(to_plot,1)
-%     offSet = round((to_plot(i,xls.guidetube)  + to_plot(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
-%     xx = to_plot(i,xls.Yloc) + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
-%     yy = offSet + round(to_plot(i,xls.Depth)/100);
-%
+% %{
+
+mask_tuning = (strcmp(txt(:,xls.Protocol),'HD') | strcmp(txt(:,xls.Protocol),'HD_dt')) & (strcmpi(txt(:,xls.Area),'LIP') | strcmpi(txt(:,xls.Area),'LIP-V')) ...
+    & (num(:,xls.HD_rep) >= 8) & (num(:,xls.Units_RealSU) == 1) & num(:,xls.Monkey) == monkey & num(:,xls.Hemisphere)==hemisphere...
+    & (num(:,xls.Xloc) >= xSelect + overlapping(2,1) & num(:,xls.Xloc) <= xSelect + overlapping(2,2)) & (num(:,xls.HD_TargFirst) == 1);
+
+to_plot = num(mask_tuning,:);
+text(max(xlim)*0.6, max(ylim),sprintf('No. cells = %g',sum(mask_tuning)));
+
+for i =  1:size(to_plot,1)
+    offSet = round((to_plot(i,xls.guidetube)  + to_plot(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+    %    xx = to_plot(i,xls.Yloc) + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+    xx = to_plot(i,xls.Yloc) + (rand(1) - 0.5)*0;  % Left and Right Prefer
+    yy = offSet + (to_plot(i,xls.Depth)/100);
+
+    % Plot according to the max choice divergence (if all non-significant, black circles)
+    max_color = {'b','r','g'};
+    choice_pref_this = to_plot(i,xls.HD_vest_ChoicePref : xls.HD_comb_ChoicePref_p);
+    [~, max_ind] = max(abs(choice_pref_this([1 3 5])));
+    any_sig = any(choice_pref_this([2 4 6]) < 0.05);
+    
+    if any_sig
+        plot(xx,yy,'wo','linewid',0.1,'markerfacecol',max_color{max_ind},'markersize',7);
+    else
+        plot(xx,yy,'ko','linewid',1,'markerfacecol','none','markersize',7);
+%         plot(xx,yy,'ro','linewid',0.4,'markerfacecol','none','markersize',7);
+    end
+
+        
 %     if to_plot(i,xls.HD_MemSac) >= 0.9 % T cell
 %         plot(xx,yy,'ro','linewid',0.4,'markerfacecol','r','markersize',5);
 %     else % non-T cell
 %         plot(xx,yy,'ro','linewid',0.4,'markerfacecol','r','markersize',5);
 % %         plot(xx,yy,'ro','linewid',0.4,'markerfacecol','none','markersize',7);
 %     end
-% end
+end
+%}
 
 function ShowDepth(~,~,offset)
 persistent depthLine;
@@ -1032,4 +1117,24 @@ function change_monkey_hemi(~,~)
 DrawMapping(get(gcbo,'value'));
 
 
+% 20180604 Add manual align buttons
+function manual_adjust_mri(source,event,choice)  
+global MRI_offset_new hemisphere;
 
+manual_step_size = 0.5;
+manual_zoom_size = 1.02;
+
+switch choice
+    case {1,2}
+        MRI_offset_new{1}(2) = MRI_offset_new{1}(2) + sign(choice - 1.5) * manual_step_size * 10;
+    case {3,4}
+        MRI_offset_new{1}(1) = MRI_offset_new{1}(1) + sign(3.5 - choice) * sign(1.5 - hemisphere) * manual_step_size;
+    case {5,6}
+        MRI_offset_new{1}(3) = MRI_offset_new{1}(3) * manual_zoom_size^(sign(5.5 - choice));
+    case {7,8}
+        MRI_offset_new{2}(2) = MRI_offset_new{2}(2) + sign(choice - 7.5) * manual_step_size/3;
+end
+
+fprintf('MRI_offset_new = {[%g, %g, %g],[%g, %g]};\n',...
+        MRI_offset_new{1}, MRI_offset_new{2});
+SelectChannel(source,event);

@@ -8,7 +8,7 @@ monkey_hemis = {'Qiaoqiao_L','Qiaoqiao_R','Qiaoqiao_QY_L','Qiaoqiao_QY_R','Polo_
 colorDefsLBY; % added by LBY 20161216
 
 if nargin == 0
-    monkey_hemi = 1;
+    monkey_hemi = 2;
 end
 
 
@@ -16,13 +16,13 @@ end
 clc; clear global
 global maxX maxY maxZ movDis GMTypes data;
 global hemisphere monkey; global gridRange;
-global MRI_path MRI_offset AP0;
+global MRI_path MRI_offset AP0 MRI_path_saggital MRI_offset_saggital;
 global linWid start_end_markers overlapping Qiaoqiao_right_AP0 Polo_right_AP0;
 
 linWid = 1.3; % linewidth for rectangles indicating mapping area
 % following: area & unit overlapping in coronal planes
-overlapping = [-1 1; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
-% overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation, no overlapping
+% overlapping = [-1 1; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
+overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation, no overlapping
 % overlapping = [0 0; -1 1]; start_end_markers = false; % First row for area annotation; second for unit annotation
 
 maxX = 30; % Grid size
@@ -210,13 +210,16 @@ switch monkey_hemis{monkey_hemi}
         MRI_path = 'Z:\Data\MOOG\Qiaoqiao\Mapping\MRI\QiaoqiaoOutput\forDrawMapping\';
         MRI_offset = {[-93 93]-0.2,[-455 615], [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
+        MRI_path_saggital = 'Z:\Data\MOOG\Qiaoqiao\Mapping\MRI\QiaoqiaoOutput\forDrawMapping\Sagittal\';
+        MRI_offset_saggital = {[-25 80]+0,[-850 1100]-35, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        
         
         %}
         
     case 'Qiaoqiao_L'
         
         %  Qiaoqiao_left
-        % %{
+%         %{
         
         % Header
         toPlotTypes3D = [PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
@@ -318,13 +321,15 @@ switch monkey_hemis{monkey_hemi}
         MRI_path = 'Z:\Data\MOOG\Qiaoqiao\Mapping\MRI\QiaoqiaoOutput\forDrawMapping\';
         MRI_offset = {[-93 93]+1.5,[-455 615]+20, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
+        MRI_path_saggital = 'Z:\Data\MOOG\Qiaoqiao\Mapping\MRI\QiaoqiaoOutput\forDrawMapping\Sagittal\';
+        MRI_offset_saggital = {[-25 80]+0,[-850 1100]-15, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
         %}
         
     case 'Qiaoqiao_QY_L'
         
         %  Qiaoqiao_left
-        % %{
+        %{
         
         % Header
         toPlotTypes3D = [PCCu PCCl RSC A23];    % Which area types do we want to plot in 3D plot?
@@ -387,7 +392,7 @@ switch monkey_hemis{monkey_hemi}
     case 'Qiaoqiao_QY_R'
         
         %  Qiaoqiao_left
-        % %{
+        %{
         
         % Header
         toPlotTypes3D = [PCCu PCCl RSC A23];    % Which area types do we want to plot in 3D plot?
@@ -446,7 +451,7 @@ switch monkey_hemis{monkey_hemi}
     case 'Polo_L_HH'
         
         %  Polo_left
-        % %{
+        %{
         
         % Header
         toPlotTypes3D = [ MST VIP MT LIP AUD];    % Which area types do we want to plot in 3D plot?
@@ -521,7 +526,7 @@ switch monkey_hemis{monkey_hemi}
     case 'Polo_R_HH'
         
         %  Polo_right
-        % %{
+%         %{
         
         % Header
         toPlotTypes3D = [ MST VIP MT LIP AUD];    % Which area types do we want to plot in 3D plot?
@@ -600,12 +605,15 @@ switch monkey_hemis{monkey_hemi}
         MRI_path = 'Z:\Labtools\DrawMapping\forDrawMapping\';
         MRI_offset = {[-68 79] - 10,[-240 500], [0 -1.5]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
+        MRI_path_saggital = 'Z:\Data\MOOG\Polo\Mapping\MRI\PoloOutput\forDrawMapping\Sagittal\';
+        MRI_offset_saggital = {[-25 80]+0,[-850 1100]-35, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        
         
         %}
     case 'Polo_L'
         
         %  Polo_left
-        % %{
+        %{
         
         % Header
         toPlotTypes3D = [PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
@@ -637,7 +645,7 @@ switch monkey_hemis{monkey_hemi}
     case 'Polo_R'
         
         %  Polo_right
-        % %{
+        %{
         
         % Header
         toPlotTypes3D = [PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
@@ -780,7 +788,7 @@ switch monkey_hemis{monkey_hemi}
     case 'Manda'
         
         %  Polo_left
-        % %{
+        %{
         
         % Header
         toPlotTypes3D = [GM];    % Which area types do we want to plot in 3D plot?
@@ -918,23 +926,6 @@ set(gcf,'color','w');
 % set(findall(gcf,'fontsize',10),'fontsize',20);
 SetFigure(20);
 
-% k=1;
-% for i = 1:150
-%     view(-170+i*.5,20+i/10);
-%     drawnow;
-%     mov(k) = getframe(gcf);
-%     k=k+1;
-% end
-%
-% for i = 150:-1:1
-%     view(-170+i*.5,20+i/10);
-%     drawnow;
-%     mov(k) = getframe(gcf);
-%     k=k+1;
-% end
-%
-% movie2avi(mov,'Test.avi');
-
 %% ============ 2-D Visualization (Grid view from the top) =============== %
 
 radius = 0.42;  % Radius of each hole (interval = 1)
@@ -1047,8 +1038,8 @@ end
 global num txt raw xls;
 if isempty(num)
     % add dor LBY LBY20161212
-    %     XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',2,3);
-    XlsData = ReadXls('Z:\Data\MOOG\Results\Result_TQY.xlsm',2,3);
+        XlsData = ReadXls('Z:\Data\MOOG\Results\Result_PCall.xlsm',2,3);
+%     XlsData = ReadXls('Z:\Data\MOOG\Results\Result_TQY.xlsm',2,3);
     num = XlsData.num;
     xls = XlsData.header;
     txt = XlsData.txt;
@@ -1060,7 +1051,7 @@ end
 function SelectChannel(~,~)
 
 global maxX maxY maxZ movDis GMTypes data Qiaoqiao_right_AP0 Polo_right_AP0
-global MRI_path MRI_offset AP0;
+global MRI_path MRI_offset AP0 MRI_path_saggital MRI_offset_saggital;
 global monkey hemisphere ;
 global gridRange linWid start_end_markers overlapping;
 global handles;
@@ -1154,7 +1145,7 @@ for channel = 1:length(data)
     if data{channel}{2}(1) >= xSelect + overlapping(1,1) && data{channel}{2}(1) <= xSelect + overlapping(1,2)   % Overlapping neighboring slices
         yLoc = data{channel}{2}(2)-0.5;
         GMData = data{channel}{4};
-        if isempty(GMData); continue; end;
+        if isempty(GMData); continue; end
         
         GuideTubeAndOffset = data{channel}{3};
         offSet = round((GuideTubeAndOffset(2) + GuideTubeAndOffset(1) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!! unit:100um
@@ -1255,28 +1246,43 @@ end
 set(findall(gcf,'tickdir','i'),'tickdir','o');
 % axis off;
 
-%-------------------   for saggital plane  -----------------------%
-%{
-set(figure(804),'Position',figurePosition, 'color','w'); clf;
-h_saggital = axes('Position',[0.2 0.1 0.7 0.8]);
+%-------------------   for sagittal plane  -----------------------%
+% %{
+figurePositionSagittal = [-1050 100 1000 400];
+set(figure(804),'Position',figurePositionSagittal, 'color','w'); clf;
+h_saggital = axes('Position',[0.1 0.1 0.85 0.8]);
 axis ij; hold on;
 
+% Overlapping MRI data (sagittal plane)
+try
+    fileNo = ySelect;
+    
+    if hemisphere == 2
+        MRI_saggital = imread([MRI_path_saggital, '+' ,num2str(fileNo) '.jpg']);
+        h_MRI_saggital = image(MRI_offset_saggital{1}+ySelect*MRI_offset_saggital{3}(1), MRI_offset_saggital{2} + ySelect*MRI_offset_saggital{3}(2),MRI_saggital);
+    elseif hemisphere == 1
+        MRI_saggital = imread([MRI_path_saggital, '-' ,num2str(fileNo) '.jpg']);
+        h_MRI_saggital = image(MRI_offset_saggital{1}+ySelect*MRI_offset_saggital{3}(1), MRI_offset_saggital{2} + ySelect*MRI_offset_saggital{3}(2),MRI_saggital);
+    end
+    %     set(h_MRI,'AlphaData',0.7);
+catch
+    disp('No MRI data found...');
+end
+
 % Frame
-xlim([gridRange(1,1) gridRange(1,2)+1]);
-set(gca,'xtick',[gridRange(1,1):5:gridRange(1,2)]);
-ylim([-30 maxZ]); %?
+xlim([gridRange(1,1)-20 gridRange(1,2)+20]);
+set(gca,'xtick',[gridRange(1,1)-20:5:gridRange(1,2)+20]);
+ylim([-30 maxZ]); 
 grid minor;
-set(h_coronal,'XMinorGrid','on','XMinorTick','on');
-% title(sprintf('Monkey %g, %s[%g], AP ¡Ö %g',monkey, hemisphere_text{hemisphere},xSelect,(AP0-xSelect)*0.8));
+set(h_saggital,'XMinorGrid','on','XMinorTick','on');
 % add minus for Qiaoqiao LBY20161219
-title(sprintf('Saggital M%g, %s[y,%g], AP ¡Ö %g',monkey, hemisphere_text{hemisphere},ySelect,-(AP0-xSelect)*0.8));
+title(sprintf('Sagittal M%g, %s, AP ¡Ö %g, ML = %g ',monkey, hemisphere_text{hemisphere},-(AP0-xSelect)*0.8,ySelect));
 
 % Keep scale
 aspectRatio = (range(ylim) * 100) / (range(xlim) * 800);  % grid interval = 0.8 mm
-set(figure(804),'Position',[1200 figurePosition(2) figurePosition(4)/aspectRatio figurePosition(4)]);
+set(figure(804),'Position',[-1000 figurePositionSagittal(2) figurePositionSagittal(4)/aspectRatio figurePositionSagittal(4)]);
 
 for channel = 1:length(data)
-    %     if data{channel}{2}(1) == xSelect  % Only plot the line we select
     if data{channel}{2}(2) >= ySelect + overlapping(1,1) && data{channel}{2}(2) <= ySelect + overlapping(1,2)   % Overlapping neighboring slices
         xLoc = data{channel}{2}(1)-0.5;
         GMData = data{channel}{4};
@@ -1385,8 +1391,11 @@ drawnow;
 
 
 %% Plot Tuning.  HH20140624
+colorDefsLBY; 
+%-------------------   for coronal plane  -----------------------%
+
 figure(803);
-colorDefsLBY; % added by LBY 20180605
+% added by LBY 20180605
 % --------------- Tuning Properties
 % Mask: monkey & hemishpere & xLoc & significant visual tuning
 % mask_tuning = (num(:,xls.Monkey) == monkey) & num(:,xls.Hemisphere)==hemisphere & (num(:,xls.Xloc) >= xSelect + overlapping(2,1) & num(:,xls.Xloc) <= xSelect + overlapping(2,2)) ...
@@ -1498,52 +1507,42 @@ for i =  1:size(to_plot_num,1)
     %     end
 end
 
+%-------------------   for sagittal plane  -----------------------%
+figure(804);
 
-%     % --------------- MemSac Properties (MU & SU)
-%     % Mask: monkey & hemishpere & xLoc & significant visual tuning
-%     mask_tuning = (num(:,xls.Monkey) == monkey) & num(:,xls.Hemisphere)==hemisphere & ...
-%         (num(:,xls.Xloc) >= xSelect + overlapping(2,1) & num(:,xls.Xloc) <= xSelect + overlapping(2,2)) ;
-%     to_plot_num = num(mask_tuning,:);
-%     to_plot_txt = txt(mask_tuning,:);
-%
-%     for i =  1:size(to_plot_num,1)
-%
-%         if strcmp(to_plot_txt(i,xls.Protocol),'MemSac')
-%             offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
-%             xx = to_plot_num(i,xls.Yloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
-%             yy = offSet + round(to_plot_num(i,xls.Depth)/100);
-%
-%             if to_plot_num(i,xls.p_M) < 0.01 %to_plot_num(i,xls.HD_MemSac) >= 0.8  % T site
-%                 plot(xx,yy,'ro','linewid',0.4,'markerfacecol','r','markersize',5);
-%                 pref_M = headingToAzi(to_plot_num(i,xls.pref_M))*pi/180;
-%                 aspect = daspect;
-%                 plot([xx xx+0.5*cos(pref_M)*sign((hemisphere==2)-0.5)],[yy yy+(-1)*0.5*sin(pref_M)*aspect(2)/aspect(1)],'r-','linew',1.5);
-%             else  % non-T site
-%                 plot(xx,yy,'ro','linewid',0.4,'markerfacecol','none','markersize',5);
-%             end
-%         end
-%
-%     end
+% --------------- temporal-spatial Properties (MU & SU) --------------------------%
+% Mask: monkey & hemishpere & xLoc & significant visual tuning
+mask_tuning = (num(:,xls.Monkey) == monkey) & num(:,xls.Hemisphere)==hemisphere & ...
+    (num(:,xls.Yloc) >= ySelect + overlapping(2,1) & num(:,xls.Yloc) <= ySelect + overlapping(2,2)) ;
+to_plot_num = num(mask_tuning,:);
+to_plot_txt = txt(mask_tuning,:);
 
-% --------------- LIP SUs -------
-% % Mask: monkey & hemishpere & xLoc & significant visual tuning
-% mask_tuning = (num(:,xls.Monkey) == monkey) & num(:,xls.Hemisphere)==hemisphere & (num(:,xls.Xloc) >= xSelect + overlapping(2,1) & num(:,xls.Xloc) <= xSelect + overlapping(2,2)) ...
-%     &  strcmp(txt(:,xls.Protocol),'HD') & (strcmp(txt(:,xls.Area),'LIP')) & (num(:,xls.Chan1)>1)  & (num(:,xls.Chan1)<20);
-%
-% to_plot = num(mask_tuning,:);
-%
-% for i =  1:size(to_plot,1)
-%     offSet = round((to_plot(i,xls.guidetube)  + to_plot(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
-%     xx = to_plot(i,xls.Yloc) + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
-%     yy = offSet + round(to_plot(i,xls.Depth)/100);
-%
-%     if to_plot(i,xls.HD_MemSac) >= 0.9 % T cell
-%         plot(xx,yy,'ro','linewid',0.4,'markerfacecol','r','markersize',5);
-%     else % non-T cell
-%         plot(xx,yy,'ro','linewid',0.4,'markerfacecol','r','markersize',5);
-% %         plot(xx,yy,'ro','linewid',0.4,'markerfacecol','none','markersize',7);
-%     end
-% end
+for i =  1:size(to_plot_num,1)
+if strcmp(to_plot_txt(i,xls.Area),'PCCl') || strcmp(to_plot_txt(i,xls.Area),'PCCu')
+            offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+            xx = to_plot_num(i,xls.Xloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+            yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+            plot(xx,yy,'.','color','g','markersize',18);
+        end
+    if strcmp(to_plot_txt(i,xls.Area),'PCC')
+        offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+        xx = to_plot_num(i,xls.Xloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+        yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+        plot(xx,yy,'.','color','g','markersize',18);
+    end
+    if strcmp(to_plot_txt(i,xls.Area),'A23')
+        offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+        xx = to_plot_num(i,xls.Xloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+        yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+        plot(xx,yy,'.','color',[1 0.38 0],'markersize',18);
+    end
+    if strcmp(to_plot_txt(i,xls.Area),'RSC')
+        offSet = round((to_plot_num(i,xls.guidetube)  + to_plot_num(i,xls.offset) - 2.0) * 100);  % Related to Guide Tube 2.0 cm!!
+        xx = to_plot_num(i,xls.Xloc); % + ((to_plot(i,xls.Pref_vis) > 0) * 0.2 + (to_plot(i,xls.Pref_vis) <= 0) * -0.2)*sign((hemisphere==2)-0.5);  % Left and Right Prefer
+        yy = offSet + round(to_plot_num(i,xls.Depth)/100);
+        plot(xx,yy,'.','color','r','markersize',18);
+    end
+end
 
 function ShowDepth(~,~,offset)
 persistent depthLine;
