@@ -19,6 +19,7 @@ prev_trial = 0;
 %preallocation speeds processing up significantly
 dots_params = ones(NUM_DOTS_PARAMS, num_trials, NUM_PATCHES)*NaN; 
 moog_params = ones(NUM_MOOG_PARAMS, num_trials, NUM_MOOG_ITEMS)*NaN;
+
 %revcorr_params = zeros(NUM_REVCORR_PARAMS, num_trials, numRevcorrParams)*NaN;
 misc_params = ones(NUM_MISC_PARAMS, num_trials, NUM_CUES)*NaN;
 cue_params = ones(NUM_CUE_PARAMS, num_trials, NUM_CUES)*NaN;

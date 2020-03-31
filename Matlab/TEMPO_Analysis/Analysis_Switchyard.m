@@ -102,10 +102,9 @@ switch(Protocol)		%call a .m file that contains protocol-specific analysis routi
         MOOG_Analyses(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffsetBin, StopOffsetBin, StartEventBin, StopEventBin, PATH, FILE, batch_flag);
     case ROTATION_DISCRIM_FIXONLY
         MOOG_Analyses(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffsetBin, StopOffsetBin, StartEventBin, StopEventBin, PATH, FILE, batch_flag);
-        
-        
-        
-        
+    case GRATING
+        MOOG_Analyses(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffsetBin, StopOffsetBin, StartEventBin, StopEventBin, PATH, FILE, batch_flag);
+            
         
     case DIRECTION_TUNING
         DirectionTuning_Analyses(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffsetBin,  StopOffsetBin, StartEventBin, StopEventBin, PATH, FILE);

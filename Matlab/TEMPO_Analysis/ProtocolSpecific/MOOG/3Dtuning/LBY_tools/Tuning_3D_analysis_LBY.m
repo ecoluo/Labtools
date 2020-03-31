@@ -174,9 +174,9 @@ if strcmp(PSTH.monkey ,'MSTd') == 1
     aMax = 770; % in ms, peak acceleration time, measured time
     aMin = 1250; % in ms, trough acceleration time, measured time
 else % for PCC
-    delay = 155; % in ms, system time delay, LBY modified, 200311.real velocity peak-theoretical veolocity peak
-    aMax = 575; % in ms, peak acceleration time relative to real stim on time, measured time
-    aMin = 940; % in ms, trough acceleration time relative to real stim on time, measured time
+    delay = 145; % in ms, system time delay, LBY modified, 200311.real velocity peak-theoretical veolocity peak
+    aMax = 585; % in ms, peak acceleration time relative to real stim on time, measured time
+    aMin = 950; % in ms, trough acceleration time relative to real stim on time, measured time
 end
 
 stimOnT = stimOnT + delay;

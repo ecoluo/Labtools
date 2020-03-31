@@ -41,6 +41,15 @@ switch(Analysis{1})
             local_tuning_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
         end
         
+        %-----------------    1D tuning     -----------------%
+      
+        case 'Plot PSTH_LBY'
+        if JustEditIt == 1
+            edit DirectionTuningPlot_1D_LBY;
+        else
+            DirectionTuningPlot_1D_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
+        end
+        
         %-----------------    Grating vs optic flow    -----------------%
         
         case 'Grating vs optic flow (LBY)'

@@ -5,7 +5,7 @@
 clear all;
 colorDefsLBY;
 duration = 1.5; % unit in s
-num_sigs = 4;
+num_sigs = 4.5;
 amp = 0.11; % unit in m
 step = 0.0005;
 t = 0:step:duration;

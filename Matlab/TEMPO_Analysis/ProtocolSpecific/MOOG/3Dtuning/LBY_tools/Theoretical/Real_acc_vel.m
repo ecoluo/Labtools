@@ -9,8 +9,14 @@ end
 
 colorDefsLBY;
 % load('Z:\LBY\System\TEMPO1_Acceleration');
-load('Z:\LBY\System\20180731_e0_a0_T');
+load('Z:\LBY\System\20180731_e0_a0_T_sigma4.5.mat');
+% load('Z:\LBY\System\20200323_e0_a90_T_sigma3');
+% load('Z:\LBY\System\20200323_e0_a90_T_sigma4');
+% load('Z:\LBY\System\20200323_e0_a90_T_sigma6');
 TEMPO1_Acceleration = Average4_180731_e0_a0_T__Ch1;
+% TEMPO1_Acceleration = Average4_acc_T_sigma3_20200323_90degree__Ch1;
+% TEMPO1_Acceleration = Average3_acc_T_sigma4_20200323_90degree__Ch1;
+% TEMPO1_Acceleration = Average2_acc_T_sigma6_20200323_90degree_1__Ch1;
 
 % system_delay = 0.17; % unit in s
 duration = 1.5; % unit in s
@@ -80,7 +86,7 @@ ylabel(h(1),'Velocity (m/s) ');
 ylabel(h(2),'Acceleration (m/s^2) ');
 set(gca,'xlim',[0,1.5]);
 xlabel('Time (s)');
-title('Time profile(Real, with soothing)');
+title('Time profile(Real, with smoothing)');
 SetFigure(25);
 
 end

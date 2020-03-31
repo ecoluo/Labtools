@@ -62,7 +62,7 @@ VISUAL_MOTION_PURSUIT_GALVO_LOWSPEED = 201; %
 VISUAL_MOTION_PURSUIT_GALVO_HIGHSPEED = 127; %,   //202
 ROTATION_DISCRIM = 128; %     //LBY changed 20181117
 ROTATION_DISCRIM_FIXONLY = 129; %   //LBY changed 20181118
-
+GRATING = 130;
 
 % Defines for REVCORR protocols.
 NUM_REVCORR_PROTOCOLS = 1;
@@ -394,6 +394,7 @@ moog_keywords = cell(1,100);   % Preallocation. HH
 
 %List of Keywords for MOOG paradigm parameters, added 6/27/03 GCD
 num_keys = 1;
+
 moog_keywords{num_keys}='AZIMUTH';				AZIMUTH=num_keys; 				num_keys=num_keys+1;
 moog_keywords{num_keys}='ELEVATION';			ELEVATION=num_keys; 			num_keys=num_keys+1;
 moog_keywords{num_keys}='AMPLITUDE';			AMPLITUDE=num_keys; 			num_keys=num_keys+1;
@@ -508,6 +509,14 @@ moog_keywords{num_keys}='CURVE_FLAG';		        CURVE_FLAG=num_keys; 		        nu
 % moog_keywords{num_keys}='TRAPEZOID_TIME2';		        TRAPEZOID_TIME2=num_keys; 		        num_keys=num_keys+1;
 % moog_keywords{num_keys}='CONSTANT_VELOCITY';		        CONSTANT_VELOCITY=num_keys; 		        num_keys=num_keys+1;
 %}
+% for GRATING LBY20200318
+moog_keywords{num_keys}='GRATE_ORIENTATION';				GRATE_ORIENTATION=num_keys; 				num_keys=num_keys+1;
+moog_keywords{num_keys}='GRATE_TEMPFREQ';			GRATE_TEMPFREQ=num_keys; 			num_keys=num_keys+1;
+moog_keywords{num_keys}='GRATE_FREQ';			GRATE_FREQ=num_keys; 			num_keys=num_keys+1;
+moog_keywords{num_keys}='GRATE_WIDTH';			    GRATE_WIDTH=num_keys; 			    num_keys=num_keys+1;
+moog_keywords{num_keys}='GRATE_HEIGHT';			    GRATE_HEIGHT=num_keys; 			    num_keys=num_keys+1;
+moog_keywords{num_keys}='STIMULUS_TYPE';			    STIMULUS_TYPE=num_keys; 			    num_keys=num_keys+1;
+
 NUM_MOOG_PARAMS = num_keys - 1;
 
 
@@ -1126,6 +1135,7 @@ analysis_strings{DIRECTION_REVCORR + 1} = ...
     };
 analysis_strings{AZIMUTH_TUNING_1D + 1} = ...
     {
+    'Plot PSTH_LBY',
     'Plot Tuning Azimuth_HH',
     'Plot Tuning Azimuth PSTH_HH'
     'DirectionTuningPlot_1D_pairwiseunits_HH',
