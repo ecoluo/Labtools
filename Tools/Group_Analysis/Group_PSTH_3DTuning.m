@@ -23,20 +23,20 @@ mat_address = {
     %     'Z:\Data\TEMPO\BATCH\20181008_3D&1DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
     %     'Z:\Data\TEMPO\BATCH\20181008_3D&1DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
     
-%                 'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
-%                 'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
-%         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT_dark';
-%         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR_dark';
-%         'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_RSC_m6','PSTH_T','3DT';
-%             'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_RSC_m6','PSTH_R','3DR';
-%     'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_T','3DT';
-%     'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_R','3DR';
-%         'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_T','3DT';
-%             'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_R','3DR';
-        'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
-            'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
-
-%     
+    %                 'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
+    %                 'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
+    %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT_dark';
+    %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR_dark';
+    %         'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_RSC_m6','PSTH_T','3DT';
+    %             'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_RSC_m6','PSTH_R','3DR';
+    %     'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_T','3DT';
+    %     'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_R','3DR';
+    %         'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_T','3DT';
+    %             'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_R','3DR';
+    'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_All_m6_m5_nocriteria','PSTH_T','3DT';
+    'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_All_m6_m5_nocriteria','PSTH_R','3DR';
+    
+    %
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT';
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR';
     %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT_dark';
@@ -69,7 +69,7 @@ mask_all = {
 %     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
     
     }; % Now no constraint on monkeys
-    %}
+%}
 
 % PCC
 % %{
@@ -78,16 +78,16 @@ mask_all = {
     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
     strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
-%     strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
-%     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
-%     strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
-%     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
+    %     strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    %     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
+    %     strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    %     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
     
     }; % Now no constraint on monkeys
-    %}
-    
-    % RSC
-    %{
+%}
+
+% RSC
+%{
     mask_all = {
         strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
         & strcmp(txt(:,header.Area),'RSC');
@@ -98,10 +98,10 @@ mask_all = {
 %         strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
 %         & strcmp(txt(:,header.Area),'RSC');
         }; % Now no constraint on monkeys
-    %}
-    
-    % 23A
-    %{
+%}
+
+% 23A
+%{
 mask_all = {
     strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & strcmp(txt(:,header.Area),'A23');
@@ -113,12 +113,12 @@ mask_all = {
 %     & strcmp(txt(:,header.Area),'A23');
 
     }; % Now no constraint on monkeys
-    %}
-    
-    
-    
-    % PCCl
-    %{
+%}
+
+
+
+% PCCl
+%{
 mask_all = {
     strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & strcmp(txt(:,header.Area),'PCCl');
@@ -130,10 +130,10 @@ mask_all = {
     & strcmp(txt(:,header.Area),'PCCl');
     
     }; % Now no constraint on monkeys
-    %}
-    
-    % PCCu
-    %{
+%}
+
+% PCCu
+%{
 mask_all = {
     strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & strcmp(txt(:,header.Area),'PCCu');
@@ -145,17 +145,17 @@ mask_all = {
     & strcmp(txt(:,header.Area),'PCCu');
     
     }; % Now no constraint on monkeys
-    %}
-    
-    
-    
-    % % Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
-    monkey_included_for_loading = [6 5];
-    Monkeys{5} = 'Polo';
-    Monkeys{6} = 'QQ';
-    
-    % MSTd
-    %{
+%}
+
+
+
+% % Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
+monkey_included_for_loading = [6 5];
+Monkeys{5} = 'Polo';
+Monkeys{6} = 'QQ';
+
+% MSTd
+%{
 mask_all = {
     strcmp(txt(:,header.Protocol),'3DT') & (strcmp(txt(:,header.Area),'MSTd'));
     
@@ -166,19 +166,19 @@ monkey_included_for_loading = [3 1];
 Monkeys{3} = 'Que';
 Monkeys{1} = 'Zebulon';
 
-    %}
-    
-    monkey_mask_for_loading = false(size(num,1),1);
-    for mm = 1:length(monkey_included_for_loading)
-        monkey_mask_for_loading = monkey_mask_for_loading | (num(:,header.Monkey) == monkey_included_for_loading(mm));
-    end
-    
-    % Now apply monkey mask
-    for mm = 1:length(mask_all)
-        mask_all{mm} = mask_all{mm} & monkey_mask_for_loading;
-    end
-    
-    %{
+%}
+
+monkey_mask_for_loading = false(size(num,1),1);
+for mm = 1:length(monkey_included_for_loading)
+    monkey_mask_for_loading = monkey_mask_for_loading | (num(:,header.Monkey) == monkey_included_for_loading(mm));
+end
+
+% Now apply monkey mask
+for mm = 1:length(mask_all)
+    mask_all{mm} = mask_all{mm} & monkey_mask_for_loading;
+end
+
+%{
 % if monkey == 1 % Qiaoqiao
 %     mat_address = 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6\';
 %     mask_all = (strcmp(txt(:,header.Protocol),'3DT')| strcmp(txt(:,header.Protocol),'3DR') ) & (num(:,header.Monkey) == 6) & ~strcmp(txt(:,header.Dark),'1') & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
@@ -186,45 +186,45 @@ Monkeys{1} = 'Zebulon';
 %     mat_address = 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m5\';
 %     mask_all = (strcmp(txt(:,header.Protocol),'3DT')| strcmp(txt(:,header.Protocol),'3DR') ) & (num(:,header.Monkey) == 5) &  ~strcmp(txt(:,header.Dark),'1') & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
 % end
-    %}
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+cell_true = [];
+
+for pp = 1:size(mat_address,1)
+    % Xls Data
+    xls_num{pp} = num(mask_all{pp},:);
+    xls_txt{pp} = txt(mask_all{pp},:);
+    xls_raw{pp} = raw(mask_all{pp},:);
     
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    cell_true = [];
+    % Basic information : E.g.  '20140721m05s034h2x04y12d08478u6m5c67r2'
+    % date,monkey,session,hemi,xloc,yloc,depth,unit
+    cell_info_tmp = xls_num{pp}(:,[header.Date:header.Yloc header.Depth header.Chan1]);
     
-    for pp = 1:size(mat_address,1)
-        % Xls Data
-        xls_num{pp} = num(mask_all{pp},:);
-        xls_txt{pp} = txt(mask_all{pp},:);
-        xls_raw{pp} = raw(mask_all{pp},:);
-        
-        % Basic information : E.g.  '20140721m05s034h2x04y12d08478u6m5c67r2'
-        % date,monkey,session,hemi,xloc,yloc,depth,unit
-        cell_info_tmp = xls_num{pp}(:,[header.Date:header.Yloc header.Depth header.Chan1]);
-        
-        % Override MU with SU. HH20150422
-        cell_info_tmp(xls_num{pp}(:,header.Units_RealSU)==1 & xls_num{pp}(:,header.Chan1)==1,end) = 5;
-        
-        cell_info{pp} = strsplit(sprintf('%8dm%02ds%03dh%01dx%02dy%02dd%05du%02d\n',cell_info_tmp'),'\n')';
-        cell_info{pp} = strcat(cell_info{pp}(1:end-1),xls_txt{pp}(:,header.FileNo));
-        cell_true = cat(1,cell_true,cell_info{pp});
-    end
-    cd(mat_address{1,1});
+    % Override MU with SU. HH20150422
+    cell_info_tmp(xls_num{pp}(:,header.Units_RealSU)==1 & xls_num{pp}(:,header.Chan1)==1,end) = 5;
     
-    % to find exactly how many cells
-    cell_true = cellfun(@(x) x(1:end-2),cell_true,'UniformOutput',false);
-    cell_true = unique(cell_true);
-    
-    %% Establish mat-to-xls relationship and load data into group_result.mat
-    % %{
-    
-    global group_result; % This lets me reload the whole m.file without loading group_result, which speeds up my debugging.
-    
-    %
-    if isempty(group_result)
-        group_result(size(cell_true,1)).cellID = [];  % The unique cellID
-        load_group_result();
-    end
-    
+    cell_info{pp} = strsplit(sprintf('%8dm%02ds%03dh%01dx%02dy%02dd%05du%02d\n',cell_info_tmp'),'\n')';
+    cell_info{pp} = strcat(cell_info{pp}(1:end-1),xls_txt{pp}(:,header.FileNo));
+    cell_true = cat(1,cell_true,cell_info{pp});
+end
+cd(mat_address{1,1});
+
+% to find exactly how many cells
+cell_true = cellfun(@(x) x(1:end-2),cell_true,'UniformOutput',false);
+cell_true = unique(cell_true);
+
+%% Establish mat-to-xls relationship and load data into group_result.mat
+% %{
+
+global group_result; % This lets me reload the whole m.file without loading group_result, which speeds up my debugging.
+
+%
+if isempty(group_result)
+    group_result(size(cell_true,1)).cellID = [];  % The unique cellID
+    load_group_result();
+end
+
     function load_group_result()
         %
         % Load .mat files and put the data into a large structure array "group_result(i).mat_raw"
@@ -303,7 +303,7 @@ nParaModel_3D{2} = [7 7 13 13 13 19];
 % models = {'VA'};
 
 for i = 1:length(group_result)
-    for pp = 1:size(mat_address,1)
+    for pp = 1:size(mat_address,1) % TRanslation or rotation or dark T or dark R
         if isempty(group_result(i).mat_raw{pp}) % no this protocol for this cell
             group_result(i).uStimType{pp} = [];
             group_result(i).pANOVA{pp} = [];
@@ -450,9 +450,14 @@ for pp = 1:size(mat_address,1)
         preDir_V_VAJ_3D{pp}{jj} = nan(length(group_result),3);preDir_A_VAJ_3D{pp}{jj} = nan(length(group_result),3);
         
         for i = 1:length(group_result)
-            if responSig{pp}(i,jj) == 1
+            %             if responSig{pp}(i,jj) == 1
+            if ~isempty(PSTH3Dmodel{pp}{i,jj})
                 for m_inx = 1:length(models)
-                    temp = isfield(PSTH3Dmodel{pp}{i,jj}{1},{['RSquared_',models{m_inx}],['BIC_',models{m_inx}],['modelFitPara_',models{m_inx}],['rss_',models{m_inx}]});
+                    try
+                        temp = isfield(PSTH3Dmodel{pp}{i,jj}{1},{['RSquared_',models{m_inx}],['BIC_',models{m_inx}],['modelFitPara_',models{m_inx}],['rss_',models{m_inx}]});
+                    catch
+                        keyboard;
+                    end
                     if temp(1) == 1
                         % pack R_squared values to group_result.R2.*(* the model)
                         eval(['R2_3D{',num2str(pp),'}{',num2str(jj),'}(',num2str(i),',',num2str(m_inx),') = PSTH3Dmodel{',num2str(pp),'}{',num2str(i),',',num2str(jj),'}{1}.RSquared_', models{m_inx}, ';']);
@@ -477,6 +482,7 @@ for pp = 1:size(mat_address,1)
                         % RSS{pp}{jj}(i,m_inx) = PSTH3Dmodel{pp}{i,jj}{1}.RSquared_VO;
                         
                     end
+                    
                 end
                 
                 if sum(strcmp(models,'VA'))
@@ -582,8 +588,8 @@ for pp = 1:size(mat_address,1)
                     angleDiff_AJ_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_A_PVAJ_3D{pp}{jj}(i,1),preDir_A_PVAJ_3D{pp}{jj}(i,2),preDir_A_PVAJ_3D{pp}{jj}(i,3),preDir_J_PVAJ_3D{pp}{jj}(i,1),preDir_J_PVAJ_3D{pp}{jj}(i,2),preDir_J_PVAJ_3D{pp}{jj}(i,3));
                     
                 end
+                %             end
             end
-            
         end
     end
 end
@@ -854,20 +860,28 @@ function_handles = {
     '    R_squared distribution across models', @f2p1p2;
     '    VAF comparison across models', @f2p1p3;
     'Parameter analysis',@f2p2;
-    '    Weight ratio (V/A) distribution', @f2p2p1;
-    '    Weight distribution (V/A)', @f2p2p5;
+    '    Weight ratio (V/A) distribution, temp sig + r_squared threshold', @f2p2p1;
+    '    Weight ratio (V/A) distribution, r_squared thre only', @f2p2p1p1;
+    '    Weight distribution (V/A), temp sig + r_squared threshold', @f2p2p5;
+    '    Weight distribution (V/A), r_squared thre only', @f2p2p5p1;
     '    Weight (V/A) vs. kmeans', @f2p2p11;
     '    Weight (V/A) vs. PCA', @f2p2p12;
-    '    Weight distribution (P,V,A,J weight)', @f2p2p6;
+    '    Weight distribution (P,V,A,J weight), r_squared thre only', @f2p2p6;
     '    Partial R_squared distribution', @f2p2p4;
     '    Preferred direction & angle difference ( V vs. A)', @f2p2p2;
+    '    Preferred direction & angle difference ( V vs. A), r_squared thre only', @f2p2p2p1;
     '    Preferred direction & angle difference ( V/A vs. J)', @f2p2p7;
+    '    Preferred direction & angle difference ( V/A vs. J), r_squared thre only', @f2p2p7p1;
     '    Preferred direction & angle difference ( V/A vs. P)', @f2p2p8;
+    '    Preferred direction & angle difference ( V/A vs. P), r_squared thre only', @f2p2p8p1;
     '    time delay distribution ( V/A )', @f2p2p3;
-    '    time delay distribution ( P/V, P/A)', @f2p2p9;
+    '    time delay distribution ( P/V, P/A )', @f2p2p9;
     '    time delay distribution ( J/V, J/A )', @f2p2p10;
+    '    time delay distribution ( V/A ), r_squared thre only', @f2p2p3p1;
+    '    time delay distribution ( P/V, P/A ), r_squared thre only', @f2p2p9p1;
+    '    time delay distribution ( J/V, J/A ), r_squared thre only', @f2p2p10p1;
     'check',@f2p3;
-    '    Weight ratio (V/A) distribution', @f2p3p1;
+    '    ', @f2p3p1;
     
     };
     
@@ -1266,9 +1280,9 @@ c = 3;
                 peakT_plot{pp}{jj} = peakT{pp}{jj}(select_spatialSig{pp}(:,jj));
                 DDI_peak_plot{pp}{jj} = DDI_peak{pp}{jj}(select_spatialSig{pp}(:,jj));
                 DDI_pPeak_plot{pp}{jj} = DDI_pPeak{pp}{jj}(select_spatialSig{pp}(:,jj));
-% peakT_plot{pp}{jj} = peakT{pp}{jj}(select_temporalSig{pp}(:,jj));
-%                 DDI_peak_plot{pp}{jj} = DDI_peak{pp}{jj}(select_temporalSig{pp}(:,jj));
-%                 DDI_pPeak_plot{pp}{jj} = DDI_pPeak{pp}{jj}(select_temporalSig{pp}(:,jj));
+                % peakT_plot{pp}{jj} = peakT{pp}{jj}(select_temporalSig{pp}(:,jj));
+                %                 DDI_peak_plot{pp}{jj} = DDI_peak{pp}{jj}(select_temporalSig{pp}(:,jj));
+                %                 DDI_pPeak_plot{pp}{jj} = DDI_pPeak{pp}{jj}(select_temporalSig{pp}(:,jj));
                 dPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 2); % double peak
                 sPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 1); % single peak
                 nPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 0); % not tuned
@@ -2569,7 +2583,7 @@ for pp = 1
         
         for pp = 1:size(mat_address,1)
             for jj = 1:2
-% for jj = 1
+                % for jj = 1
                 
                 [~, temp] =  min(BIC_3D{pp}{jj},[],2);
                 BIC_min{pp,jj} = temp(select_temporalSig{pp}(:,jj));
@@ -2581,8 +2595,8 @@ for pp = 1
         
         figure(11);set(figure(11),'name','Distribution of best fitting model (BIC)','unit','normalized','pos',[-0.55 0.4 0.53 0.35]); clf;
         h = axes('pos',[0.1 0.2 0.8 0.6]);
-%         BestFitModel = [n_BIC{1}(1,:);n_BIC{1}(2,:);n_BIC{2}(1,:);n_BIC{2}(2,:)]';
-BestFitModel = [n_BIC{1}(1,:);n_BIC{2}(1,:)]';
+        %         BestFitModel = [n_BIC{1}(1,:);n_BIC{1}(2,:);n_BIC{2}(1,:);n_BIC{2}(2,:)]';
+        BestFitModel = [n_BIC{1}(1,:);n_BIC{2}(1,:)]';
         hbar = bar(1:length(models),BestFitModel,'grouped');
         % set(h(1),'facecolor',colorDBlue,'edgecolor',colorDBlue);
         % set(h(2),'facecolor',colorDRed,'edgecolor',colorDRed);
@@ -2591,9 +2605,9 @@ BestFitModel = [n_BIC{1}(1,:);n_BIC{2}(1,:)]';
         xlabel('Models');ylabel('Cell #');
         set(gca,'xticklabel',models);
         title('Distribution of best fitting model (BIC)');
-%         legend(['Translation (Vestibular), n = ',num2str(sum(select_temporalSig{1}(:,1)))],['Translation (Visual), n = ',num2str(sum(select_temporalSig{1}(:,2)))],['Rotation (Vestibular), n = ',num2str(sum(select_temporalSig{2}(:,1)))],['Rotation (Visual), n = ',num2str(sum(select_temporalSig{2}(:,2)))],'location','NorthWest');
+        %         legend(['Translation (Vestibular), n = ',num2str(sum(select_temporalSig{1}(:,1)))],['Translation (Visual), n = ',num2str(sum(select_temporalSig{1}(:,2)))],['Rotation (Vestibular), n = ',num2str(sum(select_temporalSig{2}(:,1)))],['Rotation (Visual), n = ',num2str(sum(select_temporalSig{2}(:,2)))],'location','NorthWest');
         legend(['Translation (Vestibular), n = ',num2str(sum(select_temporalSig{1}(:,1)))],['Rotation (Vestibular), n = ',num2str(sum(select_temporalSig{2}(:,1)))],'location','NorthWest');
-SetFigure(12);
+        SetFigure(12);
         
     end
 
@@ -2607,6 +2621,7 @@ SetFigure(12);
                 R2_plot{pp}{jj} = R2_3D{pp}{jj}(temp(select_temporalSig{pp}(:,jj)),:);
                 for m_inx = 1:length(models)
                     [n_R2{pp}{jj}(m_inx,:), ~] = hist(R2_plot{pp}{jj}(:,m_inx),xR2);
+                    [n_R2_all{pp}{jj}(m_inx,:), ~] = hist(R2_3D{pp}{jj}(:,m_inx),xR2);
                 end
             end
         end
@@ -2617,7 +2632,10 @@ SetFigure(12);
             for jj = 1:2
                 for m_inx = 1:length(models)
                     axes(h_subplot(((pp-1)*2+(jj-1))*length(models)+m_inx));hold on;
-                    bar(xR2,n_R2{pp}{jj}(m_inx,:),'k');axis on;
+                    hr2_all = bar(xR2,n_R2_all{pp}{jj}(m_inx,:));axis on;
+                    set(hr2_all,'facecolor','w','edgecolor',colors{jj});
+                    hr2 = bar(xR2,n_R2{pp}{jj}(m_inx,:));axis on;
+                    set(hr2,'facecolor',colors{jj},'edgecolor','w');
                     medianTemp = median(R2_plot{pp}{jj}(:,m_inx));
                     plot([medianTemp medianTemp],[0 max(n_R2{pp}{jj}(m_inx,:))*1.1],'k--','linewidth',1.5);
                     text(medianTemp,max(n_R2{pp}{jj}(m_inx,:))*1.2,num2str(medianTemp),'fontsize',8);
@@ -2980,6 +2998,177 @@ SetFigure(12);
         
     end
 
+    function f2p2p1p1(debug)      % Weight ratio (V/A) distribution, not temporally significant, but according to r_squared
+        if debug  ; dbstack;   keyboard;      end
+        xVA = (-3:0.5:3)+0.25;
+        r2_thre = 0.5;
+        hbar = [];
+        if sum(strcmp(models,'VA'))
+            figure(11);set(figure(11),'name','Distribution of log(wV/wA) (VA model)','unit','normalized' ,'pos',[-0.55 0.6 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                n_VA_VA{pp} = [];
+                for jj = 1:2
+                    %                 for jj = 1
+                    RatioVA_VA{pp}{jj} = log(wV_VA_3D{pp}(:,jj)./wA_VA_3D{pp}(:,jj));
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VA = R2_3D{pp}{jj}(:,find(strcmp(models,'VA')));
+                    RatioVA_VA{pp}{jj} = RatioVA_VA{pp}{jj}(r2_VA>r2_thre);
+                    try
+                        [p_VA(pp,jj),h_VA(pp,jj)] = ranksum(RatioVA_VA{pp}{jj},zeros(1,length(RatioVA_VA{pp}{jj})));
+                    catch
+                        keyboard;
+                    end
+                    [n_VA_VA{pp}(jj,:), ~] = hist(RatioVA_VA{pp}{jj},xVA);
+                    medianVA_VA{pp}(jj) = median(RatioVA_VA{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar{1} = bar(xVA,n_VA_VA{pp}(jj,:));
+                    set(hbar{1},'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('log(wV/wA)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[min(xVA) max(xVA)]);
+                    plot([medianVA_VA{pp}(jj) medianVA_VA{pp}(jj)],[0 max(n_VA_VA{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianVA_VA{pp}(jj),max(n_VA_VA{pp}(jj,:))*1.2,num2str(medianVA_VA{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.85 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of log(wV/wA) (VA model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAJ'))
+            figure(12);set(figure(12),'name','Distribution of log(wV/wA) (VAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                n_VA_VAJ{pp} = [];
+                for jj = 1:2
+                    % to normalize
+                    temp = [];
+                    temp(:,1) = wV_VAJ_3D{pp}(:,jj);
+                    temp(:,2) = wA_VAJ_3D{pp}(:,jj);
+                    RatioVA_VAJ{pp}{jj} = log((temp(:,1)./(temp(:,1)+temp(:,2)))./(temp(:,2)./(temp(:,1)+temp(:,2))));
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    RatioVA_VAJ{pp}{jj} = RatioVA_VAJ{pp}{jj}(r2_VAJ>r2_thre);
+                    
+                    [p_VAJ(pp,jj),h_VAJ(pp,jj)] = ranksum(RatioVA_VAJ{pp}{jj},zeros(1,length(RatioVA_VAJ{pp}{jj})));
+                    
+                    [n_VA_VAJ{pp}(jj,:), ~] = hist(RatioVA_VAJ{pp}{jj},xVA);
+                    medianVA_VAJ{pp}(jj) = median(RatioVA_VAJ{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar{2} = bar(xVA,n_VA_VAJ{pp}(jj,:));
+                    set(hbar{2},'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('log(wV/wA)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[min(xVA) max(xVA)]);
+                    plot([medianVA_VAJ{pp}(jj) medianVA_VAJ{pp}(jj)],[0 max(n_VA_VAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianVA_VAJ{pp}(jj),max(n_VA_VAJ{pp}(jj,:))*1.2,num2str(medianVA_VAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.85 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of log(wV/wA) (VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAP'))
+            figure(13);set(figure(13),'name','Distribution of log(wV/wA) (VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                n_VA_VAP{pp} = [];
+                for jj = 1:2
+                    % to normalize
+                    temp = [];
+                    temp(:,1) = wV_VAP_3D{pp}(:,jj);
+                    temp(:,2) = wA_VAP_3D{pp}(:,jj);
+                    RatioVA_VAP{pp}{jj} = log((temp(:,1)./(temp(:,1)+temp(:,2)))./(temp(:,2)./(temp(:,1)+temp(:,2))));
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAP = R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
+                    RatioVA_VAP{pp}{jj} = RatioVA_VAP{pp}{jj}(r2_VAP>r2_thre);
+                    
+                    [p_VAP(pp,jj),h_VAP(pp,jj)] = ranksum(RatioVA_VAP{pp}{jj},zeros(1,length(RatioVA_VAP{pp}{jj})));
+                    
+                    [n_VA_VAP{pp}(jj,:), ~] = hist(RatioVA_VAP{pp}{jj},xVA);
+                    medianVA_VAP{pp}(jj) = median(RatioVA_VAP{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar{2} = bar(xVA,n_VA_VAP{pp}(jj,:));
+                    set(hbar{2},'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('log(wV/wA)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[min(xVA) max(xVA)]);
+                    plot([medianVA_VAP{pp}(jj) medianVA_VAP{pp}(jj)],[0 max(n_VA_VAP{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianVA_VAP{pp}(jj),max(n_VA_VAP{pp}(jj,:))*1.2,num2str(medianVA_VAP{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.85 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of log(wV/wA) (VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(14);set(figure(14),'name','Distribution of log(wV/wA) (PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.6 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                n_VA_PVAJ{pp} = [];
+                for jj = 1:2
+                    % to normalize
+                    temp = [];
+                    temp(:,1) = wV_PVAJ_3D{pp}(:,jj);
+                    temp(:,2) = wA_PVAJ_3D{pp}(:,jj);
+                    RatioVA_PVAJ{pp}{jj} = log((temp(:,1)./(temp(:,1)+temp(:,2)))./(temp(:,2)./(temp(:,1)+temp(:,2))));
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    RatioVA_PVAJ{pp}{jj} = RatioVA_PVAJ{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    [p_PVAJ(pp,jj),h_PVAJ(pp,jj)] = ranksum(RatioVA_PVAJ{pp}{jj},zeros(1,length(RatioVA_PVAJ{pp}{jj})));
+                    
+                    [n_VA_PVAJ{pp}(jj,:), ~] = hist(RatioVA_PVAJ{pp}{jj},xVA);
+                    medianVA_PVAJ{pp}(jj) = median(RatioVA_PVAJ{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar{2} = bar(xVA,n_VA_PVAJ{pp}(jj,:));
+                    set(hbar{2},'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('log(wV/wA)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[min(xVA) max(xVA)]);
+                    plot([medianVA_PVAJ{pp}(jj) medianVA_PVAJ{pp}(jj)],[0 max(n_VA_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianVA_PVAJ{pp}(jj),max(n_VA_PVAJ{pp}(jj,:))*1.2,num2str(medianVA_PVAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.85 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of log(wV/wA) (PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        
+    end
+
     function f2p2p2(debug)      % Preferred direction & angle difference distribution ( V vs. A)
         if debug  ; dbstack;   keyboard;      end
         
@@ -3249,6 +3438,295 @@ SetFigure(12);
                     
                     % only use which r2 > threshold (0.5)
                     r2_VAP = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'VAP')));
+                    angleDiff_VA_VAP_plot{pp}{jj} = angleDiff_VA_VAP_plot{pp}{jj}(r2_VAP>r2_thre);
+                    
+                    [n_Diff_VA_VAP{pp}(jj,:), ~] = hist(angleDiff_VA_VAP_plot{pp}{jj},xDiff);
+                    medianDiff_VA_VAP{pp}(jj) = median(angleDiff_VA_VAP_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_VA_VAP{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( V vs. A)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_VA_VAP{pp}(jj) medianDiff_VA_VAP{pp}(jj)],[0 max(n_Diff_VA_VAP{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_VA_VAP{pp}(jj),max(n_Diff_VA_VAP{pp}(jj,:))*1.2,num2str(medianDiff_VA_VAP{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (V&A,VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+    end
+
+    function f2p2p2p1(debug)      % Preferred direction & angle difference distribution ( V vs. A), r_squared only
+        if debug  ; dbstack;   keyboard;      end
+        
+        xDiff = linspace(0,180,11);
+        r2_thre = 0.5;
+        
+        if sum(strcmp(models,'VA'))
+            figure(11);set(figure(11),'name','Distribution of the preferred directions (V&A, VA model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    preDir_V_VA_azi{pp}{jj} = preDir_V_VA_3D{pp}{jj}(:,1);
+                    preDir_V_VA_ele{pp}{jj} = preDir_V_VA_3D{pp}{jj}(:,2);
+                    preDir_A_VA_azi{pp}{jj} = preDir_A_VA_3D{pp}{jj}(:,1);
+                    preDir_A_VA_ele{pp}{jj} = preDir_A_VA_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VA = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'VA')));
+                    preDir_V_VA_azi{pp}{jj} = preDir_V_VA_azi{pp}{jj}(r2_VA>r2_thre);
+                    preDir_V_VA_ele{pp}{jj} = preDir_V_VA_ele{pp}{jj}(r2_VA>r2_thre);
+                    preDir_A_VA_azi{pp}{jj} = preDir_A_VA_azi{pp}{jj}(r2_VA>r2_thre);
+                    preDir_A_VA_ele{pp}{jj} = preDir_A_VA_ele{pp}{jj}(r2_VA>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_VA_azi{pp}{jj},preDir_A_VA_azi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, V');ylabel('Preferred Azi, A');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_VA_ele{pp}{jj},preDir_A_VA_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, V');ylabel('Preferred Ele, A');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (V&A, VA model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(12);set(figure(12),'name','Distribution of the difference between preferred directions (V&A,VA model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_VA_VA_plot{pp}{jj} = angleDiff_VA_VA_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VA = R2_3D{pp}{jj}(:,find(strcmp(models,'VA')));
+                    angleDiff_VA_VA_plot{pp}{jj} = angleDiff_VA_VA_plot{pp}{jj}(r2_VA>r2_thre);
+                    
+                    [n_Diff_VA_VA{pp}(jj,:), ~] = hist(angleDiff_VA_VA_plot{pp}{jj},xDiff);
+                    medianDiff_VA_VA{pp}(jj) = median(angleDiff_VA_VA_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_VA_VA{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( V vs. A)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_VA_VA{pp}(jj) medianDiff_VA_VA{pp}(jj)],[0 max(n_Diff_VA_VA{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_VA_VA{pp}(jj),max(n_Diff_VA_VA{pp}(jj,:))*1.2,num2str(medianDiff_VA_VA{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (V&A,VA model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(13);set(figure(13),'name','Distribution of the preferred directions (V&A, PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.4 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    preDir_V_PVAJ_azi{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,2);
+                    preDir_A_PVAJ_azi{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    preDir_V_PVAJ_azi{pp}{jj} = preDir_V_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_A_PVAJ_azi{pp}{jj} = preDir_A_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_PVAJ_azi{pp}{jj},preDir_A_PVAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, V');ylabel('Preferred Azi, A');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_PVAJ_ele{pp}{jj},preDir_A_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, V');ylabel('Preferred Ele, A');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (V&A, PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(14);set(figure(14),'name','Distribution of the difference between preferred directions (V&A,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_VA_PVAJ_plot{pp}{jj} = angleDiff_VA_PVAJ_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    angleDiff_VA_PVAJ_plot{pp}{jj} = angleDiff_VA_PVAJ_plot{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    [n_Diff_VA_PVAJ{pp}(jj,:), ~] = hist(angleDiff_VA_PVAJ_plot{pp}{jj},xDiff);
+                    medianDiff_VA_PVAJ{pp}(jj) = median(angleDiff_VA_PVAJ_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_VA_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( V vs. A)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_VA_PVAJ{pp}(jj) medianDiff_VA_PVAJ{pp}(jj)],[0 max(n_Diff_VA_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_VA_PVAJ{pp}(jj),max(n_Diff_VA_PVAJ{pp}(jj,:))*1.2,num2str(medianDiff_VA_PVAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (V&A,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAJ'))
+            figure(15);set(figure(15),'name','Distribution of the preferred directions (V&A, VAJ model)','unit','normalized' ,'pos',[-0.55 -0.4 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    preDir_V_VAJ_azi{pp}{jj} = preDir_V_VAJ_3D{pp}{jj}(:,1);
+                    preDir_V_VAJ_ele{pp}{jj} = preDir_V_VAJ_3D{pp}{jj}(:,2);
+                    preDir_A_VAJ_azi{pp}{jj} = preDir_A_VAJ_3D{pp}{jj}(:,1);
+                    preDir_A_VAJ_ele{pp}{jj} = preDir_A_VAJ_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    preDir_V_VAJ_azi{pp}{jj} = preDir_V_VAJ_azi{pp}{jj}(r2_VAJ>r2_thre);
+                    preDir_V_VAJ_ele{pp}{jj} = preDir_V_VAJ_ele{pp}{jj}(r2_VAJ>r2_thre);
+                    preDir_A_VAJ_azi{pp}{jj} = preDir_A_VAJ_azi{pp}{jj}(r2_VAJ>r2_thre);
+                    preDir_A_VAJ_ele{pp}{jj} = preDir_A_VAJ_ele{pp}{jj}(r2_VAJ>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_VAJ_azi{pp}{jj},preDir_A_VAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, V');ylabel('Preferred Azi, A');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_VAJ_ele{pp}{jj},preDir_A_VAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, V');ylabel('Preferred Ele, A');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (V&A, VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(16);set(figure(16),'name','Distribution of the difference between preferred directions (V&A,VAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_VA_VAJ_plot{pp}{jj} = angleDiff_VA_VAJ_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    angleDiff_VA_VAJ_plot{pp}{jj} = angleDiff_VA_VAJ_plot{pp}{jj}(r2_VAJ>r2_thre);
+                    
+                    [n_Diff_VA_VAJ{pp}(jj,:), ~] = hist(angleDiff_VA_VAJ_plot{pp}{jj},xDiff);
+                    medianDiff_VA_VAJ{pp}(jj) = median(angleDiff_VA_VAJ_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_VA_VAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( V vs. A)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_VA_VAJ{pp}(jj) medianDiff_VA_VAJ{pp}(jj)],[0 max(n_Diff_VA_VAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_VA_VAJ{pp}(jj),max(n_Diff_VA_VAJ{pp}(jj,:))*1.2,num2str(medianDiff_VA_VAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (V&A,VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAP'))
+            figure(17);set(figure(17),'name','Distribution of the preferred directions (V&A, VAP model)','unit','normalized' ,'pos',[-0.55 -0.4 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    preDir_V_VAP_azi{pp}{jj} = preDir_V_VAP_3D{pp}{jj}(:,1);
+                    preDir_V_VAP_ele{pp}{jj} = preDir_V_VAP_3D{pp}{jj}(:,2);
+                    preDir_A_VAP_azi{pp}{jj} = preDir_A_VAP_3D{pp}{jj}(:,1);
+                    preDir_A_VAP_ele{pp}{jj} = preDir_A_VAP_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAP = R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
+                    preDir_V_VAP_azi{pp}{jj} = preDir_V_VAP_azi{pp}{jj}(r2_VAP>r2_thre);
+                    preDir_V_VAP_ele{pp}{jj} = preDir_V_VAP_ele{pp}{jj}(r2_VAP>r2_thre);
+                    preDir_A_VAP_azi{pp}{jj} = preDir_A_VAP_azi{pp}{jj}(r2_VAP>r2_thre);
+                    preDir_A_VAP_ele{pp}{jj} = preDir_A_VAP_ele{pp}{jj}(r2_VAP>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_VAP_azi{pp}{jj},preDir_A_VAP_azi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, V');ylabel('Preferred Azi, A');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_VAP_ele{pp}{jj},preDir_A_VAP_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, V');ylabel('Preferred Ele, A');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (V&A, VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(18);set(figure(18),'name','Distribution of the difference between preferred directions (V&A,VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_VA_VAP_plot{pp}{jj} = angleDiff_VA_VAP_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAP = R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
                     angleDiff_VA_VAP_plot{pp}{jj} = angleDiff_VA_VAP_plot{pp}{jj}(r2_VAP>r2_thre);
                     
                     [n_Diff_VA_VAP{pp}(jj,:), ~] = hist(angleDiff_VA_VAP_plot{pp}{jj},xDiff);
@@ -3556,6 +4034,293 @@ SetFigure(12);
         end
     end
 
+    function f2p2p7p1(debug)      % Preferred direction & angle difference distribution ( V/A vs. J), r_squared only
+        if debug  ; dbstack;   keyboard;      end
+        
+        xDiff = linspace(0,180,11);
+        r2_thre = 0.5;
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(11);set(figure(11),'name','Distribution of the preferred directions (V&J, PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.4 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    preDir_V_PVAJ_Jzi{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,2);
+                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    preDir_V_PVAJ_Jzi{pp}{jj} = preDir_V_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_PVAJ_Jzi{pp}{jj},preDir_J_PVAJ_Jzi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, V');ylabel('Preferred Azi, J');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, V');ylabel('Preferred Ele, J');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (V&J, PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(12);set(figure(12),'name','Distribution of the difference between preferred directions (V&J,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_VJ_PVAJ_plot{pp}{jj} = angleDiff_VJ_PVAJ_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    angleDiff_VJ_PVAJ_plot{pp}{jj} = angleDiff_VJ_PVAJ_plot{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    [n_Diff_VJ_PVAJ{pp}(jj,:), ~] = hist(angleDiff_VJ_PVAJ_plot{pp}{jj},xDiff);
+                    medianDiff_VJ_PVAJ{pp}(jj) = median(angleDiff_VJ_PVAJ_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_VJ_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( V vs. J)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_VJ_PVAJ{pp}(jj) medianDiff_VJ_PVAJ{pp}(jj)],[0 max(n_Diff_VJ_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_VJ_PVAJ{pp}(jj),max(n_Diff_VJ_PVAJ{pp}(jj,:))*1.2,num2str(medianDiff_VJ_PVAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (V&J,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(13);set(figure(13),'name','Distribution of the preferred directions (A&J, PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.4 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    preDir_A_PVAJ_Jzi{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,2);
+                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    preDir_A_PVAJ_Jzi{pp}{jj} = preDir_A_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_A_PVAJ_Jzi{pp}{jj},preDir_J_PVAJ_Jzi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, A');ylabel('Preferred Azi, J');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_A_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, A');ylabel('Preferred Ele, J');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (A&J, PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(14);set(figure(14),'name','Distribution of the difference between preferred directions (A&J,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_AJ_PVAJ_plot{pp}{jj} = angleDiff_AJ_PVAJ_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    angleDiff_AJ_PVAJ_plot{pp}{jj} = angleDiff_AJ_PVAJ_plot{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    [n_Diff_AJ_PVAJ{pp}(jj,:), ~] = hist(angleDiff_AJ_PVAJ_plot{pp}{jj},xDiff);
+                    medianDiff_AJ_PVAJ{pp}(jj) = median(angleDiff_AJ_PVAJ_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_AJ_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( A vs. J)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_AJ_PVAJ{pp}(jj) medianDiff_AJ_PVAJ{pp}(jj)],[0 max(n_Diff_AJ_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_AJ_PVAJ{pp}(jj),max(n_Diff_AJ_PVAJ{pp}(jj,:))*1.2,num2str(medianDiff_AJ_PVAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (A&J,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAJ'))
+            figure(15);set(figure(15),'name','Distribution of the preferred directions (V&J, VAJ model)','unit','normalized' ,'pos',[-0.55 -0.4 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    preDir_V_VAJ_azi{pp}{jj} = preDir_V_VAJ_3D{pp}{jj}(:,1);
+                    preDir_V_VAJ_ele{pp}{jj} = preDir_V_VAJ_3D{pp}{jj}(:,2);
+                    preDir_J_VAJ_azi{pp}{jj} = preDir_J_VAJ_3D{pp}{jj}(:,1);
+                    preDir_J_VAJ_ele{pp}{jj} = preDir_J_VAJ_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    preDir_V_VAJ_azi{pp}{jj} = preDir_V_VAJ_azi{pp}{jj}(r2_VAJ>r2_thre);
+                    preDir_V_VAJ_ele{pp}{jj} = preDir_V_VAJ_ele{pp}{jj}(r2_VAJ>r2_thre);
+                    preDir_J_VAJ_azi{pp}{jj} = preDir_J_VAJ_azi{pp}{jj}(r2_VAJ>r2_thre);
+                    preDir_J_VAJ_ele{pp}{jj} = preDir_J_VAJ_ele{pp}{jj}(r2_VAJ>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_VAJ_azi{pp}{jj},preDir_J_VAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, V');ylabel('Preferred Azi, J');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_VAJ_ele{pp}{jj},preDir_J_VAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, V');ylabel('Preferred Ele, J');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (V&J, VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(16);set(figure(16),'name','Distribution of the difference between preferred directions (V&J,VAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_VJ_VAJ_plot{pp}{jj} = angleDiff_VA_VAJ_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    angleDiff_VJ_VAJ_plot{pp}{jj} = angleDiff_VJ_VAJ_plot{pp}{jj}(r2_VAJ>r2_thre);
+                    
+                    [n_Diff_VJ_VAJ{pp}(jj,:), ~] = hist(angleDiff_VJ_VAJ_plot{pp}{jj},xDiff);
+                    medianDiff_VJ_VAJ{pp}(jj) = median(angleDiff_VJ_VAJ_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_VJ_VAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( V vs. J)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_VJ_VAJ{pp}(jj) medianDiff_VJ_VAJ{pp}(jj)],[0 max(n_Diff_VJ_VAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_VJ_VAJ{pp}(jj),max(n_Diff_VJ_VAJ{pp}(jj,:))*1.2,num2str(medianDiff_VJ_VAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (V&J,VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAJ'))
+            figure(17);set(figure(17),'name','Distribution of the preferred directions (A&J, VAJ model)','unit','normalized' ,'pos',[-0.55 -0.4 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    preDir_A_VAJ_azi{pp}{jj} = preDir_A_VAJ_3D{pp}{jj}(:,1);
+                    preDir_A_VAJ_ele{pp}{jj} = preDir_A_VAJ_3D{pp}{jj}(:,2);
+                    preDir_J_VAJ_azi{pp}{jj} = preDir_J_VAJ_3D{pp}{jj}(:,1);
+                    preDir_J_VAJ_ele{pp}{jj} = preDir_J_VAJ_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    preDir_A_VAJ_azi{pp}{jj} = preDir_A_VAJ_azi{pp}{jj}(r2_VAJ>r2_thre);
+                    preDir_A_VAJ_ele{pp}{jj} = preDir_A_VAJ_ele{pp}{jj}(r2_VAJ>r2_thre);
+                    preDir_J_VAJ_azi{pp}{jj} = preDir_J_VAJ_azi{pp}{jj}(r2_VAJ>r2_thre);
+                    preDir_J_VAJ_ele{pp}{jj} = preDir_J_VAJ_ele{pp}{jj}(r2_VAJ>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_A_VAJ_azi{pp}{jj},preDir_J_VAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, A');ylabel('Preferred Azi, J');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_A_VAJ_ele{pp}{jj},preDir_J_VAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, A');ylabel('Preferred Ele, J');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (A&J, VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(18);set(figure(18),'name','Distribution of the difference between preferred directions (A&J,VAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_AJ_VAJ_plot{pp}{jj} = angleDiff_VA_VAJ_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    angleDiff_AJ_VAJ_plot{pp}{jj} = angleDiff_AJ_VAJ_plot{pp}{jj}(r2_VAJ>r2_thre);
+                    
+                    [n_Diff_AJ_VAJ{pp}(jj,:), ~] = hist(angleDiff_AJ_VAJ_plot{pp}{jj},xDiff);
+                    medianDiff_AJ_VAJ{pp}(jj) = median(angleDiff_AJ_VAJ_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_AJ_VAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( A vs. J)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_AJ_VAJ{pp}(jj) medianDiff_AJ_VAJ{pp}(jj)],[0 max(n_Diff_AJ_VAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_AJ_VAJ{pp}(jj),max(n_Diff_AJ_VAJ{pp}(jj,:))*1.2,num2str(medianDiff_AJ_VAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (A&J,VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+    end
+
     function f2p2p8(debug)      % Preferred direction & angle difference distribution ( V/A vs. P)
         if debug  ; dbstack;   keyboard;      end
         
@@ -3824,6 +4589,294 @@ SetFigure(12);
                     
                     % only use which r2 > threshold (0.5)
                     r2_VAP = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'VAP')));
+                    angleDiff_AP_VAP_plot{pp}{jj} = angleDiff_AP_VAP_plot{pp}{jj}(r2_VAP>r2_thre);
+                    
+                    [n_Diff_AP_VAP{pp}(jj,:), ~] = hist(angleDiff_AP_VAP_plot{pp}{jj},xDiff);
+                    medianDiff_AP_VAP{pp}(jj) = median(angleDiff_AP_VAP_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_AP_VAP{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( A vs. P)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_AP_VAP{pp}(jj) medianDiff_AP_VAP{pp}(jj)],[0 max(n_Diff_AP_VAP{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_AP_VAP{pp}(jj),max(n_Diff_AP_VAP{pp}(jj,:))*1.2,num2str(medianDiff_AP_VAP{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (A&P,VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+    end
+
+    function f2p2p8p1(debug)      % Preferred direction & angle difference distribution ( V/A vs. P), r_squared only
+        if debug  ; dbstack;   keyboard;      end
+        
+        xDiff = linspace(0,180,11);
+        r2_thre = 0.5;
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(11);set(figure(11),'name','Distribution of the preferred directions (V&P, PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.4 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    preDir_V_PVAJ_Pzi{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,2);
+                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    preDir_V_PVAJ_Pzi{pp}{jj} = preDir_V_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_PVAJ_Pzi{pp}{jj},preDir_P_PVAJ_Pzi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, V');ylabel('Preferred Azi, P');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_PVAJ_ele{pp}{jj},preDir_P_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, V');ylabel('Preferred Ele, P');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (V&P, PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(12);set(figure(12),'name','Distribution of the difference between preferred directions (V&P,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_VP_PVAJ_plot{pp}{jj} = angleDiff_VP_PVAJ_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    angleDiff_VP_PVAJ_plot{pp}{jj} = angleDiff_VP_PVAJ_plot{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    [n_Diff_VP_PVAJ{pp}(jj,:), ~] = hist(angleDiff_VP_PVAJ_plot{pp}{jj},xDiff);
+                    medianDiff_VP_PVAJ{pp}(jj) = median(angleDiff_VP_PVAJ_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_VP_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( V vs. P)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_VP_PVAJ{pp}(jj) medianDiff_VP_PVAJ{pp}(jj)],[0 max(n_Diff_VP_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_VP_PVAJ{pp}(jj),max(n_Diff_VP_PVAJ{pp}(jj,:))*1.2,num2str(medianDiff_VP_PVAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (V&P,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(13);set(figure(13),'name','Distribution of the preferred directions (A&P, PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.4 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    preDir_A_PVAJ_Pzi{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,2);
+                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    preDir_A_PVAJ_Pzi{pp}{jj} = preDir_A_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_A_PVAJ_Pzi{pp}{jj},preDir_P_PVAJ_Pzi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, A');ylabel('Preferred Azi, P');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_A_PVAJ_ele{pp}{jj},preDir_P_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, A');ylabel('Preferred Ele, P');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (A&P, PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(14);set(figure(14),'name','Distribution of the difference between preferred directions (A&P,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_AP_PVAJ_plot{pp}{jj} = angleDiff_AP_PVAJ_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    angleDiff_AP_PVAJ_plot{pp}{jj} = angleDiff_AP_PVAJ_plot{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    [n_Diff_AP_PVAJ{pp}(jj,:), ~] = hist(angleDiff_AP_PVAJ_plot{pp}{jj},xDiff);
+                    medianDiff_AP_PVAJ{pp}(jj) = median(angleDiff_AP_PVAJ_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_AP_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( A vs. P)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_AP_PVAJ{pp}(jj) medianDiff_AP_PVAJ{pp}(jj)],[0 max(n_Diff_AP_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_AP_PVAJ{pp}(jj),max(n_Diff_AP_PVAJ{pp}(jj,:))*1.2,num2str(medianDiff_AP_PVAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (A&P,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAP'))
+            figure(15);set(figure(15),'name','Distribution of the preferred directions (V&P, VAP model)','unit','normalized' ,'pos',[-0.55 -0.4 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    preDir_V_VAP_azi{pp}{jj} = preDir_V_VAP_3D{pp}{jj}(:,1);
+                    preDir_V_VAP_ele{pp}{jj} = preDir_V_VAP_3D{pp}{jj}(:,2);
+                    preDir_P_VAP_azi{pp}{jj} = preDir_P_VAP_3D{pp}{jj}(:,1);
+                    preDir_P_VAP_ele{pp}{jj} = preDir_P_VAP_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAP = R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
+                    preDir_V_VAP_azi{pp}{jj} = preDir_V_VAP_azi{pp}{jj}(r2_VAP>r2_thre);
+                    preDir_V_VAP_ele{pp}{jj} = preDir_V_VAP_ele{pp}{jj}(r2_VAP>r2_thre);
+                    preDir_P_VAP_azi{pp}{jj} = preDir_P_VAP_azi{pp}{jj}(r2_VAP>r2_thre);
+                    preDir_P_VAP_ele{pp}{jj} = preDir_P_VAP_ele{pp}{jj}(r2_VAP>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_VAP_azi{pp}{jj},preDir_P_VAP_azi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, V');ylabel('Preferred Azi, P');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_V_VAP_ele{pp}{jj},preDir_P_VAP_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, V');ylabel('Preferred Ele, P');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (V&P, VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(16);set(figure(16),'name','Distribution of the difference between preferred directions (V&P,VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_VP_VAP_plot{pp}{jj} = angleDiff_VA_VAP_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAP = R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
+                    angleDiff_VP_VAP_plot{pp}{jj} = angleDiff_VP_VAP_plot{pp}{jj}(r2_VAP>r2_thre);
+                    
+                    [n_Diff_VP_VAP{pp}(jj,:), ~] = hist(angleDiff_VP_VAP_plot{pp}{jj},xDiff);
+                    medianDiff_VP_VAP{pp}(jj) = median(angleDiff_VP_VAP_plot{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDiff,n_Diff_VP_VAP{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('Angle diff ( V vs. P)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[0-30 180+30]);
+                    plot([medianDiff_VP_VAP{pp}(jj) medianDiff_VP_VAP{pp}(jj)],[0 max(n_Diff_VP_VAP{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDiff_VP_VAP{pp}(jj),max(n_Diff_VP_VAP{pp}(jj,:))*1.2,num2str(medianDiff_VP_VAP{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            suptitle(['Distribution of the difference between preferred directions (V&P,VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAP'))
+            figure(17);set(figure(17),'name','Distribution of the preferred directions (A&P, VAP model)','unit','normalized' ,'pos',[-0.55 -0.4 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    preDir_A_VAP_azi{pp}{jj} = preDir_A_VAP_3D{pp}{jj}(:,1);
+                    preDir_A_VAP_ele{pp}{jj} = preDir_A_VAP_3D{pp}{jj}(:,2);
+                    preDir_P_VAP_azi{pp}{jj} = preDir_P_VAP_3D{pp}{jj}(:,1);
+                    preDir_P_VAP_ele{pp}{jj} = preDir_P_VAP_3D{pp}{jj}(:,2);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAP = R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
+                    preDir_A_VAP_azi{pp}{jj} = preDir_A_VAP_azi{pp}{jj}(r2_VAP>r2_thre);
+                    preDir_A_VAP_ele{pp}{jj} = preDir_A_VAP_ele{pp}{jj}(r2_VAP>r2_thre);
+                    preDir_P_VAP_azi{pp}{jj} = preDir_P_VAP_azi{pp}{jj}(r2_VAP>r2_thre);
+                    preDir_P_VAP_ele{pp}{jj} = preDir_P_VAP_ele{pp}{jj}(r2_VAP>r2_thre);
+                    
+                    axes(h_subplot((pp-1)*2+jj));hold on;
+                    plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_A_VAP_azi{pp}{jj},preDir_P_VAP_azi{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    xlabel('Preferred Azi, A');ylabel('Preferred Azi, P');
+                    axes(h_subplot((pp-1)*2+jj+4));hold on;
+                    plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
+                    plot(preDir_A_VAP_ele{pp}{jj},preDir_P_VAP_ele{pp}{jj},'o','markeredgecolor','k');
+                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    xlabel('Preferred Ele, A');ylabel('Preferred Ele, P');
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.45 0.9 0.05]);
+            text(0.13,0,{'Translation';'Vestibular'});
+            text(0.4,0,{'Translation';'Visual'});
+            text(0.65,0,{'Rotation';'Vestibular'});
+            text(0.92,0,{'Rotation';'Visual'});
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.2,'Elevation','rotation',90);text(0,0.8,'Azimuth','rotation',90);
+            axis off;
+            suptitle(['Distribution of the preferred directions (A&P, VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            figure(18);set(figure(18),'name','Distribution of the difference between preferred directions (A&P,VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    
+                    
+                    angleDiff_AP_VAP_plot{pp}{jj} = angleDiff_VA_VAP_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAP = R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
                     angleDiff_AP_VAP_plot{pp}{jj} = angleDiff_AP_VAP_plot{pp}{jj}(r2_VAP>r2_thre);
                     
                     [n_Diff_AP_VAP{pp}(jj,:), ~] = hist(angleDiff_AP_VAP_plot{pp}{jj},xDiff);
@@ -4331,6 +5384,495 @@ SetFigure(12);
         end
         
     end
+
+    function f2p2p3p1(debug)      % time delay distribution ( V/A ), r_squared only
+        if debug  ; dbstack;   keyboard;      end
+        xDelay = linspace(0,0.5,11);
+        r2_thre = 0.5;
+        if sum(strcmp(models,'VA'))
+            figure(11);set(figure(11),'name','Distribution of delay of V/A (VA model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'VA')));
+                    temp = temp(:);
+                    delay_VA_VA{pp}{jj} = cell2mat(cellfun(@(x) x(13), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VA = R2_3D{pp}{jj}(:,find(strcmp(models,'VA')));
+                    delay_VA_VA{pp}{jj} = delay_VA_VA{pp}{jj}(r2_VA>r2_thre);
+                    
+                    
+                    [n_Delay_VA_VA{pp}(jj,:), ~] = hist(delay_VA_VA{pp}{jj},xDelay);
+                    medianDelay_VA_VA{pp}(jj) = median(delay_VA_VA{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_VA_VA{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( V vs. A, VA model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_VA_VA{pp}(jj) medianDelay_VA_VA{pp}(jj)],[0 max(n_Delay_VA_VA{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_VA_VA{pp}(jj),max(n_Delay_VA_VA{pp}(jj,:))*1.2,num2str(medianDelay_VA_VA{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of V/A (VA model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(12);set(figure(12),'name','Distribution of delay of V/A (PVAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    temp = temp(:);
+                    delay_VA_PVAJ{pp}{jj} = cell2mat(cellfun(@(x) x(23), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    delay_VA_PVAJ{pp}{jj} = delay_VA_PVAJ{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    
+                    [n_Delay_VA_PVAJ{pp}(jj,:), ~] = hist(delay_VA_PVAJ{pp}{jj},xDelay);
+                    medianDelay_VA_PVAJ{pp}(jj) = median(delay_VA_PVAJ{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_VA_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( V vs. A, PVAJ model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_VA_PVAJ{pp}(jj) medianDelay_VA_PVAJ{pp}(jj)],[0 max(n_Delay_VA_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_VA_PVAJ{pp}(jj),max(n_Delay_VA_PVAJ{pp}(jj,:))*1.2,num2str(medianDelay_VA_PVAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of V/A (PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAJ'))
+            figure(13);set(figure(13),'name','Distribution of delay of V/A (VAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    temp = temp(:);
+                    delay_VA_VAJ{pp}{jj} = cell2mat(cellfun(@(x) x(18), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    delay_VA_VAJ{pp}{jj} = delay_VA_VAJ{pp}{jj}(r2_VAJ>r2_thre);
+                    
+                    
+                    [n_Delay_VA_VAJ{pp}(jj,:), ~] = hist(delay_VA_VAJ{pp}{jj},xDelay);
+                    medianDelay_VA_VAJ{pp}(jj) = median(delay_VA_VAJ{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_VA_VAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( V vs. A, VAJ model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_VA_VAJ{pp}(jj) medianDelay_VA_VAJ{pp}(jj)],[0 max(n_Delay_VA_VAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_VA_VAJ{pp}(jj),max(n_Delay_VA_VAJ{pp}(jj,:))*1.2,num2str(medianDelay_VA_VAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of V/A (VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAP'))
+            figure(14);set(figure(14),'name','Distribution of delay of V/A (VAP model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
+                    temp = temp(:);
+                    delay_VA_VAP{pp}{jj} = cell2mat(cellfun(@(x) x(18), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAP = R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
+                    delay_VA_VAP{pp}{jj} = delay_VA_VAP{pp}{jj}(r2_VAP>r2_thre);
+                    
+                    
+                    [n_Delay_VA_VAP{pp}(jj,:), ~] = hist(delay_VA_VAP{pp}{jj},xDelay);
+                    medianDelay_VA_VAP{pp}(jj) = median(delay_VA_VAP{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_VA_VAP{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( V vs. A, VAP model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_VA_VAP{pp}(jj) medianDelay_VA_VAP{pp}(jj)],[0 max(n_Delay_VA_VAP{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_VA_VAP{pp}(jj),max(n_Delay_VA_VAP{pp}(jj,:))*1.2,num2str(medianDelay_VA_VAP{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of V/A (VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+    end
+
+    function f2p2p10p1(debug)      % time delay distribution ( J/V, J/A ), r_squared only
+        if debug  ; dbstack;   keyboard;      end
+        xDelay = linspace(0,0.5,11);
+        r2_thre = 0.5;
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(12);set(figure(12),'name','Distribution of delay of J/V (PVAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    temp = temp(:);
+                    delay_VJ_PVAJ{pp}{jj} = cell2mat(cellfun(@(x) x(24)-x(23), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    delay_VJ_PVAJ{pp}{jj} = delay_VJ_PVAJ{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    
+                    [n_Delay_VJ_PVAJ{pp}(jj,:), ~] = hist(delay_VJ_PVAJ{pp}{jj},xDelay);
+                    medianDelay_VJ_PVAJ{pp}(jj) = median(delay_VJ_PVAJ{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_VJ_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( J vs. V, PVAJ model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_VJ_PVAJ{pp}(jj) medianDelay_VJ_PVAJ{pp}(jj)],[0 max(n_Delay_VJ_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_VJ_PVAJ{pp}(jj),max(n_Delay_VJ_PVAJ{pp}(jj,:))*1.2,num2str(medianDelay_VJ_PVAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of J/V (PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAJ'))
+            figure(13);set(figure(13),'name','Distribution of delay of J/V (VAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    temp = temp(:);
+                    delay_VJ_VAJ{pp}{jj} = cell2mat(cellfun(@(x) x(19)-x(18), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    delay_VJ_VAJ{pp}{jj} = delay_VJ_VAJ{pp}{jj}(r2_VAJ>r2_thre);
+                    
+                    
+                    [n_Delay_VJ_VAJ{pp}(jj,:), ~] = hist(delay_VJ_VAJ{pp}{jj},xDelay);
+                    medianDelay_VJ_VAJ{pp}(jj) = median(delay_VJ_VAJ{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_VJ_VAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( J vs. V, VAJ model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_VJ_VAJ{pp}(jj) medianDelay_VJ_VAJ{pp}(jj)],[0 max(n_Delay_VJ_VAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_VJ_VAJ{pp}(jj),max(n_Delay_VJ_VAJ{pp}(jj,:))*1.2,num2str(medianDelay_VJ_VAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of J/V (VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(14);set(figure(14),'name','Distribution of delay of J/A (PVAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    temp = temp(:);
+                    delay_AJ_PVAJ{pp}{jj} = cell2mat(cellfun(@(x) x(24), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    delay_AJ_PVAJ{pp}{jj} = delay_AJ_PVAJ{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    
+                    [n_Delay_AJ_PVAJ{pp}(jj,:), ~] = hist(delay_AJ_PVAJ{pp}{jj},xDelay);
+                    medianDelay_AJ_PVAJ{pp}(jj) = median(delay_AJ_PVAJ{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_AJ_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( J vs. A, PVAJ model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_AJ_PVAJ{pp}(jj) medianDelay_AJ_PVAJ{pp}(jj)],[0 max(n_Delay_AJ_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_AJ_PVAJ{pp}(jj),max(n_Delay_AJ_PVAJ{pp}(jj,:))*1.2,num2str(medianDelay_AJ_PVAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of J/A (PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAJ'))
+            figure(15);set(figure(15),'name','Distribution of delay of J/A (VAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    temp = temp(:);
+                    delay_AJ_VAJ{pp}{jj} = cell2mat(cellfun(@(x) x(19), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')));
+                    delay_AJ_VAJ{pp}{jj} = delay_AJ_VAJ{pp}{jj}(r2_VAJ>r2_thre);
+                    
+                    
+                    [n_Delay_AJ_VAJ{pp}(jj,:), ~] = hist(delay_AJ_VAJ{pp}{jj},xDelay);
+                    medianDelay_AJ_VAJ{pp}(jj) = median(delay_AJ_VAJ{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_AJ_VAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( J vs. A, VAJ model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_AJ_VAJ{pp}(jj) medianDelay_AJ_VAJ{pp}(jj)],[0 max(n_Delay_AJ_VAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_AJ_VAJ{pp}(jj),max(n_Delay_AJ_VAJ{pp}(jj,:))*1.2,num2str(medianDelay_AJ_VAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of J/A (VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+    end
+
+    function f2p2p9p1(debug)      % time delay distribution ( P/V, P/A ), r_squared only
+        if debug  ; dbstack;   keyboard;      end
+        xDelay = linspace(0,0.5,11);
+        r2_thre = 0.5;
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(12);set(figure(12),'name','Distribution of delay of P/V (PVAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    temp = temp(:);
+                    delay_VP_PVAJ{pp}{jj} = cell2mat(cellfun(@(x) x(25)-x(23), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    delay_VP_PVAJ{pp}{jj} = delay_VP_PVAJ{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    
+                    [n_Delay_VP_PVAJ{pp}(jj,:), ~] = hist(delay_VP_PVAJ{pp}{jj},xDelay);
+                    medianDelay_VP_PVAJ{pp}(jj) = median(delay_VP_PVAJ{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_VP_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( P vs. V, PVAJ model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_VP_PVAJ{pp}(jj) medianDelay_VP_PVAJ{pp}(jj)],[0 max(n_Delay_VP_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_VP_PVAJ{pp}(jj),max(n_Delay_VP_PVAJ{pp}(jj,:))*1.2,num2str(medianDelay_VP_PVAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of P/V (PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAP'))
+            figure(13);set(figure(13),'name','Distribution of delay of P/V (VAP model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
+                    temp = temp(:);
+                    delay_VP_VAP{pp}{jj} = cell2mat(cellfun(@(x) x(19)-x(18), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAP = R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
+                    delay_VP_VAP{pp}{jj} = delay_VP_VAP{pp}{jj}(r2_VAP>r2_thre);
+                    
+                    
+                    [n_Delay_VP_VAP{pp}(jj,:), ~] = hist(delay_VP_VAP{pp}{jj},xDelay);
+                    medianDelay_VP_VAP{pp}(jj) = median(delay_VP_VAP{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_VP_VAP{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( P vs. V, VAP model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_VP_VAP{pp}(jj) medianDelay_VP_VAP{pp}(jj)],[0 max(n_Delay_VP_VAP{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_VP_VAP{pp}(jj),max(n_Delay_VP_VAP{pp}(jj,:))*1.2,num2str(medianDelay_VP_VAP{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of P/V (VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(14);set(figure(14),'name','Distribution of delay of P/A (PVAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    temp = temp(:);
+                    delay_AP_PVAJ{pp}{jj} = cell2mat(cellfun(@(x) x(25), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
+                    delay_AP_PVAJ{pp}{jj} = delay_AP_PVAJ{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    
+                    [n_Delay_AP_PVAJ{pp}(jj,:), ~] = hist(delay_AP_PVAJ{pp}{jj},xDelay);
+                    medianDelay_AP_PVAJ{pp}(jj) = median(delay_AP_PVAJ{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_AP_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( P vs. A, PVAJ model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_AP_PVAJ{pp}(jj) medianDelay_AP_PVAJ{pp}(jj)],[0 max(n_Delay_AP_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_AP_PVAJ{pp}(jj),max(n_Delay_AP_PVAJ{pp}(jj,:))*1.2,num2str(medianDelay_AP_PVAJ{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of P/A (PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAP'))
+            figure(15);set(figure(15),'name','Distribution of delay of P/A (VAP model)','unit','normalized' ,'pos',[-0.55 0.2 0.5 0.6]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.15 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    temp = Para_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
+                    temp = temp(:);
+                    delay_AP_VAP{pp}{jj} = cell2mat(cellfun(@(x) x(19), temp,'UniformOutput',false));
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAP = R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')));
+                    delay_AP_VAP{pp}{jj} = delay_AP_VAP{pp}{jj}(r2_VAP>r2_thre);
+                    
+                    
+                    [n_Delay_AP_VAP{pp}(jj,:), ~] = hist(delay_AP_VAP{pp}{jj},xDelay);
+                    medianDelay_AP_VAP{pp}(jj) = median(delay_AP_VAP{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xDelay,n_Delay_AP_VAP{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('delay ( P vs. A, VAP model)');ylabel('cell #');axis on;
+                    set(gca,'xlim',[-0.05 0.55]);
+                    plot([medianDelay_AP_VAP{pp}(jj) medianDelay_AP_VAP{pp}(jj)],[0 max(n_Delay_AP_VAP{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(medianDelay_AP_VAP{pp}(jj),max(n_Delay_AP_VAP{pp}(jj,:))*1.2,num2str(medianDelay_AP_VAP{pp}(jj)),'color','k','fontsize',8);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.05 0.9 0.05]);
+            text(0.25,0,'Translation');
+            text(0.8,0,'Rotation');
+            axis off;
+            axes('pos',[0.05 0.1 0.1 0.7]);
+            text(0,0.25,'Visual','rotation',90);text(0,0.75,'Vestibular','rotation',90);
+            axis off;
+            suptitle(['Distribution of delay of P/A (VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+    end
+
     function f2p2p4(debug)      % Partial R_squared distribution
         if debug  ; dbstack;   keyboard;      end
         if sum(strcmp(models,'VA'))
@@ -4385,17 +5927,24 @@ SetFigure(12);
 
     function f2p2p5(debug)      % Weight distribution
         if debug  ; dbstack;   keyboard;      end
-        
+        r2_thre = 0.5;
         if sum(strcmp(models,'VA'))
             figure(11);set(figure(11),'name','Distribution of weight (VA model)','unit','normalized' ,'pos',[-0.55 0.6 0.4 0.3]); clf;
             [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
             for pp = 1:2
                 for jj = 1:2
+                    
                     wV_VA_plot{pp}{jj} = wV_VA_3D{pp}(select_temporalSig{pp}(:,jj),jj);
                     wA_VA_plot{pp}{jj} = wA_VA_3D{pp}(select_temporalSig{pp}(:,jj),jj);
                     
+                    % only use which r2 > threshold (0.5)
+                    r2_VA = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'VA')));
+                    
+                    wV_VA_plot{pp}{jj} = wV_VA_plot{pp}{jj}(r2_VA>r2_thre);
+                    wA_VA_plot{pp}{jj} = wA_VA_plot{pp}{jj}(r2_VA>r2_thre);
+                    
                     axes(h_subplot((jj-1)*2+pp));hold on;
-                    plot(repmat([1;2],1,sum(select_temporalSig{pp}(:,jj))),[wV_VA_plot{pp}{jj},wA_VA_plot{pp}{jj}]','k-o','color',[0.7 0.7 0.7],'markersize',6,'markerfacecolor','k');
+                    plot(repmat([1;2],1,length(wV_VA_plot{pp}{jj})),[wV_VA_plot{pp}{jj},wA_VA_plot{pp}{jj}]','k-o','color',[0.7 0.7 0.7],'markersize',6,'markerfacecolor','k');
                     set(gca,'xtick',[1 2],'xticklabel',{'V','A'});
                     xlabel('Component');ylabel('Weight');axis on;
                     set(gca,'xlim',[0.5 2.5],'ylim',[0 1]);
@@ -4421,6 +5970,127 @@ SetFigure(12);
                     wV_VAJ_plot{pp}{jj} = wV_VAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
                     wA_VAJ_plot{pp}{jj} = wA_VAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
                     wJ_VAJ_plot{pp}{jj} = wJ_VAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(repmat([1;2;3],1,sum(select_temporalSig{pp}(:,jj))),[wV_VAJ_plot{pp}{jj},wA_VAJ_plot{pp}{jj},wJ_VAJ_plot{pp}{jj}]','k-o','color',[0.7 0.7 0.7],'markersize',6,'markerfacecolor','k');
+                    set(gca,'xtick',[1 2 3],'xticklabel',{'V','A','J'});
+                    xlabel('Component');ylabel('Weight');axis on;
+                    set(gca,'xlim',[0.5 3.5],'ylim',[0 1]);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.9 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of weight (VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAP'))
+            figure(13);set(figure(13),'name','Distribution of weight (VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.4 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    wV_VAP_plot{pp}{jj} = wV_VAP_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wA_VAP_plot{pp}{jj} = wA_VAP_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wP_VAP_plot{pp}{jj} = wP_VAP_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(repmat([1;2;3],1,sum(select_temporalSig{pp}(:,jj))),[wV_VAP_plot{pp}{jj},wA_VAP_plot{pp}{jj},wP_VAP_plot{pp}{jj}]','k-o','color',[0.7 0.7 0.7],'markersize',6,'markerfacecolor','k');
+                    set(gca,'xtick',[1 2 3],'xticklabel',{'V','A','P'});
+                    xlabel('Component');ylabel('Weight');axis on;
+                    set(gca,'xlim',[0.5 3.5],'ylim',[0 1]);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.9 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of weight (VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'PVAJ'))
+            figure(14);set(figure(14),'name','Distribution of weight (PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.6 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    wV_PVAJ_plot{pp}{jj} = wV_PVAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wA_PVAJ_plot{pp}{jj} = wA_PVAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wJ_PVAJ_plot{pp}{jj} = wJ_PVAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wP_PVAJ_plot{pp}{jj} = wP_PVAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(repmat([1;2;3;4],1,sum(select_temporalSig{pp}(:,jj))),[wV_PVAJ_plot{pp}{jj},wA_PVAJ_plot{pp}{jj},wJ_PVAJ_plot{pp}{jj},wP_PVAJ_plot{pp}{jj}]','k-o','color',[0.7 0.7 0.7],'markersize',6,'markerfacecolor','k');
+                    set(gca,'xtick',[1 2 3 4],'xticklabel',{'V','A','J','P'});
+                    xlabel('Component');ylabel('Weight');axis on;
+                    set(gca,'xlim',[0.5 4.5],'ylim',[0 1]);
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.9 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of weight (PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        
+    end
+
+    function f2p2p5p1(debug)      % Weight distribution, r_squared only
+        if debug  ; dbstack;   keyboard;      end
+        r2_thre = 0.5;
+        if sum(strcmp(models,'VA'))
+            figure(11);set(figure(11),'name','Distribution of weight (VA model)','unit','normalized' ,'pos',[-0.55 0.6 0.4 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    wV_VA_plot{pp}{jj} = wV_VA_3D{pp}(:,jj);
+                    wA_VA_plot{pp}{jj} = wA_VA_3D{pp}(:,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VA = R2_3D{pp}{jj}(:,find(strcmp(models,'VA')));
+                    
+                    wV_VA_plot{pp}{jj} = wV_VA_plot{pp}{jj}(r2_VA>r2_thre);
+                    wA_VA_plot{pp}{jj} = wA_VA_plot{pp}{jj}(r2_VA>r2_thre);
+                    
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    plot(repmat([1;2],1,length(wV_VA_plot{pp}{jj})),[wV_VA_plot{pp}{jj},wA_VA_plot{pp}{jj}]','k-o','color',[0.7 0.7 0.7],'markersize',6,'markerfacecolor','k');
+                    set(gca,'xtick',[1 2],'xticklabel',{'V','A'});
+                    xlabel('Component');ylabel('Weight');axis on;
+                    set(gca,'xlim',[0.5 2.5],'ylim',[0 1]);
+                    
+                end
+            end
+            % text necessary infos
+            axes('pos',[0.05 0.2 0.1 0.7]);
+            text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+            axis off;
+            axes('pos',[0.2 0.9 0.7 0.1]);
+            text(0.15,0,'Translation');text(0.85,0,'Rotation');
+            axis off;
+            suptitle(['Distribution of weight (VA model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAJ'))
+            figure(12);set(figure(12),'name','Distribution of weight (VAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.4 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    wV_VAJ_plot{pp}{jj} = wV_VAJ_3D{pp}(:,jj);
+                    wA_VAJ_plot{pp}{jj} = wA_VAJ_3D{pp}(:,jj);
+                    wJ_VAJ_plot{pp}{jj} = wJ_VAJ_3D{pp}(:,jj);
                     
                     axes(h_subplot((jj-1)*2+pp));hold on;
                     plot(repmat([1;2;3],1,sum(select_temporalSig{pp}(:,jj))),[wV_VAJ_plot{pp}{jj},wA_VAJ_plot{pp}{jj},wJ_VAJ_plot{pp}{jj}]','k-o','color',[0.7 0.7 0.7],'markersize',6,'markerfacecolor','k');
@@ -4836,7 +6506,7 @@ SetFigure(12);
         
     end
 
-    function f2p2p6(debug)      % Weight distribution (P,V,A,J weight)
+    function f2p2p6(debug)      % Weight distribution (P,V,A,J weight), r_squared only
         if debug  ; dbstack;   keyboard;      end
         r2_thre = 0.5;
         
@@ -4983,6 +6653,8 @@ SetFigure(12);
         
         
     end
+
+
 
     function f2p3(debug)      % check
         if debug  ; dbstack;   keyboard;      end

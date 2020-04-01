@@ -577,7 +577,7 @@ markers = {
 Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+719-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+1074-PSTH_onT+timeStep)/timeStep];
 % preferDirectionOfTime;
 % CosineTuningPlot;
-PSTH_3D_Tuning; % plot PSTHs across sessions;
+% PSTH_3D_Tuning; % plot PSTHs across sessions;
 % Contour_3D_Tuning; % plot countour figures;
 % Contour_3D_Tuning_GIF; % plot countour figures(PD across time);
 % spatial_tuning;
@@ -585,9 +585,9 @@ PSTH_3D_Tuning; % plot PSTHs across sessions;
 model_catg = [];
 %% 3D models nalysis
 
-% %{
-model_catg = 'Sync model'; % tau is the same
-% model_catg = 'Out-sync model'; % each component has its own tau
+% % %{
+% model_catg = 'Sync model'; % tau is the same
+model_catg = 'Out-sync model'; % each component has its own tau
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
