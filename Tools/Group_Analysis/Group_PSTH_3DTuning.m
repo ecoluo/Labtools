@@ -33,8 +33,10 @@ mat_address = {
     %     'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_R','3DR';
     %         'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_T','3DT';
     %             'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_R','3DR';
-    'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_All_m6_m5_nocriteria','PSTH_T','3DT';
-    'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_All_m6_m5_nocriteria','PSTH_R','3DR';
+    %     'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_All_m6_m5_nocriteria','PSTH_T','3DT';
+    %     'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_All_m6_m5_nocriteria','PSTH_R','3DR';
+    'Z:\Data\TEMPO\BATCH\20200101_3DModel_Out-Sync_All_m6_m5_nocriteria','PSTH_T','3DT';
+    'Z:\Data\TEMPO\BATCH\20200101_3DModel_Out-Sync_All_m6_m5_nocriteria','PSTH_R','3DR';
     
     %
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT';
@@ -301,6 +303,7 @@ nParaModel_3D{2} = [7 7 13 13 13 19];
 % nParaModel_3D{2} = [7 7 13 13 13 13 13 19 19 25];
 % nParaModel_3D{1} = [6 6 10 10 10 10 10 14 14 18];
 % models = {'VA'};
+paraNo = 13;
 
 for i = 1:length(group_result)
     for pp = 1:size(mat_address,1) % TRanslation or rotation or dark T or dark R
@@ -451,8 +454,9 @@ for pp = 1:size(mat_address,1)
         
         for i = 1:length(group_result)
             %             if responSig{pp}(i,jj) == 1
-            if ~isempty(PSTH3Dmodel{pp}{i,jj})
-                for m_inx = 1:length(models)
+            for m_inx = 1:length(models)
+                Para_3D{pp}{jj}{i,m_inx} = nan*ones(paraNo);
+                if ~isempty(PSTH3Dmodel{pp}{i,jj})
                     try
                         temp = isfield(PSTH3Dmodel{pp}{i,jj}{1},{['RSquared_',models{m_inx}],['BIC_',models{m_inx}],['modelFitPara_',models{m_inx}],['rss_',models{m_inx}]});
                     catch
@@ -483,112 +487,115 @@ for pp = 1:size(mat_address,1)
                         
                     end
                     
-                end
-                
-                if sum(strcmp(models,'VA'))
-                    wV_VA_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VA_wV;
-                    wA_VA_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VA_wA;
-                    if sum(ismember(models,'AO')) && sum(ismember(models,'VO'))
-                        parR2V_VA_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VA_R2V;
-                        parR2A_VA_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VA_R2A;
+%                 end
+%                 
+%                 if ~isempty(PSTH3Dmodel{pp}{i,jj})
+                    if sum(strcmp(models,'VA'))
+                        try
+                            wV_VA_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VA_wV;
+                            wA_VA_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VA_wA;
+                        catch
+                            keyboard;
+                        end
+                        if sum(ismember(models,'AO')) && sum(ismember(models,'VO'))
+                            parR2V_VA_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VA_R2V;
+                            parR2A_VA_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VA_R2A;
+                        end
+                        
+                        spatial_VA_3D{pp}{jj}.V{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VA.V;
+                        spatial_VA_3D{pp}{jj}.V{i}([1 5],2:end) = 0;
+                        spatial_VA_3D{pp}{jj}.A{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VA.A;
+                        spatial_VA_3D{pp}{jj}.A{i}([1 5],2:end) = 0;
+                        
+                        % PD of VA model
+                        [preDir_V_VA_3D{pp}{jj}(i,1),preDir_V_VA_3D{pp}{jj}(i,2),preDir_V_VA_3D{pp}{jj}(i,3)] = vectorsum(spatial_VA_3D{pp}{jj}.V{i});
+                        [preDir_A_VA_3D{pp}{jj}(i,1),preDir_A_VA_3D{pp}{jj}(i,2),preDir_A_VA_3D{pp}{jj}(i,3)] = vectorsum(spatial_VA_3D{pp}{jj}.A{i});
+                        angleDiff_VA_VA_3D{pp}(i,jj) = angleDiff(preDir_V_VA_3D{pp}{jj}(i,1),preDir_V_VA_3D{pp}{jj}(i,2),preDir_V_VA_3D{pp}{jj}(i,3),preDir_A_VA_3D{pp}{jj}(i,1),preDir_A_VA_3D{pp}{jj}(i,2),preDir_A_VA_3D{pp}{jj}(i,3));
+
                     end
                     
-                    spatial_VA_3D{pp}{jj}.V{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VA.V;
-                    spatial_VA_3D{pp}{jj}.V{i}([1 5],2:end) = 0;
-                    spatial_VA_3D{pp}{jj}.A{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VA.A;
-                    spatial_VA_3D{pp}{jj}.A{i}([1 5],2:end) = 0;
+                    if sum(strcmp(models,'VAJ'))
+                        wV_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_wV;
+                        wA_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_wA;
+                        wJ_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_wJ;
+                        
+                        spatial_VAJ_3D{pp}{jj}.V{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAJ.V;
+                        spatial_VAJ_3D{pp}{jj}.V{i}([1 5],2:end) = 0;
+                        spatial_VAJ_3D{pp}{jj}.A{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAJ.A;
+                        spatial_VAJ_3D{pp}{jj}.A{i}([1 5],2:end) = 0;
+                        spatial_VAJ_3D{pp}{jj}.J{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAJ.J;
+                        spatial_VAJ_3D{pp}{jj}.J{i}([1 5],2:end) = 0;
+                        
+                        % PD of VAJ model
+                        [preDir_V_VAJ_3D{pp}{jj}(i,1),preDir_V_VAJ_3D{pp}{jj}(i,2),preDir_V_VAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAJ_3D{pp}{jj}.V{i});
+                        [preDir_A_VAJ_3D{pp}{jj}(i,1),preDir_A_VAJ_3D{pp}{jj}(i,2),preDir_A_VAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAJ_3D{pp}{jj}.A{i});
+                        [preDir_J_VAJ_3D{pp}{jj}(i,1),preDir_J_VAJ_3D{pp}{jj}(i,2),preDir_J_VAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAJ_3D{pp}{jj}.J{i});
+                        angleDiff_VA_VAJ_3D{pp}(i,jj) = angleDiff(preDir_V_VAJ_3D{pp}{jj}(i,1),preDir_V_VAJ_3D{pp}{jj}(i,2),preDir_V_VAJ_3D{pp}{jj}(i,3),preDir_A_VAJ_3D{pp}{jj}(i,1),preDir_A_VAJ_3D{pp}{jj}(i,2),preDir_A_VAJ_3D{pp}{jj}(i,3));
+                        angleDiff_VJ_VAJ_3D{pp}(i,jj) = angleDiff(preDir_V_VAJ_3D{pp}{jj}(i,1),preDir_V_VAJ_3D{pp}{jj}(i,2),preDir_V_VAJ_3D{pp}{jj}(i,3),preDir_J_VAJ_3D{pp}{jj}(i,1),preDir_J_VAJ_3D{pp}{jj}(i,2),preDir_J_VAJ_3D{pp}{jj}(i,3));
+                        angleDiff_AJ_VAJ_3D{pp}(i,jj) = angleDiff(preDir_A_VAJ_3D{pp}{jj}(i,1),preDir_A_VAJ_3D{pp}{jj}(i,2),preDir_A_VAJ_3D{pp}{jj}(i,3),preDir_J_VAJ_3D{pp}{jj}(i,1),preDir_J_VAJ_3D{pp}{jj}(i,2),preDir_J_VAJ_3D{pp}{jj}(i,3));
+                        
+                        if sum(ismember(models,'VA')) && sum(ismember(models,'VJ')) && sum(ismember(models,'AJ'))
+                            parR2V_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_R2V;
+                            parR2A_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_R2A;
+                            parR2J_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_R2J;
+                        end
+                    end
                     
-                    % PD of VA model
-                    [preDir_V_VA_3D{pp}{jj}(i,1),preDir_V_VA_3D{pp}{jj}(i,2),preDir_V_VA_3D{pp}{jj}(i,3)] = vectorsum(spatial_VA_3D{pp}{jj}.V{i});
-                    [preDir_A_VA_3D{pp}{jj}(i,1),preDir_A_VA_3D{pp}{jj}(i,2),preDir_A_VA_3D{pp}{jj}(i,3)] = vectorsum(spatial_VA_3D{pp}{jj}.A{i});
-                    angleDiff_VA_VA_3D{pp}(i,jj) = angleDiff(preDir_V_VA_3D{pp}{jj}(i,1),preDir_V_VA_3D{pp}{jj}(i,2),preDir_V_VA_3D{pp}{jj}(i,3),preDir_A_VA_3D{pp}{jj}(i,1),preDir_A_VA_3D{pp}{jj}(i,2),preDir_A_VA_3D{pp}{jj}(i,3));
+                    if sum(strcmp(models,'VAP'))
+                        wV_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_wV;
+                        wA_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_wA;
+                        wP_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_wP;
+                        
+                        spatial_VAP_3D{pp}{jj}.V{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAP.V;
+                        spatial_VAP_3D{pp}{jj}.V{i}([1 5],2:end) = 0;
+                        spatial_VAP_3D{pp}{jj}.A{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAP.A;
+                        spatial_VAP_3D{pp}{jj}.A{i}([1 5],2:end) = 0;
+                        spatial_VAP_3D{pp}{jj}.P{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAP.P;
+                        spatial_VAP_3D{pp}{jj}.P{i}([1 5],2:end) = 0;
+                        
+                        % PD of VAP model
+                        [preDir_V_VAP_3D{pp}{jj}(i,1),preDir_V_VAP_3D{pp}{jj}(i,2),preDir_V_VAP_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAP_3D{pp}{jj}.V{i});
+                        [preDir_A_VAP_3D{pp}{jj}(i,1),preDir_A_VAP_3D{pp}{jj}(i,2),preDir_A_VAP_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAP_3D{pp}{jj}.A{i});
+                        [preDir_P_VAP_3D{pp}{jj}(i,1),preDir_P_VAP_3D{pp}{jj}(i,2),preDir_P_VAP_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAP_3D{pp}{jj}.P{i});
+                        angleDiff_VA_VAP_3D{pp}(i,jj) = angleDiff(preDir_V_VAP_3D{pp}{jj}(i,1),preDir_V_VAP_3D{pp}{jj}(i,2),preDir_V_VAP_3D{pp}{jj}(i,3),preDir_A_VAP_3D{pp}{jj}(i,1),preDir_A_VAP_3D{pp}{jj}(i,2),preDir_A_VAP_3D{pp}{jj}(i,3));
+                        angleDiff_AP_VAP_3D{pp}(i,jj) = angleDiff(preDir_A_VAP_3D{pp}{jj}(i,1),preDir_A_VAP_3D{pp}{jj}(i,2),preDir_A_VAP_3D{pp}{jj}(i,3),preDir_P_VAP_3D{pp}{jj}(i,1),preDir_P_VAP_3D{pp}{jj}(i,2),preDir_P_VAP_3D{pp}{jj}(i,3));
+                        angleDiff_VP_VAP_3D{pp}(i,jj) = angleDiff(preDir_V_VAP_3D{pp}{jj}(i,1),preDir_V_VAP_3D{pp}{jj}(i,2),preDir_V_VAP_3D{pp}{jj}(i,3),preDir_P_VAP_3D{pp}{jj}(i,1),preDir_P_VAP_3D{pp}{jj}(i,2),preDir_P_VAP_3D{pp}{jj}(i,3));
+                        
+                        if sum(ismember(models,'VA')) && sum(ismember(models,'VP')) && sum(ismember(models,'AP'))
+                            parR2V_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_R2V;
+                            parR2A_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_R2A;
+                            parR2P_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_R2P;
+                        end
+                    end
                     
-                    
-                    
-                end
-                
-                if sum(strcmp(models,'VAJ'))
-                    wV_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_wV;
-                    wA_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_wA;
-                    wJ_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_wJ;
-                    
-                    spatial_VAJ_3D{pp}{jj}.V{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAJ.V;
-                    spatial_VAJ_3D{pp}{jj}.V{i}([1 5],2:end) = 0;
-                    spatial_VAJ_3D{pp}{jj}.A{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAJ.A;
-                    spatial_VAJ_3D{pp}{jj}.A{i}([1 5],2:end) = 0;
-                    spatial_VAJ_3D{pp}{jj}.J{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAJ.J;
-                    spatial_VAJ_3D{pp}{jj}.J{i}([1 5],2:end) = 0;
-                    
-                    % PD of VAJ model
-                    [preDir_V_VAJ_3D{pp}{jj}(i,1),preDir_V_VAJ_3D{pp}{jj}(i,2),preDir_V_VAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAJ_3D{pp}{jj}.V{i});
-                    [preDir_A_VAJ_3D{pp}{jj}(i,1),preDir_A_VAJ_3D{pp}{jj}(i,2),preDir_A_VAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAJ_3D{pp}{jj}.A{i});
-                    [preDir_J_VAJ_3D{pp}{jj}(i,1),preDir_J_VAJ_3D{pp}{jj}(i,2),preDir_J_VAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAJ_3D{pp}{jj}.J{i});
-                    angleDiff_VA_VAJ_3D{pp}(i,jj) = angleDiff(preDir_V_VAJ_3D{pp}{jj}(i,1),preDir_V_VAJ_3D{pp}{jj}(i,2),preDir_V_VAJ_3D{pp}{jj}(i,3),preDir_A_VAJ_3D{pp}{jj}(i,1),preDir_A_VAJ_3D{pp}{jj}(i,2),preDir_A_VAJ_3D{pp}{jj}(i,3));
-                    angleDiff_VJ_VAJ_3D{pp}(i,jj) = angleDiff(preDir_V_VAJ_3D{pp}{jj}(i,1),preDir_V_VAJ_3D{pp}{jj}(i,2),preDir_V_VAJ_3D{pp}{jj}(i,3),preDir_J_VAJ_3D{pp}{jj}(i,1),preDir_J_VAJ_3D{pp}{jj}(i,2),preDir_J_VAJ_3D{pp}{jj}(i,3));
-                    angleDiff_AJ_VAJ_3D{pp}(i,jj) = angleDiff(preDir_A_VAJ_3D{pp}{jj}(i,1),preDir_A_VAJ_3D{pp}{jj}(i,2),preDir_A_VAJ_3D{pp}{jj}(i,3),preDir_J_VAJ_3D{pp}{jj}(i,1),preDir_J_VAJ_3D{pp}{jj}(i,2),preDir_J_VAJ_3D{pp}{jj}(i,3));
-                    
-                    if sum(ismember(models,'VA')) && sum(ismember(models,'VJ')) && sum(ismember(models,'AJ'))
-                        parR2V_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_R2V;
-                        parR2A_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_R2A;
-                        parR2J_VAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAJ_R2J;
+                    if sum(strcmp(models,'PVAJ'))
+                        wV_PVAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.PVAJ_wV;
+                        wA_PVAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.PVAJ_wA;
+                        wJ_PVAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.PVAJ_wJ;
+                        wP_PVAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.PVAJ_wP;
+                        
+                        spatial_PVAJ_3D{pp}{jj}.V{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_PVAJ.V;
+                        spatial_PVAJ_3D{pp}{jj}.V{i}([1 5],2:end) = 0;
+                        spatial_PVAJ_3D{pp}{jj}.A{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_PVAJ.A;
+                        spatial_PVAJ_3D{pp}{jj}.A{i}([1 5],2:end) = 0;
+                        spatial_PVAJ_3D{pp}{jj}.J{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_PVAJ.J;
+                        spatial_PVAJ_3D{pp}{jj}.J{i}([1 5],2:end) = 0;
+                        spatial_PVAJ_3D{pp}{jj}.P{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_PVAJ.P;
+                        spatial_PVAJ_3D{pp}{jj}.P{i}([1 5],2:end) = 0;
+                        
+                        % PD of PVAJ model
+                        [preDir_V_PVAJ_3D{pp}{jj}(i,1),preDir_V_PVAJ_3D{pp}{jj}(i,2),preDir_V_PVAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_PVAJ_3D{pp}{jj}.V{i});
+                        [preDir_A_PVAJ_3D{pp}{jj}(i,1),preDir_A_PVAJ_3D{pp}{jj}(i,2),preDir_A_PVAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_PVAJ_3D{pp}{jj}.A{i});
+                        [preDir_J_PVAJ_3D{pp}{jj}(i,1),preDir_J_PVAJ_3D{pp}{jj}(i,2),preDir_J_PVAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_PVAJ_3D{pp}{jj}.J{i});
+                        [preDir_P_PVAJ_3D{pp}{jj}(i,1),preDir_P_PVAJ_3D{pp}{jj}(i,2),preDir_P_PVAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_PVAJ_3D{pp}{jj}.P{i});
+                        angleDiff_VA_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_V_PVAJ_3D{pp}{jj}(i,1),preDir_V_PVAJ_3D{pp}{jj}(i,2),preDir_V_PVAJ_3D{pp}{jj}(i,3),preDir_A_PVAJ_3D{pp}{jj}(i,1),preDir_A_PVAJ_3D{pp}{jj}(i,2),preDir_A_PVAJ_3D{pp}{jj}(i,3));
+                        angleDiff_AP_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_A_PVAJ_3D{pp}{jj}(i,1),preDir_A_PVAJ_3D{pp}{jj}(i,2),preDir_A_PVAJ_3D{pp}{jj}(i,3),preDir_P_PVAJ_3D{pp}{jj}(i,1),preDir_P_PVAJ_3D{pp}{jj}(i,2),preDir_P_PVAJ_3D{pp}{jj}(i,3));
+                        angleDiff_VP_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_V_PVAJ_3D{pp}{jj}(i,1),preDir_V_PVAJ_3D{pp}{jj}(i,2),preDir_V_PVAJ_3D{pp}{jj}(i,3),preDir_P_PVAJ_3D{pp}{jj}(i,1),preDir_P_PVAJ_3D{pp}{jj}(i,2),preDir_P_PVAJ_3D{pp}{jj}(i,3));
+                        angleDiff_VJ_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_V_PVAJ_3D{pp}{jj}(i,1),preDir_V_PVAJ_3D{pp}{jj}(i,2),preDir_V_PVAJ_3D{pp}{jj}(i,3),preDir_J_PVAJ_3D{pp}{jj}(i,1),preDir_J_PVAJ_3D{pp}{jj}(i,2),preDir_J_PVAJ_3D{pp}{jj}(i,3));
+                        angleDiff_AJ_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_A_PVAJ_3D{pp}{jj}(i,1),preDir_A_PVAJ_3D{pp}{jj}(i,2),preDir_A_PVAJ_3D{pp}{jj}(i,3),preDir_J_PVAJ_3D{pp}{jj}(i,1),preDir_J_PVAJ_3D{pp}{jj}(i,2),preDir_J_PVAJ_3D{pp}{jj}(i,3));
+                        
                     end
                 end
-                
-                if sum(strcmp(models,'VAP'))
-                    wV_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_wV;
-                    wA_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_wA;
-                    wP_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_wP;
-                    
-                    spatial_VAP_3D{pp}{jj}.V{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAP.V;
-                    spatial_VAP_3D{pp}{jj}.V{i}([1 5],2:end) = 0;
-                    spatial_VAP_3D{pp}{jj}.A{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAP.A;
-                    spatial_VAP_3D{pp}{jj}.A{i}([1 5],2:end) = 0;
-                    spatial_VAP_3D{pp}{jj}.P{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_VAP.P;
-                    spatial_VAP_3D{pp}{jj}.P{i}([1 5],2:end) = 0;
-                    
-                    % PD of VAP model
-                    [preDir_V_VAP_3D{pp}{jj}(i,1),preDir_V_VAP_3D{pp}{jj}(i,2),preDir_V_VAP_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAP_3D{pp}{jj}.V{i});
-                    [preDir_A_VAP_3D{pp}{jj}(i,1),preDir_A_VAP_3D{pp}{jj}(i,2),preDir_A_VAP_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAP_3D{pp}{jj}.A{i});
-                    [preDir_P_VAP_3D{pp}{jj}(i,1),preDir_P_VAP_3D{pp}{jj}(i,2),preDir_P_VAP_3D{pp}{jj}(i,3)] = vectorsum(spatial_VAP_3D{pp}{jj}.P{i});
-                    angleDiff_VA_VAP_3D{pp}(i,jj) = angleDiff(preDir_V_VAP_3D{pp}{jj}(i,1),preDir_V_VAP_3D{pp}{jj}(i,2),preDir_V_VAP_3D{pp}{jj}(i,3),preDir_A_VAP_3D{pp}{jj}(i,1),preDir_A_VAP_3D{pp}{jj}(i,2),preDir_A_VAP_3D{pp}{jj}(i,3));
-                    angleDiff_AP_VAP_3D{pp}(i,jj) = angleDiff(preDir_A_VAP_3D{pp}{jj}(i,1),preDir_A_VAP_3D{pp}{jj}(i,2),preDir_A_VAP_3D{pp}{jj}(i,3),preDir_P_VAP_3D{pp}{jj}(i,1),preDir_P_VAP_3D{pp}{jj}(i,2),preDir_P_VAP_3D{pp}{jj}(i,3));
-                    angleDiff_VP_VAP_3D{pp}(i,jj) = angleDiff(preDir_V_VAP_3D{pp}{jj}(i,1),preDir_V_VAP_3D{pp}{jj}(i,2),preDir_V_VAP_3D{pp}{jj}(i,3),preDir_P_VAP_3D{pp}{jj}(i,1),preDir_P_VAP_3D{pp}{jj}(i,2),preDir_P_VAP_3D{pp}{jj}(i,3));
-                    
-                    if sum(ismember(models,'VA')) && sum(ismember(models,'VP')) && sum(ismember(models,'AP'))
-                        parR2V_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_R2V;
-                        parR2A_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_R2A;
-                        parR2P_VAP_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VAP_R2P;
-                    end
-                end
-                
-                if sum(strcmp(models,'PVAJ'))
-                    wV_PVAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.PVAJ_wV;
-                    wA_PVAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.PVAJ_wA;
-                    wJ_PVAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.PVAJ_wJ;
-                    wP_PVAJ_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.PVAJ_wP;
-                    
-                    spatial_PVAJ_3D{pp}{jj}.V{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_PVAJ.V;
-                    spatial_PVAJ_3D{pp}{jj}.V{i}([1 5],2:end) = 0;
-                    spatial_PVAJ_3D{pp}{jj}.A{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_PVAJ.A;
-                    spatial_PVAJ_3D{pp}{jj}.A{i}([1 5],2:end) = 0;
-                    spatial_PVAJ_3D{pp}{jj}.J{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_PVAJ.J;
-                    spatial_PVAJ_3D{pp}{jj}.J{i}([1 5],2:end) = 0;
-                    spatial_PVAJ_3D{pp}{jj}.P{i} = PSTH3Dmodel{pp}{i,jj}{1}.modelFitTrans_spatial_PVAJ.P;
-                    spatial_PVAJ_3D{pp}{jj}.P{i}([1 5],2:end) = 0;
-                    
-                    % PD of PVAJ model
-                    [preDir_V_PVAJ_3D{pp}{jj}(i,1),preDir_V_PVAJ_3D{pp}{jj}(i,2),preDir_V_PVAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_PVAJ_3D{pp}{jj}.V{i});
-                    [preDir_A_PVAJ_3D{pp}{jj}(i,1),preDir_A_PVAJ_3D{pp}{jj}(i,2),preDir_A_PVAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_PVAJ_3D{pp}{jj}.A{i});
-                    [preDir_J_PVAJ_3D{pp}{jj}(i,1),preDir_J_PVAJ_3D{pp}{jj}(i,2),preDir_J_PVAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_PVAJ_3D{pp}{jj}.J{i});
-                    [preDir_P_PVAJ_3D{pp}{jj}(i,1),preDir_P_PVAJ_3D{pp}{jj}(i,2),preDir_P_PVAJ_3D{pp}{jj}(i,3)] = vectorsum(spatial_PVAJ_3D{pp}{jj}.P{i});
-                    angleDiff_VA_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_V_PVAJ_3D{pp}{jj}(i,1),preDir_V_PVAJ_3D{pp}{jj}(i,2),preDir_V_PVAJ_3D{pp}{jj}(i,3),preDir_A_PVAJ_3D{pp}{jj}(i,1),preDir_A_PVAJ_3D{pp}{jj}(i,2),preDir_A_PVAJ_3D{pp}{jj}(i,3));
-                    angleDiff_AP_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_A_PVAJ_3D{pp}{jj}(i,1),preDir_A_PVAJ_3D{pp}{jj}(i,2),preDir_A_PVAJ_3D{pp}{jj}(i,3),preDir_P_PVAJ_3D{pp}{jj}(i,1),preDir_P_PVAJ_3D{pp}{jj}(i,2),preDir_P_PVAJ_3D{pp}{jj}(i,3));
-                    angleDiff_VP_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_V_PVAJ_3D{pp}{jj}(i,1),preDir_V_PVAJ_3D{pp}{jj}(i,2),preDir_V_PVAJ_3D{pp}{jj}(i,3),preDir_P_PVAJ_3D{pp}{jj}(i,1),preDir_P_PVAJ_3D{pp}{jj}(i,2),preDir_P_PVAJ_3D{pp}{jj}(i,3));
-                    angleDiff_VJ_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_V_PVAJ_3D{pp}{jj}(i,1),preDir_V_PVAJ_3D{pp}{jj}(i,2),preDir_V_PVAJ_3D{pp}{jj}(i,3),preDir_J_PVAJ_3D{pp}{jj}(i,1),preDir_J_PVAJ_3D{pp}{jj}(i,2),preDir_J_PVAJ_3D{pp}{jj}(i,3));
-                    angleDiff_AJ_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_A_PVAJ_3D{pp}{jj}(i,1),preDir_A_PVAJ_3D{pp}{jj}(i,2),preDir_A_PVAJ_3D{pp}{jj}(i,3),preDir_J_PVAJ_3D{pp}{jj}(i,1),preDir_J_PVAJ_3D{pp}{jj}(i,2),preDir_J_PVAJ_3D{pp}{jj}(i,3));
-                    
-                end
-                %             end
             end
         end
     end
@@ -5397,7 +5404,6 @@ for pp = 1
                     temp = Para_3D{pp}{jj}(:,find(strcmp(models,'VA')));
                     temp = temp(:);
                     delay_VA_VA{pp}{jj} = cell2mat(cellfun(@(x) x(13), temp,'UniformOutput',false));
-                    
                     
                     % only use which r2 > threshold (0.5)
                     r2_VA = R2_3D{pp}{jj}(:,find(strcmp(models,'VA')));

@@ -6,7 +6,7 @@
 % reps: the repetition number to perform for fiiting models
 % 20190411 LBY
 
-function [modelFitRespon_AO, modelFit_AO, modelFit_AO_spatial,modelFitPara_AO, BIC_AO, RSquared_AO, rss_AO, time] = fitAO_1D(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
+function [modelFitRespon_AO, modelFit_AO, modelFit_AO_spatial,modelFitPara_AO, BIC_AO, RSquared_AO, rss_AO, time, AO_peak_A_T] = fitAO_1D(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration,sig)
 
 sprintf('Fitting AO 1D model...')
 
@@ -21,7 +21,7 @@ time = (1: (stimOffBin - stimOnBin +1))' /(stimOffBin - stimOnBin +1)*duration/1
 st_data = [u_azi;time]; % spatial_time data, transform to this form for fitting
 
 % fitting initial parameters
-sig = sqrt(sqrt(2))/6;
+% sig = sqrt(sqrt(2))/6;
 baseline = spon;
 acc_max = aMax/1000; % transfer unit from ms to s
 acc_min = aMin/1000; % transfer unit from ms to s
@@ -103,6 +103,7 @@ param = [A, ...  %1
     n, ...       %4
     a_0, ...     %5
     DC,...       %7
+    sig,...
     ];
 
 
@@ -115,6 +116,7 @@ LB = [0.25*A, ...`  %1  A amplitude
     0.001, ...      %4  n
     0, ...          %5  a_0
     0,...       %6
+    sig,...
     ];
     
 UB = [4*A, ...      %1  A
@@ -123,6 +125,7 @@ UB = [4*A, ...      %1  A
     10, ...         %4  n
     360, ...       %5  a_0
     1,...       %6
+    sig,...
     ];
 
 rand_rss = zeros(reps+1,1);
@@ -170,6 +173,11 @@ modelFitRespon_AO = respon;
 
 modelFit_AO = [];
 modelFit_AO_spatial = [];
+AO_peak_A_T = [];
+
+% [~,peak_A_dir] = max(modelFit_VA_spatial.A);
+% [~,peak_A_T_bin] = max(modelFit_VA.A(peak_A_dir,:));
+% AO_peak_A_T = time(peak_A_T_bin);
 %% analysis
 data_num = 26*nBins;
 para_num = 6;

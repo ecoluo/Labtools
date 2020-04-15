@@ -11,13 +11,13 @@ t = st_data(9:end);
 
 % velocity model
 % time profile
-vel_time = vel_func(a(3), t);
+vel_time = vel_func_1D([a(3) a(end)], t);
 % spatial profiles
 azi_v = cos_tuning_1D(a(4:6), u_azi);
 
 % acceleration model
 %time profile
-acc_time = acc_func(a(3), t);
+acc_time = acc_func_1D([a(3) a(end)], t);
 %spatial profiles
 azi_a = cos_tuning_1D(a(7:9), u_azi);
 

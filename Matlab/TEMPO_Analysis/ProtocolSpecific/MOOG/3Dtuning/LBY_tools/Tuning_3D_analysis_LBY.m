@@ -585,7 +585,7 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 model_catg = [];
 %% 3D models nalysis
 
-% % %{
+% %{
 % model_catg = 'Sync model'; % tau is the same
 model_catg = 'Out-sync model'; % each component has its own tau
 

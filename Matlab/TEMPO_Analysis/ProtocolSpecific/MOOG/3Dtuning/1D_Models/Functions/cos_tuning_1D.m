@@ -1,4 +1,4 @@
-function r1 = cos_tuning(param, coord)
+function r1 = cos_tuning_1D(param, coord)
 
         u_azi = coord(1:8);
     

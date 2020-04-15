@@ -11,7 +11,7 @@ t = st_data(9:end);
 
 
 %time profile
-vel_time = vel_func(a(3), t);
+vel_time = vel_func_1D([a(3) a(end)], t);
 
 %spatial profiles
 azi = cos_tuning_1D(a(4:6), u_azi);
