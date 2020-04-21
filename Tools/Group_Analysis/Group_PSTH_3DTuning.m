@@ -10,46 +10,57 @@ header = XlsData.header;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BATCH address
 mat_address = {
-    % 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6_m5','PSTH_T','3DT';
+%%%%% PCC-LBY    
+% 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6_m5','PSTH_T','3DT';
     % 'Z:\Data\TEMPO\BATCH\20181008_3DTuning_PCC_m6_m5','PSTH_R','3DR';
     
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_noModel_PCC_m6_m5','PSTH_T','3DT';
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_noModel_PCC_m6_m5','PSTH_R','3DR';
     %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_noModel_PCC_m6_m5','PSTH_T','3DT_dark';
     %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_noModel_PCC_m6_m5','PSTH_R','3DR_dark';
-    %         'Z:\Data\TEMPO\BATCH\20191213_3DModel_noModel_RSC_m6','PSTH_T','3DT';
-    %         'Z:\Data\TEMPO\BATCH\20191213_3DModel_noModel_RSC_m6','PSTH_R','3DR';
-    
-    %     'Z:\Data\TEMPO\BATCH\20181008_3D&1DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
-    %     'Z:\Data\TEMPO\BATCH\20181008_3D&1DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
     
     %                 'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT';
     %                 'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR';
     %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_T','3DT_dark';
     %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Sync_PCC_m6_m5','PSTH_R','3DR_dark';
-    %         'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_RSC_m6','PSTH_T','3DT';
-    %             'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_RSC_m6','PSTH_R','3DR';
-    %     'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_T','3DT';
-    %     'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_R','3DR';
-    %         'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_T','3DT';
-    %             'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_R','3DR';
-    %     'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_All_m6_m5_nocriteria','PSTH_T','3DT';
-    %     'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_All_m6_m5_nocriteria','PSTH_R','3DR';
-    'Z:\Data\TEMPO\BATCH\20200101_3DModel_Out-Sync_All_m6_m5_nocriteria','PSTH_T','3DT';
-    'Z:\Data\TEMPO\BATCH\20200101_3DModel_Out-Sync_All_m6_m5_nocriteria','PSTH_R','3DR';
     
-    %
-    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT';
-    %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR';
+        'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT';
+        'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR';
     %         'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_T','3DT_dark';
     %     'Z:\Data\TEMPO\BATCH\20181008_3DModel_Out-Sync_PCC_m6_m5','PSTH_R','3DR_dark';
     
-    %--------------------MSTd
-    %             'Z:\Data\TEMPO\BATCH\MSTd_vis_sync','PSTH_T','3DT';
+%%%%% PCC-TQY
+     %         'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_T','3DT';
+    %             'Z:\Data\TEMPO\BATCH\20191220_3DModel_Sync_PCC_QY_m6','PSTH_R','3DR';
+
+%%%%% PCC-All
     
+    
+%%%%% RSC
+%         'Z:\Data\TEMPO\BATCH\20191213_3DModel_noModel_RSC_m6','PSTH_T','3DT';
+    %         'Z:\Data\TEMPO\BATCH\20191213_3DModel_noModel_RSC_m6','PSTH_R','3DR';
+    
+%             'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_RSC_m6','PSTH_T','3DT';
+%                 'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_RSC_m6','PSTH_R','3DR';
+    
+    
+%%%%% A23
+%         'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_T','3DT';
+%         'Z:\Data\TEMPO\BATCH\20191213_3DModel_Sync_A23_m6','PSTH_R','3DR';
+   
+  
+%%%%% nocriteria
+%         'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_All_m6_m5_nocriteria','PSTH_T','3DT';
+%         'Z:\Data\TEMPO\BATCH\20200101_3DModel_Sync_All_m6_m5_nocriteria','PSTH_R','3DR';
+%     'Z:\Data\TEMPO\BATCH\20200101_3DModel_Out-Sync_All_m6_m5_nocriteria','PSTH_T','3DT';
+%     'Z:\Data\TEMPO\BATCH\20200101_3DModel_Out-Sync_All_m6_m5_nocriteria','PSTH_R','3DR';
+       
+%%%%% MSTd
+    %             'Z:\Data\TEMPO\BATCH\MSTd_vis_sync','PSTH_T','3DT';
     %         'Z:\Data\TEMPO\BATCH\MSTd_vis_out-sync','PSTH_T','3DT';
     };
 
+%%%%%%%%%%%%%%%% masking
 % All
 %{
 mask_all = {
@@ -289,16 +300,16 @@ end
 %% Get some values from group_result(i).mat_raw_xxx our to group_result(i) for easier access
 
 stimType = {'vestibular';'visual'};
-% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
-models = {'VO','AO','VA','VJ','AJ','VAJ'};
+models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+% models = {'VO','AO','VA','VJ','AJ','VAJ'};
 % models = {'VA','VAP','VAJ','PVAJ'};
 % models = {'VO'};
 model_cat = 1; % Sync model
 % model_cat = 2; % Out-sync model
-% nParaModel_3D{1} = [7 7 12 12 12 12 12 17 17 22]; % how many free parameters for each 3D model
-% nParaModel_3D{2} = [7 7 13 13 13 13 13 19 19 25];
-nParaModel_3D{1} = [7 7 12 12 12 17]; % how many free parameters for each 3D model
-nParaModel_3D{2} = [7 7 13 13 13 19];
+nParaModel_3D{1} = [7 7 12 12 12 12 12 17 17 22]; % how many free parameters for each 3D model
+nParaModel_3D{2} = [7 7 13 13 13 13 13 19 19 25];
+% nParaModel_3D{1} = [7 7 12 12 12 17]; % how many free parameters for each 3D model
+% nParaModel_3D{2} = [7 7 13 13 13 19];
 % nParaModel_3D{1} = [6 6 10 10 10 10 10 14 14 18]; % how many free parameters for each 1D model
 % nParaModel_3D{2} = [7 7 13 13 13 13 13 19 19 25];
 % nParaModel_3D{1} = [6 6 10 10 10 10 10 14 14 18];
@@ -456,7 +467,7 @@ for pp = 1:size(mat_address,1)
             %             if responSig{pp}(i,jj) == 1
             for m_inx = 1:length(models)
                 Para_3D{pp}{jj}{i,m_inx} = nan*ones(paraNo);
-                if ~isempty(PSTH3Dmodel{pp}{i,jj})
+                if ~isempty(PSTH3Dmodel{pp}{i,jj}) && isstruct(PSTH3Dmodel{pp}{i,jj}{1})
                     try
                         temp = isfield(PSTH3Dmodel{pp}{i,jj}{1},{['RSquared_',models{m_inx}],['BIC_',models{m_inx}],['modelFitPara_',models{m_inx}],['rss_',models{m_inx}]});
                     catch
@@ -468,11 +479,15 @@ for pp = 1:size(mat_address,1)
                         % R2{pp}{jj}(i,m_inx) = PSTH3Dmodel{pp}{i,jj}{1}.RSquared_VO;
                         
                     end
+                    try
                     if temp(2) == 1
                         % pack BIC values to group_result.BIC.*(* the model)
                         eval(['BIC_3D{',num2str(pp),'}{',num2str(jj),'}(',num2str(i),',',num2str(m_inx),') = PSTH3Dmodel{',num2str(pp),'}{',num2str(i),',',num2str(jj),'}{1}.BIC_', models{m_inx}, ';']);
                         % BIC{pp}{jj}(i,m_inx) = PSTH3Dmodel{pp}{i,jj}{1}.BIC_VO;
                         
+                    end
+                    catch
+                            keyboard;
                     end
                     if temp(3) == 1
                         % pack model fitting parameters to group_result.Para*.(* the model)
@@ -864,8 +879,10 @@ function_handles = {
     'Temporal-spatial 3D models', {
     'model fitting evaluation', @f2p1;
     '    BIC distribution across models', @f2p1p1;
+    '    BIC comparison across models', @f2p1p4;
     '    R_squared distribution across models', @f2p1p2;
     '    VAF comparison across models', @f2p1p3;
+    '    delta VAF vs delta BIC', @f2p1p5;
     'Parameter analysis',@f2p2;
     '    Weight ratio (V/A) distribution, temp sig + r_squared threshold', @f2p2p1;
     '    Weight ratio (V/A) distribution, r_squared thre only', @f2p2p1p1;
@@ -874,6 +891,7 @@ function_handles = {
     '    Weight (V/A) vs. kmeans', @f2p2p11;
     '    Weight (V/A) vs. PCA', @f2p2p12;
     '    Weight distribution (P,V,A,J weight), r_squared thre only', @f2p2p6;
+    '    Weight correlation (V,A weight in different models), r_squared thre only', @f2p2p6p1;
     '    Partial R_squared distribution', @f2p2p4;
     '    Preferred direction & angle difference ( V vs. A)', @f2p2p2;
     '    Preferred direction & angle difference ( V vs. A), r_squared thre only', @f2p2p2p1;
@@ -1306,7 +1324,7 @@ c = 3;
                 DDI_dPeak_early{pp}{jj} = [];
                 DDI_dPeak_late{pp}{jj} = [];
                 
-                for ii = 1:length(dPeakT_late{pp}{jj});
+                for ii = 1:length(dPeakT_late{pp}{jj})
                     dPeakIdx_early{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_early{pp}{jj}(ii));
                     dPeakIdx_late{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_late{pp}{jj}(ii));
                     DDI_dPeak_early{pp}{jj}(ii) = DDI_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(dPeakIdx_early{pp}{jj}(ii));
@@ -2663,6 +2681,177 @@ for pp = 1
         SetFigure(12);
     end
 
+function f2p1p4(debug)      % BIC comparison across models
+        if debug  ; dbstack;   keyboard;      end
+        
+        for pp = 1:size(mat_address,1)
+            for jj = 1:2
+%                 for jj = 1                
+%                 [~, temp] =  min(BIC_3D{pp}{jj},[],2);
+                BIC_plot{pp}{jj} = BIC_3D{pp}{jj}(select_temporalSig{pp}(:,jj),:);
+            end
+        end
+        
+        figure(11);set(figure(11),'name','Comparison of BIC of different models','unit','normalized','pos',[-0.55 -0.7 0.53 1.6]); clf;
+        [~,h_subplot] = tight_subplot(4,3,[0.1 0.02],0.1,0.01);
+        
+        if sum(strcmp(models,'PVAJ')) && sum(strcmp(models,'VAP'))
+            idx1 = find(strcmp(models,'PVAJ'));
+            idx2 = find(strcmp(models,'VAP'));
+            axes(h_subplot(1));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(BIC_plot{pp}{jj}(:,idx2),BIC_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 max(BIC_plot{pp}{jj}(:))],[0 max(BIC_plot{pp}{jj}(:))],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 max(BIC_plot{pp}{jj}(:))],'ylim',[0 max(BIC_plot{pp}{jj}(:))]); 
+            xlabel('BIC, VAP model');ylabel('BIC, PVAJ model');
+        end
+        
+        if sum(strcmp(models,'PVAJ')) && sum(strcmp(models,'VAJ'))
+            idx1 = find(strcmp(models,'PVAJ'));
+            idx2 = find(strcmp(models,'VAJ'));
+            axes(h_subplot(2));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(BIC_plot{pp}{jj}(:,idx2),BIC_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 max(BIC_plot{pp}{jj}(:))],[0 max(BIC_plot{pp}{jj}(:))],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 max(BIC_plot{pp}{jj}(:))],'ylim',[0 max(BIC_plot{pp}{jj}(:))]);  
+            xlabel('BIC, VAJ model');ylabel('BIC, PVAJ model');
+        end
+        
+        if sum(strcmp(models,'VAJ')) && sum(strcmp(models,'AJ'))
+            idx1 = find(strcmp(models,'VAJ'));
+            idx2 = find(strcmp(models,'AJ'));
+            axes(h_subplot(4));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(BIC_plot{pp}{jj}(:,idx2),BIC_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 max(BIC_plot{pp}{jj}(:))],[0 max(BIC_plot{pp}{jj}(:))],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 max(BIC_plot{pp}{jj}(:))],'ylim',[0 max(BIC_plot{pp}{jj}(:))]);  
+            xlabel('BIC, AJ model');ylabel('BIC, VAJ model');
+        end
+        
+        if sum(strcmp(models,'VAJ')) && sum(strcmp(models,'VJ'))
+            idx1 = find(strcmp(models,'VAJ'));
+            idx2 = find(strcmp(models,'VJ'));
+            axes(h_subplot(5));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(BIC_plot{pp}{jj}(:,idx2),BIC_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 max(BIC_plot{pp}{jj}(:))],[0 max(BIC_plot{pp}{jj}(:))],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 max(BIC_plot{pp}{jj}(:))],'ylim',[0 max(BIC_plot{pp}{jj}(:))]);  
+            xlabel('BIC, VJ model');ylabel('BIC, VAJ model');
+        end
+        
+        if sum(strcmp(models,'VAJ')) && sum(strcmp(models,'VA'))
+            idx1 = find(strcmp(models,'VAJ'));
+            idx2 = find(strcmp(models,'VA'));
+            axes(h_subplot(6));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(BIC_plot{pp}{jj}(:,idx2),BIC_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 max(BIC_plot{pp}{jj}(:))],[0 max(BIC_plot{pp}{jj}(:))],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 max(BIC_plot{pp}{jj}(:))],'ylim',[0 max(BIC_plot{pp}{jj}(:))]);  
+            xlabel('BIC, VA model');ylabel('BIC, VAJ model');
+        end
+        
+        if sum(strcmp(models,'VAP')) && sum(strcmp(models,'AP'))
+            idx1 = find(strcmp(models,'VAP'));
+            idx2 = find(strcmp(models,'AP'));
+            axes(h_subplot(7));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(BIC_plot{pp}{jj}(:,idx2),BIC_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 max(BIC_plot{pp}{jj}(:))],[0 max(BIC_plot{pp}{jj}(:))],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 max(BIC_plot{pp}{jj}(:))],'ylim',[0 max(BIC_plot{pp}{jj}(:))]);  
+            xlabel('BIC, AP model');ylabel('BIC, VAP model');
+        end
+        
+        if sum(strcmp(models,'VAP')) && sum(strcmp(models,'VP'))
+            idx1 = find(strcmp(models,'VAP'));
+            idx2 = find(strcmp(models,'VP'));
+            axes(h_subplot(8));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(BIC_plot{pp}{jj}(:,idx2),BIC_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 max(BIC_plot{pp}{jj}(:))],[0 max(BIC_plot{pp}{jj}(:))],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 max(BIC_plot{pp}{jj}(:))],'ylim',[0 max(BIC_plot{pp}{jj}(:))]);  
+            xlabel('BIC, VP model');ylabel('BIC, VAP model');
+        end
+        
+        if sum(strcmp(models,'VAP')) && sum(strcmp(models,'VA'))
+            idx1 = find(strcmp(models,'VAP'));
+            idx2 = find(strcmp(models,'VA'));
+            axes(h_subplot(9));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(BIC_plot{pp}{jj}(:,idx2),BIC_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+           plot([0 max(BIC_plot{pp}{jj}(:))],[0 max(BIC_plot{pp}{jj}(:))],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 max(BIC_plot{pp}{jj}(:))],'ylim',[0 max(BIC_plot{pp}{jj}(:))]); 
+            xlabel('BIC, VA model');ylabel('BIC, VAP model');
+        end
+        
+        if sum(strcmp(models,'VA')) && sum(strcmp(models,'VO'))
+            idx1 = find(strcmp(models,'VA'));
+            idx2 = find(strcmp(models,'VO'));
+            axes(h_subplot(10));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(BIC_plot{pp}{jj}(:,idx2),BIC_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 max(BIC_plot{pp}{jj}(:))],[0 max(BIC_plot{pp}{jj}(:))],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 max(BIC_plot{pp}{jj}(:))],'ylim',[0 max(BIC_plot{pp}{jj}(:))]);  
+            xlabel('BIC, VO model');ylabel('BIC, VA model');
+        end
+        
+        if sum(strcmp(models,'VA')) && sum(strcmp(models,'AO'))
+            idx1 = find(strcmp(models,'VA'));
+            idx2 = find(strcmp(models,'AO'));
+            axes(h_subplot(11));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    plot(BIC_plot{pp}{jj}(:,idx2),BIC_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+            plot([0 max(BIC_plot{pp}{jj}(:))],[0 max(BIC_plot{pp}{jj}(:))],':','color',[0.3 0.3 0.3]);
+            axis on;axis square;
+            set(gca,'xlim',[0 max(BIC_plot{pp}{jj}(:))],'ylim',[0 max(BIC_plot{pp}{jj}(:))]);  
+            xlabel('BIC, AO model');ylabel('BIC, VA model');
+        end
+        
+        
+        suptitle('Comparison of BIC of different models');
+        SetFigure(12);
+        
+        
+end
+
     function f2p1p3(debug)      % VAF comparison (R2) across models
         if debug  ; dbstack;   keyboard;      end
         
@@ -2671,7 +2860,7 @@ for pp = 1
                 
                 temp = 1: length(group_result);
                 R2_plot{pp}{jj} = R2_3D{pp}{jj}(temp(select_temporalSig{pp}(:,jj)),:);
-                %                 RSS_temp{pp}{jj} = RSS{pp}{jj}(temp(select_temporalSig{pp}(:,jj)),:);
+                                RSS_temp{pp}{jj} = RSS_3D{pp}{jj}(temp(select_temporalSig{pp}(:,jj)),:);
                 
             end
         end
@@ -2685,7 +2874,7 @@ for pp = 1
             axes(h_subplot(1));hold on;
             for pp = 1:2
                 for jj = 1:2
-                    %                     [~,seqF{pp}{jj}] = sequentialF(RSS_temp{pp}{jj}(:,idx1),nParaModel{model_cat}(idx1),RSS_temp{pp}{jj}(:,idx2),nParaModel{model_cat}(idx2),26*nBins);
+                                        [~,seqF{pp}{jj}] = sequentialF(RSS_temp{pp}{jj}(:,idx1),nParaModel_3D{model_cat}(idx1),RSS_temp{pp}{jj}(:,idx2),nParaModel_3D{model_cat}(idx2),26*nBins);
                     %                     R2_plot_sig{pp}{jj} = R2_plot{pp}{jj}(seqF{pp}{jj}<0.05,:);
                     %                     plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor','w','markeredgecolor',colors{jj});
                     %                     plot(R2_plot_sig{pp}{jj}(:,idx2),R2_plot_sig{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
@@ -2827,6 +3016,219 @@ for pp = 1
         suptitle('Comparison of VAF(R^2) of different models');
         SetFigure(12);
     end
+
+function f2p1p5(debug)      % delta VAF vs delta BIC
+        if debug  ; dbstack;   keyboard;      end
+        
+        for pp = 1:size(mat_address,1)
+            for jj = 1:2
+%                 for jj = 1                
+%                 [~, temp] =  min(BIC_3D{pp}{jj},[],2);
+                BIC_plot{pp}{jj} = BIC_3D{pp}{jj}(select_temporalSig{pp}(:,jj),:);
+                temp = 1: length(group_result);
+                R2_plot{pp}{jj} = R2_3D{pp}{jj}(temp(select_temporalSig{pp}(:,jj)),:);
+            end
+        end
+        
+        figure(11);set(figure(11),'name','delta VAF vs delta BIC of different models','unit','normalized','pos',[-0.55 -0.7 0.53 1.6]); clf;
+        [~,h_subplot] = tight_subplot(4,3,[0.1 0.02],0.1,0.01);
+        
+        if sum(strcmp(models,'PVAJ')) && sum(strcmp(models,'VAP'))
+            idx1 = find(strcmp(models,'PVAJ'));
+            idx2 = find(strcmp(models,'VAP'));
+            axes(h_subplot(1));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    delta_VAF{pp}{jj} = R2_plot{pp}{jj}(:,idx1) - R2_plot{pp}{jj}(:,idx2);
+%                     delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx1) - BIC_plot{pp}{jj}(:,idx2);
+delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx2) - BIC_plot{pp}{jj}(:,idx1);
+                    plot(delta_VAF{pp}{jj},delta_BIC{pp}{jj},'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+%             plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[max(delta_BIC{pp}{jj}) min(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+            plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+axis on;axis square;
+            set(gca,'xlim',[min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],'ylim',[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})]); 
+            xlabel('\delta VAF, PVAJ - VAP model');ylabel('\delta BIC, VAP - PVAJ model');
+        end
+        
+        if sum(strcmp(models,'PVAJ')) && sum(strcmp(models,'VAJ'))
+            idx1 = find(strcmp(models,'PVAJ'));
+            idx2 = find(strcmp(models,'VAJ'));
+            axes(h_subplot(2));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                   delta_VAF{pp}{jj} = R2_plot{pp}{jj}(:,idx1) - R2_plot{pp}{jj}(:,idx2);
+%                     delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx1) - BIC_plot{pp}{jj}(:,idx2);
+delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx2) - BIC_plot{pp}{jj}(:,idx1);
+                    plot(delta_VAF{pp}{jj},delta_BIC{pp}{jj},'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+%             plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[max(delta_BIC{pp}{jj}) min(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+            plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+axis on;axis square;
+            set(gca,'xlim',[min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],'ylim',[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})]); 
+            xlabel('\delta VAF, PVAJ - VAJ model');ylabel('\delta BIC, VAJ - PVAJ model');
+        end
+        
+        if sum(strcmp(models,'VAJ')) && sum(strcmp(models,'AJ'))
+            idx1 = find(strcmp(models,'VAJ'));
+            idx2 = find(strcmp(models,'AJ'));
+            axes(h_subplot(4));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    delta_VAF{pp}{jj} = R2_plot{pp}{jj}(:,idx1) - R2_plot{pp}{jj}(:,idx2);
+%                     delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx1) - BIC_plot{pp}{jj}(:,idx2);
+delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx2) - BIC_plot{pp}{jj}(:,idx1);
+                    plot(delta_VAF{pp}{jj},delta_BIC{pp}{jj},'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+%             plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[max(delta_BIC{pp}{jj}) min(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+            plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+axis on;axis square;
+            set(gca,'xlim',[min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],'ylim',[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})]); 
+            xlabel('\delta VAF, VAJ - AJ model');ylabel('\delta BIC, AJ - VAJ model');
+        end
+        
+        if sum(strcmp(models,'VAJ')) && sum(strcmp(models,'VJ'))
+            idx1 = find(strcmp(models,'VAJ'));
+            idx2 = find(strcmp(models,'VJ'));
+            axes(h_subplot(5));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    delta_VAF{pp}{jj} = R2_plot{pp}{jj}(:,idx1) - R2_plot{pp}{jj}(:,idx2);
+%                     delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx1) - BIC_plot{pp}{jj}(:,idx2);
+delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx2) - BIC_plot{pp}{jj}(:,idx1);
+                    plot(delta_VAF{pp}{jj},delta_BIC{pp}{jj},'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+%             plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[max(delta_BIC{pp}{jj}) min(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+            plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+axis on;axis square;
+            set(gca,'xlim',[min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],'ylim',[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})]); 
+            xlabel('\delta VAF, VAJ - VJ model');ylabel('\delta BIC, VJ - VAJ model');
+        end
+        
+        if sum(strcmp(models,'VAJ')) && sum(strcmp(models,'VA'))
+            idx1 = find(strcmp(models,'VAJ'));
+            idx2 = find(strcmp(models,'VA'));
+            axes(h_subplot(6));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    delta_VAF{pp}{jj} = R2_plot{pp}{jj}(:,idx1) - R2_plot{pp}{jj}(:,idx2);
+%                     delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx1) - BIC_plot{pp}{jj}(:,idx2);
+delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx2) - BIC_plot{pp}{jj}(:,idx1);
+                    plot(delta_VAF{pp}{jj},delta_BIC{pp}{jj},'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+%             plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[max(delta_BIC{pp}{jj}) min(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+            plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+axis on;axis square;
+            set(gca,'xlim',[min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],'ylim',[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})]); 
+            xlabel('\delta VAF, VAJ - VA model');ylabel('\delta BIC, VA - VAJ model');
+        end
+        
+        if sum(strcmp(models,'VAP')) && sum(strcmp(models,'AP'))
+            idx1 = find(strcmp(models,'VAP'));
+            idx2 = find(strcmp(models,'AP'));
+            axes(h_subplot(7));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    delta_VAF{pp}{jj} = R2_plot{pp}{jj}(:,idx1) - R2_plot{pp}{jj}(:,idx2);
+%                     delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx1) - BIC_plot{pp}{jj}(:,idx2);
+delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx2) - BIC_plot{pp}{jj}(:,idx1);
+                    plot(delta_VAF{pp}{jj},delta_BIC{pp}{jj},'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+%             plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[max(delta_BIC{pp}{jj}) min(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+            plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+axis on;axis square;
+            set(gca,'xlim',[min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],'ylim',[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})]); 
+            xlabel('\delta VAF, VAP - AP model');ylabel('\delta BIC, AP - VAP model');
+        end
+        
+        if sum(strcmp(models,'VAP')) && sum(strcmp(models,'VP'))
+            idx1 = find(strcmp(models,'VAP'));
+            idx2 = find(strcmp(models,'VP'));
+            axes(h_subplot(8));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    delta_VAF{pp}{jj} = R2_plot{pp}{jj}(:,idx1) - R2_plot{pp}{jj}(:,idx2);
+%                     delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx1) - BIC_plot{pp}{jj}(:,idx2);
+delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx2) - BIC_plot{pp}{jj}(:,idx1);
+                    plot(delta_VAF{pp}{jj},delta_BIC{pp}{jj},'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+%             plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[max(delta_BIC{pp}{jj}) min(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+            plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+axis on;axis square;
+            set(gca,'xlim',[min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],'ylim',[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})]); 
+            xlabel('\delta VAF, VAP - VP model');ylabel('\delta BIC, VP - VAP model');
+        end
+        
+        if sum(strcmp(models,'VAP')) && sum(strcmp(models,'VA'))
+            idx1 = find(strcmp(models,'VAP'));
+            idx2 = find(strcmp(models,'VA'));
+            axes(h_subplot(9));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    delta_VAF{pp}{jj} = R2_plot{pp}{jj}(:,idx1) - R2_plot{pp}{jj}(:,idx2);
+%                     delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx1) - BIC_plot{pp}{jj}(:,idx2);
+delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx2) - BIC_plot{pp}{jj}(:,idx1);
+                    plot(delta_VAF{pp}{jj},delta_BIC{pp}{jj},'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+%             plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[max(delta_BIC{pp}{jj}) min(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+            plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+axis on;axis square;
+            set(gca,'xlim',[min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],'ylim',[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})]); 
+            xlabel('\delta VAF, VAP - VA model');ylabel('\delta BIC, VA - VAP model');
+        end
+        
+        if sum(strcmp(models,'VA')) && sum(strcmp(models,'VO'))
+            idx1 = find(strcmp(models,'VA'));
+            idx2 = find(strcmp(models,'VO'));
+            axes(h_subplot(10));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                    delta_VAF{pp}{jj} = R2_plot{pp}{jj}(:,idx1) - R2_plot{pp}{jj}(:,idx2);
+%                     delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx1) - BIC_plot{pp}{jj}(:,idx2);
+delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx2) - BIC_plot{pp}{jj}(:,idx1);
+                    plot(delta_VAF{pp}{jj},delta_BIC{pp}{jj},'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+%             plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[max(delta_BIC{pp}{jj}) min(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+            plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+axis on;axis square;
+            set(gca,'xlim',[min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],'ylim',[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})]); 
+            xlabel('\delta VAF, VA - VO model');ylabel('\delta BIC, VO - VA model');
+        end
+        
+        if sum(strcmp(models,'VA')) && sum(strcmp(models,'AO'))
+            idx1 = find(strcmp(models,'VA'));
+            idx2 = find(strcmp(models,'AO'));
+            axes(h_subplot(11));hold on;
+            for pp = 1:2
+                for jj = 1:2
+                   delta_VAF{pp}{jj} = R2_plot{pp}{jj}(:,idx1) - R2_plot{pp}{jj}(:,idx2);
+%                     delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx1) - BIC_plot{pp}{jj}(:,idx2);
+delta_BIC{pp}{jj} = BIC_plot{pp}{jj}(:,idx2) - BIC_plot{pp}{jj}(:,idx1);
+                    plot(delta_VAF{pp}{jj},delta_BIC{pp}{jj},'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');
+                end
+            end
+%             plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[max(delta_BIC{pp}{jj}) min(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+            plot([min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})],':','color',[0.3 0.3 0.3]);
+axis on;axis square;
+            set(gca,'xlim',[min(delta_VAF{pp}{jj}(:)) max(delta_VAF{pp}{jj}(:))],'ylim',[min(delta_BIC{pp}{jj}) max(delta_BIC{pp}{jj})]); 
+            xlabel('\delta VAF, VA - AO model');ylabel('\delta BIC, AO - VA model');
+        end
+        
+        
+        suptitle('delta VAF vs delta BIC of different models');
+        SetFigure(12);
+        
+        
+end
 
     function f2p2(debug)      % Parameter analysis
         if debug  ; dbstack;   keyboard;      end
@@ -3203,11 +3605,25 @@ for pp = 1
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VA_azi{pp}{jj},preDir_A_VA_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_A_VA_azi{pp}{jj} = polyfit(preDir_V_VA_azi{pp}{jj}, preDir_A_VA_azi{pp}{jj}, 1);
+plot(preDir_V_VA_azi{pp}{jj}, polyval(preDir_V_A_VA_azi{pp}{jj}, preDir_V_VA_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_A_VA_azi{pp}{jj},p_V_A_VA_azi{pp}{jj}] =corrcoef(preDir_V_VA_azi{pp}{jj},preDir_A_VA_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_A_VA_azi{pp}{jj}(1,2),p_V_A_VA_azi{pp}{jj}(1,2)));
+                    
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, V');ylabel('Preferred Azi, A');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VA_ele{pp}{jj},preDir_A_VA_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_A_VA_ele{pp}{jj} = polyfit(preDir_V_VA_ele{pp}{jj}, preDir_A_VA_ele{pp}{jj}, 1);
+plot(preDir_V_VA_ele{pp}{jj}, polyval(preDir_V_A_VA_ele{pp}{jj}, preDir_V_VA_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_A_VA_ele{pp}{jj},p_V_A_VA_ele{pp}{jj}] =corrcoef(preDir_V_VA_ele{pp}{jj},preDir_A_VA_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_A_VA_ele{pp}{jj}(1,2),p_V_A_VA_ele{pp}{jj}(1,2)));
+                    
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, V');ylabel('Preferred Ele, A');
                 end
@@ -3492,11 +3908,25 @@ for pp = 1
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VA_azi{pp}{jj},preDir_A_VA_azi{pp}{jj},'o','markeredgecolor','k');
-                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    
+                    % linear regression
+                    preDir_V_A_VA_azi{pp}{jj} = polyfit(preDir_V_VA_azi{pp}{jj}, preDir_A_VA_azi{pp}{jj}, 1);
+plot(preDir_V_VA_azi{pp}{jj}, polyval(preDir_V_A_VA_azi{pp}{jj}, preDir_V_VA_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_A_VA_azi{pp}{jj},p_V_A_VA_azi{pp}{jj}] =corrcoef(preDir_V_VA_azi{pp}{jj},preDir_A_VA_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_A_VA_azi{pp}{jj}(1,2),p_V_A_VA_azi{pp}{jj}(1,2)));
+                    
+axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, V');ylabel('Preferred Azi, A');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VA_ele{pp}{jj},preDir_A_VA_ele{pp}{jj},'o','markeredgecolor','k');
+                  
+                    % linear regression
+                    preDir_V_A_VA_ele{pp}{jj} = polyfit(preDir_V_VA_ele{pp}{jj}, preDir_A_VA_ele{pp}{jj}, 1);
+plot(preDir_V_VA_ele{pp}{jj}, polyval(preDir_V_A_VA_ele{pp}{jj}, preDir_V_VA_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_A_VA_ele{pp}{jj},p_V_A_VA_ele{pp}{jj}] =corrcoef(preDir_V_VA_ele{pp}{jj},preDir_A_VA_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_A_VA_ele{pp}{jj}(1,2),p_V_A_VA_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, V');ylabel('Preferred Ele, A');
                 end
@@ -3765,26 +4195,40 @@ for pp = 1
             [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
             for pp = 1:2
                 for jj = 1:2
-                    preDir_V_PVAJ_Jzi{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
+                    preDir_V_PVAJ_azi{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
                     preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),2);
-                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
+                    preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),2);
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'PVAJ')));
-                    preDir_V_PVAJ_Jzi{pp}{jj} = preDir_V_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_V_PVAJ_azi{pp}{jj} = preDir_V_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
-                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
-                    plot(preDir_V_PVAJ_Jzi{pp}{jj},preDir_J_PVAJ_Jzi{pp}{jj},'o','markeredgecolor','k');
+                    plot(preDir_V_PVAJ_azi{pp}{jj},preDir_J_PVAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_J_PVAJ_azi{pp}{jj} = polyfit(preDir_V_PVAJ_azi{pp}{jj}, preDir_J_PVAJ_azi{pp}{jj}, 1);
+plot(preDir_V_PVAJ_azi{pp}{jj}, polyval(preDir_V_J_PVAJ_azi{pp}{jj}, preDir_V_PVAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_J_PVAJ_azi{pp}{jj},p_V_J_PVAJ_azi{pp}{jj}] =corrcoef(preDir_V_PVAJ_azi{pp}{jj},preDir_J_PVAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_J_PVAJ_azi{pp}{jj}(1,2),p_V_J_PVAJ_azi{pp}{jj}(1,2)));
+                    
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, V');ylabel('Preferred Azi, J');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_J_PVAJ_ele{pp}{jj} = polyfit(preDir_V_PVAJ_ele{pp}{jj}, preDir_J_PVAJ_ele{pp}{jj}, 1);
+plot(preDir_V_PVAJ_ele{pp}{jj}, polyval(preDir_V_J_PVAJ_ele{pp}{jj}, preDir_V_PVAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_J_PVAJ_ele{pp}{jj},p_V_J_PVAJ_ele{pp}{jj}] =corrcoef(preDir_V_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_J_PVAJ_ele{pp}{jj}(1,2),p_V_J_PVAJ_ele{pp}{jj}(1,2)));
+                    
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, V');ylabel('Preferred Ele, J');
                 end
@@ -3835,27 +4279,41 @@ for pp = 1
             [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
             for pp = 1:2
                 for jj = 1:2
-                    preDir_A_PVAJ_Jzi{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
+                    preDir_A_PVAJ_azi{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
                     preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),2);
-                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
+                    preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),2);
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'PVAJ')));
-                    preDir_A_PVAJ_Jzi{pp}{jj} = preDir_A_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_A_PVAJ_azi{pp}{jj} = preDir_A_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
-                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
-                    plot(preDir_A_PVAJ_Jzi{pp}{jj},preDir_J_PVAJ_Jzi{pp}{jj},'o','markeredgecolor','k');
-                    axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
+                    plot(preDir_A_PVAJ_azi{pp}{jj},preDir_J_PVAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_J_PVAJ_azi{pp}{jj} = polyfit(preDir_A_PVAJ_azi{pp}{jj}, preDir_J_PVAJ_azi{pp}{jj}, 1);
+plot(preDir_A_PVAJ_azi{pp}{jj}, polyval(preDir_A_J_PVAJ_azi{pp}{jj}, preDir_A_PVAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_J_PVAJ_azi{pp}{jj},p_A_J_PVAJ_azi{pp}{jj}] =corrcoef(preDir_A_PVAJ_azi{pp}{jj},preDir_J_PVAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_J_PVAJ_azi{pp}{jj}(1,2),p_A_J_PVAJ_azi{pp}{jj}(1,2)));
+
+axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, A');ylabel('Preferred Azi, J');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
-                    axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
+                    
+                    % linear regression
+                    preDir_A_J_PVAJ_ele{pp}{jj} = polyfit(preDir_A_PVAJ_ele{pp}{jj}, preDir_J_PVAJ_ele{pp}{jj}, 1);
+plot(preDir_A_PVAJ_ele{pp}{jj}, polyval(preDir_A_J_PVAJ_ele{pp}{jj}, preDir_A_PVAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_J_PVAJ_ele{pp}{jj},p_A_J_PVAJ_ele{pp}{jj}] =corrcoef(preDir_A_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_J_PVAJ_ele{pp}{jj}(1,2),p_A_J_PVAJ_ele{pp}{jj}(1,2)));
+
+axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, A');ylabel('Preferred Ele, J');
                 end
             end
@@ -3920,11 +4378,25 @@ for pp = 1
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VAJ_azi{pp}{jj},preDir_J_VAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_J_VAJ_azi{pp}{jj} = polyfit(preDir_V_VAJ_azi{pp}{jj}, preDir_J_VAJ_azi{pp}{jj}, 1);
+plot(preDir_V_VAJ_azi{pp}{jj}, polyval(preDir_V_J_VAJ_azi{pp}{jj}, preDir_V_VAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_J_VAJ_azi{pp}{jj},p_V_J_VAJ_azi{pp}{jj}] =corrcoef(preDir_V_VAJ_azi{pp}{jj},preDir_J_VAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_J_VAJ_azi{pp}{jj}(1,2),p_V_J_VAJ_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, V');ylabel('Preferred Azi, J');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VAJ_ele{pp}{jj},preDir_J_VAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                   
+                    % linear regression
+                    preDir_V_J_VAJ_ele{pp}{jj} = polyfit(preDir_V_VAJ_ele{pp}{jj}, preDir_J_VAJ_ele{pp}{jj}, 1);
+plot(preDir_V_VAJ_ele{pp}{jj}, polyval(preDir_V_J_VAJ_ele{pp}{jj}, preDir_V_VAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_J_VAJ_ele{pp}{jj},p_V_J_VAJ_ele{pp}{jj}] =corrcoef(preDir_V_VAJ_ele{pp}{jj},preDir_J_VAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_J_VAJ_ele{pp}{jj}(1,2),p_V_J_VAJ_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, V');ylabel('Preferred Ele, J');
                 end
@@ -3990,11 +4462,25 @@ for pp = 1
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_VAJ_azi{pp}{jj},preDir_J_VAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_J_VAJ_azi{pp}{jj} = polyfit(preDir_A_VAJ_azi{pp}{jj}, preDir_J_VAJ_azi{pp}{jj}, 1);
+plot(preDir_A_VAJ_azi{pp}{jj}, polyval(preDir_A_J_VAJ_azi{pp}{jj}, preDir_A_VAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_J_VAJ_azi{pp}{jj},p_A_J_VAJ_azi{pp}{jj}] =corrcoef(preDir_A_VAJ_azi{pp}{jj},preDir_J_VAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_J_VAJ_azi{pp}{jj}(1,2),p_A_J_VAJ_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, A');ylabel('Preferred Azi, J');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_VAJ_ele{pp}{jj},preDir_J_VAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_J_VAJ_ele{pp}{jj} = polyfit(preDir_A_VAJ_ele{pp}{jj}, preDir_J_VAJ_ele{pp}{jj}, 1);
+plot(preDir_A_VAJ_ele{pp}{jj}, polyval(preDir_A_J_VAJ_ele{pp}{jj}, preDir_A_VAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_J_VAJ_ele{pp}{jj},p_A_J_VAJ_ele{pp}{jj}] =corrcoef(preDir_A_VAJ_ele{pp}{jj},preDir_J_VAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_J_VAJ_ele{pp}{jj}(1,2),p_A_J_VAJ_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, A');ylabel('Preferred Ele, J');
                 end
@@ -4052,26 +4538,40 @@ for pp = 1
             [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
             for pp = 1:2
                 for jj = 1:2
-                    preDir_V_PVAJ_Jzi{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_V_PVAJ_azi{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,1);
                     preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,2);
-                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(:,1);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(:,2);
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
-                    preDir_V_PVAJ_Jzi{pp}{jj} = preDir_V_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_V_PVAJ_azi{pp}{jj} = preDir_V_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
-                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
-                    plot(preDir_V_PVAJ_Jzi{pp}{jj},preDir_J_PVAJ_Jzi{pp}{jj},'o','markeredgecolor','k');
+                    plot(preDir_V_PVAJ_azi{pp}{jj},preDir_J_PVAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_J_PVAJ_azi{pp}{jj} = polyfit(preDir_V_PVAJ_azi{pp}{jj}, preDir_J_PVAJ_azi{pp}{jj}, 1);
+plot(preDir_V_PVAJ_azi{pp}{jj}, polyval(preDir_V_J_PVAJ_azi{pp}{jj}, preDir_V_PVAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_J_PVAJ_azi{pp}{jj},p_V_J_PVAJ_azi{pp}{jj}] =corrcoef(preDir_V_PVAJ_azi{pp}{jj},preDir_J_PVAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_J_PVAJ_azi{pp}{jj}(1,2),p_V_J_PVAJ_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, V');ylabel('Preferred Azi, J');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_J_PVAJ_ele{pp}{jj} = polyfit(preDir_V_PVAJ_ele{pp}{jj}, preDir_J_PVAJ_ele{pp}{jj}, 1);
+plot(preDir_V_PVAJ_ele{pp}{jj}, polyval(preDir_V_J_PVAJ_ele{pp}{jj}, preDir_V_PVAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_J_PVAJ_ele{pp}{jj},p_V_J_PVAJ_ele{pp}{jj}] =corrcoef(preDir_V_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_J_PVAJ_ele{pp}{jj}(1,2),p_V_J_PVAJ_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, V');ylabel('Preferred Ele, J');
                 end
@@ -4122,26 +4622,40 @@ for pp = 1
             [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
             for pp = 1:2
                 for jj = 1:2
-                    preDir_A_PVAJ_Jzi{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_A_PVAJ_azi{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,1);
                     preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,2);
-                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(:,1);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(:,2);
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
-                    preDir_A_PVAJ_Jzi{pp}{jj} = preDir_A_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_A_PVAJ_azi{pp}{jj} = preDir_A_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
-                    preDir_J_PVAJ_Jzi{pp}{jj} = preDir_J_PVAJ_Jzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
-                    plot(preDir_A_PVAJ_Jzi{pp}{jj},preDir_J_PVAJ_Jzi{pp}{jj},'o','markeredgecolor','k');
+                    plot(preDir_A_PVAJ_azi{pp}{jj},preDir_J_PVAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_J_PVAJ_azi{pp}{jj} = polyfit(preDir_A_PVAJ_azi{pp}{jj}, preDir_J_PVAJ_azi{pp}{jj}, 1);
+plot(preDir_A_PVAJ_azi{pp}{jj}, polyval(preDir_A_J_PVAJ_azi{pp}{jj}, preDir_A_PVAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_J_PVAJ_azi{pp}{jj},p_A_J_PVAJ_azi{pp}{jj}] =corrcoef(preDir_A_PVAJ_azi{pp}{jj},preDir_J_PVAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_J_PVAJ_azi{pp}{jj}(1,2),p_A_J_PVAJ_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, A');ylabel('Preferred Azi, J');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_J_PVAJ_ele{pp}{jj} = polyfit(preDir_A_PVAJ_ele{pp}{jj}, preDir_J_PVAJ_ele{pp}{jj}, 1);
+plot(preDir_A_PVAJ_ele{pp}{jj}, polyval(preDir_A_J_PVAJ_ele{pp}{jj}, preDir_A_PVAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_J_PVAJ_ele{pp}{jj},p_A_J_PVAJ_ele{pp}{jj}] =corrcoef(preDir_A_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_J_PVAJ_ele{pp}{jj}(1,2),p_A_J_PVAJ_ele{pp}{jj}(1,2)));
+                    
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, A');ylabel('Preferred Ele, J');
                 end
@@ -4207,11 +4721,25 @@ for pp = 1
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VAJ_azi{pp}{jj},preDir_J_VAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_J_VAJ_azi{pp}{jj} = polyfit(preDir_V_VAJ_azi{pp}{jj}, preDir_J_VAJ_azi{pp}{jj}, 1);
+plot(preDir_V_VAJ_azi{pp}{jj}, polyval(preDir_V_J_VAJ_azi{pp}{jj}, preDir_V_VAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_J_VAJ_azi{pp}{jj},p_V_J_VAJ_azi{pp}{jj}] =corrcoef(preDir_V_VAJ_azi{pp}{jj},preDir_J_VAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_J_VAJ_azi{pp}{jj}(1,2),p_V_J_VAJ_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, V');ylabel('Preferred Azi, J');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VAJ_ele{pp}{jj},preDir_J_VAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_J_VAJ_ele{pp}{jj} = polyfit(preDir_V_VAJ_ele{pp}{jj}, preDir_J_VAJ_ele{pp}{jj}, 1);
+plot(preDir_V_VAJ_ele{pp}{jj}, polyval(preDir_V_J_VAJ_ele{pp}{jj}, preDir_V_VAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_J_VAJ_ele{pp}{jj},p_V_J_VAJ_ele{pp}{jj}] =corrcoef(preDir_V_VAJ_ele{pp}{jj},preDir_J_VAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_J_VAJ_ele{pp}{jj}(1,2),p_V_J_VAJ_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, V');ylabel('Preferred Ele, J');
                 end
@@ -4277,11 +4805,25 @@ for pp = 1
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_VAJ_azi{pp}{jj},preDir_J_VAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_J_VAJ_azi{pp}{jj} = polyfit(preDir_A_VAJ_azi{pp}{jj}, preDir_J_VAJ_azi{pp}{jj}, 1);
+plot(preDir_A_VAJ_azi{pp}{jj}, polyval(preDir_A_J_VAJ_azi{pp}{jj}, preDir_A_VAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_J_VAJ_azi{pp}{jj},p_A_J_VAJ_azi{pp}{jj}] =corrcoef(preDir_A_VAJ_azi{pp}{jj},preDir_J_VAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_J_VAJ_azi{pp}{jj}(1,2),p_A_J_VAJ_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, A');ylabel('Preferred Azi, J');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_VAJ_ele{pp}{jj},preDir_J_VAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_J_VAJ_ele{pp}{jj} = polyfit(preDir_A_VAJ_ele{pp}{jj}, preDir_J_VAJ_ele{pp}{jj}, 1);
+plot(preDir_A_VAJ_ele{pp}{jj}, polyval(preDir_A_J_VAJ_ele{pp}{jj}, preDir_A_VAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_J_VAJ_ele{pp}{jj},p_A_J_VAJ_ele{pp}{jj}] =corrcoef(preDir_A_VAJ_ele{pp}{jj},preDir_J_VAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_J_VAJ_ele{pp}{jj}(1,2),p_A_J_VAJ_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, A');ylabel('Preferred Ele, J');
                 end
@@ -4339,26 +4881,40 @@ for pp = 1
             [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
             for pp = 1:2
                 for jj = 1:2
-                    preDir_V_PVAJ_Pzi{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
+                    preDir_V_PVAJ_azi{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
                     preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),2);
-                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
+                    preDir_P_PVAJ_azi{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
                     preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),2);
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'PVAJ')));
-                    preDir_V_PVAJ_Pzi{pp}{jj} = preDir_V_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_V_PVAJ_azi{pp}{jj} = preDir_V_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
-                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_P_PVAJ_azi{pp}{jj} = preDir_P_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
-                    plot(preDir_V_PVAJ_Pzi{pp}{jj},preDir_P_PVAJ_Pzi{pp}{jj},'o','markeredgecolor','k');
+                    plot(preDir_V_PVAJ_azi{pp}{jj},preDir_P_PVAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                   
+                    % linear regression
+                    preDir_V_P_PVAJ_azi{pp}{jj} = polyfit(preDir_V_PVAJ_azi{pp}{jj}, preDir_P_PVAJ_azi{pp}{jj}, 1);
+plot(preDir_V_PVAJ_azi{pp}{jj}, polyval(preDir_V_P_PVAJ_azi{pp}{jj}, preDir_V_PVAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_P_PVAJ_azi{pp}{jj},p_V_P_PVAJ_azi{pp}{jj}] =corrcoef(preDir_V_PVAJ_azi{pp}{jj},preDir_P_PVAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_P_PVAJ_azi{pp}{jj}(1,2),p_V_P_PVAJ_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, V');ylabel('Preferred Azi, P');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_PVAJ_ele{pp}{jj},preDir_P_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_P_PVAJ_ele{pp}{jj} = polyfit(preDir_V_PVAJ_ele{pp}{jj}, preDir_P_PVAJ_ele{pp}{jj}, 1);
+plot(preDir_V_PVAJ_ele{pp}{jj}, polyval(preDir_V_P_PVAJ_ele{pp}{jj}, preDir_V_PVAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_P_PVAJ_ele{pp}{jj},p_V_P_PVAJ_ele{pp}{jj}] =corrcoef(preDir_V_PVAJ_ele{pp}{jj},preDir_P_PVAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_P_PVAJ_ele{pp}{jj}(1,2),p_V_P_PVAJ_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, V');ylabel('Preferred Ele, P');
                 end
@@ -4409,26 +4965,40 @@ for pp = 1
             [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
             for pp = 1:2
                 for jj = 1:2
-                    preDir_A_PVAJ_Pzi{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
+                    preDir_A_PVAJ_azi{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
                     preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),2);
-                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
+                    preDir_P_PVAJ_azi{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
                     preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),2);
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'PVAJ')));
-                    preDir_A_PVAJ_Pzi{pp}{jj} = preDir_A_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_A_PVAJ_azi{pp}{jj} = preDir_A_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
-                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_P_PVAJ_azi{pp}{jj} = preDir_P_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
-                    plot(preDir_A_PVAJ_Pzi{pp}{jj},preDir_P_PVAJ_Pzi{pp}{jj},'o','markeredgecolor','k');
+                    plot(preDir_A_PVAJ_azi{pp}{jj},preDir_P_PVAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_P_PVAJ_azi{pp}{jj} = polyfit(preDir_A_PVAJ_azi{pp}{jj}, preDir_P_PVAJ_azi{pp}{jj}, 1);
+plot(preDir_A_PVAJ_azi{pp}{jj}, polyval(preDir_A_P_PVAJ_azi{pp}{jj}, preDir_A_PVAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_P_PVAJ_azi{pp}{jj},p_A_P_PVAJ_azi{pp}{jj}] =corrcoef(preDir_A_PVAJ_azi{pp}{jj},preDir_P_PVAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_P_PVAJ_azi{pp}{jj}(1,2),p_A_P_PVAJ_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, A');ylabel('Preferred Azi, P');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_PVAJ_ele{pp}{jj},preDir_P_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_P_PVAJ_ele{pp}{jj} = polyfit(preDir_A_PVAJ_ele{pp}{jj}, preDir_P_PVAJ_ele{pp}{jj}, 1);
+plot(preDir_A_PVAJ_ele{pp}{jj}, polyval(preDir_A_P_PVAJ_ele{pp}{jj}, preDir_A_PVAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_P_PVAJ_ele{pp}{jj},p_A_P_PVAJ_ele{pp}{jj}] =corrcoef(preDir_A_PVAJ_ele{pp}{jj},preDir_P_PVAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_P_PVAJ_ele{pp}{jj}(1,2),p_A_P_PVAJ_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, A');ylabel('Preferred Ele, P');
                 end
@@ -4494,11 +5064,25 @@ for pp = 1
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VAP_azi{pp}{jj},preDir_P_VAP_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_P_VAP_azi{pp}{jj} = polyfit(preDir_V_VAP_azi{pp}{jj}, preDir_P_VAP_azi{pp}{jj}, 1);
+plot(preDir_V_VAP_azi{pp}{jj}, polyval(preDir_V_P_VAP_azi{pp}{jj}, preDir_V_VAP_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_P_VAP_azi{pp}{jj},p_V_P_VAP_azi{pp}{jj}] =corrcoef(preDir_V_VAP_azi{pp}{jj},preDir_P_VAP_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_P_VAP_azi{pp}{jj}(1,2),p_V_P_VAP_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, V');ylabel('Preferred Azi, P');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VAP_ele{pp}{jj},preDir_P_VAP_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_P_VAP_ele{pp}{jj} = polyfit(preDir_V_VAP_ele{pp}{jj}, preDir_P_VAP_ele{pp}{jj}, 1);
+plot(preDir_V_VAP_ele{pp}{jj}, polyval(preDir_V_P_VAP_ele{pp}{jj}, preDir_V_VAP_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_P_VAP_ele{pp}{jj},p_V_P_VAP_ele{pp}{jj}] =corrcoef(preDir_V_VAP_ele{pp}{jj},preDir_P_VAP_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_P_VAP_ele{pp}{jj}(1,2),p_V_P_VAP_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, V');ylabel('Preferred Ele, P');
                 end
@@ -4564,11 +5148,25 @@ for pp = 1
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_VAP_azi{pp}{jj},preDir_P_VAP_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_P_VAP_azi{pp}{jj} = polyfit(preDir_A_VAP_azi{pp}{jj}, preDir_P_VAP_azi{pp}{jj}, 1);
+plot(preDir_A_VAP_azi{pp}{jj}, polyval(preDir_A_P_VAP_azi{pp}{jj}, preDir_A_VAP_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_P_VAP_azi{pp}{jj},p_A_P_VAP_azi{pp}{jj}] =corrcoef(preDir_A_VAP_azi{pp}{jj},preDir_P_VAP_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_P_VAP_azi{pp}{jj}(1,2),p_A_P_VAP_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, A');ylabel('Preferred Azi, P');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_VAP_ele{pp}{jj},preDir_P_VAP_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_P_VAP_ele{pp}{jj} = polyfit(preDir_A_VAP_ele{pp}{jj}, preDir_P_VAP_ele{pp}{jj}, 1);
+plot(preDir_A_VAP_ele{pp}{jj}, polyval(preDir_A_P_VAP_ele{pp}{jj}, preDir_A_VAP_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_P_VAP_ele{pp}{jj},p_A_P_VAP_ele{pp}{jj}] =corrcoef(preDir_A_VAP_ele{pp}{jj},preDir_P_VAP_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_P_VAP_ele{pp}{jj}(1,2),p_A_P_VAP_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, A');ylabel('Preferred Ele, P');
                 end
@@ -4627,26 +5225,40 @@ for pp = 1
             [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
             for pp = 1:2
                 for jj = 1:2
-                    preDir_V_PVAJ_Pzi{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_V_PVAJ_azi{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,1);
                     preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_3D{pp}{jj}(:,2);
-                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_P_PVAJ_azi{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(:,1);
                     preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(:,2);
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
-                    preDir_V_PVAJ_Pzi{pp}{jj} = preDir_V_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_V_PVAJ_azi{pp}{jj} = preDir_V_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_V_PVAJ_ele{pp}{jj} = preDir_V_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
-                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_P_PVAJ_azi{pp}{jj} = preDir_P_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
-                    plot(preDir_V_PVAJ_Pzi{pp}{jj},preDir_P_PVAJ_Pzi{pp}{jj},'o','markeredgecolor','k');
+                    plot(preDir_V_PVAJ_azi{pp}{jj},preDir_P_PVAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_P_PVAJ_azi{pp}{jj} = polyfit(preDir_V_PVAJ_azi{pp}{jj}, preDir_P_PVAJ_azi{pp}{jj}, 1);
+plot(preDir_V_PVAJ_azi{pp}{jj}, polyval(preDir_V_P_PVAJ_azi{pp}{jj}, preDir_V_PVAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_P_PVAJ_azi{pp}{jj},p_V_P_PVAJ_azi{pp}{jj}] =corrcoef(preDir_V_PVAJ_azi{pp}{jj},preDir_P_PVAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_P_PVAJ_azi{pp}{jj}(1,2),p_V_P_PVAJ_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, V');ylabel('Preferred Azi, P');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_PVAJ_ele{pp}{jj},preDir_P_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_P_PVAJ_ele{pp}{jj} = polyfit(preDir_V_PVAJ_ele{pp}{jj}, preDir_P_PVAJ_ele{pp}{jj}, 1);
+plot(preDir_V_PVAJ_ele{pp}{jj}, polyval(preDir_V_P_PVAJ_ele{pp}{jj}, preDir_V_PVAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_P_PVAJ_ele{pp}{jj},p_V_P_PVAJ_ele{pp}{jj}] =corrcoef(preDir_V_PVAJ_ele{pp}{jj},preDir_P_PVAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_P_PVAJ_ele{pp}{jj}(1,2),p_V_P_PVAJ_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, V');ylabel('Preferred Ele, P');
                 end
@@ -4697,26 +5309,40 @@ for pp = 1
             [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
             for pp = 1:2
                 for jj = 1:2
-                    preDir_A_PVAJ_Pzi{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_A_PVAJ_azi{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,1);
                     preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(:,2);
-                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(:,1);
+                    preDir_P_PVAJ_azi{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(:,1);
                     preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_3D{pp}{jj}(:,2);
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')));
-                    preDir_A_PVAJ_Pzi{pp}{jj} = preDir_A_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_A_PVAJ_azi{pp}{jj} = preDir_A_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
-                    preDir_P_PVAJ_Pzi{pp}{jj} = preDir_P_PVAJ_Pzi{pp}{jj}(r2_PVAJ>r2_thre);
+                    preDir_P_PVAJ_azi{pp}{jj} = preDir_P_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_P_PVAJ_ele{pp}{jj} = preDir_P_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
-                    plot(preDir_A_PVAJ_Pzi{pp}{jj},preDir_P_PVAJ_Pzi{pp}{jj},'o','markeredgecolor','k');
+                    plot(preDir_A_PVAJ_azi{pp}{jj},preDir_P_PVAJ_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_P_PVAJ_azi{pp}{jj} = polyfit(preDir_A_PVAJ_azi{pp}{jj}, preDir_P_PVAJ_azi{pp}{jj}, 1);
+plot(preDir_A_PVAJ_azi{pp}{jj}, polyval(preDir_A_P_PVAJ_azi{pp}{jj}, preDir_A_PVAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_P_PVAJ_azi{pp}{jj},p_A_P_PVAJ_azi{pp}{jj}] =corrcoef(preDir_A_PVAJ_azi{pp}{jj},preDir_P_PVAJ_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_P_PVAJ_azi{pp}{jj}(1,2),p_A_P_PVAJ_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, A');ylabel('Preferred Azi, P');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_PVAJ_ele{pp}{jj},preDir_P_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_P_PVAJ_ele{pp}{jj} = polyfit(preDir_A_PVAJ_ele{pp}{jj}, preDir_P_PVAJ_ele{pp}{jj}, 1);
+plot(preDir_A_PVAJ_ele{pp}{jj}, polyval(preDir_A_P_PVAJ_ele{pp}{jj}, preDir_A_PVAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_P_PVAJ_ele{pp}{jj},p_A_P_PVAJ_ele{pp}{jj}] =corrcoef(preDir_A_PVAJ_ele{pp}{jj},preDir_P_PVAJ_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_P_PVAJ_ele{pp}{jj}(1,2),p_A_P_PVAJ_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, A');ylabel('Preferred Ele, P');
                 end
@@ -4782,11 +5408,25 @@ for pp = 1
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VAP_azi{pp}{jj},preDir_P_VAP_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_P_VAP_azi{pp}{jj} = polyfit(preDir_V_VAP_azi{pp}{jj}, preDir_P_VAP_azi{pp}{jj}, 1);
+plot(preDir_V_VAP_azi{pp}{jj}, polyval(preDir_V_P_VAP_azi{pp}{jj}, preDir_V_VAP_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_P_VAP_azi{pp}{jj},p_V_P_VAP_azi{pp}{jj}] =corrcoef(preDir_V_VAP_azi{pp}{jj},preDir_P_VAP_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_P_VAP_azi{pp}{jj}(1,2),p_V_P_VAP_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, V');ylabel('Preferred Azi, P');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VAP_ele{pp}{jj},preDir_P_VAP_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_V_P_VAP_ele{pp}{jj} = polyfit(preDir_V_VAP_ele{pp}{jj}, preDir_P_VAP_ele{pp}{jj}, 1);
+plot(preDir_V_VAP_ele{pp}{jj}, polyval(preDir_V_P_VAP_ele{pp}{jj}, preDir_V_VAP_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_V_P_VAP_ele{pp}{jj},p_V_P_VAP_ele{pp}{jj}] =corrcoef(preDir_V_VAP_ele{pp}{jj},preDir_P_VAP_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_V_P_VAP_ele{pp}{jj}(1,2),p_V_P_VAP_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, V');ylabel('Preferred Ele, P');
                 end
@@ -4852,11 +5492,25 @@ for pp = 1
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_VAP_azi{pp}{jj},preDir_P_VAP_azi{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_P_VAP_azi{pp}{jj} = polyfit(preDir_A_VAP_azi{pp}{jj}, preDir_P_VAP_azi{pp}{jj}, 1);
+plot(preDir_A_VAP_azi{pp}{jj}, polyval(preDir_A_P_VAP_azi{pp}{jj}, preDir_A_VAP_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_P_VAP_azi{pp}{jj},p_A_P_VAP_azi{pp}{jj}] =corrcoef(preDir_A_VAP_azi{pp}{jj},preDir_P_VAP_azi{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_P_VAP_azi{pp}{jj}(1,2),p_A_P_VAP_azi{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[0 360],'ylim',[0 360]);set(gca,'xtick',[0 90 180 270 360],'ytick',[0 90 180 270 360]);
                     xlabel('Preferred Azi, A');ylabel('Preferred Azi, P');
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_VAP_ele{pp}{jj},preDir_P_VAP_ele{pp}{jj},'o','markeredgecolor','k');
+                    
+                    % linear regression
+                    preDir_A_P_VAP_ele{pp}{jj} = polyfit(preDir_A_VAP_ele{pp}{jj}, preDir_P_VAP_ele{pp}{jj}, 1);
+plot(preDir_A_VAP_ele{pp}{jj}, polyval(preDir_A_P_VAP_ele{pp}{jj}, preDir_A_VAP_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
+[r_A_P_VAP_ele{pp}{jj},p_A_P_VAP_ele{pp}{jj}] =corrcoef(preDir_A_VAP_ele{pp}{jj},preDir_P_VAP_ele{pp}{jj});
+title(sprintf('r = %g \np = %g',r_A_P_VAP_ele{pp}{jj}(1,2),p_A_P_VAP_ele{pp}{jj}(1,2)));
+
                     axis on;axis square;set(gca,'xlim',[-90 90],'ylim',[-90 90]);set(gca,'xtick',[-90 -45 0 45 90],'ytick',[-90 -45 0 45 90]);
                     xlabel('Preferred Ele, A');ylabel('Preferred Ele, P');
                 end
@@ -6660,7 +7314,126 @@ for pp = 1
         
     end
 
+function f2p2p6p1(debug)      % Weight correlation (V,A weight), r_squared only
+        if debug  ; dbstack;   keyboard;      end
+        r2_thre = 0.5;
+        
+        if sum(strcmp(models,'VAJ')) && sum(strcmp(models,'VA')) 
+            figure(12);set(figure(12),'name','Distribution of weight (VAJ model)','unit','normalized' ,'pos',[-0.55 0.2 0.4 0.3]); clf;
+            [~,h_subplot] = tight_subplot(1,2,0.15,0.2,[0.2 0.02]);
+            
+            for pp = 1:2
+                for jj = 1:2
+                    ind = R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre & R2_3D{pp}{jj}(:,find(strcmp(models,'VA')))>r2_thre;
+                    % only use which r2 > threshold (0.5)
+                    wV_VA{pp}{jj} = wV_VA_3D{pp}(ind,jj);
+                    wA_VA{pp}{jj} = wA_VA_3D{pp}(ind,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    wV_VAJ{pp}{jj} = wV_VAJ_3D{pp}(ind,jj);
+                    wA_VAJ{pp}{jj} = wA_VAJ_3D{pp}(ind,jj);
+                    wJ_VAJ{pp}{jj} = wJ_VAJ_3D{pp}(ind,jj);
 
+                    
+                    axes(h_subplot(1));hold on;
+                    plot(wV_VA{pp}{jj},wV_VAJ{pp}{jj},'ko','markerfacecolor',colors{jj},'marker',markers{pp});
+                    set(gca,'xtick',[0 0.5 1],'xticklabel',{'0','0.5','1'});
+                    xlabel('wV, VA model');ylabel('wV, VAJ model');axis on;
+                    set(gca,'xlim',[0 1],'ylim',[0 1]);
+                    axis square;
+                    title('wV, VA vs VAJ model');
+                    
+                    axes(h_subplot(2));hold on;
+                    plot(wA_VA{pp}{jj},wA_VAJ{pp}{jj},'ko','markerfacecolor',colors{jj},'marker',markers{pp});
+                    set(gca,'xtick',[0 0.5 1],'xticklabel',{'0','0.5','1'});
+                    xlabel('wA, VA model');ylabel('wA, VAj model');axis on;
+                    set(gca,'xlim',[0 1],'ylim',[0 1]);
+                    axis square;
+                    title('wA, VA vs VAJ model');
+                    
+                end
+            end
+
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'VAP')) && sum(strcmp(models,'VA')) 
+            figure(13);set(figure(13),'name','Distribution of weight (VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.4 0.3]); clf;
+            [~,h_subplot] = tight_subplot(1,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    ind = R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre & R2_3D{pp}{jj}(:,find(strcmp(models,'VA')))>r2_thre;
+                    % only use which r2 > threshold (0.5)
+                    wV_VA{pp}{jj} = wV_VA_3D{pp}(ind,jj);
+                    wA_VA{pp}{jj} = wA_VA_3D{pp}(ind,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    wV_VAP{pp}{jj} = wV_VAP_3D{pp}(ind,jj);
+                    wA_VAP{pp}{jj} = wA_VAP_3D{pp}(ind,jj);
+                    wP_VAP{pp}{jj} = wP_VAP_3D{pp}(ind,jj);
+                    
+                    axes(h_subplot(1));hold on;
+                    plot(wV_VA{pp}{jj},wV_VAP{pp}{jj},'ko','markerfacecolor',colors{jj},'marker',markers{pp});
+                    set(gca,'xtick',[0 0.5 1],'xticklabel',{'0','0.5','1'});
+                    xlabel('wV, VA model');ylabel('wV, VAP model');axis on;
+                    set(gca,'xlim',[0 1],'ylim',[0 1]);
+                    axis square;
+                    title('wV, VA vs VAP model');
+                    
+                    axes(h_subplot(2));hold on;
+                    plot(wA_VA{pp}{jj},wA_VAP{pp}{jj},'ko','markerfacecolor',colors{jj},'marker',markers{pp});
+                    set(gca,'xtick',[0 0.5 1],'xticklabel',{'0','0.5','1'});
+                    xlabel('wA, VA model');ylabel('wA, VAP model');axis on;
+                    set(gca,'xlim',[0 1],'ylim',[0 1]);
+                    axis square;
+                    title('wA, VA vs VAP model');
+                    
+            end
+            
+            SetFigure(12);
+        end
+        
+        if sum(strcmp(models,'PVAJ')) && sum(strcmp(models,'VA')) 
+            figure(14);set(figure(14),'name','Distribution of weight (PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.6 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(1,2,0.15,0.2,[0.2 0.02]);
+            for pp = 1:2
+                for jj = 1:2
+                    ind = R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')))>r2_thre & R2_3D{pp}{jj}(:,find(strcmp(models,'VA')))>r2_thre;
+                    % only use which r2 > threshold (0.5)
+                    wV_VA{pp}{jj} = wV_VA_3D{pp}(ind,jj);
+                    wA_VA{pp}{jj} = wA_VA_3D{pp}(ind,jj);
+                    
+                    % only use which r2 > threshold (0.5)
+                    wV_PVAJ{pp}{jj} = wV_PVAJ_3D{pp}(ind,jj);
+                    wA_PVAJ{pp}{jj} = wA_PVAJ_3D{pp}(ind,jj);
+                    wJ_PVAJ{pp}{jj} = wJ_PVAJ_3D{pp}(ind,jj);
+                    wP_PVAJ{pp}{jj} = wP_PVAJ_3D{pp}(ind,jj);
+                    
+                    axes(h_subplot(1));hold on;
+                    plot(wV_VA{pp}{jj},wV_PVAJ{pp}{jj},'ko','markerfacecolor',colors{jj},'marker',markers{pp});
+                    set(gca,'xtick',[0 0.5 1],'xticklabel',{'0','0.5','1'});
+                    xlabel('wV, VA model');ylabel('wV, PVAJ model');axis on;
+                    set(gca,'xlim',[0 1],'ylim',[0 1]);
+                    axis square;
+                    title('wV, VA vs PVAJ model');
+                    
+                    axes(h_subplot(2));hold on;
+                    plot(wA_VA{pp}{jj},wA_PVAJ{pp}{jj},'ko','markerfacecolor',colors{jj},'marker',markers{pp});
+                    set(gca,'xtick',[0 0.5 1],'xticklabel',{'0','0.5','1'});
+                    xlabel('wA, VA model');ylabel('wA, PVAJ model');axis on;
+                    set(gca,'xlim',[0 1],'ylim',[0 1]);
+                    axis square;
+                    title('wA, VA vs PVAJ model');
+                    
+                end
+            end
+            
+            SetFigure(12);
+        end
+        
+        
+        end
+end
 
     function f2p3(debug)      % check
         if debug  ; dbstack;   keyboard;      end
@@ -6776,7 +7549,7 @@ for pp = 1
             axes(h_subplot(1));hold on;
             for pp = 1:2
                 for jj = 1:2
-                    %                     [~,seqF{pp}{jj}] = sequentialF(RSS_temp{pp}{jj}(:,idx1),nParaModel{model_cat}(idx1),RSS_temp{pp}{jj}(:,idx2),nParaModel{model_cat}(idx2),26*nBins);
+                                        [~,seqF{pp}{jj}] = sequentialF(RSS_temp{pp}{jj}(:,idx1),nParaModel{model_cat}(idx1),RSS_temp{pp}{jj}(:,idx2),nParaModel{model_cat}(idx2),26*nBins);
                     %                     R2_plot_sig{pp}{jj} = R2_plot{pp}{jj}(seqF{pp}{jj}<0.05,:);
                     %                     plot(R2_plot{pp}{jj}(:,idx2),R2_plot{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor','w','markeredgecolor',colors{jj});
                     %                     plot(R2_plot_sig{pp}{jj}(:,idx2),R2_plot_sig{pp}{jj}(:,idx1),'linestyle','none','marker',markers{pp},'markersize',5,'markerfacecolor',colors{jj},'markeredgecolor','k');

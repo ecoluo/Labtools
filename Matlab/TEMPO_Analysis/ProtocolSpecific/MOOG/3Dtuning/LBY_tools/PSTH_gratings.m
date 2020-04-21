@@ -153,7 +153,7 @@ end
 %}
 
 % % ------ fig.30 plot mean PSTHs across directions (with errorbar)------%
-% %{
+%{
 figure(30);
 set(gcf,'pos',[30 100 1800 800]);
 clf;
@@ -255,6 +255,7 @@ saveas(30,['Z:\LBY\Recording data\',PSTH.monkey,'\Grating\' str3], 'emf');
 
 % % ------ fig.40 plot mean PSTHs across directions (with errorbar)------%
 % %{
+
 figure(40);
 set(gcf,'pos',[30 100 1800 800]);
 clf;

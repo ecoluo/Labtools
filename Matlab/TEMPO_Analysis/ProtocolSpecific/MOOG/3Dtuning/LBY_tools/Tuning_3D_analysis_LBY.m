@@ -592,11 +592,11 @@ model_catg = 'Out-sync model'; % each component has its own tau
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
 
-models = {'VO','AO','VA','VJ','AJ','VAJ'};
-models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};
+% models = {'VO','AO','VA','VJ','AJ','VAJ'};
+% models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};
 
-% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
-% models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
+models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
 
 % models = {'PVAJ'};
 % models_color = {'k'};
