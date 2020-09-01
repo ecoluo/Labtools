@@ -13,6 +13,8 @@ function [mode, pval]=modalityTestForYong(xh,modelist,Nb)
 %
 % modified for Yong. 9/25/06
 % main routine
+% If p>0.05, it's the corresponding mode.
+% ะ่าชฐดีีหณะ๒
 
 DEBUG=0;
 

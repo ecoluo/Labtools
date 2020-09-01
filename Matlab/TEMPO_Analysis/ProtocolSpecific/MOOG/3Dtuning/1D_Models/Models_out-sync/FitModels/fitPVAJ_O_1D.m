@@ -139,9 +139,9 @@ UB = [4*A, ...      %1  A
     1, ...         %20 wV
     1, ...         %21 wJ
     1,...           %22 wP
-    0.2,...          %23 v_laten
-    0.2,...          %24 j_laten
-    0.4];             %25 p_laten
+    0.5,...          %23 v_laten
+    0.5,...          %24 j_laten
+    0.5];             %25 p_laten
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

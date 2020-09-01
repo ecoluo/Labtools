@@ -121,7 +121,7 @@ axes('unit','pixels','pos',[700 400 600 80]);
 xlim([0,100]);
 ylim([0,10]);
 FileName_Temp = num2str(FILE);
-FileName_Temp =  FileName_Temp(1:end-4);
+FileName_Temp =  FileName_Temp(1:end);
 str1 = [FileName_Temp,'\_Ch' num2str(SpikeChan)];
 text(0,2,str1,'fontsize',20);
 text(0,10,'Delay Saccade - Eye Trace','fontsize',20);
@@ -145,19 +145,19 @@ for h = 1:length(unique_heading)
         hold on;
     end
 end
-% set(gca,'xlim',[-10 10],'ylim',[-10 10]); % for 2 degree window
-% set(gca,'xtick',[-10 0 10],'ytick',[-10 0 10]);% for 2 degree window
-% box off;
-% str2 = [str1 '  Eye trace for delay saccade'];
-% title(gca,str2);
-% 
-% 
-% 
-% % save the figure
-% str3 = [FileName_Temp,'_Ch' num2str(SpikeChan), '_delaySac_eyetrace'];
-% str4 = [FileName_Temp,'_Ch' num2str(SpikeChan), '_delaySac_eyetrace_raw'];
-% saveas(111,['Z:\LBY\Recording data\Qiaoqiao\Delay_saccade\' str3], 'emf');
-% saveas(112,['Z:\LBY\Recording data\Qiaoqiao\Delay_saccade\' str4], 'emf')
+set(gca,'xlim',[-10 10],'ylim',[-10 10]); % for 2 degree window
+set(gca,'xtick',[-10 0 10],'ytick',[-10 0 10]);% for 2 degree window
+box off;
+str2 = [str1 '  Eye trace for delay saccade'];
+title(gca,str2);
+
+
+
+% save the figure
+str3 = [FileName_Temp,'_Ch' num2str(SpikeChan), '_delaySac_eyetrace'];
+str4 = [FileName_Temp,'_Ch' num2str(SpikeChan), '_delaySac_eyetrace_raw'];
+saveas(111,['Z:\LBY\Recording data\Qiaoqiao\Delay_saccade\' str3], 'emf');
+saveas(112,['Z:\LBY\Recording data\Qiaoqiao\Delay_saccade\' str4], 'emf')
 
 
 % % %% Data Saving

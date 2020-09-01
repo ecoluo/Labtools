@@ -98,7 +98,7 @@ UB = [4*A, ...      %1  A
     360, ...      %9 a_a_0
     1,...          %7 a_DC
     1,...         %12 wV
-    0.2];            %13 p_latency
+    0.5];            %13 p_latency
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

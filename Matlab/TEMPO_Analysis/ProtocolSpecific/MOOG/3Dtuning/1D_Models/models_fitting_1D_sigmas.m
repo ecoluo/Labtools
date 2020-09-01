@@ -23,14 +23,14 @@ switch model_catg
         for m_inx = 1:length(models)
             eval(['[PSTH1Dmodel{',num2str(nSigmaInx),'}.modelFitRespon_',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.modelFit_',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.modelFit_spatial',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.modelFitPara_',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.BIC_',models{m_inx},...
                 ',PSTH1Dmodel{',num2str(nSigmaInx),'}.RSquared_',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.rss_',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.time, PSTH1Dmodel{',num2str(nSigmaInx),'}.',models{m_inx},'_peak_A_T]=fit',models{m_inx},...
-                '_1D(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration,sig);']);
+                '_1D_sig(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration,sig);']);
             % [PSTH1Dmodel{1}.modelFitRespon_VO,PSTH1Dmodel{1}.modelFitPara_VO,PSTH1Dmodel{1}.BIC_VO,PSTH1Dmodel{1}.RSquared_VO,PSTH1Dmodel{1}.rss_VO,PSTH1Dmodel{1}.time]=fitVO_1D(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin);
         end
     case 'Out-sync model'
         for m_inx = 1:length(models)
             eval(['[PSTH1Dmodel{',num2str(nSigmaInx),'}.modelFitRespon_',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.modelFit_',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.modelFit_spatial',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.modelFitPara_',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.BIC_',models{m_inx},...
                 ',PSTH1Dmodel{',num2str(nSigmaInx),'}.RSquared_',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.rss_',models{m_inx},',PSTH1Dmodel{',num2str(nSigmaInx),'}.time, PSTH1Dmodel{',num2str(nSigmaInx),'}.',models{m_inx},'_peak_A_T]=fit',models{m_inx},'_O',...
-                '_1D(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration,sig);']);
+                '_1D_sig(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration,sig);']);
             % [PSTH1Dmodel{1}.modelFitRespon_VO,PSTH1Dmodel{1}.modelFitPara_VO,PSTH1Dmodel{1}.BIC_VO,PSTH1Dmodel{1}.RSquared_VO,PSTH1Dmodel{1}.rss_VO,PSTH1Dmodel{1}.time]=fitVO_1D(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin);
         end
 end

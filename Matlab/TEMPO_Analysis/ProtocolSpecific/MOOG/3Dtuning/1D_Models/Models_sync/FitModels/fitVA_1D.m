@@ -6,7 +6,7 @@
 % reps: the repetition number to perform for fiiting models
 % 20190410LBY
 
-function [modelFitRespon_VA,modelFit_VA, modelFit_VA_spatial, modelFitPara_VA, BIC_VA, RSquared_VA, rss_VA, time, VA_peak_A_T] = fitVA_1D(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration,sig)
+function [modelFitRespon_VA,modelFit_VA, modelFit_VA_spatial, modelFitPara_VA, BIC_VA, RSquared_VA, rss_VA, time] = fitVA_1D(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
 sprintf('Fitting VA 1D model...')
 
@@ -21,7 +21,7 @@ time = (1: (stimOffBin - stimOnBin +1))' /(stimOffBin - stimOnBin +1)*duration/1
 st_data = [u_azi;time]; % spatial_time data, transform to this form for fitting
 
 % fitting initial parameters
-% sig = sqrt(sqrt(2))/6;
+sig = sqrt(sqrt(2))/6;
 baseline = spon;
 acc_max = aMax/1000; % transfer unit from ms to s
 acc_min = aMin/1000; % transfer unit from ms to s
@@ -69,8 +69,7 @@ param = [A, ...       %1
     a_n, ...           %7
     a_a_0, ...         %8
     a_DC, ...%9
-    w,...
-    sig];                %10
+    w];                %10
 
 init_param = zeros(reps+1, length(param));
 init_param(1,:) = param;
@@ -84,8 +83,7 @@ LB = [0.25*A, ...`  %1  A
     0.001, ...      %7 a_n
     0, ...          %8 a_a_0
     0, ...         %9 a_DC
-    0,...
-    sig];             %10 wV
+    0];             %10 wV
 
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
@@ -95,9 +93,8 @@ UB = [4*A, ...      %1  A
     1,...          %6 v_DC
     10, ...        %7 a_n
     360, ...      %8 a_a_0
-    1, ...         %9 a_DC
-    1,...
-    sig];            %10 wV
+    1 ...         %9 a_DC
+    1];            %10 wV
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));
@@ -148,10 +145,6 @@ modelFit_VA.A = VA_A_Com_1D(modelFitPara_VA([1:3,7:10]),st_data);
 % model fit spatial tuning
 modelFit_VA_spatial.V = cos_tuning_1D(modelFitPara_VA(4:6),st_data(1:8));
 modelFit_VA_spatial.A = cos_tuning_1D(modelFitPara_VA(7:9),st_data(1:8));
-
-[~,peak_A_dir] = max(modelFit_VA_spatial.A);
-[~,peak_A_T_bin] = max(modelFit_VA.A(peak_A_dir,:));
-VA_peak_A_T = time(peak_A_T_bin);
 
 %% analysis
 data_num = 26*nBins;

@@ -28,4 +28,16 @@ for i=1:size(r,1)
     end
 end
 
+% %compute results
+% r = zeros(size(ele_azi,1), size(ele_azi,2), length(pos_time));
+% for i=1:size(r,1)
+%     for j=1:size(r,2)
+%         rr = ele_azi(i,j)*pos_time;
+%         r(i,j,:) = rr;
+%     end
+% end
+% r = (r - min(r(:)))./max(r(:)) - min(r(:));
+%         r = r * a(1) + a(2);
+%         r(find(r<0))  = 0;
+        
 end

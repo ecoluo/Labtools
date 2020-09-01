@@ -9,7 +9,7 @@ persistent XlsData; % Hold some xls data to prevent read xls file repeatly durin
 if ~isempty(config.batch_flag)  % Figures and raw data (always in "result" structure)
     
     outpath = ['Z:\Data\Tempo\Batch\' config.batch_flag(1:end-2) '\'];
-    
+   
     % Check directory
     if ~exist(outpath,'dir')
         mkdir(outpath);

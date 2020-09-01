@@ -439,7 +439,7 @@ end
 %}
 
 % % ------ fig.140 plot V,A spatial tuning for VA models (Contour, use fitted data) ------%
-%{
+% %{
 if sum(ismember(models,'VA')) ~= 0
     components = {'V','A'};
     figure(140);clf;set(gcf,'pos',[120 200 1400 750]);
@@ -630,7 +630,7 @@ end
 %}
 
 % ------ fig.160 plot V,A,J spatial tuning for VAJ models (Contour, use fitted data) ------%
-% %{
+%{
 if sum(ismember(models,'VAJ')) ~= 0
     components = {'V','A','J'};
     figure(160);clf;set(gcf,'pos',[20 200 1800 600]);
@@ -1090,7 +1090,7 @@ end
 %}
 
 % ------ fig.210 plot V,A,J,P spatial tuning for PVAJ models (Contour, use fitted data) ------%
-%{
+% %{
 if sum(ismember(models,'PVAJ')) ~= 0
     components = {'V','A','J','P'};
     figure(210);clf;set(gcf,'pos',[20 220 1800 600]);

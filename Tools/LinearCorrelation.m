@@ -317,11 +317,21 @@ if paras.Results.XHist
     end
     
     for i = 1:length(x) % Raw data
-        hist_x(:,i) = hist(xx_for_hist{i},x_centers);
-        if strcmp(paras.Results.XHistStyle,'stacked')
-            mean_x(i) = median(cell2mat(xx_for_hist(:)));
+        if isnan(rawx{i})
+            hist_x(:,i) = hist(nan,x_centers);
+            if strcmp(paras.Results.XHistStyle,'stacked')
+                mean_x(i) = nan;
+            else
+                mean_x(i) = nan;
+            end
+            
         else
-            mean_x(i) = median(xx_for_hist{i});
+            hist_x(:,i) = hist(xx_for_hist{i},x_centers);
+            if strcmp(paras.Results.XHistStyle,'stacked')
+                mean_x(i) = median(cell2mat(xx_for_hist(:)));
+            else
+                mean_x(i) = median(xx_for_hist{i});
+            end
         end
     end
     
@@ -367,11 +377,21 @@ if paras.Results.YHist
     end
     
     for i = 1:length(x) % Raw data
-        hist_y(:,i) = hist(yy_for_hist{i},y_centers);
-        if strcmp(paras.Results.YHistStyle,'stacked')
-            mean_y(i) = median(cell2mat(yy_for_hist(:)));
+        if isnan(rawy{i})
+            hist_y(:,i) = hist(nan,y_centers);
+            if strcmp(paras.Results.XHistStyle,'stacked')
+                mean_y(i) = nan;
+            else
+                mean_y(i) = nan;
+            end
+            
         else
-            mean_y(i) = median(yy_for_hist{i});
+            hist_y(:,i) = hist(yy_for_hist{i},y_centers);
+            if strcmp(paras.Results.XHistStyle,'stacked')
+                mean_y(i) = median(cell2mat(yy_for_hist(:)));
+            else
+                mean_y(i) = median(yy_for_hist{i});
+            end
         end
     end
     

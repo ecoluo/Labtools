@@ -571,7 +571,7 @@ end
 
 %% 3. Sort trials into different categories
 PSTH = [];
-%{
+% %{
 % Define colormap for headings
 colors = colormap(cool); % This is really cool.
 color_for_headings = colors(end-round(linspace(1,64,sum(unique_heading<0)))+1,:);
@@ -1057,12 +1057,23 @@ for sortInd = 1:length(sort_info) % For each figure
     SetFigure(13);
     set(h_legends,'box','on','FontSize',9);
     
+    % to save the figures
+FileNameTemp = num2str(FILE);
+    str = [FileNameTemp,'_Ch' num2str(SpikeChan)];
+    ss = [str, '_PSTH_HD_',num2str(sortInd)];
+    set(60+sortInd,'paperpositionmode','auto');
+    saveas(60+sortInd,['Z:\LBY\Recording data\',monkey,'\HD_PSTH\' ss], 'emf');
+    
 end % sort_bases
 
 drawnow;
+
+
+
+
 %}
 %% 4. Choice Divergence and Preference
-%{
+% %{
 % Depends on "sort_info"
 ALL_CHOICE = 1; CHOICE_ANGLE = 2; CHOICE_DIFFICULT = 3;
 
@@ -1134,7 +1145,7 @@ for j = 1:size(align_markers,1) % Include two align methods. @HH20150417
     plot(rate_ts{j}, ChoiceDivergence_ALL{j}','Linewidth',2); SetFigure(); axis tight;
     if j == 2 ;title([FILE 'unit' num2str(SpikeChan) ', reps = '  num2str(repetitionN) ', Choice Divergence']); end
 %     print(1899,'-dbitmap',[mat_file_fullname{i} '_ChoiceDivergenceAll.bmp']);
-    
+       
     set(0,'currentfig',1999);
     subplot(1,2,j);
     plot(rate_ts{j}, ChoiceDivergence_Easy{j}'- ChoiceDivergence_Difficult{j}','Linewidth',2); SetFigure(); axis tight;
@@ -1142,55 +1153,57 @@ for j = 1:size(align_markers,1) % Include two align methods. @HH20150417
 %     print(1999,'-dbitmap',[mat_file_fullname{i} '_ChoiceDivergenceEasyMinusDifficult.bmp']);
    
 end;
+
+
 %}
 %% Choice preference (related to "PREF" of this cell).  @HH20150418
-%{
-% % Will be transformed to be related to "Contralateral" in GROUP_GUI
-% %  @HH20160915
-%
-% % j = 2;  % This is not too much time-sensitive, so I choose j = 2 (aligned to sac onset)
-% % choice_or_mod_pref_timewin = {
-% %     mean(align_offsets_others{2}(:,1)) <= rate_ts{2} & rate_ts{2} <= 0;   % Stimlus onset - saccade onset
-% %     0 < rate_ts{2} & rate_ts{2} <= inf;   % Postsaccade period
-% %     };
+% %{
+% Will be transformed to be related to "Contralateral" in GROUP_GUI
+%  @HH20160915
+
+% j = 2;  % This is not too much time-sensitive, so I choose j = 2 (aligned to sac onset)
 % choice_or_mod_pref_timewin = {
-%     2, mean(align_offsets_others{2}(:,1)) <= rate_ts{2} & rate_ts{2} <= 0;   % Stimlus onset - saccade onset
-%     2, 0 < rate_ts{2} & rate_ts{2} <= inf;   % Postsaccade period
-%     1, 0 <= rate_ts{1} & rate_ts{1} <= mean(align_offsets_others{1}(:,1)); % I added a new choice preference which only includes stim-on to stim-off to better select out the ramping cells. HH20160918
+%     mean(align_offsets_others{2}(:,1)) <= rate_ts{2} & rate_ts{2} <= 0;   % Stimlus onset - saccade onset
+%     0 < rate_ts{2} & rate_ts{2} <= inf;   % Postsaccade period
 %     };
-%
-% ChoicePreference = nan(length(choice_or_mod_pref_timewin),3);
-% ChoicePreference_pvalue = nan(length(choice_or_mod_pref_timewin),3);
-%
-% for stim_type = 1:3  % Always output three conditions
-%     k = find(stim_type == unique_stimType,1);
-%
-%     if ~isempty(k)   % We have this condition
-%
-%         %         2 * (rocN(mean(PSTH{j,ALL_CHOICE,1}.raw{2*k-1}(:,choice_pref_timewin),2),...
-%         %             mean(PSTH{j,ALL_CHOICE,1}.raw{2*k}(:,choice_pref_timewin),2)) - 0.5)
-%
-%         for cmpt = 1:length(choice_or_mod_pref_timewin)
-%
-%             % Here I let CP_LBY calculate the auROC AND p_value (permutation method) for me
-%             fake_spk_pref = mean(PSTH{choice_or_mod_pref_timewin{cmpt,1},ALL_CHOICE,1}.raw{2*k-1}(:,choice_or_mod_pref_timewin{cmpt,2}),2);
-%             fake_spk_null = mean(PSTH{choice_or_mod_pref_timewin{cmpt,1},ALL_CHOICE,1}.raw{2*k}(:,choice_or_mod_pref_timewin{cmpt,2}),2);
-%             fake_heading = zeros(length(fake_spk_pref)+length(fake_spk_null),1);
-%             fake_choice = [ones(length(fake_spk_pref),1) * RIGHT; ones(length(fake_spk_null),1) * LEFT];
-%             temp = CP_LBY(fake_heading, fake_choice, [fake_spk_pref ; fake_spk_null],1000,0);
-%
-%             ChoicePreference(cmpt,stim_type) = 2*(temp.CP_0-0.5);
-%             ChoicePreference_pvalue(cmpt,stim_type) =  temp.CP_0_p_perm ;
-%
-%         end
-%     end
-% end
-%
-% set(0,'currentfig',1899);  xlims = xlim; ylims = ylim;
-% text(xlims(1)*0.9,ylims(1)*0.7,sprintf('ChoicePref = %s',num2str(ChoicePreference(1,:))));
+choice_or_mod_pref_timewin = {
+    2, mean(align_offsets_others{2}(:,1)) <= rate_ts{2} & rate_ts{2} <= 0;   % Stimlus onset - saccade onset
+    2, 0 < rate_ts{2} & rate_ts{2} <= inf;   % Postsaccade period
+    1, 0 <= rate_ts{1} & rate_ts{1} <= mean(align_offsets_others{1}(:,1)); % I added a new choice preference which only includes stim-on to stim-off to better select out the ramping cells. HH20160918
+    };
+
+ChoicePreference = nan(length(choice_or_mod_pref_timewin),3);
+ChoicePreference_pvalue = nan(length(choice_or_mod_pref_timewin),3);
+
+for stim_type = 1:3  % Always output three conditions
+    k = find(stim_type == unique_stimType,1);
+
+    if ~isempty(k)   % We have this condition
+
+        %         2 * (rocN(mean(PSTH{j,ALL_CHOICE,1}.raw{2*k-1}(:,choice_pref_timewin),2),...
+        %             mean(PSTH{j,ALL_CHOICE,1}.raw{2*k}(:,choice_pref_timewin),2)) - 0.5)
+
+        for cmpt = 1:length(choice_or_mod_pref_timewin)
+
+            % Here I let CP_LBY calculate the auROC AND p_value (permutation method) for me
+            fake_spk_pref = mean(PSTH{choice_or_mod_pref_timewin{cmpt,1},ALL_CHOICE,1}.raw{2*k-1}(:,choice_or_mod_pref_timewin{cmpt,2}),2);
+            fake_spk_null = mean(PSTH{choice_or_mod_pref_timewin{cmpt,1},ALL_CHOICE,1}.raw{2*k}(:,choice_or_mod_pref_timewin{cmpt,2}),2);
+            fake_heading = zeros(length(fake_spk_pref)+length(fake_spk_null),1);
+            fake_choice = [ones(length(fake_spk_pref),1) * RIGHT; ones(length(fake_spk_null),1) * LEFT];
+            temp = CP_LBY(fake_heading, fake_choice, [fake_spk_pref ; fake_spk_null],1000,0);
+
+            ChoicePreference(cmpt,stim_type) = 2*(temp.CP_0-0.5);
+            ChoicePreference_pvalue(cmpt,stim_type) =  temp.CP_0_p_perm ;
+
+        end
+    end
+end
+
+set(0,'currentfig',1899);  xlims = xlim; ylims = ylim;
+text(xlims(1)*0.9,ylims(1)*0.7,sprintf('ChoicePref = %s',num2str(ChoicePreference(1,:))));
 %}
 %% 5. Modality Divergence and Modality Preference  @HH20150418
-%{
+% %{
 modality_pair = {[1 2],[1 3],[2 3]};  % The later is set to be "Pref modality"
 
 for j = 1:size(align_markers,1) % Include two align methods.
@@ -1228,7 +1241,7 @@ for j = 1:size(align_markers,1) % Include two align methods.
 end
 %}
 %% --- Modality Preference ---
-%{
+% %{
 j = 2;  % This is not too much time-sensitive, so I choose j = 2 (aligned to sac onset)
 
 ModalityPreference = nan(length(choice_or_mod_pref_timewin),3);
@@ -1275,7 +1288,7 @@ text(xlims(1)*0.9,ylims(1)*0.9,sprintf('ModPref = %s',num2str(ModalityPreference
 drawnow;
 %}
 %% 6. Calculate sliding CP and Neuro-threshold (Rewrite, with CP_LBY function. @HH20140925 modified @LBY20190124)
-%  %{
+ %{
 % keyboard;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Time windows
@@ -1467,7 +1480,7 @@ str = [FILE,' Ch ',num2str(SpikeChan)];
 %}
 
 %----------plot tuning curves according to choices
-% %{
+%{
 set(figure(2001),'position',[-1050 300 1000 300]); clf;
 if ~isempty(batch_flag)
     set(2001,'Visible','off');
@@ -1577,7 +1590,7 @@ end
 %}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PSTH %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %{
+%{
 % the lines markers
 nBins = length(CP_ts{j});
 stimOnT = 991;
@@ -1663,7 +1676,7 @@ for k = 1:length(unique_stimType)
     if sum(sigTrue{k}(:)) >=2
         respon_sigTrue(k) = 1;
     end
-    %}
+    
     %-----------
     
     % leftward
@@ -1743,6 +1756,7 @@ for k = 1:length(unique_stimType)
 end
 %}
 %% Plotting Psychometric, Neurometric functions, and CP
+%{
 % set(figure(161),'position',[45-1300*~isempty(batch_flag)  126   1111 704]); clf;  clf
 set(figure(161),'position',[-1050  -500   1000 704]); clf;  clf
 
@@ -1844,8 +1858,19 @@ ss = [str,'_CP'];
 
 %}
 
+% to save the figures
+FileNameTemp = num2str(FILE);
+    str = [FileNameTemp,'_Ch' num2str(SpikeChan)];
+    ss = [str, '_ChoiceD_HD'];
+    set(1899,'paperpositionmode','auto');
+    saveas(gcf,['Z:\LBY\Recording data\',monkey,'\HD_PSTH\' ss], 'emf');
+    
+    ss = [str, '_easyHard_HD'];
+    set(1999,'paperpositionmode','auto');
+    saveas(gcf,['Z:\LBY\Recording data\',monkey,'\HD_PSTH\' ss], 'emf');
+
 %% Data Saving
-% %{
+%{
 % Reorganized. HH20141124
 % changed by LBY 20190710
 config.batch_flag = batch_flag;

@@ -6,6 +6,7 @@
 % reps: the repetition number to perform for fiiting models
 % 20170603LBY
 
+
 function [modelFitRespon_VA,modelFit_VA, modelFit_VA_spatial, modelFitPara_VA, BIC_VA, RSquared_VA, rss_VA, time] = fitVA(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
 % sprintf('Fitting VA model...')
@@ -13,6 +14,7 @@ function [modelFitRespon_VA,modelFit_VA, modelFit_VA_spatial, modelFitPara_VA, B
 %-- initialize global using parameters
 
 % spatial parameters
+
 u_azi = [0 45 90 135 180 225 270 315]';
 u_ele = [-90 -45 0 45 90]';
 s_data = [u_ele;u_azi]; % transform to this form for fitting
@@ -36,7 +38,8 @@ y_data = permute(PSTH_data, [2 1 3]); % transform to azi*ele*timebin
 
 % normalise temporal profile
 t_A = max(temporal_data) - min(temporal_data);
-temporal_data = temporal_data/t_A;
+% temporal_data = temporal_data/t_A;
+temporal_data = (temporal_data - min(temporal_data))/t_A;
 
 % normalise spatial profile(range[-1,1])
 s_DC = (max(spatial_data(:)) + min(spatial_data(:)))/2;

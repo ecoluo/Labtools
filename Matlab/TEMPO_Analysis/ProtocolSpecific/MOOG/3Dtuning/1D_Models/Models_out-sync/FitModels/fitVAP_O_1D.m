@@ -118,8 +118,8 @@ UB = [4*A, ...      %1  A
     1, ...         %15 a_DC
     1, ...         %16 wV
     1,...          %17 wP
-    0.2,...          %18 v_laten
-    0.4];             %19 p_laten
+    0.5,...          %18 v_laten
+    0.5];             %19 p_laten
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

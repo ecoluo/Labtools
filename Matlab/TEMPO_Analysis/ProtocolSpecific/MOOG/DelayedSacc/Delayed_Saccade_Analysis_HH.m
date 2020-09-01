@@ -305,13 +305,13 @@ for j = 1:length(align_markers)
     %     box off;
     
     if align_markers(j) == 4 % Vis On
-        suptitle([FILE(1:end-4) '  Visual On (04)']);
+        suptitle([FILE '  Visual On (04)']);
     elseif align_markers(j) == 7 % Sac On
-        suptitle([FILE(1:end-4) '   Saccade On (07)']);
+        suptitle([FILE '   Saccade On (07)']);
     end
     
     FileNameTemp = num2str(FILE);
-    FileNameTemp =  FileNameTemp(1:end-4);
+    FileNameTemp =  FileNameTemp;
     str = [FileNameTemp,'_Ch' num2str(SpikeChan)];
     ss = [str,'_DS_',num2str(j)];
     saveas(gcf,['Z:\LBY\Recording data\Qiaoqiao\Delay_saccade\' ss], 'emf');

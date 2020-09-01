@@ -43,14 +43,15 @@ peak_i = find(time >= mu, 1, 'first')-1;
 % find the initial mu
 mu_0 = time(peak_i - delay_i);
 
-if corrcoeff_vel(max_val) < 0,
+if corrcoeff_vel(max_val) < 0
     temporal_data = -temporal_data;
     spatial_data = -spatial_data;
 end
 
 % normalise temporal profile
 t_A = max(temporal_data) - min(temporal_data);
-temporal_data = temporal_data/t_A;
+% temporal_data = temporal_data/t_A;
+temporal_data = (temporal_data - min(temporal_data))/t_A;
 
 % normalise spatial profile(range[-1,1])
 s_DC = (max(spatial_data(:)) + min(spatial_data(:)))/2;

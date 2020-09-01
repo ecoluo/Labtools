@@ -10,7 +10,8 @@ sig = sqrt(sqrt(2))/6;
 
 % Original
 respon = -(t-mu)./sig.^2.*exp((-(t-mu).^2)./(2*sig.^2));
-respon = respon./(max(respon)-min(respon));
+% respon = respon./(max(respon)-min(respon));
+respon = (respon-min(respon))./(max(respon)-min(respon));
 
 %{
 respon = -(t-mu)./sig.^2.*exp((-(t-mu).^2)./(2*sig.^2)); 

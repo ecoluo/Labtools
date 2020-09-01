@@ -489,13 +489,18 @@ end
 
 
 % SetFigure
-SetFigure(12)
+SetFigure(12);
 % box off;
 % set(gcf,'color','w');
 % set(findall(gcf,'fontsize',10),'fontsize',12);
 % set(findall(gcf,'tickdir','i'),'tickdir','o');
 % set(findall(gcf,'type','axes','linewidth',0.5),'linewidth',1);
 
+FileNameTemp = num2str(FILE);
+    FileNameTemp =  FileNameTemp;
+    str = [FileNameTemp,'_Ch' num2str(SpikeChan)];
+    ss = [str,'_MS_'];
+    saveas(gcf,['Z:\LBY\Recording data\Qiaoqiao\Delay_saccade\' ss], 'emf');
 
 % Statistics
 % figure(3); clf;
@@ -550,40 +555,40 @@ end
 
 
 %% Data Saving
-
-% Reorganized. HH20141124
-config.batch_flag = batch_flag;
-
-% Output information for test. HH20160415
-if isempty(batch_flag)
-    config.batch_flag = 'test.m';
-    disp('Saving results to \batch\test\ ');
-end
-
-%%%%%%%%%%%%%%%%%%%%% Change here %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-result = PackResult(FILE, SpikeChan, repetitionN, unique_stim_type, ... % Obligatory!!
-                    p, vectSum, vectAmp, DDI, activityIndex, PREF_NULL_DI, ...
-                    align_markers, plot_markers, binSize, temporal_Slice, unique_heading, ...
-                    t_centers, align_offsets, result_PSTH_old_mean,  result_PSTH_anne_mean, result_PSTH_anne_raw,...
-                    MemSac_interp_locations, MemSac_interp_PSTH,...
-                    resp_trial, resp_mean, resp_err);
-
-config.suffix = 'MemSac';
-config.xls_column_begin = 'p_bkgnd';
-config.xls_column_end = 'AI_post';
-
-% Figures to save
-config.save_figures = gcf;
-
-% Only once
-config.sprint_once_marker = 'gggg';
-config.sprint_once_contents = 'result.p(:), aziToHeading(result.vectSum), result.DDI(:),result. activityIndex(:)';
-% Loop across each stim_type
-config.sprint_loop_marker = {};
-config.sprint_loop_contents = {};
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-SaveResult(config, result);
+% 
+% % Reorganized. HH20141124
+% config.batch_flag = batch_flag;
+% 
+% % Output information for test. HH20160415
+% if isempty(batch_flag)
+%     config.batch_flag = 'test.m';
+%     disp('Saving results to \batch\test\ ');
+% end
+% 
+% %%%%%%%%%%%%%%%%%%%%% Change here %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% result = PackResult(FILE, SpikeChan, repetitionN, unique_stim_type, ... % Obligatory!!
+%                     p, vectSum, vectAmp, DDI, activityIndex, PREF_NULL_DI, ...
+%                     align_markers, plot_markers, binSize, temporal_Slice, unique_heading, ...
+%                     t_centers, align_offsets, result_PSTH_old_mean,  result_PSTH_anne_mean, result_PSTH_anne_raw,...
+%                     MemSac_interp_locations, MemSac_interp_PSTH,...
+%                     resp_trial, resp_mean, resp_err);
+% 
+% config.suffix = 'MemSac';
+% config.xls_column_begin = 'p_bkgnd';
+% config.xls_column_end = 'AI_post';
+% 
+% % Figures to save
+% config.save_figures = gcf;
+% 
+% % Only once
+% config.sprint_once_marker = 'gggg';
+% config.sprint_once_contents = 'result.p(:), aziToHeading(result.vectSum), result.DDI(:),result. activityIndex(:)';
+% % Loop across each stim_type
+% config.sprint_loop_marker = {};
+% config.sprint_loop_contents = {};
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% SaveResult(config, result);
                 
 
 

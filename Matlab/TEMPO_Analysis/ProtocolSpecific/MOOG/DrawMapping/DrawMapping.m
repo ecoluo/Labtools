@@ -4,11 +4,11 @@ function DrawMapping(monkey_hemi)
 % Modified by LBY 2016-
 
 
-monkey_hemis = {'Qiaoqiao_L','Qiaoqiao_R','Qiaoqiao_QY_L','Qiaoqiao_QY_R','Polo_L','Polo_R','Manda','Polo_L_HH','Polo_R_HH'};
+monkey_hemis = {'Qiaoqiao_L','Qiaoqiao_R','Qiaoqiao_QY_L','Qiaoqiao_QY_R','WhiteFang_L','WhiteFang_R','Polo_L','Polo_R','Manda','Polo_L_HH','Polo_R_HH'};
 colorDefsLBY; % added by LBY 20161216
 
 if nargin == 0
-    monkey_hemi = 2;
+    monkey_hemi = 5;
 end
 
 
@@ -17,12 +17,12 @@ clc; clear global
 global maxX maxY maxZ movDis GMTypes data;
 global hemisphere monkey; global gridRange;
 global MRI_path MRI_offset AP0 MRI_path_saggital MRI_offset_saggital;
-global linWid start_end_markers overlapping Qiaoqiao_right_AP0 Polo_right_AP0;
+global linWid start_end_markers overlapping Qiaoqiao_right_AP0 Polo_right_AP0 WF_right_AP0;
 
 linWid = 1.3; % linewidth for rectangles indicating mapping area
 % following: area & unit overlapping in coronal planes
-% overlapping = [-1 1; -10 10]; start_end_markers = false; % First row for area annotation; second for unit annotation
-overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation, no overlapping
+overlapping = [0 0; -20 20]; start_end_markers = false; % First row for area annotation; second for unit annotation
+% overlapping = [0 0; 0 0]; start_end_markers = 1; % First row for area annotation; second for unit annotation, no overlapping
 % overlapping = [0 0; -1 1]; start_end_markers = false; % First row for area annotation; second for unit annotation
 
 maxX = 30; % Grid size
@@ -33,6 +33,7 @@ movDis = 150; % Maximum travel distance of the microdriver (in 100 um)
 V = ones(30,25,maxZ + 30,3);  % Matrix to be rendered. The z-resolution = 100 um.
 Qiaoqiao_right_AP0 = 14; % For MRI alignment. This controls MRI-AP alignment so will affect all monkeys, whereas "AP0" of each monkey below only affects AP-Grid alignment.  HH20150918
 Polo_right_AP0 = 18; % For MRI alignment. This controls MRI-AP alignment so will affect all monkeys, whereas "AP0" of each monkey below only affects AP-Grid alignment.  HH20150918
+WF_right_AP0 = 13; % For MRI alignment. This controls MRI-AP alignment so will affect all monkeys, whereas "AP0" of each monkey below only affects AP-Grid alignment.  HH20150918
 
 %% Define our area types here
 GMTypes = { % 'Type', ColorCode (RGB);
@@ -326,10 +327,11 @@ switch monkey_hemis{monkey_hemi}
         
         %}
         
+    
     case 'Qiaoqiao_QY_L'
         
         %  Qiaoqiao_left
-        %{
+%         %{
         
         % Header
         toPlotTypes3D = [PCCu PCCl RSC A23];    % Which area types do we want to plot in 3D plot?
@@ -367,7 +369,7 @@ switch monkey_hemis{monkey_hemi}
             {15,[21,3],[2.2 0],[PCCu 30 40; PCCl 50 75;A23 87 113;RSC 123 140;]}; %20180907
             {16,[21,4],[2.3 0],[PCCu 51 62; PCCl 67 84;RSC 118 133;]}; %20180911
             {96,[21,5],[2.2 0],[PCCu 44 60; PCCl 68 80;]}; %20191112
-            {40,[22,2],[2.1 0],[PCCu 38 55;PCCl 67 80; A23 85 100;]}; %20190128
+            {40,[22,2],[2.1 0],[PCCu 38 55;PCCl 67 80;A23 85 100;]}; %20190128
             {16,[22,3],[2.3 0],[PCCu 32 48; PCCl 50 66;A23 98 117;RSC 128 141;]}; %20180911
             {17,[22,4],[2.3 0],[;PCCl 63 74;A23 86 95;RSC 121 132;]}; %20180912
             {98,[22,5],[2.2 0],[PCCu 49 66; PCCl 75 86;]}; %20190115
@@ -375,7 +377,7 @@ switch monkey_hemis{monkey_hemi}
             {19,[23,2],[2.3 0],[PCCu 45 56; PCCl 58 75;A23 82 90;RSC 123 145;]}; %20180917
             {18,[23,3],[2.3 0],[PCCl 57 73;A23 87 92;RSC 119 138;]}; %20180915
             {75,[23,4],[2.2 0],[PCCl 64 81;]}; %20190922
-            {21,[24,2],[2.3 0],[PCCu 50 64; PCCl 70 90;;A23 91 114;RSC 115 130;]}; %20180920
+            {21,[24,2],[2.3 0],[PCCu 50 64; PCCl 70 90;A23 91 114;RSC 115 130;]}; %20180920
             {20,[24,3],[2.3 0],[PCCu 41 67; PCCl 77 82;A23 92 101;RSC 117 138;]}; %20180918
             {72,[24,4],[2.2 0],[PCCu 45 62; RSC 123 140;]}; %20190918
             {71,[24,5],[2.2 0],[PCCu 43 67; PCCl 73 92;]}; %20190913
@@ -384,7 +386,7 @@ switch monkey_hemis{monkey_hemi}
             }';
         
         MRI_path = 'Z:\Data\MOOG\Qiaoqiao\Mapping\MRI\QiaoqiaoOutput\forDrawMapping\';
-        MRI_offset = {[-93 93]+1,[-455 615]+5, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        MRI_offset = {[-93 93]+1,[-455 615]-5, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
         
         
         %}
@@ -392,7 +394,7 @@ switch monkey_hemis{monkey_hemi}
     case 'Qiaoqiao_QY_R'
         
         %  Qiaoqiao_left
-        %{
+%         %{
         
         % Header
         toPlotTypes3D = [PCCu PCCl RSC A23];    % Which area types do we want to plot in 3D plot?
@@ -447,6 +449,87 @@ switch monkey_hemis{monkey_hemi}
         
         
         %}
+        
+    case 'WhiteFang_L'
+        
+        %  WhiteFang_left
+%         %{
+        
+        % Header
+        toPlotTypes3D = [PCCu PCCl RSC A23];    % Which area types do we want to plot in 3D plot?
+        toPlotTypes_zview = [PCCu PCCl RSC A23];    % Which area types do we want to plot ?
+%         gridRange = [15 26; 1 11];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [15 20; 1 10];
+        monkey = 4;
+        hemisphere = 1;  % L = 1, R = 2
+        AP0 =  Qiaoqiao_right_AP0-1; % 6;
+        
+        data = {
+            %{[Session(s)], [LocX(Posterior) LoxY(Lateral)], [GuideTube(cm) Offset(cm)], [AreaType, Begin(100um), End(100um); ...] , electrode retrieval}
+            % When you are not sure about one area, use "AreaType-100" instead
+            
+            {104,[20,6],[2.2 0],[PCCu 69 89; PCCl 107 111;RSC 130 147]}; %20191224
+            {105,[20,5],[2.2 0],[PCCu 71 88; PCCl 107 120;RSC 144 151]}; %20191226
+            {107,[18,4],[2.2 0],[PCCu 61 80; PCCl 88 107;A23 123 133;RSC 142 159]}; %20200103
+            {108,[18,3],[2.2 0],[PCCu 77 82; PCCl 92 120;RSC 135 150]}; %20200106
+            {109,[17,2],[2.2 0.05],[PCCu 81 95; PCCl 105 132;RSC 138 150]}; %20200109
+            {110,[17,4],[2.2 0],[PCCu 83 93]}; %20200110
+            {111,[17,3],[2.2 0],[PCCu 78 95; PCCl 107 118;RSC 131 146]}; %20200114
+            {112,[16,3],[2.2 0],[PCCl 82 100; A23 115 120;RSC 140 150]}; %20200116
+            {113,[16,4],[2.2 0],[PCCu 60 72; PCCl 85 105;RSC 140 150]}; %20200117
+            {114,[20,3],[2.2 0.2],[PCCl 68 80;A23 94 98;RSC 115 125]}; %20200122
+            {128,[19,4],[2.2 0],[PCCu 71 87; PCCl 95 105;RSC 125 143]}; %20200520
+            {129,[20,4],[2.2 0],[PCCu 67 82; PCCl 85 105;RSC 125 144]}; %20200521
+            {130,[20,3],[2.2 0],[PCCu 62 78; PCCl 85 105;RSC 125 147]}; %20200522
+            
+            }';
+        
+        MRI_path = 'Z:\Data\MOOG\baiya\Mapping\MRI\';
+        MRI_offset = {[-93 93]+1,[-455 615]+5, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        
+        
+        %}
+        
+    case 'WhiteFang_R'
+        
+        %  WhiteFang_right
+%         %{
+        
+        % Header
+        toPlotTypes3D = [PCCu PCCl RSC A23];    % Which area types do we want to plot in 3D plot?
+        toPlotTypes_zview = [PCCu PCCl RSC A23];    % Which area types do we want to plot ?
+%         gridRange = [15 26; 1 11];  % Grid plotting ragne = [xLow xHigh; yLow yHigh]
+        gridRange = [15 20; 1 10];
+        monkey = 4;
+        hemisphere = 2;  % L = 1, R = 2
+        AP0 =  Qiaoqiao_right_AP0-1; % 6;
+        
+        data = {
+            %{[Session(s)], [LocX(Posterior) LoxY(Lateral)], [GuideTube(cm) Offset(cm)], [AreaType, Begin(100um), End(100um); ...] , electrode retrieval}
+            % When you are not sure about one area, use "AreaType-100" instead
+            
+            {104,[20,6],[2.2 0],[PCCu 69 89; PCCl 107 111;RSC 130 147]}; %20191224
+            {105,[20,5],[2.2 0],[PCCu 71 88; PCCl 107 120;RSC 144 151]}; %20191226
+            {107,[18,4],[2.2 0],[PCCu 61 80; PCCl 88 107;A23 123 133;RSC 142 159]}; %20200103
+            {108,[18,3],[2.2 0],[PCCu 77 82; PCCl 92 120;RSC 135 150]}; %20200106
+            {109,[17,2],[2.2 0.05],[PCCu 81 95; PCCl 105 132;RSC 138 150]}; %20200109
+            {110,[17,4],[2.2 0],[PCCu 83 93]}; %20200110
+            {111,[17,3],[2.2 0],[PCCu 78 95; PCCl 107 118;RSC 131 146]}; %20200114
+            {112,[16,3],[2.2 0],[PCCl 82 100; A23 115 120;RSC 140 150]}; %20200116
+            {113,[16,4],[2.2 0],[PCCu 60 72; PCCl 85 105;RSC 140 150]}; %20200117
+            {114,[20,3],[2.2 0.2],[PCCl 68 80;A23 94 98;RSC 115 125]}; %20200122
+            {128,[19,4],[2.2 0],[PCCu 71 87; PCCl 95 105;RSC 125 143]}; %20200520
+            {129,[20,4],[2.2 0],[PCCu 67 82; PCCl 85 105;RSC 125 144]}; %20200521
+            {130,[20,3],[2.2 0],[PCCu 62 78; PCCl 85 105;RSC 125 147]}; %20200522
+            
+            }';
+        
+        MRI_path = 'Z:\Data\MOOG\baiya\Mapping\MRI\';
+        MRI_offset = {[-93 93]+1,[-455 615]+5, [0 1]};   % [x1 x2],[y1 y2], [dx/dxSelect slope, dy/dxSelect slope]
+        
+        
+        %}
+        
         
     case 'Polo_L_HH'
         
@@ -526,7 +609,7 @@ switch monkey_hemis{monkey_hemi}
     case 'Polo_R_HH'
         
         %  Polo_right
-%         %{
+        %{
         
         % Header
         toPlotTypes3D = [ MST VIP MT LIP AUD];    % Which area types do we want to plot in 3D plot?
@@ -939,7 +1022,7 @@ xlim([y1-2,y2+2]);
 
 % Quick select monkey_hemi. HH20160122
 h_monkey_hemi = uicontrol('style','popupmenu','unit','norm','position',[0.01 0.94 0.131 0.035],...
-    'string','QQ_L|QQ_R|QQ_QY_L|QQ_QY_R|Polo_L|Polo_R|Polo_L_HH|Polo_R_HH','callback',@change_monkey_hemi);
+    'string','QQ_L|QQ_R|QQ_QY_L|QQ_QY_R|WF_L|WF_R|Polo_L|Polo_R|Polo_L_HH|Polo_R_HH','callback',@change_monkey_hemi);
 set(h_monkey_hemi,'value',monkey_hemi);
 
 % Frame
@@ -949,9 +1032,9 @@ xLoc = intersect(x1:x2,1:interval:100);
 yLoc = intersect(y1:y2,1:interval:100);
 xLines = line(repmat([y1-1;y2+1],1,length(xLoc)),repmat(xLoc,2,1));  % xLines
 switch monkey_hemis{monkey_hemi} % changed sth.for Qiaoqiao's new grid(left hemi)  LBY20170927
-    case {'Qiaoqiao_R','Qiaoqiao_QY_R','Polo_R','Manda','Polo_R_HH'}
+    case {'Qiaoqiao_R','Qiaoqiao_QY_R','Polo_R','Manda','Polo_R_HH','WhiteFang_R'}
         yLines = line(repmat(yLoc+0.25,2,1), repmat([x1-1;x2+1],1,length(yLoc)));  % yLines
-    case {'Qiaoqiao_L','Qiaoqiao_QY_L','Polo_L','Polo_L_HH'}
+    case {'Qiaoqiao_L','Qiaoqiao_QY_L','Polo_L','Polo_L_HH','WhiteFang_L'}
         yLines = line(repmat(yLoc-0.25,2,1), repmat([x1-1;x2+1],1,length(yLoc)));  % yLines
 end
 
@@ -971,9 +1054,9 @@ end
 t = linspace(0,2*pi,100)';
 
 switch monkey_hemis{monkey_hemi} % changed sth.for Qiaoqiao's new grid(left hemi)  LBY20170927
-    case {'Qiaoqiao_R','Qiaoqiao_QY_R','Polo_R','Manda','Polo_R_HH'}
+    case {'Qiaoqiao_R','Qiaoqiao_QY_R','Polo_R','Manda','Polo_R_HH','WhiteFang_R'}
         xGrid = radius * repmat(sin(t),1,length(xOffsets)) + repmat(xOffsets,length(t),1);
-    case {'Qiaoqiao_L','Qiaoqiao_QY_L','Polo_L','Polo_L_HH'}
+    case {'Qiaoqiao_L','Qiaoqiao_QY_L','Polo_L','Polo_L_HH','WhiteFang_L'}
         xGrid = radius * repmat(sin(t),1,length(xOffsets)) + repmat(xOffsets+1,length(t),1);
 end
 yGrid = radius * repmat(cos(t),1,length(yOffsets)) + repmat(yOffsets,length(t),1);
@@ -985,9 +1068,9 @@ set(fill(yGrid,xGrid,[1 1 1]),'LineWidth',1.5,'ButtonDownFcn',@SelectChannel);  
 for channel = 1:length(data)
     xCenter = data{channel}{2}(1);
     switch monkey_hemis{monkey_hemi} % changed sth.for Qiaoqiao's new grid(left hemi)  LBY20170927
-        case {'Qiaoqiao_R','Qiaoqiao_QY_R','Polo_R','Manda','Polo_R_HH'}
+        case {'Qiaoqiao_R','Qiaoqiao_QY_R','Polo_R','Manda','Polo_R_HH','WhiteFang_R'}
             yCenter =  data{channel}{2}(2) + 0.5 * ~mod(data{channel}{2}(1),2);
-        case {'Qiaoqiao_L','Qiaoqiao_QY_L','Polo_L','Polo_L_HH'}
+        case {'Qiaoqiao_L','Qiaoqiao_QY_L','Polo_L','Polo_L_HH','WhiteFang_L'}
             yCenter =  data{channel}{2}(2) + 0.5 *( ~mod(data{channel}{2}(1),2)-1);
             
     end
@@ -1050,7 +1133,7 @@ end
 %% Call back for 2-D Grid View
 function SelectChannel(~,~)
 
-global maxX maxY maxZ movDis GMTypes data Qiaoqiao_right_AP0 Polo_right_AP0
+global maxX maxY maxZ movDis GMTypes data Qiaoqiao_right_AP0 Polo_right_AP0 WF_right_AP0
 global MRI_path MRI_offset AP0 MRI_path_saggital MRI_offset_saggital;
 global monkey hemisphere ;
 global gridRange linWid start_end_markers overlapping;
@@ -1107,6 +1190,9 @@ try
         %     else
         %         fileNo = xSelect + Qiaoqiao_right_AP0 - AP0;
         %     end
+    elseif monkey == 4
+%         fileNo = xSelect + WF_right_AP0 - AP0;
+fileNo = xSelect;
     end
     %     MRI = imread([MRI_path num2str(fileNo) '.bmp']);
     MRI = imread([MRI_path num2str(fileNo) '.jpg']);
@@ -1247,7 +1333,7 @@ set(findall(gcf,'tickdir','i'),'tickdir','o');
 % axis off;
 
 %-------------------   for sagittal plane  -----------------------%
-% %{
+%{
 figurePositionSagittal = [-1050 100 1000 400];
 set(figure(804),'Position',figurePositionSagittal, 'color','w'); clf;
 h_saggital = axes('Position',[0.1 0.1 0.85 0.8]);
@@ -1508,6 +1594,7 @@ for i =  1:size(to_plot_num,1)
 end
 
 %-------------------   for sagittal plane  -----------------------%
+%{
 figure(804);
 
 % --------------- temporal-spatial Properties (MU & SU) --------------------------%
@@ -1543,6 +1630,7 @@ if strcmp(to_plot_txt(i,xls.Area),'PCCl') || strcmp(to_plot_txt(i,xls.Area),'PCC
         plot(xx,yy,'.','color','r','markersize',18);
     end
 end
+%}
 
 function ShowDepth(~,~,offset)
 persistent depthLine;

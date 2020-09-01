@@ -9,7 +9,7 @@
 
 function [modelFitRespon_VO, modelFit_VO, modelFit_VO_spatial,modelFitPara_VO, BIC_VO, RSquared_VO, rss_VO, time] = fitVO_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-% sprintf('Fitting VO model...')
+sprintf('Fitting VO model...')
 
 %-- initialize global using parameters
 
@@ -53,7 +53,8 @@ end
 
 % normalise temporal profile
 t_A = max(temporal_data) - min(temporal_data);
-temporal_data = temporal_data/t_A;
+% temporal_data = temporal_data/t_A;
+temporal_data = (temporal_data - min(temporal_data))/t_A;
 
 % normalise spatial profile(range[-1,1])
 s_DC = (max(spatial_data(:)) + min(spatial_data(:)))/2;
@@ -94,6 +95,7 @@ DC = recon_v(4);
 
 R_0 = baseline;
 A = t_A*s_A;
+A = max(PSTH_data(:)) - min(PSTH_data(:));
 advance = 0;
 delay = 0.2;
 

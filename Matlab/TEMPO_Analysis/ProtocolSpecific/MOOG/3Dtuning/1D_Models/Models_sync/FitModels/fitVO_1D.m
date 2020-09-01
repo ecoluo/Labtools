@@ -6,7 +6,7 @@
 % reps: the repetition number to perform for fitting models
 % 20190411 LBY
 
-function [modelFitRespon_VO, modelFit_VO, modelFit_VO_spatial,modelFitPara_VO, BIC_VO, RSquared_VO, rss_VO, time, VO_peak_A_T] = fitVO_1D(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration,sig)
+function [modelFitRespon_VO, modelFit_VO, modelFit_VO_spatial,modelFitPara_VO, BIC_VO, RSquared_VO, rss_VO, time] = fitVO_1D(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
 sprintf('Fitting VO 1D model...')
 
@@ -21,7 +21,7 @@ time = (1: (stimOffBin - stimOnBin +1))' /(stimOffBin - stimOnBin +1)*duration/1
 st_data = [u_azi;time]; % spatial_time data, transform to this form for fitting
 
 % fitting initial parameters
-% sig = sqrt(sqrt(2))/6;
+sig = sqrt(sqrt(2))/6;
 baseline = spon;
 acc_max = aMax/1000; % transfer unit from ms to s
 acc_min = aMin/1000; % transfer unit from ms to s
@@ -46,7 +46,7 @@ peak_i = find(time >= mu, 1, 'first')-1;
 % find the initial mu
 mu_0 = time(peak_i - delay_i);
 
-if corrcoeff_vel(max_val) < 0
+if corrcoeff_vel(max_val) < 0,
     temporal_data = -temporal_data;
     spatial_data = -spatial_data;
 end
@@ -102,7 +102,6 @@ param = [A, ...  %1
     n, ...       %4
     a_0, ...     %5
     DC,...       %7
-    sig,...
     ];
 
 
@@ -115,7 +114,6 @@ LB = [0.25*A, ...`  %1  A amplitude
     0.001, ...      %4  n
     0, ...          %5  a_0
     0,...       %7
-    sig,...
     ];
     
 UB = [4*A, ...      %1  A
@@ -124,7 +122,6 @@ UB = [4*A, ...      %1  A
     10, ...         %4  n
     360, ...       %5  a_0
     1,...       %7
-    sig,...
     ];
 
 rand_rss = zeros(reps+1,1);
@@ -172,12 +169,6 @@ modelFitRespon_VO = respon;
 
 modelFit_VO = [];
 modelFit_VO_spatial = [];
-VO_peak_A_T = [];
-
-% [~,peak_A_dir] = max(modelFit_VA_spatial.A);
-% [~,peak_A_T_bin] = max(modelFit_VA.A(peak_A_dir,:));
-% VO_peak_A_T = time(peak_A_T_bin);
-
 %% analysis
 data_num = 26*nBins;
 para_num = 6;

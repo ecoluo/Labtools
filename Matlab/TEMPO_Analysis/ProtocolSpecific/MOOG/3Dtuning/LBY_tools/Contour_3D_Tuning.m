@@ -95,7 +95,7 @@ for k = 1:length(unique_stimType)
 end
 %} 
 % % ------ fig.120 plot coutour tuning responses (at peak time) ------%
-% %{ 
+%{ 
 % transform
 % k=1,2,3
 % j= -90,-45,0,45,90 (up->down)
@@ -186,7 +186,7 @@ end
 %}
 
 % ------ fig.130 plot coutour tuning responses (3 time) ------%
-%{
+% %{
 % transform
 % k=1,2,3
 % j= -90,-45,0,45,90 (up->down)
@@ -204,11 +204,13 @@ yEle = [-1,-0.707,0,0.707,1];
 
 aMaxBin = round((stimOnT(1)+aMax-PSTH_onT+timeStep)/timeStep);
 aMinBin = round((stimOnT(1)+aMin-PSTH_onT+timeStep)/timeStep);
-vMaxBin = round((stimOnT(1)+aMax+(aMin-aMax)/2-PSTH_onT+timeStep)/timeStep);
+% vMaxBin = round((stimOnT(1)+aMax+(aMin-aMax)/2-PSTH_onT+timeStep)/timeStep);
+vMaxBin = round((stimOnT(1)+temp_duration(1)/2-PSTH_onT+timeStep)/timeStep);
 
 Tmarker = [aMaxBin,vMaxBin,aMinBin];
 
-for k = 1:length(unique_stimType)
+% for k = 1:length(unique_stimType)
+for k = 1
     if ~isempty(Tmarker)
         figure(130+k);
         set(gcf,'pos',[60 200 1800 800]);

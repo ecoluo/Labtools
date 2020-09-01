@@ -57,4 +57,22 @@ for i=1:size(r,1),
     end
 end
 
+% %compute results
+% r = zeros(size(ele_azi_v,1), size(ele_azi_v,2), length(vel_time));
+% for i=1:size(r,1)
+%     for j=1:size(r,2)
+%         rr =(1-a(22))*( ...
+%             (1-a(21))*( ...
+%             a(20)*ele_azi_p(i,j)*pos_time + ...
+%             (1-a(20))*ele_azi_v(i,j)*vel_time) + ...
+%             a(21)*ele_azi_a(i,j)*acc_time) + ...
+%             a(22)*ele_azi_j(i,j)*jerk_time;
+%         r(i,j,:) = rr;
+%     end
+% end
+% r = (r - min(r(:)))./max(r(:)) - min(r(:));
+%         r = r * a(1) + a(2);
+%         r(find(r<0))  = 0;
+        
+
 end

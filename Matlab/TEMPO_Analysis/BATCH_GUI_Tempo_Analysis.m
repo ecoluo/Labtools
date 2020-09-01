@@ -31,8 +31,8 @@ global Excel;
 % File='Z:\Data\MOOG\Results\Result_LBY_syncModel.xlsm'; 
 % File='Z:\Data\MOOG\Results\Result_LBY.xlsm'; 
 % File='Z:\Data\MOOG\Results\Result_MST.xlsm'; 
-% File='Z:\Data\MOOG\Results\Result_TQY.xlsm'; 
-File='Z:\Data\MOOG\Results\Result_PCall.xlsm'; 
+File='Z:\Data\MOOG\Results\Result_TQY.xlsm'; 
+% File='Z:\Data\MOOG\Results\Result_PCall.xlsm'; 
 try
     Excel = actxGetRunningServer('Excel.Application');  % Use the current server
 catch
@@ -113,12 +113,21 @@ while (line ~= -1) % not at the end
             % Add protocol names manually to files that have been rescued from CED. HH20150723
             switch logfile 
                 case { 'Z:\Data\MOOG\Qiaoqiao\raw\m6c605r1.log'
+                       'Z:\Data\MOOG\Qiaoqiao\raw\m6c912r1.log'
                        }   % 3DT tasks rescued from CED
                     beep;
                     protocol_name = 100;
-                case {'Z:\Data\MOOG\Qiaoqiao\raw\m6c617r2.log'}   % 3DR tasks rescued from CED
+                case {'Z:\Data\MOOG\Qiaoqiao\raw\m6c617r2.log'
+                        'Z:\Data\MOOG\Polo\raw\m5c1583r2.log'
+                       } % 3DR tasks rescued from CED
                     beep;
                     protocol_name = 112; 
+                case { 'Z:\Data\MOOG\Qiaoqiao\raw\m6c566r1.log'
+                       'Z:\Data\MOOG\Qiaoqiao\raw\m6c576r2.log'
+                       'Z:\Data\MOOG\Qiaoqiao\raw\m6c600r2.log'
+                       }   % Delayed saccade tasks rescued from CED
+                    beep;
+                    protocol_name = 111; 
                 otherwise
                     % Read the log file normally
                     protocol_info = textread(logfile, '%s', 3);

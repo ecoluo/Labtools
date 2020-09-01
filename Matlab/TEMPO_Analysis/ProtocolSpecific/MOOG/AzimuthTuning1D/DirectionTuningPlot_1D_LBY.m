@@ -654,27 +654,13 @@ saveas(4,['Z:\LBY\Recording data\',PSTH.monkey,'\1D_Tuning\' ss], 'emf');
 
 %% 1D models nalysis
 model_catg = [];
-%{
+% %{
 model_catg = 'Sync model'; % tau is the same
 % model_catg = 'Out-sync model'; % each component has its own tau
 
 models = {'VA','VO','AO'};
 models_color = {'k','r',colorDBlue};
 
-% models = {'VO','AO','VJ','AJ','VP','AP'};
-% models_color = {'r',colorDBlue,colorLRed,colorLBlue,colorLRed,colorLBlue};
-
-% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
-% models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
-
-% models = {'PVAJ'};
-% models_color = {'k'};
-
-% models = {'VAJ','VA'};
-% models_color = {'k','g'};
-%
-% models = {'VA','VAJ','VAP','PVAJ'};
-% models_color = {'k','k','k','k'};
 
 
 spon_flag = 0; % 0 means raw data; 1 means mean(raw)-mean(spon) data

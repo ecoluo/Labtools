@@ -47,7 +47,7 @@ function varargout = GROUP_GUI_LBY(varargin)
 
 % Edit the above text to modify the response to help GROUP_GUI
 
-% Last Modified by GUIDE v2.5 10-Jul-2019 19:24:57
+% Last Modified by GUIDE v2.5 10-Aug-2020 12:17:31
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -119,18 +119,20 @@ function ReadXls_Callback(hObject, eventdata, handles)
 clear global group_result;
 
 if ismember('control',get(gcf,'currentModifier'))
-    winopen('Z:\Data\MOOG\Results\Result_LBY.xlsm');
+%     winopen('Z:\Data\MOOG\Results\Result_LBY.xlsm');
 % winopen('Z:\Data\MOOG\Results\Result_TQY.xlsm');
-% winopen('Z:\Data\MOOG\Results\Result_PCall.xlsm');
+winopen('Z:\Data\MOOG\Results\Result_PCall.xlsm'); % all 3D_Tuning neurons(recorded by LBY & TQY)
+% winopen('Z:\Data\MOOG\Results\Result_MST.xlsm');
 
     return;
 end
 
 set(handles.num_entries,'string',0); drawnow;
 
-handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
+% handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_LBY.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
 % handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_TQY.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string')));
-% handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_PCall.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string')));
+handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_PCall.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string')));
+% handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_MST.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
 
 handles.N = size(handles.XlsData.num,1);
 
@@ -652,3 +654,12 @@ function Title_DeleteFcn(hObject, eventdata, handles)
 % hObject    handle to Title (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in WF_data.
+function WF_data_Callback(hObject, eventdata, handles)
+% hObject    handle to WF_data (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of WF_data

@@ -87,11 +87,11 @@ LB = [0.25*A, ...`  %1  A
     0, ...          %9 a_a_0
     0, ...         %11 a_DC
     0, ...         %12 wV
-    0];             %13 mu_t_j
+    mu-0.25];             %13 mu_t_j
 
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
-    mu+0.4, ...      %3  mu_t_v
+    mu+0.2, ...      %3  mu_t_v
     10, ...         %4  n
     360, ...       %5  a_0
     1,...          %7 v_DC
@@ -99,7 +99,7 @@ UB = [4*A, ...      %1  A
     360, ...      %9 a_a_0
     1 ...         %11 a_DC
     1,...         %12 wV
-    mu+0.4];            %13 mu_t_j
+    mu+0.25];            %13 mu_t_j
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

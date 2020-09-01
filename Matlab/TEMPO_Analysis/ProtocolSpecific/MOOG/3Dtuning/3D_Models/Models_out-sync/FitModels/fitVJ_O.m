@@ -34,7 +34,8 @@ y_data = permute(PSTH_data, [2 1 3]); % transform to azi*ele*timebin
 
 % normalise temporal profile
 t_A = max(temporal_data) - min(temporal_data);
-temporal_data = temporal_data/t_A;
+% temporal_data = temporal_data/t_A;
+temporal_data = (temporal_data - min(temporal_data))/t_A;
 
 % normalise spatial profile(range[-1,1])
 s_DC = (max(spatial_data(:)) + min(spatial_data(:)))/2;
@@ -49,6 +50,7 @@ options = optimset('Display', 'off', 'MaxIter', 5000);
 
 R_0 = baseline;
 A = t_A*s_A;
+A = max(PSTH_data(:)) - min(PSTH_data(:));
 mu_0_v = mu;
 mu_0_j = mu;
 v_n = 1;
@@ -95,7 +97,7 @@ LB = [0.25*A, ...`  %1  A
     -90, ...      %10 a_e_0
     0, ...         %11 a_DC
     0, ...         %12 wV
-    mu-0.1];             %13 mu_t_j
+    mu-0.25];             %13 mu_t_j
 
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
@@ -109,7 +111,7 @@ UB = [4*A, ...      %1  A
     90, ...      %10 a_e_0
     1 ...         %11 a_DC
     1,...         %12 wV
-    mu+0.2];            %13 mu_t_j
+    mu+0.25];            %13 mu_t_j
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

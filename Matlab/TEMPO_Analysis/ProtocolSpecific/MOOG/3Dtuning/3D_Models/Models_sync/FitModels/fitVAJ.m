@@ -35,7 +35,8 @@ y_data = permute(PSTH_data, [2 1 3]); % transform to azi*ele*timebin
 
 % normalise temporal profile
 t_A = max(temporal_data) - min(temporal_data);
-temporal_data = temporal_data/t_A;
+% temporal_data = temporal_data/t_A;
+temporal_data = (temporal_data - min(temporal_data))/t_A;
 
 % normalise spatial profile(range[-1,1])
 s_DC = (max(spatial_data(:)) + min(spatial_data(:)))/2;

@@ -8,7 +8,7 @@
 
 function [modelFitRespon_VA,modelFit_VA, modelFit_VA_spatial, modelFitPara_VA, BIC_VA, RSquared_VA, rss_VA, time] = fitVA_O(spon,PSTH_data,spatial_data, nBins,reps,stimOnBin,stimOffBin,aMax,aMin,duration)
 
-% sprintf('Fitting VA model...')
+sprintf('Fitting VA model...')
 
 %-- initialize global using parameters
 
@@ -36,7 +36,8 @@ y_data = permute(PSTH_data, [2 1 3]); % transform to azi*ele*timebin
 
 % normalise temporal profile
 t_A = max(temporal_data) - min(temporal_data);
-temporal_data = temporal_data/t_A;
+% temporal_data = temporal_data/t_A;
+temporal_data = (temporal_data - min(temporal_data))/t_A;
 
 % normalise spatial profile(range[-1,1])
 s_DC = (max(spatial_data(:)) + min(spatial_data(:)))/2;
@@ -51,6 +52,7 @@ options = optimset('Display', 'off', 'MaxIter', 5000);
 
 R_0 = baseline;
 A = t_A*s_A;
+A = max(PSTH_data(:)) - min(PSTH_data(:));
 mu_0 = mu;
 v_n = 1;
 a_n = 1;
@@ -64,10 +66,11 @@ v_DC = 0.5;
 a_DC = 0.5;
 w = 0.5;
 
-a = 0.5;
-v_laten = a;
+v_laten = 0.2;
 advance = 0;
 delay = 0.2;
+
+
 %Inital fits
 param = [A, ...       %1
     R_0, ...     %2
@@ -98,7 +101,7 @@ LB = [0.25*A, ...`  %1  A
     -90, ...      %10 a_e_0
     0, ...         %11 a_DC
     0, ...         %12 wV
-    a];             %13 v_latency
+    0];             %13 v_latency
 
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
@@ -112,7 +115,7 @@ UB = [4*A, ...      %1  A
     90, ...      %10 a_e_0
     1 ...         %11 a_DC
     1,...         %12 wV
-    a];            %13 v_latency
+    0.5];            %13 v_latency
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

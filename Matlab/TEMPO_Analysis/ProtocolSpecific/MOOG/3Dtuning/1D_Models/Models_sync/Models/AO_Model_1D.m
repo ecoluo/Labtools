@@ -11,7 +11,7 @@ t = st_data(9:end);
 
 
 %time profile
-acc_time = acc_func_1D([a(3) a(end)], t);
+acc_time = acc_func(a(3), t);
 
 %spatial profiles
 azi = cos_tuning_1D(a(4:6), u_azi);
