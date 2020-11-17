@@ -262,23 +262,23 @@ clf;
 [~,h_subplot] = tight_subplot(2+(length(unique_spatFre)*length(unique_tempFre)),9,0.04,0.15);
 
 %%%%% optic flow
-for i = 1:length(unique_orient)
-    axes(h_subplot(i+9));
-    plot(PSTH.opt_bin_mean_rate(iAzi(i),:),'color','k','linewidth',5);
-    hold on;
-    for n = 1:size(markers,1)
-        plot([markers{n,3} markers{n,3}], [0,max(PSTH.opt_maxSpkRealBinMean,PSTH.maxSpkSponbin_mean)], '--','color',markers{n,4},'linewidth',3);
-        hold on;
-    end
-    set(gca,'ylim',[0 max([PSTH.opt_maxSpkRealBinMean+PSTH.opt_maxSpkRealBinMeanSte,PSTH.maxSpkSponbin_mean+PSTH.maxSpkSponbin_meanSte, max(PSTH.maxSpkRealbin_mean+PSTH.maxSpkRealbin_meanSte)])],'xlim',[1 nBins(1,1)]);
-    SetFigure(15);
-    set(gca,'xtick',[],'xticklabel',[]);
-    %     set(gca,'yticklabel',[]);
-    
-end
+% for i = 1:length(unique_orient)
+%     axes(h_subplot(i+9));
+%     plot(PSTH.opt_bin_mean_rate(iAzi(i),:),'color','k','linewidth',5);
+%     hold on;
+%     for n = 1:size(markers,1)
+%         plot([markers{n,3} markers{n,3}], [0,max(PSTH.opt_maxSpkRealBinMean,PSTH.maxSpkSponbin_mean)], '--','color',markers{n,4},'linewidth',3);
+%         hold on;
+%     end
+%     set(gca,'ylim',[0 max([PSTH.opt_maxSpkRealBinMean+PSTH.opt_maxSpkRealBinMeanSte,PSTH.maxSpkSponbin_mean+PSTH.maxSpkSponbin_meanSte, max(PSTH.maxSpkRealbin_mean+PSTH.maxSpkRealbin_meanSte)])],'xlim',[1 nBins(1,1)]);
+%     SetFigure(15);
+%     set(gca,'xtick',[],'xticklabel',[]);
+%     %     set(gca,'yticklabel',[]);
+%     
+% end
 
-axes(h_subplot(18));
-text(0,0.5,'Optic flow');
+% axes(h_subplot(18));
+% text(0,0.5,'Optic flow');
 
 %%%%% gratings
 

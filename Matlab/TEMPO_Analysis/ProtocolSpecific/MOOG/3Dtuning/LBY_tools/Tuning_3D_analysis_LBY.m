@@ -145,6 +145,7 @@ FixInT = find(event_in_bin == IN_FIX_WIN_CD);
 
 % spike data
 % 5000*260 (for 5 repetitions)
+
 spike_data = squeeze(data.spike_data(SpikeChan,:,real_trials)); % sipke data in 5000ms for each trial
 spike_data( spike_data > 100 ) = 1; % something is absolutely wrong, recorrect to 1
 spon_spk_data = squeeze(data.spike_data(SpikeChan,:,spon_trials));
@@ -375,7 +376,7 @@ end
 % 500 ms after stim. on to 50ms before stim off
 
 baselineBinBeg = stimOnBin-floor(100/timeStep);
-baselineBinEnd = stimOnBin+floor(200/timeStep);
+baselineBinEnd = stimOnBin+floor(300/timeStep);
 
 for k = 1:length(unique_stimType)
     %     spk_data_bin_rate_mean_minusSpon{k} = PSTH.spk_data_bin_mean_rate_aov{k}-repmat(PSTH.spon_spk_data_bin_mean_rate',size(PSTH.spk_data_bin_mean_rate_aov{k},1),1);
@@ -553,7 +554,7 @@ for k = 1:length(unique_stimType)
         %                                                                                                                                                                           
         
         % 1) max-null 2) max-min
-%         %{
+        %{
 [~, inxx] = max(PSTH.spk_data_count_mean_rate_all{k}(:));
 [eleMax,aziMax] = ind2sub(size(PSTH.spk_data_count_mean_rate_all{k}),inxx);
 
@@ -577,6 +578,7 @@ eleMin = 6 - eleMax;
             DDI_bin{k}(2) = (maxSpkRealMean_bin{k}-minSpkRealMean_bin2{k})/(maxSpkRealMean_bin{k}-minSpkRealMean_bin2{k}+2*sqrt(resp_std_bin{k}));
             
             % DDI permutation
+            
             num_perm = 1000;
             for nn = 1 : num_perm
                 temp = squeeze(PSTH.spk_data_bin_rate_aov{k}(:,pt,:));
@@ -689,8 +691,8 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 
 % preferDirectionOfTime;
 % CosineTuningPlot;
-% PSTH_3D_Tuning; % plot PSTHs across sessions;
-% Contour_3D_Tuning; % plot countour figures;
+PSTH_3D_Tuning; % plot PSTHs across sessions;
+Contour_3D_Tuning; % plot countour figures;
 % Contour_3D_Tuning_GIF; % plot countour figures(PD across time);
 % spatial_tuning;
 
@@ -698,12 +700,14 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 model_catg = [];
 %% 3D models nalysis
 
-%{
+% %{
 % model_catg = 'Sync model'; % tau is the same
+
 model_catg = 'Out-sync model'; % each component has its own tau
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
+
 
 % models = {'VO','AO','VA','VJ','AJ','VAJ'};
 % models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,'k'};
@@ -711,8 +715,8 @@ model_catg = 'Out-sync model'; % each component has its own tau
 % models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
 % models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
 
-% models = {'PVAJ'};
-% models_color = {'k'};
+models = {'PVAJ'};
+models_color = {'k'};
 
 % models = {'PVAJ','VA'};
 % models_color = {'k','k'};
@@ -735,9 +739,9 @@ reps = 20;
 
 % reps = 2;
 
-for k = 1:length(unique_stimType)
-% for k = 1
-    %     if PSTH.respon_sigTrue(k) == 1
+% for k = 1:length(unique_stimType)
+for k = 1
+        if PSTH.respon_sigTrue(k) == 1
     
     % fit data with raw PSTH data or - spon data
     switch spon_flag
@@ -758,11 +762,17 @@ for k = 1:length(unique_stimType)
         PSTH3Dmodel{k}.PVAJ_wJ = PSTH3Dmodel{k}.modelFitPara_PVAJ(22);
         [PSTH3Dmodel{k}.PVAJ_preDir_V(1),PSTH3Dmodel{k}.PVAJ_preDir_V(2),PSTH3Dmodel{k}.PVAJ_preDir_V(3) ] = vectorsum(PSTH3Dmodel{k}.modelFitTrans_spatial_PVAJ.V);
         [PSTH3Dmodel{k}.PVAJ_preDir_A(1),PSTH3Dmodel{k}.PVAJ_preDir_A(2),PSTH3Dmodel{k}.PVAJ_preDir_A(3) ] = vectorsum(PSTH3Dmodel{k}.modelFitTrans_spatial_PVAJ.A);
+        
         PSTH3Dmodel{k}.PVAJ_angleDiff_VA = angleDiff(PSTH3Dmodel{k}.PVAJ_preDir_V(1),PSTH3Dmodel{k}.PVAJ_preDir_V(2),PSTH3Dmodel{k}.PVAJ_preDir_V(3),PSTH3Dmodel{k}.PVAJ_preDir_A(1),PSTH3Dmodel{k}.PVAJ_preDir_A(2),PSTH3Dmodel{k}.PVAJ_preDir_A(3));
         if strcmp(model_catg,'Out-sync model') == 1
             PSTH3Dmodel{k}.PVAJ_Delay_VA = PSTH3Dmodel{k}.modelFitPara_PVAJ(23);
             PSTH3Dmodel{k}.PVAJ_Delay_JA = PSTH3Dmodel{k}.modelFitPara_PVAJ(24);
             PSTH3Dmodel{k}.PVAJ_Delay_PA = PSTH3Dmodel{k}.modelFitPara_PVAJ(25);
+
+% reference to J
+PSTH3Dmodel{k}.PVAJ_Delay_VJ = PSTH3Dmodel{k}.modelFitPara_PVAJ(23)+PSTH3Dmodel{k}.modelFitPara_PVAJ(24);
+            PSTH3Dmodel{k}.PVAJ_Delay_AJ = PSTH3Dmodel{k}.modelFitPara_PVAJ(24);
+            PSTH3Dmodel{k}.PVAJ_Delay_PJ = PSTH3Dmodel{k}.modelFitPara_PVAJ(25)+PSTH3Dmodel{k}.modelFitPara_PVAJ(23)+PSTH3Dmodel{k}.modelFitPara_PVAJ(24);
         end
         
     elseif sum(ismember(models,'PVAJ')) == 0
@@ -780,6 +790,12 @@ for k = 1:length(unique_stimType)
             PSTH3Dmodel{k}.PVAJ_Delay_VA = nan;
             PSTH3Dmodel{k}.PVAJ_Delay_JA = nan;
             PSTH3Dmodel{k}.PVAJ_Delay_PA = nan;
+            
+            % reference to J
+            PSTH3Dmodel{k}.PVAJ_Delay_VJ = nan;
+            PSTH3Dmodel{k}.PVAJ_Delay_AJ = nan;
+            PSTH3Dmodel{k}.PVAJ_Delay_PJ = nan;
+      
         end
     end
     
@@ -808,6 +824,10 @@ for k = 1:length(unique_stimType)
         if strcmp(model_catg,'Out-sync model') == 1
             PSTH3Dmodel{k}.VAJ_Delay_VA = PSTH3Dmodel{k}.modelFitPara_VAJ(18);
             PSTH3Dmodel{k}.VAJ_Delay_JA = PSTH3Dmodel{k}.modelFitPara_VAJ(19);
+            
+            % reference to J
+            PSTH3Dmodel{k}.VAJ_Delay_VJ = PSTH3Dmodel{k}.modelFitPara_VAJ(18)+PSTH3Dmodel{k}.modelFitPara_VAJ(19);
+            PSTH3Dmodel{k}.VAJ_Delay_AJ = PSTH3Dmodel{k}.modelFitPara_VAJ(19);
         end
     elseif sum(ismember(models,'VAJ')) == 0
         PSTH3Dmodel{k}.VAJ_wV = nan;
@@ -822,6 +842,10 @@ for k = 1:length(unique_stimType)
         if strcmp(model_catg,'Out-sync model') == 1
             PSTH3Dmodel{k}.VAJ_Delay_VA = nan;
             PSTH3Dmodel{k}.VAJ_Delay_JA = nan;
+            
+            % reference to J
+            PSTH3Dmodel{k}.VAJ_Delay_VJ = nan;
+            PSTH3Dmodel{k}.VAJ_Delay_AJ = nan;
         end
     end
     
@@ -850,6 +874,10 @@ for k = 1:length(unique_stimType)
         if strcmp(model_catg,'Out-sync model') == 1
             PSTH3Dmodel{k}.VAP_Delay_VA = PSTH3Dmodel{k}.modelFitPara_VAP(18);
             PSTH3Dmodel{k}.VAP_Delay_PA = PSTH3Dmodel{k}.modelFitPara_VAP(19);
+            
+%             % reference to J
+%             PSTH3Dmodel{k}.VAP_Delay_VA = PSTH3Dmodel{k}.modelFitPara_VAP(18);
+%             PSTH3Dmodel{k}.VAP_Delay_PA = PSTH3Dmodel{k}.modelFitPara_VAP(19)+PSTH3Dmodel{k}.modelFitPara_VAP(18);
         end
     elseif sum(ismember(models,'VAP')) == 0
         PSTH3Dmodel{k}.VAP_wV = nan;
@@ -862,6 +890,10 @@ for k = 1:length(unique_stimType)
         PSTH3Dmodel{k}.BIC_VAP = nan;
         PSTH3Dmodel{k}.modelFitPara_VAP = nan*ones(1,17);
         if strcmp(model_catg,'Out-sync model') == 1
+            PSTH3Dmodel{k}.VAP_Delay_VA = nan;
+            PSTH3Dmodel{k}.VAP_Delay_PA = nan;
+            
+            % reference to J
             PSTH3Dmodel{k}.VAP_Delay_VA = nan;
             PSTH3Dmodel{k}.VAP_Delay_PA = nan;
         end
@@ -925,9 +957,9 @@ for k = 1:length(unique_stimType)
         PSTH3Dmodel{k}.RSquared_AP = nan;
         PSTH3Dmodel{k}.BIC_AP = nan;
     end
-    %     else
-    %         PSTH3Dmodel{k} = nan;
-    %     end
+        else
+            PSTH3Dmodel{k} = nan;
+        end
 end
 
 %}

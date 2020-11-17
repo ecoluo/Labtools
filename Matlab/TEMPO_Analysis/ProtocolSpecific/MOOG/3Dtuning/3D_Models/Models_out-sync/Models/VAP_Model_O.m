@@ -27,7 +27,7 @@ ele_azi_a = reshape(ele_azi_a, length(u_azi), length(u_ele));
 
 % position model
 %time profile
-pos_time = pos_func(a(3)+a(19), t);
+pos_time = pos_func(a(3)+a(18)+a(19), t);
 %spatial profiles
 ele_azi_p = cos_tuning(a(12:15), [u_ele; u_azi]);
 ele_azi_p = reshape(ele_azi_p, length(u_azi), length(u_ele));

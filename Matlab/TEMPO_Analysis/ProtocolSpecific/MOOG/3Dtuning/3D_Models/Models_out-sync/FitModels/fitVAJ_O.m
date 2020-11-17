@@ -69,8 +69,8 @@ a_DC = 0.5;
 j_DC = 0.5;
 wv = 0.3;
 wj = 0.3;
-v_laten = 0.1;
-j_laten = 0.1;
+v_laten = 0.2;
+j_laten = 0.2;
 advance = 0;
 delay = 0.2;
 
@@ -135,8 +135,8 @@ UB = [4*A, ...      %1  A
     1, ...         %15 a_DC
     1, ...         %16 wV
     1,...          %17 wJ
-    0.5,...          %18 v_laten
-    0.5];             %19 j_laten
+    0.3,...          %18 v_laten
+    0.3];             %19 j_laten
 
 rand_rss = zeros(reps+1,1);
 rand_param = zeros(reps+1, length(param));

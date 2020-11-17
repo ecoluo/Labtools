@@ -186,7 +186,7 @@ end
 %}
 
 % ------ fig.130 plot coutour tuning responses (3 time) ------%
-% %{
+%{
 % transform
 % k=1,2,3
 % j= -90,-45,0,45,90 (up->down)
@@ -218,6 +218,7 @@ for k = 1
         for ii = 1:3
             axes('unit','pixels','pos',[60+100*ii+500*(ii-1) 300 400 200]);
             contourf(xAzi,yEle,spk_data_bin_mean_rate_trans{k}(:,:,Tmarker(ii)),'linecolor','w','linestyle','none');
+            colormap(jet);
                 a = spk_data_bin_mean_rate_trans{k};
     caxis([min(a(:)) max(a(:))]);
             colorbar;

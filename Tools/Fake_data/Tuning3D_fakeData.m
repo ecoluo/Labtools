@@ -10,7 +10,7 @@ clc;
 colorDefsLBY;
 
 if nargin == 0
-    a = 1;
+    a = 7;
 end;
 
 meanSpon = 10;
@@ -27,7 +27,7 @@ sig = sqrt(sqrt(2))/6;
 preDir = [68 20]; % [azimuth, elevation]
 preDir_V = [0 30]; % [azimuth, elevation]
 preDir_A = [60 0]; % [azimuth, elevation]
-preDir_J = [0 90]; % [azimuth, elevation]
+preDir_J = [90 0]; % [azimuth, elevation]
 preDir_P = [40 -90]; % [azimuth, elevation]
 
 switch a
@@ -186,10 +186,10 @@ spatialTuning = linspace(0,2,40);
         ResponP = reshape(ResponP,[8 5 length(Rp)])*(maxSPK/max(max(max(ResponP))));
         
         % V&A (weight)
-        wV = 0.25;
-        wA = 0.25;
-        wJ = 0.25;
-        wP = 0.25;
+        wV = 0.1;
+        wA = 0.5;
+        wJ = 0.4;
+        wP = 0;
         Respon = ResponV.*wV+ResponA.*wA+ResponJ.*wJ+ResponP.*wP+meanSpon;
     %{    
     case 8 % Jerk, direction tuning
@@ -256,7 +256,7 @@ end
 save('Z:\Labtools\Tools\Fake_data\Faked neurons V1\v2','Respon');
 %% fit models
 %{
-reps = 50;
+reps = 20;
 stimOnBin = 1;
 stimOffBin = bin+1;
 aMax = duration/4*1000;
@@ -265,16 +265,39 @@ fitData = permute(Respon,[2 1 3]);
 spatialData = squeeze(sum(fitData,3));
 % models = {'VA','AO'};
 % models_color = {'k','g'};
-models = {'VA'};
+models = {'PVAJ'};
 models_color = {'k'};
 % models = {'AO'};
 % models_color = {'g'};
+stimTypeInx = 1;
+model_catg = 'Out-sync model'; % each component has its own tau
+
 % [PSTH3Dmodel.modelFitRespon_VA,PSTH3Dmodel.modelFit_VA,PSTH3Dmodel.modelFit_spatial,PSTH3Dmodel.modelFitPara_VA,PSTH3Dmodel.BIC_VA,PSTH3Dmodel.RSquared_VA,PSTH3Dmodel.rss_VA,PSTH3Dmodel.time]=fitVA(meanSpon,fitData,spatialData,bin+1,reps,stimOnBin,stimOffBin,aMax,aMin);
-for m_inx = 1:length(models)
-    eval(['[PSTH3Dmodel.modelFitRespon_',models{m_inx},',PSTH3Dmodel.modelFit_',models{m_inx},',PSTH3Dmodel.modelFit_spatial_',models{m_inx},',PSTH3Dmodel.modelFitPara_',models{m_inx},',PSTH3Dmodel.BIC_',models{m_inx},...
-        ',PSTH3Dmodel.RSquared_',models{m_inx},',PSTH3Dmodel.rss_',models{m_inx},',PSTH3Dmodel.time]=fit',models{m_inx},...
-        '(meanSpon,fitData,spatialData,bin+1,reps,stimOnBin,stimOffBin,aMax,aMin);']);
+% for m_inx = 1:length(models)
+%     eval(['[PSTH3Dmodel.modelFitRespon_',models{m_inx},',PSTH3Dmodel.modelFit_',models{m_inx},',PSTH3Dmodel.modelFit_spatial_',models{m_inx},',PSTH3Dmodel.modelFitPara_',models{m_inx},',PSTH3Dmodel.BIC_',models{m_inx},...
+%         ',PSTH3Dmodel.RSquared_',models{m_inx},',PSTH3Dmodel.rss_',models{m_inx},',PSTH3Dmodel.time]=fit',models{m_inx},...
+%         '(meanSpon,fitData,spatialData,bin+1,reps,stimOnBin,stimOffBin,aMax,aMin);']);
+% end
+
+switch model_catg
+    
+    case 'Sync model'
+        for m_inx = 1:length(models)
+            eval(['[PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFitRespon_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFit_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFit_spatial',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFitPara_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.BIC_',models{m_inx},...
+                ',PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.rss_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.time]=fit',models{m_inx},...
+                '(meanSpon,fitData,spatialData,bin+1,reps,stimOnBin,stimOffBin,aMax,aMin,duration);']);
+            % [PSTH3Dmodel{1}.modelFitRespon_VO,PSTH3Dmodel{1}.modelFitPara_VO,PSTH3Dmodel{1}.BIC_VO,PSTH3Dmodel{1}.RSquared_VO,PSTH3Dmodel{1}.rss_VO,PSTH3Dmodel{1}.time]=fitVO(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin);
+        end
+    case 'Out-sync model'
+%         keyboard;
+        for m_inx = 1:length(models)
+            eval(['[PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFitRespon_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFit_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFit_spatial',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFitPara_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.BIC_',models{m_inx},...
+                ',PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.rss_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.time]=fit',models{m_inx},'_O',...
+                '(meanSpon,fitData,spatialData,bin+1,reps,stimOnBin,stimOffBin,aMax,aMin,duration);']);
+            % [PSTH3Dmodel{1}.modelFitRespon_VO,PSTH3Dmodel{1}.modelFitPara_VO,PSTH3Dmodel{1}.BIC_VO,PSTH3Dmodel{1}.RSquared_VO,PSTH3Dmodel{1}.rss_VO,PSTH3Dmodel{1}.time]=fitVO(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin);
+        end
 end
+
 %}
 
 %% figures;
@@ -288,17 +311,17 @@ markers = {
 
 %% Original data
 % 
-figure(103);
-set(gcf,'pos',[30 50 1000 500]);
-clf;
-axes;hold on;
-% for ii = 1:size(Respon,1)
-plot(Respon(:,:)','k','linewidth',1.5);
-set(gca,'xlim',[0 length(R)]);
-% for n = 1:size(markers,1)
-%             plot([markers{n,3} markers{n,3}], [0,max(Respon(:))], '--','color',markers{n,4},'linewidth',0.5);
-%             hold on;
-%         end
+% figure(103);
+% set(gcf,'pos',[30 50 1000 500]);
+% clf;
+% axes;hold on;
+% % for ii = 1:size(Respon,1)
+% plot(Respon(:,:)','k','linewidth',1.5);
+% set(gca,'xlim',[0 length(R)]);
+% % for n = 1:size(markers,1)
+% %             plot([markers{n,3} markers{n,3}], [0,max(Respon(:))], '--','color',markers{n,4},'linewidth',0.5);
+% %             hold on;
+% %         end
 
 
 figure(101);

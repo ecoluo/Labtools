@@ -13,30 +13,39 @@ t = st_data(14:end);
 
 %position model
 % time profile
-pos_time = pos_func(a(3)+a(25), t);
+pos_time = pos_func(a(3)+a(25)+a(23), t);
+% pos_time = pos_func(a(3)+a(25), t);
 % spatial profiles
-ele_azi_p = cos_tuning(a(4:7), [u_ele; u_azi]);
+% ele_azi_p = cos_tuning(a(4:7), [u_ele; u_azi]);
+% ele_azi_p = reshape(ele_azi_p, length(u_azi), length(u_ele));
+ele_azi_p = cos_tuning(a(16:19), [u_ele; u_azi]);
 ele_azi_p = reshape(ele_azi_p, length(u_azi), length(u_ele));
 
 % velocity model
 % time profile
 vel_time = vel_func(a(3)+a(23), t);
 % spatial profiles
-ele_azi_v = cos_tuning(a(8:11), [u_ele; u_azi]);
+% ele_azi_v = cos_tuning(a(8:11), [u_ele; u_azi]);
+% ele_azi_v = reshape(ele_azi_v, length(u_azi), length(u_ele));
+ele_azi_v = cos_tuning(a(4:7), [u_ele; u_azi]);
 ele_azi_v = reshape(ele_azi_v, length(u_azi), length(u_ele));
 
 % acceleration model
 %time profile
 acc_time = acc_func(a(3), t);
 %spatial profiles
-ele_azi_a = cos_tuning(a(12:15), [u_ele; u_azi]);
+% ele_azi_a = cos_tuning(a(12:15), [u_ele; u_azi]);
+% ele_azi_a = reshape(ele_azi_a, length(u_azi), length(u_ele));
+ele_azi_a = cos_tuning(a(8:11), [u_ele; u_azi]);
 ele_azi_a = reshape(ele_azi_a, length(u_azi), length(u_ele));
 
 % jerk model
 %time profile
 jerk_time = jerk_func(a(3)+a(24), t);
 %spatial profiles
-ele_azi_j = cos_tuning(a(16:19), [u_ele; u_azi]);
+% ele_azi_j = cos_tuning(a(16:19), [u_ele; u_azi]);
+% ele_azi_j = reshape(ele_azi_j, length(u_azi), length(u_ele));
+ele_azi_j = cos_tuning(a(12:15), [u_ele; u_azi]);
 ele_azi_j = reshape(ele_azi_j, length(u_azi), length(u_ele));
 
 

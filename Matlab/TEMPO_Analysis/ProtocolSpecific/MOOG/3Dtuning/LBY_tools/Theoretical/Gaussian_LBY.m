@@ -6,7 +6,7 @@ clear all;
 colorDefsLBY;
 duration = 1.5; % unit in s
 num_sigs = 4.5;
-amp = 0.11; % unit in m
+amp = 8; % unit in m
 step = 0.0005;
 t = 0:step:duration;
 
@@ -22,8 +22,8 @@ jerk = diff(accel)/step;
 % calculate the peak value of some of the above 4 parameters
 % & find the T of these peaks
 [pMax pMaxI] = max(pos);
-[vMax vMaxI] = max(veloc);
-[aMax aMaxI] = max(accel);
+[vMax vMaxI] = max(veloc)
+[aMax aMaxI] = max(accel)
 [aMin aMinI] = min(accel);
 [jMax jMaxI] = max(jerk);
 [jMin jMinI] = min(jerk);

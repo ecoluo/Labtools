@@ -3,7 +3,7 @@
 global PSTH;
 
 % % ------ fig.20 plot PSTH for each trial and raster plot across directions ------%
-%{
+% %{
 for k = 1:length(unique_stimType)
     figure(20+k);
     set(gcf,'pos',[0 0 1900 1000]);

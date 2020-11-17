@@ -145,7 +145,7 @@ a_timeProfile = [ones(1,stimOnBin-1)*acc_profile([mu sig],stimOnBin*timeStep/100
 % spk rates of real trials (no spon)
 
 %%%%%%%%%%%%% for optic flow
-% %{
+%{
 
 pc_opt = 0;
 
@@ -411,7 +411,7 @@ for spa = 1:length(unique_spatFre)
                 s{spa,ttt,pc}(nn) = 0;
                 for ii = nn-2:nn+2
                     try
-                        if ranksum(squeeze(PSTH.bin_rate_aov{spa,ttt}(pc,ii,:))',squeeze(nanmean(PSTH.bin_rate_aov{spa,ttt}(pc,baselineBinBeg:baselineBinEnd,:)))') < 0.05
+                        if ranksum(squeeze(PSTH.bin_rate_aov{spa,ttt}(pc,ii,:))',squeeze(nanmean(PSTH.bin_rate_aov{spa,ttt}(pc,baselineBinBeg:baselineBinEnd,:)))') < 0.01
                             s{spa,ttt,pc}(nn) =  s{spa,ttt,pc}(nn)+1;
                         end
                     catch
@@ -432,15 +432,19 @@ for spa = 1:length(unique_spatFre)
         
         % --------------- this cell is temporally responded ------------------%
         
-        % 2个方向,不需要相邻
-        if sum(PSTH.sigTrue{spa,ttt}(:)) >=2
-            PSTH.respon_sigTrue(spa,ttt) = 1;
-        end
-        % 相邻2个方向
-        %     if respon_True(PSTH.sigTrue{spa,ttt}(:)) == 1
-        %         PSTH.respon_sigTrue(spa,ttt) = 1;
-        %
-        %     end
+%         % 2个方向,不需要相邻
+%         if sum(PSTH.sigTrue{spa,ttt}(:)) >=2
+%             PSTH.respon_sigTrue(spa,ttt) = 1;
+%         end
+
+%         % 相邻2个方向
+temp1 = PSTH.sigTrue{spa,ttt}(:);
+temp2 = [temp1(end);temp1(1:end-1)];
+temp3 = temp1 + temp2;
+            if sum(find(temp3 == 2))>0
+                PSTH.respon_sigTrue(spa,ttt) = 1;
+        
+            end
         
         p_anova_dire_t{spa,ttt} = nan;
         DDI_t{spa,ttt} = nan;
@@ -464,7 +468,7 @@ for spa = 1:length(unique_spatFre)
             for tt = stimOnBin+2 : stimOffBin-2
                 
                 if (peakR{spa,ttt}(tt) > peakR{spa,ttt}(tt-1)) && (peakR{spa,ttt}(tt) > peakR{spa,ttt}(tt+1))...
-                        && p{spa,ttt}(tt) < 0.05 && p{spa,ttt}(tt-1) < 0.05 && p{spa,ttt}(tt-2) < 0.05 && p{spa,ttt}(tt+1) < 0.05 && p{spa,ttt}(tt+2) < 0.05
+                        && p{spa,ttt}(tt) < 0.01 && p{spa,ttt}(tt-1) < 0.01 && p{spa,ttt}(tt-2) < 0.01 && p{spa,ttt}(tt+1) < 0.01 && p{spa,ttt}(tt+2) < 0.01
                     pp = pp+1; % how many peaks
                     localPeak{spa,ttt}(pp,1)= tt;
                     localPeak{spa,ttt}(pp,2)= peakR{spa,ttt}(tt);
@@ -515,56 +519,56 @@ for spa = 1:length(unique_spatFre)
                 PSTH.peakMaxRespon(spa,ttt) = nan;
                 PSTH.peakMaxDir(spa,ttt) = nan;
             end
-            % calculate the half width of each direction
-            for i = 1: length(unique_orient)
-                try
-                    PSTH.hwPeak(spa,ttt,i) = fwhm(1: nBins, squeeze(PSTH.bin_mean_rate(spa,ttt,i,:)));
-                catch
-                    keyboard;
-                end
-            end
-            
+%             % calculate the half width of each direction
+%             for i = 1: length(unique_orient)
+%                 try
+%                     PSTH.hwPeak(spa,ttt,i) = fwhm(1: nBins, squeeze(PSTH.bin_mean_rate(spa,ttt,i,:)));
+%                 catch
+%                     keyboard;
+%                 end
+%             end
+%             
             % calculate DDI for each peak time
             for pt = 1:PSTH.NoPeaks(spa,ttt)
-                for pc = 1:size(PSTH.bin_rate_aov{spa,ttt},1)
-                    resp_sse_t{spa,ttt}(pc,pt) = nansum((PSTH.bin_rate_aov{spa,ttt}(pc,PSTH.peak{spa,ttt}(pt),:) - nanmean(PSTH.bin_rate_aov{spa,ttt}(pc,PSTH.peak{spa,ttt}(pt),:))).^2); % for DDI
-                    resp_trialnum_t{spa,ttt}(pc,pt)= size(PSTH.bin_rate_aov{spa,ttt}(pc,PSTH.peak{spa,ttt}(pt),:),3); % for DDI
-                end
-                
-                try
+%                 for pc = 1:size(PSTH.bin_rate_aov{spa,ttt},1)
+%                     resp_sse_t{spa,ttt}(pc,pt) = nansum((PSTH.bin_rate_aov{spa,ttt}(pc,PSTH.peak{spa,ttt}(pt),:) - nanmean(PSTH.bin_rate_aov{spa,ttt}(pc,PSTH.peak{spa,ttt}(pt),:))).^2); % for DDI
+%                     resp_trialnum_t{spa,ttt}(pc,pt)= size(PSTH.bin_rate_aov{spa,ttt}(pc,PSTH.peak{spa,ttt}(pt),:),3); % for DDI
+%                 end
+%                 
+%                 try
                     p_anova_dire_t{spa,ttt}(pt) = anova1(squeeze(PSTH.bin_rate_aov{spa,ttt}(:,PSTH.peak{spa,ttt}(pt),:))','','off'); % tuning anova
-                    resp_std_t{spa,ttt}(pt) = sum(resp_sse_t{spa,ttt}(:,pt))/(sum(resp_trialnum_t{spa,ttt}(:,pt))-length(unique_orient));
-                    maxSpkRealMean_t{spa,ttt}(pt) = max(max(squeeze((PSTH.bin_rate_aov{spa,ttt}(:,PSTH.peak{spa,ttt}(pt),:)))));
-                    minSpkRealMean_t{spa,ttt}(pt) = min(min(squeeze((PSTH.bin_rate_aov{spa,ttt}(:,PSTH.peak{spa,ttt}(pt),:)))));
-                    DDI_t{spa,ttt}(pt) = (maxSpkRealMean_t{spa,ttt}(pt)-minSpkRealMean_t{spa,ttt}(pt))/(maxSpkRealMean_t{spa,ttt}(pt)-minSpkRealMean_t{spa,ttt}(pt)+2*sqrt(resp_std_t{spa,ttt}(pt)));
-                    
-                    % DDI permutation
-                    num_perm = 1000;
-                    for nn = 1 : num_perm
-                        temp = squeeze(PSTH.bin_rate_aov{spa,ttt}(:,PSTH.peak{spa,ttt}(pt),:));
-                        temp = temp(:);
-                        temp = temp(randperm(length(unique_orient)*size(PSTH.bin_rate_aov{spa,ttt},3)));
-                        temp = reshape(temp,length(unique_orient),[]);
-                        temp = nanmean(temp,2);
-                        maxSpkRealMean_perm_t{spa,ttt}(nn,pt) = max(temp);
-                        minSpkRealMean_perm_t{spa,ttt}(nn,pt) = min(temp);
-                        DDI_perm_t{spa,ttt}(pt,nn) = (maxSpkRealMean_perm_t{spa,ttt}(nn,pt)-minSpkRealMean_perm_t{spa,ttt}(nn,pt))/(maxSpkRealMean_perm_t{spa,ttt}(nn,pt)-minSpkRealMean_perm_t{spa,ttt}(nn,pt)+2*sqrt(resp_std_t{spa,ttt}(pt)));
-                        
-                    end
-                    DDI_p_t{spa,ttt}(pt) = sum(DDI_perm_t{spa,ttt}(pt,:)>DDI_t{spa,ttt}(pt))/num_perm;
-                    
-                catch
-                    keyboard;
-                end
+%                     resp_std_t{spa,ttt}(pt) = sum(resp_sse_t{spa,ttt}(:,pt))/(sum(resp_trialnum_t{spa,ttt}(:,pt))-length(unique_orient));
+%                     maxSpkRealMean_t{spa,ttt}(pt) = max(max(squeeze((PSTH.bin_rate_aov{spa,ttt}(:,PSTH.peak{spa,ttt}(pt),:)))));
+%                     minSpkRealMean_t{spa,ttt}(pt) = min(min(squeeze((PSTH.bin_rate_aov{spa,ttt}(:,PSTH.peak{spa,ttt}(pt),:)))));
+%                     DDI_t{spa,ttt}(pt) = (maxSpkRealMean_t{spa,ttt}(pt)-minSpkRealMean_t{spa,ttt}(pt))/(maxSpkRealMean_t{spa,ttt}(pt)-minSpkRealMean_t{spa,ttt}(pt)+2*sqrt(resp_std_t{spa,ttt}(pt)));
+%                     
+%                     % DDI permutation
+%                     num_perm = 1000;
+%                     for nn = 1 : num_perm
+%                         temp = squeeze(PSTH.bin_rate_aov{spa,ttt}(:,PSTH.peak{spa,ttt}(pt),:));
+%                         temp = temp(:);
+%                         temp = temp(randperm(length(unique_orient)*size(PSTH.bin_rate_aov{spa,ttt},3)));
+%                         temp = reshape(temp,length(unique_orient),[]);
+%                         temp = nanmean(temp,2);
+%                         maxSpkRealMean_perm_t{spa,ttt}(nn,pt) = max(temp);
+%                         minSpkRealMean_perm_t{spa,ttt}(nn,pt) = min(temp);
+%                         DDI_perm_t{spa,ttt}(pt,nn) = (maxSpkRealMean_perm_t{spa,ttt}(nn,pt)-minSpkRealMean_perm_t{spa,ttt}(nn,pt))/(maxSpkRealMean_perm_t{spa,ttt}(nn,pt)-minSpkRealMean_perm_t{spa,ttt}(nn,pt)+2*sqrt(resp_std_t{spa,ttt}(pt)));
+%                         
+%                     end
+%                     DDI_p_t{spa,ttt}(pt) = sum(DDI_perm_t{spa,ttt}(pt,:)>DDI_t{spa,ttt}(pt))/num_perm;
+%                     
+%                 catch
+%                     keyboard;
+%                 end
             end
             
             % sort PCA according to the maximum of direction
-            if ~isempty(PSTH.peak{spa,ttt})
-                [~, temp_inx] = sortrows(PSTH.bin_mean_rate_PCA{spa,ttt}(:,PSTH.peak{spa,ttt}(1)),-1);
-                PSTH.sorted_PCA{spa,ttt} = PSTH.bin_mean_rate_PCA{spa,ttt}(temp_inx,:);
-            else
-                PSTH.sorted_PCA{spa,ttt} = PSTH.bin_mean_rate_PCA{spa,ttt};
-            end
+%             if ~isempty(PSTH.peak{spa,ttt})
+%                 [~, temp_inx] = sortrows(PSTH.bin_mean_rate_PCA{spa,ttt}(:,PSTH.peak{spa,ttt}(1)),-1);
+%                 PSTH.sorted_PCA{spa,ttt} = PSTH.bin_mean_rate_PCA{spa,ttt}(temp_inx,:);
+%             else
+%                 PSTH.sorted_PCA{spa,ttt} = PSTH.bin_mean_rate_PCA{spa,ttt};
+%             end
         end
     end
 end
@@ -574,7 +578,7 @@ end
 
 %%%%%%% for optic flow
 
-% %{
+%{
 
         %     spk_data_bin_rate_mean_minusSpon{spa,tt} = PSTH.bin_mean_rate_aov{spa,tt}-repmat(PSTH.spon_spk_data_bin_mean_rate',size(PSTH.bin_mean_rate_aov{spa,tt},1),1);
         sPeak_opt = zeros(1,size(PSTH.opt_bin_rate_aov,1)); % store the number of significant bins
@@ -786,7 +790,7 @@ markers = {
 
 Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+719-PSTH_onT+timeStep)/timeStep,(stimOnT(1)+1074-PSTH_onT+timeStep)/timeStep];
 
-PSTH_gratings; % plot PSTHs across sessions;
+% PSTH_gratings; % plot PSTHs across sessions;
 % spatial_tuning;
 
 %% 1D models nalysis
@@ -1026,11 +1030,18 @@ end
 
 %%%%%%%%%%%%%%%%%%%%% Change here %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% result = PackResult(FILE, PATH, SpikeChan, unique_tempFre, unique_spatFre, unique_stimType,Protocol, ... % Obligatory!!
+%     unique_orient, unique_amplitude, unique_duration,...   % paras' info of trial
+%     markers,...
+%     timeWin, timeStep, tOffset1, tOffset2,nBins,Bin,PCAStep,PCAWin,nBinsPCA, ... % PSTH slide window info
+%     meanSpon, PSTH, PSTH1Dmodel); % PSTH and mean FR info
+
 result = PackResult(FILE, PATH, SpikeChan, unique_tempFre, unique_spatFre, unique_stimType,Protocol, ... % Obligatory!!
     unique_orient, unique_amplitude, unique_duration,...   % paras' info of trial
     markers,...
-    timeWin, timeStep, tOffset1, tOffset2,nBins,Bin,PCAStep,PCAWin,nBinsPCA, ... % PSTH slide window info
-    meanSpon, PSTH, PSTH1Dmodel); % PSTH and mean FR info
+    timeWin, timeStep, tOffset1, tOffset2,nBins,Bin, ... % PSTH slide window info
+    meanSpon, PSTH, p_anova_dire_t); % PSTH and mean FR info
+
 %     p_anova_dire, DDI,preferDire); % model info
 
 

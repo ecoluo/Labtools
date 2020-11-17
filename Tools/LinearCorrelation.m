@@ -319,6 +319,7 @@ if paras.Results.XHist
     for i = 1:length(x) % Raw data
         if isnan(rawx{i})
             hist_x(:,i) = hist(nan,x_centers);
+            
             if strcmp(paras.Results.XHistStyle,'stacked')
                 mean_x(i) = nan;
             else
@@ -365,12 +366,14 @@ if paras.Results.XHist
         
         axis tight;
         xlim(xlims);
+        set(gca,'ylim',[0 10]);
     end
 end
 
 if paras.Results.YHist
     % Find unique xcenters
-    if paras.Results.YHistLim
+%     if paras.Results.YHistLim
+if 1
         y_centers = linspace(paras.Results.YHistLim(1),paras.Results.YHistLim(2),abs(paras.Results.YHist));
     else
         y_centers = linspace(min(yy_all),max(yy_all),abs(paras.Results.YHist));
@@ -379,6 +382,7 @@ if paras.Results.YHist
     for i = 1:length(x) % Raw data
         if isnan(rawy{i})
             hist_y(:,i) = hist(nan,y_centers);
+            
             if strcmp(paras.Results.XHistStyle,'stacked')
                 mean_y(i) = nan;
             else
@@ -418,6 +422,7 @@ if paras.Results.YHist
         
         axis tight;
         xlim(ylims);
+        set(gca,'ylim',[0 15]);
     end
 end
 

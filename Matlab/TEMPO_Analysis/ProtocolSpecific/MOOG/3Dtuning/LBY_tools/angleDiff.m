@@ -21,6 +21,8 @@ for ii = 1:length(azi1)
         mod2 = sqrt((x2.^2+y2.^2+z2.^2));
         angleDiff(ii) = acosd((x1.*x2+y1.*y2+z1.*z2)/(mod1*mod2));
         
+    else
+        angleDiff(ii) = nan;
     end
 end
 end
