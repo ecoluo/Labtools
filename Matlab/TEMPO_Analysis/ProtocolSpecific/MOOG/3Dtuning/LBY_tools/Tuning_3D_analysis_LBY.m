@@ -168,8 +168,8 @@ tOffset2 = 100; % in ms, time after stim off
 % tOffset1 = 000; % in ms
 % tOffset2 = 000; % in ms
 
-PCAStep = 20; % for PCA
-PCAWin = 100; % for PCA
+PCAStep = 25; % for PCA
+PCAWin = 300; % for PCA
 nBinsPCA = floor(temp_duration(1)/PCAStep); % in ms
 
 if strcmp(PSTH.monkey ,'MSTd') == 1
@@ -196,6 +196,10 @@ stimOffBin = floor(tOffset1/timeStep)+floor(temp_duration(1)/timeStep);  % relat
 % for contour figures
 tBeg = 250; % in ms
 tEnd = 250; % in ms
+
+% % for d-prime,PCC
+% tBeg = 350; % in ms
+% tEnd = 600; % in ms
 
 % V, A time profile
 mu = (aMax+aMin)/2/1000;
@@ -261,8 +265,11 @@ for k = 1:length(unique_stimType)
             try
                 temp = PSTH_smooth( nBins, PSTH_onT, timeWin, timeStep, spk_data{k,j,i}(:,:), 2, gau_sig);
                 PSTH.spk_data_bin_rate_aov{k}(pc,:,1:size(temp,2)) = temp;
-                temp = PSTH_smooth( nBinsPCA, stimOnT, PCAWin, PCAStep, mean(spk_data{k,j,i}(:,:),2), 1, 0);
+                temp = PSTH_smooth( nBinsPCA, stimOnT, PCAWin, PCAStep, mean(spk_data{k,j,i}(:,:),2), 2, gau_sig);
+%                 temp = PSTH_smooth( nBins, stimOnT, timeWin, timeStep, nanmean(spk_data{k,j,i}(:,:),2), 2, gau_sig);
                 PSTH.spk_data_bin_rate_PCA{k}(pc,:,1:size(temp,2)) = temp;
+                temp = PSTH_smooth( nBinsPCA, stimOnT, PCAWin, PCAStep, spk_data{k,j,i}(:,:), 2, gau_sig);
+                PSTH.dPCA{k}{pc}(:,1:size(temp,2)) = temp;
             catch
                 
             end
@@ -285,8 +292,10 @@ for k = 1:length(unique_stimType)
             PSTH.spk_data_bin_mean_rate_ste{k}(j,i,:) = spk_data_bin_mean_rate_std{k}(j,i,:)/sqrt(size(PSTH.spk_data_bin_rate{k,j,i}(1,:),2));
             
             % pack data for contour
-            PSTH.spk_data_count_rate{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOffT(1)-tEnd,:),1)/((unique_duration(1,1)-tBeg-tEnd)/1000); % rates
+            PSTH.spk_data_count_rate{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOffT(1)-tEnd,:),1)/((unique_duration(1,1)-tBeg-tEnd)/(tEnd -tBeg)); % rates
             PSTH.spk_data_count_mean_rate{k}(j,i) = mean(PSTH.spk_data_count_rate{k,j,i}(:));% for countour plot and ANOVA
+            spk_data_count_mean_rate_std{k}(j,i) = std(PSTH.spk_data_count_rate{k,j,i}(:));% for d-prime
+            
             PSTH.spk_data_count_rate_all{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1):stimOffT(1),:),1)/(unique_duration(1,1)/1000); % rates of all duration
             PSTH.spk_data_count_mean_rate_all{k}(j,i) = mean(PSTH.spk_data_count_rate_all{k,j,i}(:));% for models
             spk_data_vector_rate{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOnT(1)+tBeg+unique_duration(1,1)/2,:),1)/((unique_duration(1,1)/2)/1000); % rates
@@ -325,6 +334,28 @@ for k = 1:length(unique_stimType)
     eles = repmat([-90 -45 0 45 90],1,8)';
     pre_diff{k} = angleDiff(azis,eles,ones(1,40),ones(1,40)*preferDire{k}(1),ones(1,40)*preferDire{k}(2),ones(1,40));
     
+    %%% calculate d-prime for different directions
+    tempMean1 = PSTH.spk_data_count_mean_rate{k}(1,1);
+    tempMean2 = PSTH.spk_data_count_mean_rate{k}(5,1);
+    tempStd1 = spk_data_count_mean_rate_std{k}(1,1);
+    tempStd2 = spk_data_count_mean_rate_std{k}(5,1);
+    
+PSTH.d_UD{k} = (tempMean1-tempMean2)/sqrt((tempStd1+tempStd2)/2); % up-down
+
+tempMean1 = PSTH.spk_data_count_mean_rate{k}(3,3);
+    tempMean2 = PSTH.spk_data_count_mean_rate{k}(3,7);
+    tempStd1 = spk_data_count_mean_rate_std{k}(3,3);
+    tempStd2 = spk_data_count_mean_rate_std{k}(3,7);
+    
+PSTH.d_FB{k} = (tempMean1-tempMean2)/sqrt((tempStd1+tempStd2)/2); % forward-back
+
+tempMean1 = PSTH.spk_data_count_mean_rate{k}(3,5);
+    tempMean2 = PSTH.spk_data_count_mean_rate{k}(3,1);
+    tempStd1 = spk_data_count_mean_rate_std{k}(3,5);
+    tempStd2 = spk_data_count_mean_rate_std{k}(3,1);
+    
+PSTH.d_LR{k} = (tempMean1-tempMean2)/sqrt((tempStd1+tempStd2)/2); % left-right
+
 end
 
 % pack data for sponteneous conditions
@@ -343,6 +374,7 @@ PSTH.maxSpkSponBinMeanSte = max(PSTH.spon_spk_data_bin_mean_rate_ste);
 PSTH.meanSpkSponBinMean = mean(PSTH.spon_spk_data_bin_mean_rate);% for PSTH mean & PSTH across trials
 meanSpkSponMean = mean(spon_spk_count_rate);% for contour
 meanSpon = meanSpkSponMean;
+
 
 
 %% Analysis - angle diff for each bin
@@ -599,12 +631,12 @@ eleMin = 6 - eleMax;
         %}
        
         % sort PCA according to the maximum of direction
-        if ~isempty(PSTH.peak{k})
-            [~, temp_inx] = sortrows(PSTH.spk_data_bin_mean_rate_PCA{k}(:,PSTH.peak{k}(1)),-1);
-            PSTH.spk_data_sorted_PCA{k} = PSTH.spk_data_bin_mean_rate_PCA{k}(temp_inx,:);
-        else
-            PSTH.spk_data_sorted_PCA{k} = PSTH.spk_data_bin_mean_rate_PCA{k};
-        end
+%         if ~isempty(PSTH.peak{k})
+%             [~, temp_inx] = sortrows(PSTH.spk_data_bin_mean_rate_PCA{k}(:,PSTH.peak{k}(1)),-1);
+%             PSTH.spk_data_sorted_PCA{k} = PSTH.spk_data_bin_mean_rate_PCA{k}(temp_inx,:);
+%         else
+%             PSTH.spk_data_sorted_PCA{k} = PSTH.spk_data_bin_mean_rate_PCA{k};
+%         end
         
         % calculate DDI for each time bin
     
@@ -691,8 +723,8 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 
 % preferDirectionOfTime;
 % CosineTuningPlot;
-PSTH_3D_Tuning; % plot PSTHs across sessions;
-Contour_3D_Tuning; % plot countour figures;
+% PSTH_3D_Tuning; % plot PSTHs across sessions;
+% Contour_3D_Tuning; % plot countour figures;
 % Contour_3D_Tuning_GIF; % plot countour figures(PD across time);
 % spatial_tuning;
 
@@ -700,7 +732,7 @@ Contour_3D_Tuning; % plot countour figures;
 model_catg = [];
 %% 3D models nalysis
 
-% %{
+%{
 % model_catg = 'Sync model'; % tau is the same
 
 model_catg = 'Out-sync model'; % each component has its own tau

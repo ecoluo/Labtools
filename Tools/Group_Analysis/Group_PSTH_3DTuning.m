@@ -15,11 +15,20 @@ mat_address = {
     % DDI specific
     
     % each bin
-%     %         'Z:\Data\TEMPO\BATCH\DDI_PCC_all_m6_m5_m4','PSTH_T','3DT';
-%     %     'Z:\Data\TEMPO\BATCH\DDI_PCC_all_m6_m5_m4','PSTH_R','3DR';
+    %     %         'Z:\Data\TEMPO\BATCH\DDI_PCC_all_m6_m5_m4','PSTH_T','3DT';
+    %     %     'Z:\Data\TEMPO\BATCH\DDI_PCC_all_m6_m5_m4','PSTH_R','3DR';
     
-%             'Z:\Data\TEMPO\BATCH\DDI_PCC','PSTH_T','3DT';
-%         'Z:\Data\TEMPO\BATCH\DDI_PCC','PSTH_R','3DR';
+    %             'Z:\Data\TEMPO\BATCH\DDI_PCC','PSTH_T','3DT';
+    %         'Z:\Data\TEMPO\BATCH\DDI_PCC','PSTH_R','3DR';
+    
+    
+    %%%%%%% dPCA
+%     %             'Z:\Data\TEMPO\BATCH\dPCA_PCC1','PSTH_T','3DT';
+%     %         'Z:\Data\TEMPO\BATCH\dPCA_PCC1','PSTH_R','3DR';
+    
+                'Z:\Data\TEMPO\BATCH\dPCA_PCC','PSTH_T','3DT';
+            'Z:\Data\TEMPO\BATCH\dPCA_PCC','PSTH_R','3DR';
+    
     
     % %     %     %-----%% 3D&1D model, out sync
     % %     %
@@ -38,8 +47,8 @@ mat_address = {
     % 不相邻方向
     
     % 3D model delya with A, not free, P = V+0.3
-%         'Z:\Data\TEMPO\BATCH\20201007_PCC_delayA_notfree','PSTH_T','3DT';
-%         'Z:\Data\TEMPO\BATCH\20201007_PCC_delayA_notfree','PSTH_R','3DR';
+    'Z:\Data\TEMPO\BATCH\20201007_PCC_delayA_notfree','PSTH_T','3DT';
+    'Z:\Data\TEMPO\BATCH\20201007_PCC_delayA_notfree','PSTH_R','3DR';
     
     % % %     %-----%% 3D model, out sync,original, not right for spatial
     % % %
@@ -69,10 +78,12 @@ mat_address = {
     
     %-----%% 3D& model, sync
     
-%             'Z:\Data\TEMPO\BATCH\202008_3DModel_Sync_PCC_all_m6_m5_m4','PSTH_T','3DT';
-%             'Z:\Data\TEMPO\BATCH\202008_3DModel_Sync_PCC_all_m6_m5_m4','PSTH_R','3DR';
+    %             'Z:\Data\TEMPO\BATCH\202008_3DModel_Sync_PCC_all_m6_m5_m4','PSTH_T','3DT';
+    %             'Z:\Data\TEMPO\BATCH\202008_3DModel_Sync_PCC_all_m6_m5_m4','PSTH_R','3DR';
     
-    
+    % d prime
+    %         'Z:\Data\TEMPO\BATCH\PCC_dPrime','PSTH_T','3DT';
+    %         'Z:\Data\TEMPO\BATCH\PCC_dPrime','PSTH_T','3DR';
     
     % % % %     %-----%% PCC-TQY
     % % % %
@@ -87,11 +98,11 @@ mat_address = {
     
     % DDI specific
     
-% % %             'Z:\Data\TEMPO\BATCH\DDI_RSC_all_m6_m4','PSTH_T','3DT';
-% % %         'Z:\Data\TEMPO\BATCH\DDI_RSC_all_m6_m4','PSTH_R','3DR';
+    % % %             'Z:\Data\TEMPO\BATCH\DDI_RSC_all_m6_m4','PSTH_T','3DT';
+    % % %         'Z:\Data\TEMPO\BATCH\DDI_RSC_all_m6_m4','PSTH_R','3DR';
     
-%     'Z:\Data\TEMPO\BATCH\DDI_RSC','PSTH_T','3DT';
-%         'Z:\Data\TEMPO\BATCH\DDI_RSC','PSTH_R','3DR';
+    %     'Z:\Data\TEMPO\BATCH\DDI_RSC','PSTH_T','3DT';
+    %         'Z:\Data\TEMPO\BATCH\DDI_RSC','PSTH_R','3DR';
     
     
     %      %-----%% 3D&1D model, out sync
@@ -110,16 +121,16 @@ mat_address = {
     
     
     % 3D model delya with A, not free, P = V+0.3
-%         'Z:\Data\TEMPO\BATCH\20201009_RSC_delayA_notfree','PSTH_T','3DT';
-%         'Z:\Data\TEMPO\BATCH\20201009_RSC_delayA_notfree','PSTH_R','3DR';
+    %         'Z:\Data\TEMPO\BATCH\20201009_RSC_delayA_notfree','PSTH_T','3DT';
+    %         'Z:\Data\TEMPO\BATCH\20201009_RSC_delayA_notfree','PSTH_R','3DR';
     
     
     %%%%%%%%%%%%MSTd%%%%%%%%%%%%%%%%%MSTd%%%%%%%%%%%MSTd%%%%%%%%%%%%%%%MSTd%%%%%%%%%% MSTd
     
-% %     %         'Z:\Data\TEMPO\BATCH\202005_3D&1DModel_Out-Sync_MSTd','PSTH_T','3DT';
-% %     
-% %     % another way
-% %     %         'Z:\Data\TEMPO\BATCH\202006_3DModel_Out-Sync_MSTd','PSTH_T','3DT';
+    % %     %         'Z:\Data\TEMPO\BATCH\202005_3D&1DModel_Out-Sync_MSTd','PSTH_T','3DT';
+    % %
+    % %     % another way
+    % %     %         'Z:\Data\TEMPO\BATCH\202006_3DModel_Out-Sync_MSTd','PSTH_T','3DT';
     
     %%%%%%%%%%%%%%%%%%%%%%%%%
     % 不相邻方向
@@ -138,34 +149,35 @@ mat_address = {
     % % % % %     'Z:\Data\TEMPO\BATCH\20201008_MSTd_delayA_free','PSTH_T','3DT';
     
     % 3D model delya with A, not free, P = V+0.3
-        'Z:\Data\TEMPO\BATCH\20201007_MSTd_delayA_notfree','PSTH_T','3DT';
+    %         'Z:\Data\TEMPO\BATCH\20201007_MSTd_delayA_notfree','PSTH_T','3DT';
     
-    
+    % d prime
+    %         'Z:\Data\TEMPO\BATCH\MSTd_dPrime','PSTH_T','3DT';
     
     
     % dark control
     
     % PCC
-%         'Z:\Data\TEMPO\BATCH\PCC_dark_sound_control','PSTH_T','3DT';
-%         'Z:\Data\TEMPO\BATCH\PCC_dark_sound_control','PSTH_R','3DR';
-
-%         'Z:\Data\TEMPO\BATCH\PCC_dark_sound_control','PSTH_T','3DT_dark';
-%         'Z:\Data\TEMPO\BATCH\PCC_dark_sound_control','PSTH_R','3DR_dark';
-
-%         'Z:\Data\TEMPO\BATCH\PCC_dark_sound_control','PSTH_T','3DT_sound';
+    %         'Z:\Data\TEMPO\BATCH\PCC_dark_sound_control','PSTH_T','3DT';
+    %         'Z:\Data\TEMPO\BATCH\PCC_dark_sound_control','PSTH_R','3DR';
     
-%     % RSC
-%     'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_T','3DT';
-%     'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_R','3DR';
-
-%     'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_T','3DT_dark';
-%     'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_R','3DR_dark';
-
-% 'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_T','3DT_sound';
-%         'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_R','3DR_sound';
-%         
-        
-        %{
+    %         'Z:\Data\TEMPO\BATCH\PCC_dark_sound_control','PSTH_T','3DT_dark';
+    %         'Z:\Data\TEMPO\BATCH\PCC_dark_sound_control','PSTH_R','3DR_dark';
+    
+    %         'Z:\Data\TEMPO\BATCH\PCC_dark_sound_control','PSTH_T','3DT_sound';
+    
+    %     % RSC
+    %     'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_T','3DT';
+    %     'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_R','3DR';
+    
+    %     'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_T','3DT_dark';
+    %     'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_R','3DR_dark';
+    
+    % 'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_T','3DT_sound';
+    %         'Z:\Data\TEMPO\BATCH\RSC_dark_sound_control','PSTH_R','3DR_sound';
+    %
+    
+    %{
         % dark control
     
     % PCC
@@ -192,12 +204,12 @@ mat_address = {
 %     'Z:\Data\TEMPO\BATCH\RSC_sound_control','PSTH_R','3DR';
 % 'Z:\Data\TEMPO\BATCH\RSC_dark_control','PSTH_T','3DT_sound';
 %         'Z:\Data\TEMPO\BATCH\RSC_sound_control','PSTH_R','3DR_sound';
-        %}
-
-%%%%%%%%grating
-%         'Z:\Data\TEMPO\BATCH\RSC_grating','?','grating';
-
-
+    %}
+    
+    %%%%%%%%grating
+    %         'Z:\Data\TEMPO\BATCH\RSC_grating','?','grating';
+    
+    
     };
 
 %%%%%%%%%%%%%%%% masking
@@ -224,7 +236,7 @@ Monkeys{4} = 'WhiteFang';
 % grating
 %{
 mask_all = {
-    strcmp(txt(:,header.Protocol),'GRAT'); 
+    strcmp(txt(:,header.Protocol),'GRAT');
     }; % Now no constraint on monkeys
 % Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
 monkey_included_for_loading = [4];
@@ -255,7 +267,7 @@ Monkeys{4} = 'WhiteFang';
 %}
 
 % PCC
-%{
+% %{
 mask_all = {
     strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
@@ -354,7 +366,7 @@ mask_all = {
 %
 
 % MSTd
-% %{
+%{
 mask_all = {
     strcmp(txt(:,header.Protocol),'3DT') & (strcmp(txt(:,header.Area),'MSTd'));
     
@@ -535,28 +547,33 @@ for i = 1:length(group_result)
         else
             for ii = 1:length(group_result(i).mat_raw{pp}) % >= one files for this protocol
                 
-%                 group_result(i).xloc{pp}{ii} = xls.num{pp}(i,5);
+                %                 group_result(i).xloc{pp}{ii} = xls.num{pp}(i,5);
                 group_result(i).uStimType{pp}{ii} = group_result(i).mat_raw{pp}{ii}.unique_stimType;
-%                 group_result(i).pANOVA{pp}{ii} = group_result(i).mat_raw{pp}{ii}.p_anova_dire;
+                %                 group_result(i).pANOVA{pp}{ii} = group_result(i).mat_raw{pp}{ii}.p_anova_dire;
                 group_result(i).pANOVAPeak{pp}{ii} = group_result(i).mat_raw{pp}{ii}.p_anova_dire_t;
                 group_result(i).preDir{pp}{ii} = group_result(i).mat_raw{pp}{ii}.preferDire;
                 group_result(i).preDir_peak{pp}{ii} = group_result(i).mat_raw{pp}{ii}.preferDire_t;
-%                 group_result(i).DDI{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI;
-%                 group_result(i).DDI_peak{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI_t;
-%                 group_result(i).DDI_pPeak{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI_p_t;
+                %                 group_result(i).DDI{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI;
+                %                 group_result(i).DDI_peak{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI_t;
+                %                 group_result(i).DDI_pPeak{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI_p_t;
                 group_result(i).meanSpon{pp}{ii} = group_result(i).mat_raw{pp}{ii}.meanSpon;
                 group_result(i).responSig{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.respon_sigTrue;
                 %                 group_result(i).PSTH{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_mean_rate_aov_cell;
                 group_result(i).PSTH{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_mean_rate_aov;
                 group_result(i).Rextre{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.maxSpkRealBinMean-group_result(i).mat_raw{pp}{ii}.PSTH.minSpkRealBinMean;
-                                group_result(i).PSTH3Dmodel{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH3Dmodel;
+                group_result(i).PSTH3Dmodel{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH3Dmodel;
                 %                 group_result(i).PSTH1Dmodel{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH1Dmodel;
                 group_result(i).peakT{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.peak;
-%                 group_result(i).data_PCA{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_sorted_PCA';
+                
+                group_result(i).data_PCA{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_rate_PCA';
+                
                 % %                 group_result(i).rawRate{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_rate;
-                % % group_result(i).rawRate{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_rate_aov;
+                %                 group_result(i).rawRate{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.dPCA;
                 group_result(i).DDI_bin{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI_bin;
                 %                                 group_result(i).DDI_p_bin{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI_p_bin;
+                %                 group_result(i).d_LR{pp}(ii,:) = group_result(i).mat_raw{pp}{ii}.PSTH.d_LR;
+                %                 group_result(i).d_UD{pp}(ii,:) = group_result(i).mat_raw{pp}{ii}.PSTH.d_UD;
+                %                 group_result(i).d_FB{pp}(ii,:) = group_result(i).mat_raw{pp}{ii}.PSTH.d_FB;
             end
         end
     end
@@ -595,6 +612,9 @@ for pp = 1:size(mat_address,1)
     DDI{pp} = NaN(size(cell_true,1),length(stimType));
     responSig{pp} = NaN(size(cell_true,1),length(stimType));
     Rextre{pp} = NaN(size(cell_true,1),length(stimType));
+    d_LR{pp} = NaN(size(cell_true,1),length(stimType));
+    d_UD{pp} = NaN(size(cell_true,1),length(stimType));
+    d_FB{pp} = NaN(size(cell_true,1),length(stimType));
     
     for jj = 1:length(stimType)
         
@@ -604,6 +624,7 @@ for pp = 1:size(mat_address,1)
         %         responSig{pp}(:,jj) = NaN(size(cell_true,1),1);
         %         PSTH{pp}{jj} = NaN(size(cell_true,1),nBins);
         %         Rextre{pp}(:,jj) = NaN(size(cell_true,1),1);
+        
         
     end
 end
@@ -615,6 +636,9 @@ for pp = 1:size(mat_address,1)
         
         if ~isempty(group_result(i).uStimType{pp})
             for ii = 1:length(group_result(i).uStimType{pp})
+                
+                
+                
                 % independent on stim types
                 meanSpon{pp}(i) = group_result(i).meanSpon{pp}{ii};
                 if find((group_result(i).uStimType{pp}{ii}),1)
@@ -622,7 +646,7 @@ for pp = 1:size(mat_address,1)
                         %                     for jj = find((group_result(i).uStimType{pp}{ii}),1) % only load vesitibular data
                         % dependent on stim types
                         uStimType{pp}(i,jj) = 1;
-%                         pANOVA{pp}(i,jj) = group_result(i).pANOVA{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
+                        %                         pANOVA{pp}(i,jj) = group_result(i).pANOVA{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
                         pANOVAPeak{pp}(i,jj) = group_result(i).pANOVAPeak{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}(1);
                         %                                             try
                         %                                             pANOVAPeak2{pp}{jj}{i} = group_result(i).pANOVAPeak{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}(:);
@@ -631,9 +655,9 @@ for pp = 1:size(mat_address,1)
                         %                                             end
                         preDir{pp}{jj}(i,:) = group_result(i).preDir{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
                         preDir_peak{pp}{jj}{i} = group_result(i).preDir_peak{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
-%                         DDI{pp}(i,jj) = group_result(i).DDI{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
-%                         DDI_peak{pp}{jj}{i} = group_result(i).DDI_peak{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
-%                         DDI_pPeak{pp}{jj}{i} = group_result(i).DDI_pPeak{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
+                        %                         DDI{pp}(i,jj) = group_result(i).DDI{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
+                        %                         DDI_peak{pp}{jj}{i} = group_result(i).DDI_peak{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
+                        %                         DDI_pPeak{pp}{jj}{i} = group_result(i).DDI_pPeak{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
                         peakT{pp}{jj}{i} = group_result(i).peakT{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
                         if isempty(group_result(i).responSig{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj)))
                             responSig{pp}(i,jj) = nan;
@@ -645,17 +669,26 @@ for pp = 1:size(mat_address,1)
                         PSTH{pp}{jj}(i,:,:) = group_result(i).PSTH{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}; % 26*68
                         %                     Rextre{pp}(i,jj) = group_result(i).Rextre{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
                         try
-                                                        PSTH3Dmodel{pp}{i,jj} = group_result(i).PSTH3Dmodel{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
+                            PSTH3Dmodel{pp}{i,jj} = group_result(i).PSTH3Dmodel{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
                         catch
                             keyboard;
                         end
                         % %                     PSTH1Dmodel{pp}{i,jj} = group_result(i).PSTH1Dmodel{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
-                        %                     data_PCA{pp}{jj}{i} = group_result(i).data_PCA{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
-                        % % %                     rawRate{pp}{jj}{i} = group_result(i).rawRate{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
+                        data_PCA{pp}{jj}{i} = group_result(i).data_PCA{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
+                        
+                        %                                             rawRate{pp}{jj}{i} = nan*ones(26,nBins,15);
+                        %                                             for pc = 1:26
+                        %                                             temp11 = group_result(i).rawRate{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}{pc};
+                        %                                             rawRate{pp}{jj}{i}(pc,:,1:size(temp11,2)) = temp11;
+                        %
+                        %                                             end
                         % % %                     rawRate{pp}{jj}{i} = squeeze(group_result(i).rawRate{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj),:,:));
                         %                                             [DDI_bin{pp}{jj}{i}, indM]= max(group_result(i).DDI_bin{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)});
                         %                                             DDI_p_bin{pp}{jj}{i} = group_result(i).DDI_p_bin{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}(indM);
                         DDI_bin2{pp}(i,jj) = group_result(i).DDI_bin{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}(end);
+                        %                         d_LR{pp}(i,jj) = group_result(i).d_LR{pp}{find(group_result(i).uStimType{pp}{ii} == jj)};
+                        %                     d_UD{pp}(i,jj) = group_result(i).d_UD{pp}{find(group_result(i).uStimType{pp}{ii} == jj)};
+                        %                     d_FB{pp}(i,jj) = group_result(i).d_FB{pp}{find(group_result(i).uStimType{pp}{ii} == jj)};
                     end
                 end
             end
@@ -759,8 +792,8 @@ for pp = 1:size(mat_address,1)
             end
             
             
-                        if ~isempty(PSTH3Dmodel{pp}{i,jj}) && responSig{pp}(i,jj) == 1
-%             if ~isempty(PSTH3Dmodel{pp}{i,jj})
+            if ~isempty(PSTH3Dmodel{pp}{i,jj}) && responSig{pp}(i,jj) == 1
+                %             if ~isempty(PSTH3Dmodel{pp}{i,jj})
                 if sum(strcmp(models,'VA'))
                     try
                         wV_VA_3D{pp}(i,jj) = PSTH3Dmodel{pp}{i,jj}{1}.VA_wV;
@@ -784,12 +817,12 @@ for pp = 1:size(mat_address,1)
                     angleDiff_VA_VA_3D{pp}(i,jj) = angleDiff(preDir_V_VA_3D{pp}{jj}(i,1),preDir_V_VA_3D{pp}{jj}(i,2),preDir_V_VA_3D{pp}{jj}(i,3),preDir_A_VA_3D{pp}{jj}(i,1),preDir_A_VA_3D{pp}{jj}(i,2),preDir_A_VA_3D{pp}{jj}(i,3));
                     temp = spatial_VA_3D{pp}{jj}.V{i}';temp = temp(:);
                     VA_spatial_V{pp}{jj}{i} = temp;
-%                     [VA_spatialSig_V{pp}{jj}(i), VA_spatialp_V{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    %                     [VA_spatialSig_V{pp}{jj}(i), VA_spatialp_V{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
                     temp = spatial_VA_3D{pp}{jj}.A{i}';temp = temp(:);
                     VA_spatial_A{pp}{jj}{i} = temp;
-%                     [VA_spatialSig_A{pp}{jj}(i), VA_spatialp_A{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    %                     [VA_spatialSig_A{pp}{jj}(i), VA_spatialp_A{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
                     
-% spatial correlation coefficient
+                    % spatial correlation coefficient
                     [r,p] = corrcoef(VA_spatial_V{pp}{jj}{i},VA_spatial_A{pp}{jj}{i});
                     r_VA_VA{pp}{jj}(i) = r(1,2);p_VA_VA{pp}{jj}(i) = p(1,2);
                     
@@ -823,24 +856,24 @@ for pp = 1:size(mat_address,1)
                     angleDiff_AJ_VAJ_3D{pp}(i,jj) = angleDiff(preDir_A_VAJ_3D{pp}{jj}(i,1),preDir_A_VAJ_3D{pp}{jj}(i,2),preDir_A_VAJ_3D{pp}{jj}(i,3),preDir_J_VAJ_3D{pp}{jj}(i,1),preDir_J_VAJ_3D{pp}{jj}(i,2),preDir_J_VAJ_3D{pp}{jj}(i,3));
                     temp = spatial_VAJ_3D{pp}{jj}.V{i}';temp = temp(:);
                     VAJ_spatial_V{pp}{jj}{i} = temp;
-%                     [VAJ_spatialSig_V{pp}{jj}(i), VAJ_spatialp_V{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    %                     [VAJ_spatialSig_V{pp}{jj}(i), VAJ_spatialp_V{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
                     temp = spatial_VAJ_3D{pp}{jj}.A{i}';temp = temp(:);
                     VAJ_spatial_A{pp}{jj}{i} = temp;
-%                     [VAJ_spatialSig_A{pp}{jj}(i), VAJ_spatialp_A{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    %                     [VAJ_spatialSig_A{pp}{jj}(i), VAJ_spatialp_A{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
                     temp = spatial_VAJ_3D{pp}{jj}.J{i}';temp = temp(:);
                     VAJ_spatial_J{pp}{jj}{i} = temp;
-%                     [VAJ_spatialSig_J{pp}{jj}(i), VAJ_spatialp_J{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    %                     [VAJ_spatialSig_J{pp}{jj}(i), VAJ_spatialp_J{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
                     
-% spatial correlation coefficient
-[r,p] = corrcoef(VAJ_spatial_V{pp}{jj}{i},VAJ_spatial_A{pp}{jj}{i});
-r_VAJ_VA{pp}{jj}(i) = r(1,2);p_VAJ_VA{pp}{jj}(i) = p(1,2);
-
-[r,p] = corrcoef(VAJ_spatial_V{pp}{jj}{i},VAJ_spatial_J{pp}{jj}{i});
-r_VAJ_VJ{pp}{jj}(i) = r(1,2);p_VAJ_VJ{pp}{jj}(i) = p(1,2);
-
-[r,p] = corrcoef(VAJ_spatial_A{pp}{jj}{i},VAJ_spatial_J{pp}{jj}{i});
-r_VAJ_AJ{pp}{jj}(i) = r(1,2);p_VAJ_AJ{pp}{jj}(i) = p(1,2);
-
+                    % spatial correlation coefficient
+                    [r,p] = corrcoef(VAJ_spatial_V{pp}{jj}{i},VAJ_spatial_A{pp}{jj}{i});
+                    r_VAJ_VA{pp}{jj}(i) = r(1,2);p_VAJ_VA{pp}{jj}(i) = p(1,2);
+                    
+                    [r,p] = corrcoef(VAJ_spatial_V{pp}{jj}{i},VAJ_spatial_J{pp}{jj}{i});
+                    r_VAJ_VJ{pp}{jj}(i) = r(1,2);p_VAJ_VJ{pp}{jj}(i) = p(1,2);
+                    
+                    [r,p] = corrcoef(VAJ_spatial_A{pp}{jj}{i},VAJ_spatial_J{pp}{jj}{i});
+                    r_VAJ_AJ{pp}{jj}(i) = r(1,2);p_VAJ_AJ{pp}{jj}(i) = p(1,2);
+                    
                     % Spatial nonlinearity
                     nV_VAJ_3D{pp}{jj}(i) = Para_3D{pp}{jj}{i,find(strcmp(models,'VAJ'))}(4);
                     nA_VAJ_3D{pp}{jj}(i) = Para_3D{pp}{jj}{i,find(strcmp(models,'VAJ'))}(8);
@@ -878,25 +911,25 @@ r_VAJ_AJ{pp}{jj}(i) = r(1,2);p_VAJ_AJ{pp}{jj}(i) = p(1,2);
                     angleDiff_VP_VAP_3D{pp}(i,jj) = angleDiff(preDir_V_VAP_3D{pp}{jj}(i,1),preDir_V_VAP_3D{pp}{jj}(i,2),preDir_V_VAP_3D{pp}{jj}(i,3),preDir_P_VAP_3D{pp}{jj}(i,1),preDir_P_VAP_3D{pp}{jj}(i,2),preDir_P_VAP_3D{pp}{jj}(i,3));
                     temp = spatial_VAP_3D{pp}{jj}.V{i}';temp = temp(:);
                     VAP_spatial_V{pp}{jj}{i} = temp;
-%                     [VAP_spatialSig_V{pp}{jj}(i), VAP_spatialp_V{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    %                     [VAP_spatialSig_V{pp}{jj}(i), VAP_spatialp_V{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
                     temp = spatial_VAP_3D{pp}{jj}.A{i}';temp = temp(:);
                     VAP_spatial_A{pp}{jj}{i} = temp;
-%                     [VAP_spatialSig_A{pp}{jj}(i), VAP_spatialp_A{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    %                     [VAP_spatialSig_A{pp}{jj}(i), VAP_spatialp_A{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
                     temp = spatial_VAP_3D{pp}{jj}.P{i}';temp = temp(:);
                     VAP_spatial_P{pp}{jj}{i} = temp;
-%                     [VAP_spatialSig_P{pp}{jj}(i), VAP_spatialp_P{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    %                     [VAP_spatialSig_P{pp}{jj}(i), VAP_spatialp_P{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
                     
-% spatial correlation coefficient
-[r,p] = corrcoef(VAP_spatial_V{pp}{jj}{i},VAP_spatial_A{pp}{jj}{i});
-r_VAP_VA{pp}{jj}(i) = r(1,2);p_VAP_VA{pp}{jj}(i) = p(1,2);
-
-[r,p] = corrcoef(VAP_spatial_V{pp}{jj}{i},VAP_spatial_P{pp}{jj}{i});
-r_VAP_VP{pp}{jj}(i) = r(1,2);p_VAP_VP{pp}{jj}(i) = p(1,2);
-
-[r,p] = corrcoef(VAP_spatial_A{pp}{jj}{i},VAP_spatial_P{pp}{jj}{i});
-r_VAP_AP{pp}{jj}(i) = r(1,2);p_VAP_AP{pp}{jj}(i) = p(1,2);
-
-
+                    % spatial correlation coefficient
+                    [r,p] = corrcoef(VAP_spatial_V{pp}{jj}{i},VAP_spatial_A{pp}{jj}{i});
+                    r_VAP_VA{pp}{jj}(i) = r(1,2);p_VAP_VA{pp}{jj}(i) = p(1,2);
+                    
+                    [r,p] = corrcoef(VAP_spatial_V{pp}{jj}{i},VAP_spatial_P{pp}{jj}{i});
+                    r_VAP_VP{pp}{jj}(i) = r(1,2);p_VAP_VP{pp}{jj}(i) = p(1,2);
+                    
+                    [r,p] = corrcoef(VAP_spatial_A{pp}{jj}{i},VAP_spatial_P{pp}{jj}{i});
+                    r_VAP_AP{pp}{jj}(i) = r(1,2);p_VAP_AP{pp}{jj}(i) = p(1,2);
+                    
+                    
                     % Spatial nonlinearity
                     nV_VAP_3D{pp}{jj}(i) = Para_3D{pp}{jj}{i,find(strcmp(models,'VAP'))}(4);
                     nA_VAP_3D{pp}{jj}(i) = Para_3D{pp}{jj}{i,find(strcmp(models,'VAP'))}(8);
@@ -940,36 +973,36 @@ r_VAP_AP{pp}{jj}(i) = r(1,2);p_VAP_AP{pp}{jj}(i) = p(1,2);
                     angleDiff_AJ_PVAJ_3D{pp}(i,jj) = angleDiff(preDir_A_PVAJ_3D{pp}{jj}(i,1),preDir_A_PVAJ_3D{pp}{jj}(i,2),preDir_A_PVAJ_3D{pp}{jj}(i,3),preDir_J_PVAJ_3D{pp}{jj}(i,1),preDir_J_PVAJ_3D{pp}{jj}(i,2),preDir_J_PVAJ_3D{pp}{jj}(i,3));
                     temp = spatial_PVAJ_3D{pp}{jj}.V{i}';temp = temp(:);
                     PVAJ_spatial_V{pp}{jj}{i} = temp;
-%                     [PVAJ_spatialSig_V{pp}{jj}(i), PVAJ_spatialp_V{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    %                     [PVAJ_spatialSig_V{pp}{jj}(i), PVAJ_spatialp_V{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
                     temp = spatial_PVAJ_3D{pp}{jj}.A{i}';temp = temp(:);
                     PVAJ_spatial_A{pp}{jj}{i} = temp;
-%                     [PVAJ_spatialSig_A{pp}{jj}(i), PVAJ_spatialp_A{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    %                     [PVAJ_spatialSig_A{pp}{jj}(i), PVAJ_spatialp_A{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
                     temp = spatial_PVAJ_3D{pp}{jj}.J{i}';temp = temp(:);
                     PVAJ_spatial_J{pp}{jj}{i} = temp;
-%                     [PVAJ_spatialSig_J{pp}{jj}(i), PVAJ_spatialp_J{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    %                     [PVAJ_spatialSig_J{pp}{jj}(i), PVAJ_spatialp_J{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
                     temp = spatial_PVAJ_3D{pp}{jj}.P{i}';temp = temp(:);
                     PVAJ_spatial_P{pp}{jj}{i} = temp;
-%                     [PVAJ_spatialSig_P{pp}{jj}(i), PVAJ_spatialp_P{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
-
+                    %                     [PVAJ_spatialSig_P{pp}{jj}(i), PVAJ_spatialp_P{pp}{jj}(i)] = UniformTest_bin_LBY(temp([1,9:33])*10);
+                    
                     % spatial correlation coefficient
-[r,p] = corrcoef(PVAJ_spatial_V{pp}{jj}{i},PVAJ_spatial_A{pp}{jj}{i});
-r_PVAJ_VA{pp}{jj}(i) = r(1,2);p_PVAJ_VA{pp}{jj}(i) = p(1,2);
-
-[r,p] = corrcoef(PVAJ_spatial_V{pp}{jj}{i},PVAJ_spatial_J{pp}{jj}{i});
-r_PVAJ_VJ{pp}{jj}(i) = r(1,2);p_PVAJ_VJ{pp}{jj}(i) = p(1,2);
-
-[r,p] = corrcoef(PVAJ_spatial_A{pp}{jj}{i},PVAJ_spatial_J{pp}{jj}{i});
-r_PVAJ_AJ{pp}{jj}(i) = r(1,2);p_PVAJ_AJ{pp}{jj}(i) = p(1,2);
-
-[r,p] = corrcoef(PVAJ_spatial_V{pp}{jj}{i},PVAJ_spatial_P{pp}{jj}{i});
-r_PVAJ_VP{pp}{jj}(i) = r(1,2);p_PVAJ_VP{pp}{jj}(i) = p(1,2);
-
-[r,p] = corrcoef(PVAJ_spatial_A{pp}{jj}{i},PVAJ_spatial_P{pp}{jj}{i});
-r_PVAJ_AP{pp}{jj}(i) = r(1,2);p_PVAJ_AP{pp}{jj}(i) = p(1,2);
-
-[r,p] = corrcoef(PVAJ_spatial_J{pp}{jj}{i},PVAJ_spatial_P{pp}{jj}{i});
-r_PVAJ_JP{pp}{jj}(i) = r(1,2);p_PVAJ_JP{pp}{jj}(i) = p(1,2);
-
+                    [r,p] = corrcoef(PVAJ_spatial_V{pp}{jj}{i},PVAJ_spatial_A{pp}{jj}{i});
+                    r_PVAJ_VA{pp}{jj}(i) = r(1,2);p_PVAJ_VA{pp}{jj}(i) = p(1,2);
+                    
+                    [r,p] = corrcoef(PVAJ_spatial_V{pp}{jj}{i},PVAJ_spatial_J{pp}{jj}{i});
+                    r_PVAJ_VJ{pp}{jj}(i) = r(1,2);p_PVAJ_VJ{pp}{jj}(i) = p(1,2);
+                    
+                    [r,p] = corrcoef(PVAJ_spatial_A{pp}{jj}{i},PVAJ_spatial_J{pp}{jj}{i});
+                    r_PVAJ_AJ{pp}{jj}(i) = r(1,2);p_PVAJ_AJ{pp}{jj}(i) = p(1,2);
+                    
+                    [r,p] = corrcoef(PVAJ_spatial_V{pp}{jj}{i},PVAJ_spatial_P{pp}{jj}{i});
+                    r_PVAJ_VP{pp}{jj}(i) = r(1,2);p_PVAJ_VP{pp}{jj}(i) = p(1,2);
+                    
+                    [r,p] = corrcoef(PVAJ_spatial_A{pp}{jj}{i},PVAJ_spatial_P{pp}{jj}{i});
+                    r_PVAJ_AP{pp}{jj}(i) = r(1,2);p_PVAJ_AP{pp}{jj}(i) = p(1,2);
+                    
+                    [r,p] = corrcoef(PVAJ_spatial_J{pp}{jj}{i},PVAJ_spatial_P{pp}{jj}{i});
+                    r_PVAJ_JP{pp}{jj}(i) = r(1,2);p_PVAJ_JP{pp}{jj}(i) = p(1,2);
+                    
                     % Spatial nonlinearity
                     nV_PVAJ_3D{pp}{jj}(i) = Para_3D{pp}{jj}{i,find(strcmp(models,'PVAJ'))}(4);
                     nA_PVAJ_3D{pp}{jj}(i) = Para_3D{pp}{jj}{i,find(strcmp(models,'PVAJ'))}(8);
@@ -989,7 +1022,7 @@ r_PVAJ_JP{pp}{jj}(i) = r(1,2);p_PVAJ_JP{pp}{jj}(i) = p(1,2);
                     end
                     
                 end
-                        end
+            end
             
         end
     end
@@ -1149,9 +1182,9 @@ cell_selection();
         select_tcells_all_monkey = t_cell_selection_criteria{t_cell_selection_num,2};
         
         % -------- Update actual dataset for analysis. --------%
-%                         monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value') get(findall(gcbf,'tag','Polo_data'),'value')]));
+        %                         monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value') get(findall(gcbf,'tag','Polo_data'),'value')]));
         monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value') get(findall(gcbf,'tag','Polo_data'),'value') get(findall(gcbf,'tag','WF_data'),'value')]));
-%         monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value')]));
+        %         monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value')]));
         monkey_mask_for_analysis = false(length(group_result),1);
         for mm = 1:length(monkey_included_for_analysis)
             monkey_mask_for_analysis = monkey_mask_for_analysis | (cat(1,group_result.monkeyID) == monkey_included_for_analysis(mm));
@@ -1351,6 +1384,12 @@ hbar = [];
 n = [];
 n_sig = [];
 xCorr = [];
+colorDGray = [90 90 90]/255;
+colorLGray = [150 150 150]/255;
+colorDRed = [232 62 69]/255; %深红
+colorLRed = [228 13 81]/255; %浅红
+colorDBlue = [23 111 192]/255; %深蓝
+colorLBlue = [0 175 194]/255; %浅蓝
 %}
 %     %{
 %% ====================================== Function Definitions =============================================%
@@ -1525,58 +1564,58 @@ xCorr = [];
         SetFigure(12);
     end
 
-function f1p1p3(debug)      % PSTH correlation
-if debug  ; dbstack;   keyboard;      end
-
-% plot figures
-figure(11);set(figure(11),'name','Mean PSTH for selected cells','unit','normalized','pos',[-0.55 0 0.53 0.8]); clf;
-[~,h_subplot] = tight_subplot(4,3,0.1,0.1,[0.15 0.02]);
-xCorr = linspace(0,1,10);
-for pp = 1:2
-    for jj = 1
-
-            for ii = 1:size(PSTH{pp}{jj},1)
-            [temp1,temp2] = corrcoef(PSTH{pp}{jj}(ii,:),PSTH{pp+2}{jj}(ii,:));
-            r{pp}(ii) = temp1(1,2);
-            p{pp}(ii) = temp2(1,2);
-            
+    function f1p1p3(debug)      % PSTH correlation
+        if debug  ; dbstack;   keyboard;      end
+        
+        % plot figures
+        figure(11);set(figure(11),'name','Mean PSTH for selected cells','unit','normalized','pos',[-0.55 0 0.53 0.8]); clf;
+        [~,h_subplot] = tight_subplot(4,3,0.1,0.1,[0.15 0.02]);
+        xCorr = linspace(0,1,10);
+        for pp = 1:2
+            for jj = 1
+                
+                for ii = 1:size(PSTH{pp}{jj},1)
+                    [temp1,temp2] = corrcoef(PSTH{pp}{jj}(ii,:),PSTH{pp+2}{jj}(ii,:));
+                    r{pp}(ii) = temp1(1,2);
+                    p{pp}(ii) = temp2(1,2);
+                    
+                end
+                r{pp} = r{pp}(select_all{pp}(:,1)&select_all{pp+2}(:,1));
+                p{pp}= p{pp}(select_all{pp}(:,1)&select_all{pp+2}(:,1));;
+                rsig{pp} = r{pp}(p{pp}<0.05);
+                [n{pp}(jj,:), ~] = hist(r{pp},xCorr);
+                [n_sig{pp}(jj,:), ~] = hist(rsig{pp},xCorr);
             end
-            r{pp} = r{pp}(select_all{pp}(:,1)&select_all{pp+2}(:,1));
-            p{pp}= p{pp}(select_all{pp}(:,1)&select_all{pp+2}(:,1));;
-            rsig{pp} = r{pp}(p{pp}<0.05);
-            [n{pp}(jj,:), ~] = hist(r{pp},xCorr);
-                    [n_sig{pp}(jj,:), ~] = hist(rsig{pp},xCorr);
+        end
+        
+        
+        
+        axes(h_subplot((jj-1)*2+pp));hold on;
+        hbar = bar(xCorr,[n{1}(jj,:);n{2}(jj,:)]',1,'grouped');
+        % hbar = bar(xCorr,[n{1}(jj,:);nan*ones(1,10)]',1,'grouped');
+        set(hbar,'facecolor','w');
+        hbar = bar(xCorr,[n_sig{1}(jj,:);n_sig{2}(jj,:)]',1,'grouped');
+        % hbar = bar(xCorr,[n_sig{1}(jj,:);nan*ones(1,10)]',1,'grouped');
+        %                     set(hbar,'facecolor','k','edgecolor','k');
+        %             set(gca,'xtick',[]);
+        xlabel('PSTH corr coeff ( fixation vs. dark)');ylabel('cell #');axis on;
+        set(gca,'xlim',[-0.05 1]);
+        
+        axis on;
+        
+        
+        suptitle(['Mean PSTH   (Monkey = ',monkey_to_print,')']);
+        SetFigure(15);
+        
+        % text necessary infos
+        h = axes('pos',[0.05 0.02 0.9 0.05]);
+        text(0.2,0,'All cells');text(0.5,0,'Temporally tuned cells');text(0.85,0,'Spatially tuned cells');
+        axis off;
+        h = axes('pos',[0.05 0.1 0.05 0.75]);
+        text(0.2,0.9,'Translation','rotation',90);text(0.2,0.6,'Rotation','rotation',90);text(0.2,0.35,'T (dark)','rotation',90);text(0.2,0.05,'R (dark)','rotation',90);
+        axis off;
+        
     end
-end
-
-
-
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,[n{1}(jj,:);n{2}(jj,:)]',1,'grouped');
-% hbar = bar(xCorr,[n{1}(jj,:);nan*ones(1,10)]',1,'grouped');
-                    set(hbar,'facecolor','w');
-                    hbar = bar(xCorr,[n_sig{1}(jj,:);n_sig{2}(jj,:)]',1,'grouped');
-% hbar = bar(xCorr,[n_sig{1}(jj,:);nan*ones(1,10)]',1,'grouped');
-%                     set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('PSTH corr coeff ( fixation vs. dark)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[-0.05 1]);
-            
-            axis on;
-
-
-suptitle(['Mean PSTH   (Monkey = ',monkey_to_print,')']);
-SetFigure(15);
-
-% text necessary infos
-h = axes('pos',[0.05 0.02 0.9 0.05]);
-text(0.2,0,'All cells');text(0.5,0,'Temporally tuned cells');text(0.85,0,'Spatially tuned cells');
-axis off;
-h = axes('pos',[0.05 0.1 0.05 0.75]);
-text(0.2,0.9,'Translation','rotation',90);text(0.2,0.6,'Rotation','rotation',90);text(0.2,0.35,'T (dark)','rotation',90);text(0.2,0.05,'R (dark)','rotation',90);
-axis off;
-
-end
 
     function f1p2p1(debug)      % DDI distribution
         if debug  ; dbstack;   keyboard;      end
@@ -2034,10 +2073,10 @@ DDI_sdPeak_sig{pp}{jj} = [DDI_sPeak_sig{pp}{jj}, DDI_dPeak_early_sig{pp}{jj}];
         
         for pp = 1:size(mat_address,1)
             for jj = 1
-%                 peakT_plot{pp}{jj} = peakT{pp}{jj}(select_temporalSig{pp}(:,jj));
-peakT_plot{pp}{jj} = peakT{pp}{jj};
-%                 preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj}(select_temporalSig{pp}(:,jj));
-preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj};
+                %                 peakT_plot{pp}{jj} = peakT{pp}{jj}(select_temporalSig{pp}(:,jj));
+                peakT_plot{pp}{jj} = peakT{pp}{jj};
+                %                 preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj}(select_temporalSig{pp}(:,jj));
+                preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj};
                 dPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 2); % double peak
                 sPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 1); % single peak
                 nPeakIdx{pp}{jj} = find(cellfun(@length,peakT_plot{pp}{jj}) == 0); % not tuned
@@ -2055,61 +2094,61 @@ preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj};
                 preDir_dPeak_early_ele{pp}{jj} = [];
                 preDir_sPeak_azi{pp}{jj} = [];
                 preDir_sPeak_ele{pp}{jj} = [];
-%                 for ii = 1:length(dPeakT_late{pp}{jj})
-%                     dPeakIdx_early{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_early{pp}{jj}(ii));
-%                     dPeakIdx_late{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_late{pp}{jj}(ii));
-%                     preDir_dPeak_early{pp}{jj}(:,ii) = preDir_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(:,dPeakIdx_early{pp}{jj}(ii));
-%                     preDir_dPeak_late{pp}{jj}(:,ii) = preDir_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(:,dPeakIdx_late{pp}{jj}(ii));
-%                     preDir_dPeak_early_azi{pp}{jj}(ii) = preDir_dPeak_early{pp}{jj}(1,ii);
-%                     preDir_dPeak_early_ele{pp}{jj}(ii) = preDir_dPeak_early{pp}{jj}(2,ii);
-%                     preDir_dPeak_late_azi{pp}{jj}(ii) = preDir_dPeak_late{pp}{jj}(1,ii);
-%                     preDir_dPeak_late_ele{pp}{jj}(ii) = preDir_dPeak_late{pp}{jj}(2,ii);
-%                 end
+                %                 for ii = 1:length(dPeakT_late{pp}{jj})
+                %                     dPeakIdx_early{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_early{pp}{jj}(ii));
+                %                     dPeakIdx_late{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_late{pp}{jj}(ii));
+                %                     preDir_dPeak_early{pp}{jj}(:,ii) = preDir_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(:,dPeakIdx_early{pp}{jj}(ii));
+                %                     preDir_dPeak_late{pp}{jj}(:,ii) = preDir_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(:,dPeakIdx_late{pp}{jj}(ii));
+                %                     preDir_dPeak_early_azi{pp}{jj}(ii) = preDir_dPeak_early{pp}{jj}(1,ii);
+                %                     preDir_dPeak_early_ele{pp}{jj}(ii) = preDir_dPeak_early{pp}{jj}(2,ii);
+                %                     preDir_dPeak_late_azi{pp}{jj}(ii) = preDir_dPeak_late{pp}{jj}(1,ii);
+                %                     preDir_dPeak_late_ele{pp}{jj}(ii) = preDir_dPeak_late{pp}{jj}(2,ii);
+                %                 end
                 
-%                 preDir_sPeak{pp}{jj} = cell2mat(preDir_peak_plot{pp}{jj}(sPeakIdx{pp}{jj}));
-%                 
-%                 try
-%                     preDir_sPeak_azi{pp}{jj} = preDir_sPeak{pp}{jj}(1,:);
-%                     preDir_sPeak_ele{pp}{jj} = preDir_sPeak{pp}{jj}(2,:);
-%                 catch
-%                     continue;
-%                 end
-%                 
-%                 % single peak & early peak of double-peaked cell
-%                 
-%                 preDir_Peak_azi{pp}{jj} = [preDir_sPeak_azi{pp}{jj},preDir_dPeak_early_azi{pp}{jj}];
-%                 preDir_Peak_azi_trans{pp}{jj} = preDir_Peak_azi{pp}{jj};
-%                 preDir_Peak_azi_trans{pp}{jj}(preDir_Peak_azi_trans{pp}{jj}>=270) = preDir_Peak_azi_trans{pp}{jj}(preDir_Peak_azi_trans{pp}{jj}>=270) - 360;
-%                 preDir_Peak_ele{pp}{jj} = [preDir_sPeak_ele{pp}{jj},preDir_dPeak_early_ele{pp}{jj}];
-%                 
-%                 % uniform test
-%                 %                 [h_s_h(pp,jj),p_s_h(pp,jj)] = UniformTest_LBY(preDir_sPeak_azi{pp}{jj}); % horizontal
-%                 %                 [h_s_v(pp,jj),p_s_v(pp,jj)] = UniformTest_LBY(preDir_sPeak_ele{pp}{jj}); % vertical
-%                 %                 [h_d_h(pp,jj),p_d_h(pp,jj)] = UniformTest_LBY(preDir_dPeak_early_azi{pp}{jj}); % horizontal
-%                 %                 [h_d_v(pp,jj),p_d_v(pp,jj)] = UniformTest_LBY(preDir_dPeak_early_ele{pp}{jj}); % vertical
-%                 %                 try
-%                 %                     [h_all_h(pp,jj),p_all_h(pp,jj)] = UniformTest2_LBY(preDir_Peak_azi_trans{pp}{jj}'+90); % horizontal
-%                 %                     [h_all_v(pp,jj),p_all_v(pp,jj)] = UniformTest2_LBY(preDir_Peak_ele{pp}{jj}'+90); % vertical
-%                 %                 catch
-%                 %                     keyboard;
-%                 %                 end
-%                 %
-%                 %                 [h_all_h_modal(pp,jj),p_all_h_modal{pp,jj}] = modalityTestForYong(preDir_Peak_azi_trans{pp}{jj}+90,[1,2],2000); % horizontal
-%                 %                 [h_all_v_modal(pp,jj),p_all_v_modal{pp,jj}] = modalityTestForYong(preDir_Peak_ele{pp}{jj}+90,[1,2],2000); % vertical
-%                 %
-%             end
-%             if ~isempty(sPeakIdx{pp}{1}) && ~isempty(sPeakIdx{pp}{1})
-%                 bothSPeakIdx{pp}{jj} = intersect(sPeakIdx{pp}{1},sPeakIdx{pp}{1}); % both vestibular & visual
-%                 temp1 = cell2mat(preDir_peak_plot{pp}{1}(bothSPeakIdx{pp}{jj}));
-%                 temp2 = cell2mat(preDir_peak_plot{pp}{1}(bothSPeakIdx{pp}{jj}));
-%                 %             reshape(cell2mat(peakT_plot{pp}{1}(bothSPeakIdx{pp}{jj})),2,[]);
-%                 %             temp2 = reshape(cell2mat(peakT_plot{pp}{2}(bothSPeakIdx{pp}{jj})),2,[]);
-%                 preDir_sPeak_diff{pp} = angleDiff(temp1(1,:),temp1(2,:),temp1(3,:),temp2(1,:),temp2(2,:),temp2(3,:));
-%             end
-%             if ~isempty(dPeakIdx{pp}{1}) && ~isempty(dPeakIdx{pp}{1})
-%                 bothDPeakIdx{pp}{jj} = intersect(dPeakIdx{pp}{1},dPeakIdx{pp}{1}); % both vestibular & visual
-%                 
-%                 preDir_dPeak_diff{1} = [];
+                %                 preDir_sPeak{pp}{jj} = cell2mat(preDir_peak_plot{pp}{jj}(sPeakIdx{pp}{jj}));
+                %
+                %                 try
+                %                     preDir_sPeak_azi{pp}{jj} = preDir_sPeak{pp}{jj}(1,:);
+                %                     preDir_sPeak_ele{pp}{jj} = preDir_sPeak{pp}{jj}(2,:);
+                %                 catch
+                %                     continue;
+                %                 end
+                %
+                %                 % single peak & early peak of double-peaked cell
+                %
+                %                 preDir_Peak_azi{pp}{jj} = [preDir_sPeak_azi{pp}{jj},preDir_dPeak_early_azi{pp}{jj}];
+                %                 preDir_Peak_azi_trans{pp}{jj} = preDir_Peak_azi{pp}{jj};
+                %                 preDir_Peak_azi_trans{pp}{jj}(preDir_Peak_azi_trans{pp}{jj}>=270) = preDir_Peak_azi_trans{pp}{jj}(preDir_Peak_azi_trans{pp}{jj}>=270) - 360;
+                %                 preDir_Peak_ele{pp}{jj} = [preDir_sPeak_ele{pp}{jj},preDir_dPeak_early_ele{pp}{jj}];
+                %
+                %                 % uniform test
+                %                 %                 [h_s_h(pp,jj),p_s_h(pp,jj)] = UniformTest_LBY(preDir_sPeak_azi{pp}{jj}); % horizontal
+                %                 %                 [h_s_v(pp,jj),p_s_v(pp,jj)] = UniformTest_LBY(preDir_sPeak_ele{pp}{jj}); % vertical
+                %                 %                 [h_d_h(pp,jj),p_d_h(pp,jj)] = UniformTest_LBY(preDir_dPeak_early_azi{pp}{jj}); % horizontal
+                %                 %                 [h_d_v(pp,jj),p_d_v(pp,jj)] = UniformTest_LBY(preDir_dPeak_early_ele{pp}{jj}); % vertical
+                %                 %                 try
+                %                 %                     [h_all_h(pp,jj),p_all_h(pp,jj)] = UniformTest2_LBY(preDir_Peak_azi_trans{pp}{jj}'+90); % horizontal
+                %                 %                     [h_all_v(pp,jj),p_all_v(pp,jj)] = UniformTest2_LBY(preDir_Peak_ele{pp}{jj}'+90); % vertical
+                %                 %                 catch
+                %                 %                     keyboard;
+                %                 %                 end
+                %                 %
+                %                 %                 [h_all_h_modal(pp,jj),p_all_h_modal{pp,jj}] = modalityTestForYong(preDir_Peak_azi_trans{pp}{jj}+90,[1,2],2000); % horizontal
+                %                 %                 [h_all_v_modal(pp,jj),p_all_v_modal{pp,jj}] = modalityTestForYong(preDir_Peak_ele{pp}{jj}+90,[1,2],2000); % vertical
+                %                 %
+                %             end
+                %             if ~isempty(sPeakIdx{pp}{1}) && ~isempty(sPeakIdx{pp}{1})
+                %                 bothSPeakIdx{pp}{jj} = intersect(sPeakIdx{pp}{1},sPeakIdx{pp}{1}); % both vestibular & visual
+                %                 temp1 = cell2mat(preDir_peak_plot{pp}{1}(bothSPeakIdx{pp}{jj}));
+                %                 temp2 = cell2mat(preDir_peak_plot{pp}{1}(bothSPeakIdx{pp}{jj}));
+                %                 %             reshape(cell2mat(peakT_plot{pp}{1}(bothSPeakIdx{pp}{jj})),2,[]);
+                %                 %             temp2 = reshape(cell2mat(peakT_plot{pp}{2}(bothSPeakIdx{pp}{jj})),2,[]);
+                %                 preDir_sPeak_diff{pp} = angleDiff(temp1(1,:),temp1(2,:),temp1(3,:),temp2(1,:),temp2(2,:),temp2(3,:));
+                %             end
+                %             if ~isempty(dPeakIdx{pp}{1}) && ~isempty(dPeakIdx{pp}{1})
+                %                 bothDPeakIdx{pp}{jj} = intersect(dPeakIdx{pp}{1},dPeakIdx{pp}{1}); % both vestibular & visual
+                %
+                %                 preDir_dPeak_diff{1} = [];
             end
             
         end
@@ -2485,16 +2524,17 @@ preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj};
     function f1p6p1(debug)      % PCA,'Eigen-Time'
         if debug  ; dbstack;   keyboard;      end
         
-        denoised_dim = 4; % how many PCs you want to plot
+        denoised_dim = 6; % how many PCs you want to plot
         
         %                 for pp = 1:size(mat_address,1)
         for pp = 1
-            for jj = 1:2
+            for jj = 1
                 temp = data_PCA{pp}{jj}(select_temporalSig{pp}(:,jj));
                 
                 %%%%%%%%%%%%%%%0 将每一个方向全部打乱
                 dataPCA_raw{pp}{jj} = reshape(permute(reshape(cell2mat(temp),26,nBinsPCA,[]),[2 1 3]),nBinsPCA,[]);
-                dataPCA{pp}{jj} = (dataPCA_raw{pp}{jj} - repmat(mean(dataPCA_raw{pp}{jj},1),size(dataPCA_raw{pp}{jj},1),1))./repmat(std(dataPCA_raw{pp}{jj},1,1),size(dataPCA_raw{pp}{jj},1),1); % z-score Normalize
+                %                 dataPCA{pp}{jj} = (dataPCA_raw{pp}{jj} - repmat(mean(dataPCA_raw{pp}{jj},1),size(dataPCA_raw{pp}{jj},1),1))./repmat(std(dataPCA_raw{pp}{jj},1,1),size(dataPCA_raw{pp}{jj},1),1); % z-score Normalize
+                dataPCA{pp}{jj} = (dataPCA_raw{pp}{jj} - repmat(mean(dataPCA_raw{pp}{jj},2),1,size(dataPCA_raw{pp}{jj},2)))./repmat(std(dataPCA_raw{pp}{jj},1,2),1,size(dataPCA_raw{pp}{jj},2)); % z-score Normalize
                 [weights_PCA_PC{pp}{jj}, score{pp}{jj}, latent{pp}{jj}, ~, PCA_explained{pp}{jj}] = pca(dataPCA{pp}{jj}');
                 
                 % latent: eigenvalues
@@ -2503,10 +2543,11 @@ preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj};
                 end
                 
                 %%%%%%%%%%%%%%%1 对每个神经元按照最大反应方向排序
-                %                                 %{
+                %{
                 dataPCA_raw1{pp}{jj} = cell2mat(cellfun(@(x) x(:),temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
                 % dataPCA{pp}{jj}(sum(isnan(dataPCA{pp}{jj}),2)>0,:) = [];
-                dataPCA1{pp}{jj} = (dataPCA_raw1{pp}{jj} - repmat(mean(dataPCA_raw1{pp}{jj},1),size(dataPCA_raw1{pp}{jj},1),1))./repmat(std(dataPCA_raw1{pp}{jj},1,1),size(dataPCA_raw1{pp}{jj},1),1); % z-score Normalize
+%                dataPCA1{pp}{jj} = (dataPCA_raw1{pp}{jj} - repmat(mean(dataPCA_raw1{pp}{jj},2),1,size(dataPCA_raw1{pp}{jj},2)))./repmat(std(dataPCA_raw1{pp}{jj},1,2),1,size(dataPCA_raw1{pp}{jj},2)); % z-score Normalize
+  dataPCA1{pp}{jj} = (dataPCA_raw1{pp}{jj} - repmat(mean(dataPCA_raw1{pp}{jj},1),size(dataPCA_raw1{pp}{jj},1),1))./repmat(std(dataPCA_raw1{pp}{jj},1,1),size(dataPCA_raw1{pp}{jj},1),1); % z-score Normalize
                 [weights_PCA_PC1{pp}{jj}, score1{pp}{jj}, latent1{pp}{jj}, ~, PCA_explained1{pp}{jj}] = pca(dataPCA1{pp}{jj}');
                 
                 % latent: eigenvalues
@@ -2518,7 +2559,8 @@ preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj};
                 %%%%%%%%%%%%%%%2 只要最大反应方向（Preferred direction）
                 dataPCA_raw2{pp}{jj} = cell2mat(cellfun(@(x) x(1,:)',temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
                 % dataPCA{pp}{jj}(sum(isnan(dataPCA{pp}{jj}),2)>0,:) = [];
-                dataPCA2{pp}{jj} = (dataPCA_raw2{pp}{jj} - repmat(mean(dataPCA_raw2{pp}{jj},1),size(dataPCA_raw2{pp}{jj},1),1))./repmat(std(dataPCA_raw2{pp}{jj},1,1),size(dataPCA_raw2{pp}{jj},1),1); % z-score Normalize
+                %                 dataPCA2{pp}{jj} = (dataPCA_raw2{pp}{jj} - repmat(mean(dataPCA_raw2{pp}{jj},1),size(dataPCA_raw2{pp}{jj},1),1))./repmat(std(dataPCA_raw2{pp}{jj},1,1),size(dataPCA_raw2{pp}{jj},1),1); % z-score Normalize
+                dataPCA2{pp}{jj} = (dataPCA_raw2{pp}{jj} - repmat(mean(dataPCA_raw2{pp}{jj},2),1,size(dataPCA_raw2{pp}{jj},2)))./repmat(std(dataPCA_raw2{pp}{jj},1,2),1,size(dataPCA_raw2{pp}{jj},2)); % z-score Normalize
                 [weights_PCA_PC2{pp}{jj}, score2{pp}{jj}, latent2{pp}{jj}, ~, PCA_explained2{pp}{jj}] = pca(dataPCA2{pp}{jj}');
                 
                 % latent: eigenvalues
@@ -2528,7 +2570,8 @@ preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj};
                 
                 %%%%%%%%%%%%%%%3 最大反应方向+最小反应方向（Preferred direction+Null condition）
                 dataPCA_raw3{pp}{jj} = cell2mat(cellfun(@(x) [x(1,:)'; x(26,:)'],temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
-                dataPCA3{pp}{jj} = (dataPCA_raw3{pp}{jj} - repmat(mean(dataPCA_raw3{pp}{jj},1),size(dataPCA_raw3{pp}{jj},1),1))./repmat(std(dataPCA_raw3{pp}{jj},1,1),size(dataPCA_raw3{pp}{jj},1),1); % z-score Normalize
+                %                 dataPCA3{pp}{jj} = (dataPCA_raw3{pp}{jj} - repmat(mean(dataPCA_raw3{pp}{jj},1),size(dataPCA_raw3{pp}{jj},1),1))./repmat(std(dataPCA_raw3{pp}{jj},1,1),size(dataPCA_raw3{pp}{jj},1),1); % z-score Normalize
+                dataPCA3{pp}{jj} = (dataPCA_raw3{pp}{jj} - repmat(mean(dataPCA_raw3{pp}{jj},2),1,size(dataPCA_raw3{pp}{jj},2)))./repmat(std(dataPCA_raw3{pp}{jj},1,2),1,size(dataPCA_raw3{pp}{jj},2)); % z-score Normalize
                 [weights_PCA_PC3{pp}{jj}, score3{pp}{jj}, latent2{pp}{jj}, ~, PCA_explained3{pp}{jj}] = pca(dataPCA3{pp}{jj}');
                 
                 % latent: eigenvalues
@@ -2569,7 +2612,7 @@ preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj};
         
         %                 for pp = 1:size(mat_address,1)
         for pp = 1
-            for jj = 1:2
+            for jj = 1
                 PCA_times = 1:size(dataPCA{pp}{jj},1);
                 for ii = 1:denoised_dim
                     %
@@ -2618,29 +2661,29 @@ figure(20);set(figure(20),'name','Eigen-time','unit','pixels','pos',[-1000 300 9
                 SetFigure(12);
         %}
         %%%%%%%%%%%%%%%2
-        %{
+        %         %{
         figure(20);set(figure(20),'name','Eigen-time','unit','pixels','pos',[-1000 300 900 600]); clf;
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         
-                for pp = 1:size(mat_address,1)
-%         for pp = 1
-            for jj = 1:2
+        for pp = 1:size(mat_address,1)
+            %         for pp = 1
+            for jj = 1
                 PCA_times = 1:size(dataPCA2{pp}{jj},1);
                 for ii = 1:denoised_dim
                     axes(h_subplot((jj-1)*2+pp));hold on;
                     plot(PCA_times,weights_PCA_PC2{pp}{jj}(:,ii),'k-','linewidth',3,'color',colorsPCA{jj}{ii});
                 end
                 xlim([0 length(PCA_times)])
-                    ylim([min(weights_PCA_PC2{pp}{jj}(:)) max(weights_PCA_PC2{pp}{jj}(:))]);
-                                        xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'}); axis on;
-%                     xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','1000','2000'});title(['Eigen-time PC' num2str(ii)]); axis on;
+                ylim([min(weights_PCA_PC2{pp}{jj}(:)) max(weights_PCA_PC2{pp}{jj}(:))]);
+                xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/3:length(PCA_times),'xticklabel',{'0','500','1000','1500'}); axis on;
+                %                     xlabel('time (s)'); ylabel('Weight (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','1000','2000'});title(['Eigen-time PC' num2str(ii)]); axis on;
                 title(labels{pp}{jj});
                 legend('PC1','PC2','PC3','PC4','PC5','PC6');
             end
-                end
-                
+        end
+        
         suptitle('Eigen-time, All neurons(Preferred direction)');
-                SetFigure(12);
+        SetFigure(12);
         %}
         %%%%%%%%%%%%%%%3
         %{
@@ -2831,7 +2874,7 @@ for pp = 1
         
         %                 for pp = 1:size(mat_address,1)
         for pp = 1
-            for jj = 1:2
+            for jj = 1
                 axes(h_subplot((jj-1)*2+pp));hold on;
                 plot((1:length(PCA_explained{pp}{jj}))', cumsum(PCA_explained{pp}{jj}),'o-','markersize',8,'linew',1.5);
                 plot((1:denoised_dim)',cumsum(PCA_explained{pp}{jj}(1:denoised_dim)),'ro-','markersize',8,'linew',1.5,'markerfacecol','r');
@@ -2924,29 +2967,32 @@ for pp = 1
 
     function f1p6p2(debug)      % PCA,'Eigen-Neuron'
         if debug  ; dbstack;   keyboard;      end
-        
-        denoised_dim = 4; % how many PCs you want to plot
+        %         nBinsPCA = 68;
+        denoised_dim = 6; % how many PCs you want to plot
         
         for pp = 1:size(mat_address,1)
-            %                     for pp = 1
-            for jj = 1:2
+            %                                 for pp = 1:2
+            for jj = 1
                 temp = data_PCA{pp}{jj}(select_temporalSig{pp}(:,jj));
                 
                 %%%%%%%%%%%%%%%0 将每一个方向全部打乱
+                %{
                 dataPCA_raw{pp}{jj} = reshape(permute(reshape(cell2mat(temp),26,nBinsPCA,[]),[2 1 3]),nBinsPCA,[]);
-                dataPCA{pp}{jj} = (dataPCA_raw{pp}{jj} - repmat(mean(dataPCA_raw{pp}{jj},2),1,size(dataPCA_raw{pp}{jj},2)))./repmat(std(dataPCA_raw{pp}{jj},1,2),1,size(dataPCA_raw{pp}{jj},2)); % z-score Normalize
-                [weights_PCA_PC{pp}{jj}, score{pp}{jj}, latent{pp}{jj}, ~, PCA_explained{pp}{jj}] = pca(dataPCA{pp}{jj});
+%                 dataPCA{pp}{jj} = (dataPCA_raw{pp}{jj} - repmat(mean(dataPCA_raw{pp}{jj},2),1,size(dataPCA_raw{pp}{jj},2)))./repmat(std(dataPCA_raw{pp}{jj},1,2),1,size(dataPCA_raw{pp}{jj},2)); % z-score Normalize
+dataPCA{pp}{jj} = (dataPCA_raw{pp}{jj} - repmat(mean(dataPCA_raw{pp}{jj},1),size(dataPCA_raw{pp}{jj},1),1))./repmat(std(dataPCA_raw{pp}{jj},1,1),size(dataPCA_raw{pp}{jj},1),1); % z-score Normalize
+[weights_PCA_PC{pp}{jj}, score{pp}{jj}, latent{pp}{jj}, ~, PCA_explained{pp}{jj}] = pca(dataPCA{pp}{jj});
                 
                 % latent: eigenvalues
                 for ii = 1:denoised_dim
                     projPC{pp}{jj}{ii} = dataPCA_raw{pp}{jj} * weights_PCA_PC{pp}{jj}(:,ii);
                 end
-                
+                %}
                 %%%%%%%%%%%%%%%1 对每个神经元按照最大反应方向排序
                 %{
-                dataPCA_raw1{pp}{jj} = cell2mat(cellfun(@(x) x(:),temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
-                dataPCA1{pp}{jj} = (dataPCA_raw1{pp}{jj} - repmat(mean(dataPCA_raw1{pp}{jj},2),1,size(dataPCA_raw1{pp}{jj},2)))./repmat(std(dataPCA_raw1{pp}{jj},1,2),1,size(dataPCA_raw1{pp}{jj},2)); % z-score Normalize
-                [weights_PCA_PC1{pp}{jj}, score1{pp}{jj}, latent1{pp}{jj}, ~, PCA_explained1{pp}{jj}] = pca(dataPCA1{pp}{jj});
+                dataPCA_raw1{pp}{jj} = reshape(permute(reshape(cell2mat(temp1),26,nBinsPCA,[]),[2 1 3]),nBinsPCA,[]);
+%                 dataPCA1{pp}{jj} = (dataPCA_raw1{pp}{jj} - repmat(mean(dataPCA_raw1{pp}{jj},2),1,size(dataPCA_raw1{pp}{jj},2)))./repmat(std(dataPCA_raw1{pp}{jj},1,2),1,size(dataPCA_raw1{pp}{jj},2)); % z-score Normalize
+ dataPCA1{pp}{jj} = (dataPCA_raw1{pp}{jj} - repmat(mean(dataPCA_raw1{pp}{jj},1),size(dataPCA_raw1{pp}{jj},1),1))./repmat(std(dataPCA_raw1{pp}{jj},1,1),size(dataPCA_raw1{pp}{jj},1),1); % z-score Normalize
+ [weights_PCA_PC1{pp}{jj}, score1{pp}{jj}, latent1{pp}{jj}, ~, PCA_explained1{pp}{jj}] = pca(dataPCA1{pp}{jj});
                 
                 % latent: eigenvalues
                 for ii = 1:denoised_dim
@@ -2955,27 +3001,120 @@ for pp = 1
                 %}
                 
                 %%%%%%%%%%%%%%%2 只要最大反应方向（Preferred direction）
-                dataPCA_raw2{pp}{jj} = cell2mat(cellfun(@(x) x(1,:)',temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
+                %{
+                 dataPCA_raw2{pp}{jj} = cell2mat(cellfun(@(x) x(1,:)',temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
                 % dataPCA{pp}{jj}(sum(isnan(dataPCA{pp}{jj}),2)>0,:) = [];
-                dataPCA2{pp}{jj} = (dataPCA_raw2{pp}{jj} - repmat(mean(dataPCA_raw2{pp}{jj},2),1,size(dataPCA_raw2{pp}{jj},2)))./repmat(std(dataPCA_raw2{pp}{jj},1,2),1,size(dataPCA_raw2{pp}{jj},2)); % z-score Normalize
-                [weights_PCA_PC2{pp}{jj}, score2{pp}{jj}, latent2{pp}{jj}, ~, PCA_explained2{pp}{jj}] = pca(dataPCA2{pp}{jj});
+%                 dataPCA2{pp}{jj} = (dataPCA_raw2{pp}{jj} - repmat(mean(dataPCA_raw2{pp}{jj},2),1,size(dataPCA_raw2{pp}{jj},2)))./repmat(std(dataPCA_raw2{pp}{jj},1,2),1,size(dataPCA_raw2{pp}{jj},2)); % z-score Normalize
+               dataPCA2{pp}{jj} = (dataPCA_raw2{pp}{jj} - repmat(mean(dataPCA_raw2{pp}{jj},1),size(dataPCA_raw2{pp}{jj},1),1))./repmat(std(dataPCA_raw2{pp}{jj},1,1),size(dataPCA_raw2{pp}{jj},1),1); % z-score Normalize
+                 [weights_PCA_PC2{pp}{jj}, score2{pp}{jj}, latent2{pp}{jj}, ~, PCA_explained2{pp}{jj}] = pca(dataPCA2{pp}{jj});
                 
                 % latent: eigenvalues
                 for ii = 1:denoised_dim
                     projPC2{pp}{jj}{ii} = dataPCA_raw2{pp}{jj} * weights_PCA_PC2{pp}{jj}(:,ii);
                 end
-                
+                %}
                 %%%%%%%%%%%%%%%3 最大反应方向+最小反应方向（Preferred direction+Null condition）
                 %{
                 dataPCA_raw3{pp}{jj} = cell2mat(cellfun(@(x) [x(1,:)'; x(26,:)'],temp,'UniformOutput',false)); % (nBins*directions)*cells, the first direction is the max at the first peak time
-                dataPCA3{pp}{jj} = (dataPCA_raw3{pp}{jj} - repmat(mean(dataPCA_raw3{pp}{jj},2),1,size(dataPCA_raw3{pp}{jj},2)))./repmat(std(dataPCA_raw3{pp}{jj},1,2),1,size(dataPCA_raw3{pp}{jj},2)); % z-score Normalize
-                [weights_PCA_PC3{pp}{jj}, score3{pp}{jj}, latent2{pp}{jj}, ~, PCA_explained3{pp}{jj}] = pca(dataPCA3{pp}{jj});
+%                 dataPCA3{pp}{jj} = (dataPCA_raw3{pp}{jj} - repmat(mean(dataPCA_raw3{pp}{jj},2),1,size(dataPCA_raw3{pp}{jj},2)))./repmat(std(dataPCA_raw3{pp}{jj},1,2),1,size(dataPCA_raw3{pp}{jj},2)); % z-score Normalize
+               dataPCA3{pp}{jj} = (dataPCA_raw3{pp}{jj} - repmat(mean(dataPCA_raw3{pp}{jj},1),size(dataPCA_raw3{pp}{jj},1),1))./repmat(std(dataPCA_raw3{pp}{jj},1,1),size(dataPCA_raw3{pp}{jj},1),1); % z-score Normalize
+                 [weights_PCA_PC3{pp}{jj}, score3{pp}{jj}, latent2{pp}{jj}, ~, PCA_explained3{pp}{jj}] = pca(dataPCA3{pp}{jj});
                 
                 % latent: eigenvalues
                 for ii = 1:denoised_dim
                     projPC3{pp}{jj}{ii} = dataPCA_raw3{pp}{jj} * weights_PCA_PC3{pp}{jj}(:,ii);
                 end
                 %}
+                
+                
+                %%%%%%%%%%%%%%%4 将不同方向排开,PCA data顺序：1：up 26:down; 14:left, 10: right; 12:straightforward, 16: backforward
+                dataPCA_raw4{pp}{jj} = reshape(cell2mat(temp),26*nBinsPCA,[]);
+                temp = reshape(cell2mat(temp),26,nBinsPCA,[]);
+                %                 dataPCA4{pp}{jj} = (dataPCA_raw4{pp}{jj} - repmat(mean(dataPCA_raw4{pp}{jj},2),1,size(dataPCA_raw4{pp}{jj},2)))./repmat(std(dataPCA_raw4{pp}{jj},1,2),1,size(dataPCA_raw4{pp}{jj},2)); % z-score Normalize
+                %                 dataPCA4{pp}{jj} = (dataPCA_raw4{pp}{jj} - repmat(mean(dataPCA_raw4{pp}{jj},1),size(dataPCA_raw4{pp}{jj},1),1))./repmat(std(dataPCA_raw4{pp}{jj},1,1),size(dataPCA_raw4{pp}{jj},1),1); % z-score Normalize
+                dataPCA4{pp}{jj} = (dataPCA_raw4{pp}{jj} - repmat(mean(dataPCA_raw4{pp}{jj},1),size(dataPCA_raw4{pp}{jj},1),1)); % mean Normalize
+                [weights_PCA_PC4{pp}{jj}, score4{pp}{jj}, latent4{pp}{jj}, ~, PCA_explained4{pp}{jj}] = pca(dataPCA4{pp}{jj});
+                %                 [weights_PCA_PC4{pp}{jj}, ~, ~] = svd(dataPCA4{pp}{jj}');
+                
+                % latent: eigenvalues
+                for ii = 1:denoised_dim
+                    for dd = 1:26
+                        
+                        projPC4{pp}{jj}{ii}(:,dd) = squeeze(temp(dd,:,:)) * weights_PCA_PC4{pp}{jj}(:,ii);
+                        
+                    end
+                end
+                
+                % PCA data顺序：1：up 26:down; 14:left, 10: right; 12:straightforward, 16: backforward
+                indd = [1,26,14,10,12,16];
+                
+                for ii = 1:denoised_dim
+                    for dd = 1:6
+                        
+                        projPC4_{pp}{jj}{ii}(:,dd) = squeeze(temp(indd(dd),:,:)) * weights_PCA_PC4{pp}{jj}(:,ii);
+                        
+                    end
+                end
+                
+                % PCA data顺序：1：upward
+                indd = 1:9;
+                
+                for ii = 1:denoised_dim
+                    for dd = 1:9
+                        
+                        projPC4_up{pp}{jj}{ii}(:,dd) = squeeze(temp(indd(dd),:,:)) * weights_PCA_PC4{pp}{jj}(:,ii);
+                        
+                    end
+                end
+                
+                % PCA data顺序：26：downward
+                indd = 18:26;
+                
+                for ii = 1:denoised_dim
+                    for dd = 1:9
+                        
+                        projPC4_down{pp}{jj}{ii}(:,dd) = squeeze(temp(indd(dd),:,:)) * weights_PCA_PC4{pp}{jj}(:,ii);
+                        
+                    end
+                end
+                
+                % PCA data顺序：horizontal
+                indd = 10:17;
+                
+                for ii = 1:denoised_dim
+                    for dd = 1:8
+                        
+                        projPC4_hori{pp}{jj}{ii}(:,dd) = squeeze(temp(indd(dd),:,:)) * weights_PCA_PC4{pp}{jj}(:,ii);
+                        
+                    end
+                end
+                
+                % PCA data顺序：straight-back
+                inds = [3:5,11:13,19:21];
+                indb = [7:9,15:17,23:25];
+                
+                for ii = 1:denoised_dim
+                    for dd = 1:9
+                        
+                        projPC4_straight{pp}{jj}{ii}(:,dd) = squeeze(temp(inds(dd),:,:)) * weights_PCA_PC4{pp}{jj}(:,ii);
+                        projPC4_back{pp}{jj}{ii}(:,dd) = squeeze(temp(indb(dd),:,:)) * weights_PCA_PC4{pp}{jj}(:,ii);
+                        
+                    end
+                end
+                
+                % PCA data顺序：left-right
+                indl = [2,3,9,10,11,17,18,19,25];
+                indr = [5:7,13:15,21:23];
+                
+                for ii = 1:denoised_dim
+                    for dd = 1:9
+                        
+                        projPC4_left{pp}{jj}{ii}(:,dd) = squeeze(temp(indl(dd),:,:)) * weights_PCA_PC4{pp}{jj}(:,ii);
+                        projPC4_right{pp}{jj}{ii}(:,dd) = squeeze(temp(indr(dd),:,:)) * weights_PCA_PC4{pp}{jj}(:,ii);
+                        
+                    end
+                end
+                
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 %{
                 [Index{pp}{jj},~] = kmeans([projPC{pp}{jj}{1}, projPC{pp}{jj}{2}, projPC{pp}{jj}{3}], 3,'start','uniform','emptyaction','drop');
@@ -2999,7 +3138,7 @@ for pp = 1
         % ============   1-D Trajectory of Eigen-neurons ===========
         %         %{
         %%%%%%%%%%%%%%%0 将每一个方向全部打乱
-        %         %{
+        %{
         figure(16);set(figure(16),'name','Eigen-neurons','unit','pixels','pos',[-1000 300 900 600]); clf;
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         
@@ -3023,8 +3162,266 @@ for pp = 1
         SetFigure(12);
         %}
         
-        % ============   2-D Trajectory  ===========
+        %%%%%%%%%%%%%%%4
+        %                 %{
+        figure(16);set(figure(16),'name','Eigen-neurons','unit','pixels','pos',[-1000 300 1200 600]); clf;
+        [~,h_subplot] = tight_subplot(2,3,0.1,0.15,[0.1 0.1]);
+        
+        PCA_times = 1:length(projPC4{pp}{jj}{ii});
+        for pp = 1:size(mat_address,1)
+            for jj = 1
+                for ii = 1:denoised_dim
+                    axes(h_subplot(ii));hold on;
+                    plot(1:length(projPC4{pp}{jj}{ii}),projPC4{pp}{jj}{ii},'linewidth',3);
+                    axis on;
+                    xlim([0 length(PCA_times)]);
+                    xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','750','1500'});
+                    title([labels{pp}{jj},'  PC',num2str(ii)]);
+                end
+                
+            end
+        end
+        suptitle('Eigen-neurons, firing rate');
+        SetFigure(12);
+        %}
+        colorss = {colorDBlue,colorLBlue,colorDRed,colorLRed,colorDGray,colorLGray};
+        
+        %                 %{
+        figure(17);set(figure(17),'name','up-down(blue),left-right(red),straight-back(gray)','unit','pixels','pos',[-1000 300 1200 600]); clf;
+        [~,h_subplot] = tight_subplot(2,3,0.1,0.15,[0.1 0.1]);
+        
+        PCA_times = 1:length(projPC4_{pp}{jj}{ii});
+        for pp = 1
+            for jj = 1
+                for ii = 1:denoised_dim
+                    for dd = 1:6
+                        axes(h_subplot(ii));hold on;
+                        plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,dd),'linewidth',3,'color',colorss{dd});
+                    end
+                    axis on;
+                    xlim([0 length(PCA_times)]);
+                    xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','750','1500'});
+                    title([labels{pp}{jj},'  PC',num2str(ii)]);
+                end
+                
+                
+            end
+        end
+        suptitle('up-down(blue),left-right(red),straight-back(gray),Eigen-neurons,Translation, firing rate');
+        SetFigure(12);
+        %}
+        %                         %{
+        figure(20);set(figure(20),'name','yaw(blue),pitch(red),roll(gray)','unit','pixels','pos',[-1000 300 1200 600]); clf;
+        [~,h_subplot] = tight_subplot(2,3,0.1,0.15,[0.1 0.1]);
+        
+        PCA_times = 1:length(projPC4_{pp}{jj}{ii});
+        for pp = 2
+            for jj = 1
+                for ii = 1:denoised_dim
+                    for dd = 1:6
+                        axes(h_subplot(ii));hold on;
+                        plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,dd),'linewidth',3,'color',colorss{dd});
+                    end
+                    axis on;
+                    xlim([0 length(PCA_times)]);
+                    xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','750','1500'});
+                    title([labels{pp}{jj},'  PC',num2str(ii)]);
+                end
+                
+                
+            end
+        end
+        suptitle('yaw(blue),pitch(red),roll(gray),Eigen-neurons,Rotation, firing rate');
+        SetFigure(12);
+        %}
+        
+        %                         %{
+        figure(18);set(figure(18),'name','up-down','unit','pixels','pos',[-1000 300 1200 600]); clf;
+        [~,h_subplot] = tight_subplot(2,3,0.1,0.15,[0.1 0.1]);
+        
+        PCA_times = 1:length(projPC4_{pp}{jj}{ii});
+        for pp = 1
+            for jj = 1
+                for ii = 1:denoised_dim
+                    axes(h_subplot(ii));hold on;
+                    for dd = 1:8
+                        plot(1:length(projPC4_up{pp}{jj}{ii}),projPC4_up{pp}{jj}{ii}(:,dd),'linewidth',3,'color','b');
+                        plot(1:length(projPC4_down{pp}{jj}{ii}),projPC4_down{pp}{jj}{ii}(:,dd),'linewidth',3,'color','r');
+                        %                     plot(1:length(projPC4_hori{pp}{jj}{ii}),projPC4_hori{pp}{jj}{ii}(:,dd),'linewidth',3,'color','y');
+                        plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,1),'k-','linewidth',3);
+                        plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,2),'k--','linewidth',3);
+                    end
+                    plot([580/1500*length(PCA_times),580/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'k--','linewidth',1.5);
+                    plot([482/1500*length(PCA_times),462/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'g--','linewidth',1.5);
+                    axis on;
+                    xlim([0 length(PCA_times)]);
+                    xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','750','1500'});
+                    title([labels{pp}{jj},'  PC',num2str(ii)]);
+                end
+                
+                
+            end
+        end
+        suptitle('up(blue),down(red),horizontal(yellow),Eigen-neurons,Translation, firing rate');
+        SetFigure(12);
+        %}
+        
+        %                         %{
+        figure(19);set(figure(19),'name','yaw','unit','pixels','pos',[-1000 300 1200 600]); clf;
+        [~,h_subplot] = tight_subplot(2,3,0.1,0.15,[0.1 0.1]);
+        
+        PCA_times = 1:length(projPC4_{pp}{jj}{ii});
+        for pp = 2
+            for jj = 1
+                for ii = 1:denoised_dim
+                    axes(h_subplot(ii));hold on;
+                    for dd = 1:8
+                        plot(1:length(projPC4_up{pp}{jj}{ii}),projPC4_up{pp}{jj}{ii}(:,dd),'linewidth',3,'color','b');
+                        plot(1:length(projPC4_down{pp}{jj}{ii}),projPC4_down{pp}{jj}{ii}(:,dd),'linewidth',3,'color','r');
+                        %                     plot(1:length(projPC4_hori{pp}{jj}{ii}),projPC4_hori{pp}{jj}{ii}(:,dd),'linewidth',3,'color','y');
+                        plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,1),'k-','linewidth',3);
+                        plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,2),'k--','linewidth',3);
+                    end
+                    plot([584/1500*length(PCA_times),584/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'k--','linewidth',1.5);
+                    plot([482/1500*length(PCA_times),462/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'g--','linewidth',1.5);
+                    axis on;
+                    xlim([0 length(PCA_times)]);
+                    xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','750','1500'});
+                    title([labels{pp}{jj},'  PC',num2str(ii)]);
+                end
+                
+                
+            end
+        end
+        suptitle('yaw-CCW(blue),yaw-CW(red),Eigen-neurons,Rotation, firing rate');
+        SetFigure(12);
+        %}
+        
+        %                         %{
+        figure(21);set(figure(21),'name','forward-back','unit','pixels','pos',[-1000 300 1200 600]); clf;
+        [~,h_subplot] = tight_subplot(2,3,0.1,0.15,[0.1 0.1]);
+        
+        PCA_times = 1:length(projPC4_{pp}{jj}{ii});
+        for pp = 1
+            for jj = 1
+                for ii = 1:denoised_dim
+                    axes(h_subplot(ii));hold on;
+                    for dd = 1:9
+                        plot(1:length(projPC4_straight{pp}{jj}{ii}),projPC4_straight{pp}{jj}{ii}(:,dd),'linewidth',3,'color','b');
+                        plot(1:length(projPC4_back{pp}{jj}{ii}),projPC4_back{pp}{jj}{ii}(:,dd),'linewidth',3,'color','r');
+                        
+                    end
+                    plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,5),'k-','linewidth',3);
+                    plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,6),'k--','linewidth',3);
+                    plot([580/1500*length(PCA_times),580/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'k--','linewidth',1.5);
+                    plot([482/1500*length(PCA_times),462/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'g--','linewidth',1.5);
+                    axis on;
+                    xlim([0 length(PCA_times)]);
+                    xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','750','1500'});
+                    title([labels{pp}{jj},'  PC',num2str(ii)]);
+                end
+                
+                
+            end
+        end
+        suptitle('forward(blue),backward(red),Eigen-neurons,Translation, firing rate');
+        SetFigure(12);
+        %}
         %         %{
+        figure(24);set(figure(24),'name','roll(for-back)','unit','pixels','pos',[-1000 300 1200 600]); clf;
+        [~,h_subplot] = tight_subplot(2,3,0.1,0.15,[0.1 0.1]);
+        
+        PCA_times = 1:length(projPC4_{pp}{jj}{ii});
+        for pp = 2
+            for jj = 1
+                for ii = 1:denoised_dim
+                    axes(h_subplot(ii));hold on;
+                    for dd = 1:9
+                        plot(1:length(projPC4_straight{pp}{jj}{ii}),projPC4_straight{pp}{jj}{ii}(:,dd),'linewidth',3,'color','b');
+                        plot(1:length(projPC4_back{pp}{jj}{ii}),projPC4_back{pp}{jj}{ii}(:,dd),'linewidth',3,'color','r');
+                        
+                    end
+                    plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,5),'k-','linewidth',3);
+                    plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,6),'k--','linewidth',3);
+                    plot([580/1500*length(PCA_times),580/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'k--','linewidth',1.5);
+                    plot([482/1500*length(PCA_times),462/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'g--','linewidth',1.5);
+                    axis on;
+                    xlim([0 length(PCA_times)]);
+                    xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','750','1500'});
+                    title([labels{pp}{jj},'  PC',num2str(ii)]);
+                end
+                
+                
+            end
+        end
+        suptitle('right-roll(blue),left-roll(red),Eigen-neurons,Rotation, firing rate');
+        SetFigure(12);
+        %}
+        
+        
+        %                         %{
+        figure(22);set(figure(22),'name','left-right','unit','pixels','pos',[-1000 300 1200 600]); clf;
+        [~,h_subplot] = tight_subplot(2,3,0.1,0.15,[0.1 0.1]);
+        
+        PCA_times = 1:length(projPC4_{pp}{jj}{ii});
+        for pp = 1
+            for jj = 1
+                for ii = 1:denoised_dim
+                    axes(h_subplot(ii));hold on;
+                    for dd = 1:9
+                        plot(1:length(projPC4_left{pp}{jj}{ii}),projPC4_left{pp}{jj}{ii}(:,dd),'linewidth',3,'color','b');
+                        plot(1:length(projPC4_right{pp}{jj}{ii}),projPC4_right{pp}{jj}{ii}(:,dd),'linewidth',3,'color','r');
+                        
+                    end
+                    plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,3),'k-','linewidth',3);
+                    plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,4),'k--','linewidth',3);
+                    plot([580/1500*length(PCA_times),580/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'k--','linewidth',1.5);
+                    plot([482/1500*length(PCA_times),462/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'g--','linewidth',1.5);
+                    axis on;
+                    xlim([0 length(PCA_times)]);
+                    xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','750','1500'});
+                    title([labels{pp}{jj},'  PC',num2str(ii)]);
+                end
+                
+                
+            end
+        end
+        suptitle('left(blue),right(red),Eigen-neurons,Translation, firing rate');
+        SetFigure(12);
+        %}
+        %{
+        figure(23);set(figure(23),'name','pitch(left-right axis)','unit','pixels','pos',[-1000 300 1200 600]); clf;
+        [~,h_subplot] = tight_subplot(2,3,0.1,0.15,[0.1 0.1]);
+        
+        PCA_times = 1:length(projPC4_{pp}{jj}{ii});
+            for pp = 2
+            for jj = 1
+                for ii = 1:denoised_dim
+                    axes(h_subplot(ii));hold on;
+                    for dd = 1:9
+                    plot(1:length(projPC4_left{pp}{jj}{ii}),projPC4_left{pp}{jj}{ii}(:,dd),'linewidth',3,'color','b');
+                    plot(1:length(projPC4_right{pp}{jj}{ii}),projPC4_right{pp}{jj}{ii}(:,dd),'linewidth',3,'color','r');
+                    
+                    end
+                    plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,3),'k-','linewidth',3);
+                    plot(1:length(projPC4_{pp}{jj}{ii}),projPC4_{pp}{jj}{ii}(:,4),'k--','linewidth',3);
+                    plot([580/1500*length(PCA_times),580/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'k--','linewidth',1.5);
+                    plot([482/1500*length(PCA_times),462/1500*length(PCA_times)],[min(projPC4_{pp}{jj}{ii}(:)),max(projPC4_{pp}{jj}{ii}(:))],'g--','linewidth',1.5);
+                    axis on;
+                xlim([0 length(PCA_times)]);
+                xlabel('time (s)'); ylabel('Firing rate (a.u.)'); set(gca,'xtick',0:length(PCA_times)/2:length(PCA_times),'xticklabel',{'0','750','1500'});
+                title([labels{pp}{jj},'  PC',num2str(ii)]);
+                end
+                
+               
+            end
+        end
+        suptitle('nose-down(blue),nose-up(red),Eigen-neurons,Rotation, firing rate');
+        SetFigure(12);
+        %}
+        
+        % ============   2-D Trajectory  ===========
+        %{
         figure(18);set(figure(18),'name','2-D Trajectory (PC1 vs PC2)','unit','pixels','pos',[-1000 -300 900 400]); clf;
         [~,h_subplot] = tight_subplot(1,2,0.1,0.15,[0.1 0.1]);
         for pp = 1:size(mat_address,1)
@@ -3042,7 +3439,7 @@ for pp = 1
         %}
         
         % ============   3-D Trajectory  ===========
-        %         %{
+        %{
         figure(17);set(figure(17),'name','3-D Trajectory (PC1, PC2, PC3)','unit','pixels','pos',[-1000 -300 900 400]); clf;
         [~,h_subplot] = tight_subplot(1,2,0.1,0.15,[0.1 0.1]);
         for pp = 1:size(mat_address,1)
@@ -3061,14 +3458,14 @@ for pp = 1
         
         
         % ============   Variance explained =================
-        %         %{
+        %{
         %%%%%%%%%%%%%%%%%0
         figure(15);set(figure(15),'name','Variance explained, All directions','unit','pixels','pos',[-1070 300 1050 600]); clf;
-        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        [~,h_subplot] = tight_subplot(2,3,0.1,0.15,[0.1 0.1]);
         
-        %                 for pp = 1:size(mat_address,1)
-        for pp = 1
-            for jj = 1:2
+                        for pp = 1:size(mat_address,1)
+%         for pp = 1:2
+            for jj = 1
                 axes(h_subplot((jj-1)*2+pp));hold on;
                 plot((1:length(PCA_explained{pp}{jj}))', cumsum(PCA_explained{pp}{jj}),'o-','markersize',8,'linew',1.5);
                 plot((1:denoised_dim)',cumsum(PCA_explained{pp}{jj}(1:denoised_dim)),'ro-','markersize',8,'linew',1.5,'markerfacecol','r');
@@ -3082,6 +3479,7 @@ for pp = 1
         text(0.25,0,'Translation');text(0.8,0,'Rotation');
         axis off;
         SetFigure(12);
+        %}
         
         %%%%%%%%%%%%%%%%%1
         %{
@@ -3141,6 +3539,24 @@ for pp = 1
         %}
         %}
         
+        %%%%%%%%%%%%%%%%%4
+        %         %{
+        figure(25);set(figure(25),'name','Variance explained, All neurons (with all directions)','unit','pixels','pos',[-1070 300 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
+        
+        for pp = 1:2
+            for jj = 1
+                axes(h_subplot((jj-1)*1+pp));hold on;
+                plot((1:length(PCA_explained4{pp}{jj}))', cumsum(PCA_explained4{pp}{jj}),'o-','markersize',8,'linew',1.5);
+                plot((1:denoised_dim)',cumsum(PCA_explained4{pp}{jj}(1:denoised_dim)),'ro-','markersize',8,'linew',1.5,'markerfacecol','r');
+                plot([0 1],[0 PCA_explained4{pp}{jj}(1)],'r-','linew',1.5);
+                plot(xlim,[1 1]*sum(PCA_explained4{pp}{jj}(1:denoised_dim)),'r--');
+                text(denoised_dim,sum(PCA_explained4{pp}{jj}(1:denoised_dim))*0.9,[num2str(sum(PCA_explained4{pp}{jj}(1:denoised_dim))) '%'],'color','r');
+                xlabel('Num of principal components'); ylabel('Explained variability (%)'); ylim([0 100]);axis on;
+            end
+        end
+        SetFigure(12);
+        %}
     end
 
     function f1p7p1(debug)      % Targeted dimensionality reduction, 'v&a'
@@ -4603,16 +5019,16 @@ for pp = 1
                     r_VA_VA_sig{pp}{jj} = r_VA_VA{pp}{jj}(p_VA_VA{pp}{jj}<0.05);
                     
                     
-%                     %{
-%                     temp = Para_3D{pp}{jj}(:,find(strcmp(models,'VA')));
-%                     temp = temp(select_temporalSig{pp}(:,jj));
-%                     delay_VA_VA{pp}{jj} = cell2mat(cellfun(@(x) x(13), temp,'UniformOutput',false));
-% 
-%                     % only use which r2 > threshold (0.5)
-%                     r2_VA = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'VA')));
-%                     delay_VA_VA{pp}{jj} = delay_VA_VA{pp}{jj}(r2_VA>r2_thre);
-%                     %}
-%                     
+                    %                     %{
+                    %                     temp = Para_3D{pp}{jj}(:,find(strcmp(models,'VA')));
+                    %                     temp = temp(select_temporalSig{pp}(:,jj));
+                    %                     delay_VA_VA{pp}{jj} = cell2mat(cellfun(@(x) x(13), temp,'UniformOutput',false));
+                    %
+                    %                     % only use which r2 > threshold (0.5)
+                    %                     r2_VA = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'VA')));
+                    %                     delay_VA_VA{pp}{jj} = delay_VA_VA{pp}{jj}(r2_VA>r2_thre);
+                    %                     %}
+                    %
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_VA_azi{pp}{jj},preDir_A_VA_azi{pp}{jj},'o','markeredgecolor','k');
@@ -4665,13 +5081,13 @@ for pp = 1
                     r2_VA = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'VA')));
                     angleDiff_VA_VA_plot{pp}{jj} = angleDiff_VA_VA_plot{pp}{jj}(r2_VA>r2_thre);
                     
-%                     % delay vs PD diff
-%                     %{
-%                                         axes(h_subplot((jj-1)*2+pp));hold on;
-%                                         plot(delay_VA_VA{pp}{jj},angleDiff_VA_VA_plot{pp}{jj},'ko');axis square;
-%                                         axis on;
-%                                         xlabel('delay');ylabel('diff PD');
-%                     %}
+                    %                     % delay vs PD diff
+                    %                     %{
+                    %                                         axes(h_subplot((jj-1)*2+pp));hold on;
+                    %                                         plot(delay_VA_VA{pp}{jj},angleDiff_VA_VA_plot{pp}{jj},'ko');axis square;
+                    %                                         axis on;
+                    %                                         xlabel('delay');ylabel('diff PD');
+                    %                     %}
                     [n_Diff_VA_VA{pp}(jj,:), ~] = hist(angleDiff_VA_VA_plot{pp}{jj},xDiff);
                     medianDiff_VA_VA{pp}(jj) = median(angleDiff_VA_VA_plot{pp}{jj});
                     axes(h_subplot((jj-1)*2+pp));hold on;
@@ -4825,20 +5241,20 @@ for pp = 1
             for pp = 1:size(mat_address,1)
                 for jj = 1
                     try
-                    [n_VA_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_VA{pp}{jj},xCorr);
-                    [n_VA_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_VA_sig{pp}{jj},xCorr);
-                    mediancorr_VA_PVAJ{pp}{jj} = median(r_PVAJ_VA{pp}{jj});
-                    %                     mediancorr_VA_PVAJ_sig{pp}{jj} = median(r_PVAJ_VA_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_VA_PVAJ{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_VA_PVAJ_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( V vs. A)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_VA_PVAJ{pp}{jj} mediancorr_VA_PVAJ{pp}{jj}],[0 max(n_VA_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_VA_PVAJ{pp}{jj},max(n_VA_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VA_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                        [n_VA_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_VA{pp}{jj},xCorr);
+                        [n_VA_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_VA_sig{pp}{jj},xCorr);
+                        mediancorr_VA_PVAJ{pp}{jj} = median(r_PVAJ_VA{pp}{jj});
+                        %                     mediancorr_VA_PVAJ_sig{pp}{jj} = median(r_PVAJ_VA_sig{pp}{jj});
+                        axes(h_subplot((jj-1)*2+pp));hold on;
+                        hbar = bar(xCorr,n_VA_PVAJ{pp}(jj,:));
+                        set(hbar,'facecolor','w','edgecolor','k');
+                        hbar = bar(xCorr,n_VA_PVAJ_sig{pp}(jj,:));
+                        set(hbar,'facecolor','k','edgecolor','k');
+                        %             set(gca,'xtick',[]);
+                        xlabel('spatial corr coeff ( V vs. A)');ylabel('cell #');axis on;
+                        set(gca,'xlim',[0 1]);
+                        plot([mediancorr_VA_PVAJ{pp}{jj} mediancorr_VA_PVAJ{pp}{jj}],[0 max(n_VA_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                        text(mediancorr_VA_PVAJ{pp}{jj},max(n_VA_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VA_PVAJ{pp}{jj}),'color','k','fontsize',8);
                     catch
                         keyboard;
                     end
@@ -5604,10 +6020,10 @@ for pp = 1
                     preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),2);
                     
-%                     preDir_V_PVAJ_azi_sig{pp}{jj} = preDir_V_PVAJ_azi{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_J{pp}{jj});
-%                     preDir_V_PVAJ_ele_sig{pp}{jj} = preDir_V_PVAJ_ele{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_J{pp}{jj});
-%                     preDir_J_PVAJ_azi_sig{pp}{jj} = preDir_J_PVAJ_azi{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_J{pp}{jj});
-%                     preDir_J_PVAJ_ele_sig{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_J{pp}{jj});
+                    %                     preDir_V_PVAJ_azi_sig{pp}{jj} = preDir_V_PVAJ_azi{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_J{pp}{jj});
+                    %                     preDir_V_PVAJ_ele_sig{pp}{jj} = preDir_V_PVAJ_ele{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_J{pp}{jj});
+                    %                     preDir_J_PVAJ_azi_sig{pp}{jj} = preDir_J_PVAJ_azi{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_J{pp}{jj});
+                    %                     preDir_J_PVAJ_ele_sig{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_J{pp}{jj});
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'PVAJ')));
@@ -5616,15 +6032,15 @@ for pp = 1
                     preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
                     
-%                     preDir_V_PVAJ_azi_sig{pp}{jj} = preDir_V_PVAJ_azi_sig{pp}{jj}(r2_PVAJ>r2_thre);
-%                     preDir_V_PVAJ_ele_sig{pp}{jj} = preDir_V_PVAJ_ele_sig{pp}{jj}(r2_PVAJ>r2_thre);
-%                     preDir_J_PVAJ_azi_sig{pp}{jj} = preDir_J_PVAJ_azi_sig{pp}{jj}(r2_PVAJ>r2_thre);
-%                     preDir_J_PVAJ_ele_sig{pp}{jj} = preDir_J_PVAJ_ele_sig{pp}{jj}(r2_PVAJ>r2_thre);
+                    %                     preDir_V_PVAJ_azi_sig{pp}{jj} = preDir_V_PVAJ_azi_sig{pp}{jj}(r2_PVAJ>r2_thre);
+                    %                     preDir_V_PVAJ_ele_sig{pp}{jj} = preDir_V_PVAJ_ele_sig{pp}{jj}(r2_PVAJ>r2_thre);
+                    %                     preDir_J_PVAJ_azi_sig{pp}{jj} = preDir_J_PVAJ_azi_sig{pp}{jj}(r2_PVAJ>r2_thre);
+                    %                     preDir_J_PVAJ_ele_sig{pp}{jj} = preDir_J_PVAJ_ele_sig{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_PVAJ_azi{pp}{jj},preDir_J_PVAJ_azi{pp}{jj},'o','markeredgecolor','k');
-%                     plot(preDir_V_PVAJ_azi_sig{pp}{jj},preDir_J_PVAJ_azi_sig{pp}{jj},'o','markeredgecolor','k','markerfacecolor','k');
+                    %                     plot(preDir_V_PVAJ_azi_sig{pp}{jj},preDir_J_PVAJ_azi_sig{pp}{jj},'o','markeredgecolor','k','markerfacecolor','k');
                     
                     % linear regression
                     preDir_V_J_PVAJ_azi{pp}{jj} = polyfit(preDir_V_PVAJ_azi{pp}{jj}, preDir_J_PVAJ_azi{pp}{jj}, 1);
@@ -5637,7 +6053,7 @@ for pp = 1
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_V_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
-%                     plot(preDir_V_PVAJ_ele_sig{pp}{jj},preDir_J_PVAJ_ele_sig{pp}{jj},'o','markeredgecolor','k','markerfacecolor','k');
+                    %                     plot(preDir_V_PVAJ_ele_sig{pp}{jj},preDir_J_PVAJ_ele_sig{pp}{jj},'o','markeredgecolor','k','markerfacecolor','k');
                     % linear regression
                     preDir_V_J_PVAJ_ele{pp}{jj} = polyfit(preDir_V_PVAJ_ele{pp}{jj}, preDir_J_PVAJ_ele{pp}{jj}, 1);
                     plot(preDir_V_PVAJ_ele{pp}{jj}, polyval(preDir_V_J_PVAJ_ele{pp}{jj}, preDir_V_PVAJ_ele{pp}{jj}),'color',colors{jj},'linewidth',3);
@@ -9489,137 +9905,137 @@ for pp = 1
         r2_thre = 0.5;
         hbar = [];
         
-%         if sum(strcmp(models,'VA'))
-%             figure(11);set(figure(11),'name','Distribution of nonlinearity (n, VA model)','unit','normalized' ,'pos',[-0.55 0.7 0.3 0.4]); clf;
-%             [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
-%             for pp = 1:size(mat_address,1)
-%                 for jj = 1:2
-%                     % only use which r2 > threshold (0.5)
-%                     nV_VA{pp}{jj} = log(nV_VA_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VA')))>r2_thre));
-%                     nA_VA{pp}{jj} = log(nA_VA_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VA')))>r2_thre));
-%                     
-%                     wV_VA_plot{pp}{jj} = wV_VA_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VA')))>r2_thre)';
-%                     wA_VA_plot{pp}{jj} = wA_VA_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VA')))>r2_thre)';
-%                     
-%                     % log(n)*weight
-%                     nV_VA{pp}{jj} = nV_VA{pp}{jj}.*wV_VA_plot{pp}{jj};
-%                     nA_VA{pp}{jj} = nA_VA{pp}{jj}.*wA_VA_plot{pp}{jj};
-%                     
-%                     axes(h_subplot((jj-1)*2+pp));hold on;
-%                     [nnV_VA{pp,jj}, ~] = hist(nV_VA{pp}{jj},xn);
-%                     [nnA_VA{pp,jj}, ~] = hist(nA_VA{pp}{jj},xn);
-%                     medianV_VA{pp}(jj) = median(nV_VA{pp}{jj});
-%                     medianA_VA{pp}(jj) = median(nA_VA{pp}{jj});
-%                     hbar = bar(xn,[nnV_VA{pp,jj};nnA_VA{pp,jj}]');
-%                     set(hbar(1),'facecolor','r','edgecolor','w');
-%                     set(hbar(2),'facecolor','b','edgecolor','w');
-%                     
-%                     xlabel('Nonlinearity(Log)');ylabel('# cells');axis on;
-%                     
-%                 end
-%             end
-%             % text necessary infos
-%             axes('pos',[0.05 0.2 0.1 0.7]);
-%             text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
-%             axis off;
-%             axes('pos',[0.2 0.9 0.7 0.1]);
-%             text(0.15,0,'Translation');text(0.85,0,'Rotation');
-%             axis off;
-%             suptitle(['Distribution of nonlinearity (VA model) (Monkey = ',monkey_to_print,')']);
-%             SetFigure(12);
-%         end
+        %         if sum(strcmp(models,'VA'))
+        %             figure(11);set(figure(11),'name','Distribution of nonlinearity (n, VA model)','unit','normalized' ,'pos',[-0.55 0.7 0.3 0.4]); clf;
+        %             [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+        %             for pp = 1:size(mat_address,1)
+        %                 for jj = 1:2
+        %                     % only use which r2 > threshold (0.5)
+        %                     nV_VA{pp}{jj} = log(nV_VA_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VA')))>r2_thre));
+        %                     nA_VA{pp}{jj} = log(nA_VA_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VA')))>r2_thre));
+        %
+        %                     wV_VA_plot{pp}{jj} = wV_VA_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VA')))>r2_thre)';
+        %                     wA_VA_plot{pp}{jj} = wA_VA_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VA')))>r2_thre)';
+        %
+        %                     % log(n)*weight
+        %                     nV_VA{pp}{jj} = nV_VA{pp}{jj}.*wV_VA_plot{pp}{jj};
+        %                     nA_VA{pp}{jj} = nA_VA{pp}{jj}.*wA_VA_plot{pp}{jj};
+        %
+        %                     axes(h_subplot((jj-1)*2+pp));hold on;
+        %                     [nnV_VA{pp,jj}, ~] = hist(nV_VA{pp}{jj},xn);
+        %                     [nnA_VA{pp,jj}, ~] = hist(nA_VA{pp}{jj},xn);
+        %                     medianV_VA{pp}(jj) = median(nV_VA{pp}{jj});
+        %                     medianA_VA{pp}(jj) = median(nA_VA{pp}{jj});
+        %                     hbar = bar(xn,[nnV_VA{pp,jj};nnA_VA{pp,jj}]');
+        %                     set(hbar(1),'facecolor','r','edgecolor','w');
+        %                     set(hbar(2),'facecolor','b','edgecolor','w');
+        %
+        %                     xlabel('Nonlinearity(Log)');ylabel('# cells');axis on;
+        %
+        %                 end
+        %             end
+        %             % text necessary infos
+        %             axes('pos',[0.05 0.2 0.1 0.7]);
+        %             text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+        %             axis off;
+        %             axes('pos',[0.2 0.9 0.7 0.1]);
+        %             text(0.15,0,'Translation');text(0.85,0,'Rotation');
+        %             axis off;
+        %             suptitle(['Distribution of nonlinearity (VA model) (Monkey = ',monkey_to_print,')']);
+        %             SetFigure(12);
+        %         end
         
-%         if sum(strcmp(models,'VAJ'))
-%             figure(12);set(figure(12),'name','Distribution of nonlinearity (n, VAJ model)','unit','normalized' ,'pos',[-0.55 0.25 0.3 0.4]); clf;
-%             [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
-%             for pp = 1:size(mat_address,1)
-%                 for jj = 1:2
-%                     % only use which r2 > threshold (0.5)
-%                     nV_VAJ{pp}{jj} = log(nV_VAJ_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre));
-%                     nA_VAJ{pp}{jj} = log(nA_VAJ_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre));
-%                     nJ_VAJ{pp}{jj} = log(nJ_VAJ_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre));
-%                     
-%                     wV_VAJ_plot{pp}{jj} = wV_VAJ_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre)';
-%                     wA_VAJ_plot{pp}{jj} = wA_VAJ_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre)';
-%                     wJ_VAJ_plot{pp}{jj} = wJ_VAJ_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre)';
-%                     
-%                     % log(n)*weight
-%                     nV_VAJ{pp}{jj} = nV_VAJ{pp}{jj}.*wV_VAJ_plot{pp}{jj};
-%                     nA_VAJ{pp}{jj} = nA_VAJ{pp}{jj}.*wA_VAJ_plot{pp}{jj};
-%                     nJ_VAJ{pp}{jj} = nJ_VAJ{pp}{jj}.*wJ_VAJ_plot{pp}{jj};
-%                     
-%                     axes(h_subplot((jj-1)*2+pp));hold on;
-%                     [nnV_VAJ{pp,jj}, ~] = hist(nV_VAJ{pp}{jj},xn);
-%                     [nnA_VAJ{pp,jj}, ~] = hist(nA_VAJ{pp}{jj},xn);
-%                     [nnJ_VAJ{pp,jj}, ~] = hist(nJ_VAJ{pp}{jj},xn);
-%                     medianV_VAJ{pp}(jj) = median(nV_VAJ{pp}{jj});
-%                     medianA_VAJ{pp}(jj) = median(nA_VAJ{pp}{jj});
-%                     medianJ_VAJ{pp}(jj) = median(nJ_VAJ{pp}{jj});
-%                     hbar = bar(xn,[nnV_VAJ{pp,jj};nnA_VAJ{pp,jj};nnJ_VAJ{pp,jj}]');
-%                     set(hbar(1),'facecolor','r','edgecolor','w');
-%                     set(hbar(2),'facecolor','b','edgecolor','w');
-%                     set(hbar(3),'facecolor','m','edgecolor','w');
-%                     
-%                     xlabel('Nonlinearity(Log)');ylabel('# cells');axis on;
-%                     
-%                 end
-%             end
-%             % text necessary infos
-%             axes('pos',[0.05 0.2 0.1 0.7]);
-%             text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
-%             axis off;
-%             axes('pos',[0.2 0.9 0.7 0.1]);
-%             text(0.15,0,'Translation');text(0.85,0,'Rotation');
-%             axis off;
-%             suptitle(['Distribution of nonlinearity (VAJ model) (Monkey = ',monkey_to_print,')']);
-%             SetFigure(12);
-%         end
+        %         if sum(strcmp(models,'VAJ'))
+        %             figure(12);set(figure(12),'name','Distribution of nonlinearity (n, VAJ model)','unit','normalized' ,'pos',[-0.55 0.25 0.3 0.4]); clf;
+        %             [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+        %             for pp = 1:size(mat_address,1)
+        %                 for jj = 1:2
+        %                     % only use which r2 > threshold (0.5)
+        %                     nV_VAJ{pp}{jj} = log(nV_VAJ_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre));
+        %                     nA_VAJ{pp}{jj} = log(nA_VAJ_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre));
+        %                     nJ_VAJ{pp}{jj} = log(nJ_VAJ_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre));
+        %
+        %                     wV_VAJ_plot{pp}{jj} = wV_VAJ_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre)';
+        %                     wA_VAJ_plot{pp}{jj} = wA_VAJ_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre)';
+        %                     wJ_VAJ_plot{pp}{jj} = wJ_VAJ_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAJ')))>r2_thre)';
+        %
+        %                     % log(n)*weight
+        %                     nV_VAJ{pp}{jj} = nV_VAJ{pp}{jj}.*wV_VAJ_plot{pp}{jj};
+        %                     nA_VAJ{pp}{jj} = nA_VAJ{pp}{jj}.*wA_VAJ_plot{pp}{jj};
+        %                     nJ_VAJ{pp}{jj} = nJ_VAJ{pp}{jj}.*wJ_VAJ_plot{pp}{jj};
+        %
+        %                     axes(h_subplot((jj-1)*2+pp));hold on;
+        %                     [nnV_VAJ{pp,jj}, ~] = hist(nV_VAJ{pp}{jj},xn);
+        %                     [nnA_VAJ{pp,jj}, ~] = hist(nA_VAJ{pp}{jj},xn);
+        %                     [nnJ_VAJ{pp,jj}, ~] = hist(nJ_VAJ{pp}{jj},xn);
+        %                     medianV_VAJ{pp}(jj) = median(nV_VAJ{pp}{jj});
+        %                     medianA_VAJ{pp}(jj) = median(nA_VAJ{pp}{jj});
+        %                     medianJ_VAJ{pp}(jj) = median(nJ_VAJ{pp}{jj});
+        %                     hbar = bar(xn,[nnV_VAJ{pp,jj};nnA_VAJ{pp,jj};nnJ_VAJ{pp,jj}]');
+        %                     set(hbar(1),'facecolor','r','edgecolor','w');
+        %                     set(hbar(2),'facecolor','b','edgecolor','w');
+        %                     set(hbar(3),'facecolor','m','edgecolor','w');
+        %
+        %                     xlabel('Nonlinearity(Log)');ylabel('# cells');axis on;
+        %
+        %                 end
+        %             end
+        %             % text necessary infos
+        %             axes('pos',[0.05 0.2 0.1 0.7]);
+        %             text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+        %             axis off;
+        %             axes('pos',[0.2 0.9 0.7 0.1]);
+        %             text(0.15,0,'Translation');text(0.85,0,'Rotation');
+        %             axis off;
+        %             suptitle(['Distribution of nonlinearity (VAJ model) (Monkey = ',monkey_to_print,')']);
+        %             SetFigure(12);
+        %         end
         
-%         if sum(strcmp(models,'VAP'))
-%             figure(13);set(figure(13),'name','Distribution of nonlinearity (n, VAP model)','unit','normalized' ,'pos',[-0.55 -0.1 0.3 0.4]); clf;
-%             [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
-%             for pp = 1:size(mat_address,1)
-%                 for jj = 1:2
-%                     % only use which r2 > threshold (0.5)
-%                     nV_VAP{pp}{jj} = log(nV_VAP_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre));
-%                     nA_VAP{pp}{jj} = log(nA_VAP_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre));
-%                     nP_VAP{pp}{jj} = log(nP_VAP_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre));
-%                     
-%                     wV_VAP_plot{pp}{jj} = wV_VAP_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre)';
-%                     wA_VAP_plot{pp}{jj} = wA_VAP_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre)';
-%                     wP_VAP_plot{pp}{jj} = wP_VAP_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre)';
-%                     
-%                     % log(n)*weight
-%                     nV_VAP{pp}{jj} = nV_VAP{pp}{jj}.*wV_VAP_plot{pp}{jj};
-%                     nA_VAP{pp}{jj} = nA_VAP{pp}{jj}.*wA_VAP_plot{pp}{jj};
-%                     nP_VAP{pp}{jj} = nP_VAP{pp}{jj}.*wP_VAP_plot{pp}{jj};
-%                     
-%                     axes(h_subplot((jj-1)*2+pp));hold on;
-%                     [nnV_VAP{pp,jj}, ~] = hist(nV_VAP{pp}{jj},xn);
-%                     [nnA_VAP{pp,jj}, ~] = hist(nA_VAP{pp}{jj},xn);
-%                     [nnP_VAP{pp,jj}, ~] = hist(nP_VAP{pp}{jj},xn);
-%                     medianV_VAP{pp}(jj) = median(nV_VAP{pp}{jj});
-%                     medianA_VAP{pp}(jj) = median(nA_VAP{pp}{jj});
-%                     medianP_VAP{pp}(jj) = median(nP_VAP{pp}{jj});
-%                     hbar = bar(xn,[nnV_VAP{pp,jj};nnA_VAP{pp,jj};nnP_VAP{pp,jj}]');
-%                     set(hbar(1),'facecolor','r','edgecolor','w');
-%                     set(hbar(2),'facecolor','b','edgecolor','w');
-%                     set(hbar(3),'facecolor','g','edgecolor','w');
-%                     
-%                     xlabel('Nonlinearity(Log)');ylabel('# cells');axis on;
-%                     
-%                 end
-%             end
-%             % text necessary infos
-%             axes('pos',[0.05 0.2 0.1 0.7]);
-%             text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
-%             axis off;
-%             axes('pos',[0.2 0.9 0.7 0.1]);
-%             text(0.15,0,'Translation');text(0.85,0,'Rotation');
-%             axis off;
-%             suptitle(['Distribution of nonlinearity (VAP model) (Monkey = ',monkey_to_print,')']);
-%             SetFigure(12);
-%         end
+        %         if sum(strcmp(models,'VAP'))
+        %             figure(13);set(figure(13),'name','Distribution of nonlinearity (n, VAP model)','unit','normalized' ,'pos',[-0.55 -0.1 0.3 0.4]); clf;
+        %             [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.2 0.02]);
+        %             for pp = 1:size(mat_address,1)
+        %                 for jj = 1:2
+        %                     % only use which r2 > threshold (0.5)
+        %                     nV_VAP{pp}{jj} = log(nV_VAP_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre));
+        %                     nA_VAP{pp}{jj} = log(nA_VAP_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre));
+        %                     nP_VAP{pp}{jj} = log(nP_VAP_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre));
+        %
+        %                     wV_VAP_plot{pp}{jj} = wV_VAP_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre)';
+        %                     wA_VAP_plot{pp}{jj} = wA_VAP_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre)';
+        %                     wP_VAP_plot{pp}{jj} = wP_VAP_3D{pp}(R2_3D{pp}{jj}(:,find(strcmp(models,'VAP')))>r2_thre)';
+        %
+        %                     % log(n)*weight
+        %                     nV_VAP{pp}{jj} = nV_VAP{pp}{jj}.*wV_VAP_plot{pp}{jj};
+        %                     nA_VAP{pp}{jj} = nA_VAP{pp}{jj}.*wA_VAP_plot{pp}{jj};
+        %                     nP_VAP{pp}{jj} = nP_VAP{pp}{jj}.*wP_VAP_plot{pp}{jj};
+        %
+        %                     axes(h_subplot((jj-1)*2+pp));hold on;
+        %                     [nnV_VAP{pp,jj}, ~] = hist(nV_VAP{pp}{jj},xn);
+        %                     [nnA_VAP{pp,jj}, ~] = hist(nA_VAP{pp}{jj},xn);
+        %                     [nnP_VAP{pp,jj}, ~] = hist(nP_VAP{pp}{jj},xn);
+        %                     medianV_VAP{pp}(jj) = median(nV_VAP{pp}{jj});
+        %                     medianA_VAP{pp}(jj) = median(nA_VAP{pp}{jj});
+        %                     medianP_VAP{pp}(jj) = median(nP_VAP{pp}{jj});
+        %                     hbar = bar(xn,[nnV_VAP{pp,jj};nnA_VAP{pp,jj};nnP_VAP{pp,jj}]');
+        %                     set(hbar(1),'facecolor','r','edgecolor','w');
+        %                     set(hbar(2),'facecolor','b','edgecolor','w');
+        %                     set(hbar(3),'facecolor','g','edgecolor','w');
+        %
+        %                     xlabel('Nonlinearity(Log)');ylabel('# cells');axis on;
+        %
+        %                 end
+        %             end
+        %             % text necessary infos
+        %             axes('pos',[0.05 0.2 0.1 0.7]);
+        %             text(0,0,'Visual','rotation',90);text(0,0.5,'Vestibular','rotation',90);
+        %             axis off;
+        %             axes('pos',[0.2 0.9 0.7 0.1]);
+        %             text(0.15,0,'Translation');text(0.85,0,'Rotation');
+        %             axis off;
+        %             suptitle(['Distribution of nonlinearity (VAP model) (Monkey = ',monkey_to_print,')']);
+        %             SetFigure(12);
+        %         end
         
         if sum(strcmp(models,'PVAJ'))
             figure(14);set(figure(14),'name','Distribution of nonlinearity (n, PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.55 0.3 0.4]); clf;
@@ -9650,22 +10066,22 @@ for pp = 1
                     DC_J_PVAJ{pp}{jj} = DC_J_PVAJ_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')))>r2_thre);
                     DC_P_PVAJ{pp}{jj} = DC_P_PVAJ_3D{pp}{jj}(R2_3D{pp}{jj}(:,find(strcmp(models,'PVAJ')))>r2_thre);
                     
-%                     axes(h_subplot((jj-1)*2+pp));hold on;
-%                     [nnV_PVAJ{pp,jj}, ~] = hist(nV_PVAJ{pp}{jj},xn);
-%                     [nnA_PVAJ{pp,jj}, ~] = hist(nA_PVAJ{pp}{jj},xn);
-%                     [nnJ_PVAJ{pp,jj}, ~] = hist(nJ_PVAJ{pp}{jj},xn);
-%                     [nnP_PVAJ{pp,jj}, ~] = hist(nP_PVAJ{pp}{jj},xn);
-%                     medianV_PVAJ{pp}(jj) = median(nV_PVAJ{pp}{jj});
-%                     medianA_PVAJ{pp}(jj) = median(nA_PVAJ{pp}{jj});
-%                     medianJ_PVAJ{pp}(jj) = median(nJ_PVAJ{pp}{jj});
-%                     medianP_PVAJ{pp}(jj) = median(nP_PVAJ{pp}{jj});
-%                     hbar = bar(xn,[nnV_PVAJ{pp,jj};nnA_PVAJ{pp,jj};nnJ_PVAJ{pp,jj};nnP_PVAJ{pp,jj}]');
-%                     set(hbar(1),'facecolor','r','edgecolor','w');
-%                     set(hbar(2),'facecolor','b','edgecolor','w');
-%                     set(hbar(3),'facecolor','m','edgecolor','w');
-%                     set(hbar(4),'facecolor','g','edgecolor','w');
-%                     
-%                     xlabel('Nonlinearity(Log)');ylabel('# cells');axis on;
+                    %                     axes(h_subplot((jj-1)*2+pp));hold on;
+                    %                     [nnV_PVAJ{pp,jj}, ~] = hist(nV_PVAJ{pp}{jj},xn);
+                    %                     [nnA_PVAJ{pp,jj}, ~] = hist(nA_PVAJ{pp}{jj},xn);
+                    %                     [nnJ_PVAJ{pp,jj}, ~] = hist(nJ_PVAJ{pp}{jj},xn);
+                    %                     [nnP_PVAJ{pp,jj}, ~] = hist(nP_PVAJ{pp}{jj},xn);
+                    %                     medianV_PVAJ{pp}(jj) = median(nV_PVAJ{pp}{jj});
+                    %                     medianA_PVAJ{pp}(jj) = median(nA_PVAJ{pp}{jj});
+                    %                     medianJ_PVAJ{pp}(jj) = median(nJ_PVAJ{pp}{jj});
+                    %                     medianP_PVAJ{pp}(jj) = median(nP_PVAJ{pp}{jj});
+                    %                     hbar = bar(xn,[nnV_PVAJ{pp,jj};nnA_PVAJ{pp,jj};nnJ_PVAJ{pp,jj};nnP_PVAJ{pp,jj}]');
+                    %                     set(hbar(1),'facecolor','r','edgecolor','w');
+                    %                     set(hbar(2),'facecolor','b','edgecolor','w');
+                    %                     set(hbar(3),'facecolor','m','edgecolor','w');
+                    %                     set(hbar(4),'facecolor','g','edgecolor','w');
+                    %
+                    %                     xlabel('Nonlinearity(Log)');ylabel('# cells');axis on;
                     
                 end
             end
@@ -10076,6 +10492,7 @@ for pp = 1
         %
         %                     axes(h_subplot((jj-1)*2+pp));hold on;
         %                     plot(1:step,nV_VA{pp}{jj},'r-',1:step,nA_VA{pp}{jj},'b-');
+        
         %                     set(gca,'xtick',[0 step/2 step],'xticklabel',{'0','0.5','1'});
         %                     xlabel('Weight');ylabel('% cells');axis on;
         %                     set(gca,'xlim',[0 step],'ylim',[0 100]);
@@ -11543,20 +11960,6 @@ for pp = 1
 
 
 %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 end

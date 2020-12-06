@@ -376,7 +376,8 @@ return_value = 1;		%indicates completed OK
 fa = find(PATH == '\');
 sName = ['Z:\Data\MOOG', PATH(fa(3):fa(4)), 'Analysis\SortedSpikes2\', FILE(1:length(FILE) - 4),'.mat'];
 if (exist(sName,'file'))
-    [good_data SortedChannel] = PackData(good_data,sName);%get the Spike2 sorted data
+%     [good_data SortedChannel] = PackData(good_data,sName);%get the Spike2 sorted data
+[good_data SortedChannel] = PackData_noMarker(good_data,sName);% it you want to use Digital marker from TEMPO but not spike2
     if SortedChannel >0
         disp('Loading Spike2 sorted data!');
     elseif SortedChannel == -1 % Not match htb & spike2
