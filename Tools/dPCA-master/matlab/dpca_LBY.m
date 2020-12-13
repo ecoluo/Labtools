@@ -29,35 +29,30 @@
 % If it's filled up with zeros (as is convenient if it's stored on hard 
 % drive as a sparse matrix), then 
 %    firingRatesAverage = bsxfun(@times, mean(firingRates,5), size(firingRates,5)./trialNum)
+function dpca_LBY(data,pp)
 
-clear all
-
-% with no decision dimension
+stimInd = 1:3;
+%%%%%%%%%% only stimulus, no decison dimension
 % %{
-load('Z:\Data\TEMPO\BATCH\Population_data\PCA\PCC_dPCA_new.mat');
-firingRates = permute(a,[3 1 2 4]); % add one dimension as D, since I dgon't have decisions in my data
+firingRates = data; 
+
+
+% calculate trial No. for each condition
 temp = squeeze(firingRates(:,:,1,:));
 temp1 = cumsum(~isnan(temp),3);
 trialNum = temp1(:,:,end);
+
+E = 15;     % maximal number of trial repetitions
+
+% computing PSTHs
+firingRatesAverage = nanmean(firingRates, 4);
+
+% time define
+time = 1:size(firingRates,3);
+
+
 %}
 
-%{
-load('Z:\Data\TEMPO\BATCH\Population_data\PCA\PCC_dPCA.mat');
-firingRates(:,:,1,:,:) = permute(a,[3 1 2 4]); % add one dimension as D, since I dgon't have decisions in my data
-temp = squeeze(firingRates(:,1,1,1,:));
-temp1 = cumsum(~isnan(temp),2);
-trialNum = temp1(:,end);
-trialNum = repmat(trialNum,[1,size(firingRates,2),size(firingRates,3)]);
-%}
-
-%{
-load('Z:\Data\TEMPO\BATCH\Population_data\PCA\PCC_dPCA_new.mat');
-firingRates(:,:,1,:,:) = permute(a,[3 1 2 4]); % add one dimension as D, since I dgon't have decisions in my data
-temp = squeeze(firingRates(:,:,1,1,:));
-temp1 = cumsum(~isnan(temp),3);
-trialNumTemp = temp1(:,:,end);
-trialNum(:,:,1) = trialNumTemp;
-%}
 
 %%% split in to 2 decisions 前三次重复放到一起
 %{
@@ -78,31 +73,27 @@ temp = squeeze(firingRates(:,:,:,1,:));
 temp1 = cumsum(~isnan(temp),4);
 trialNum = temp1(:,:,:,end);
 
+E = 12;     % maximal number of trial repetitions
+
+% computing PSTHs
+% firingRatesAverage = nanmean(firingRates, 5);
+
+% time define
+% time = 1:size(firingRates,4);
+
 %}
 
 N = size(firingRates,1);   % number of neurons
 T = size(firingRates,4);     % number of time points
 S = size(firingRates,2);      % number of stimuli
 D = size(firingRates,3);          % number of decisions
-E = 15;     % maximal number of trial repetitions
 
-% computing PSTHs
-% firingRatesAverage = nanmean(firingRates, 5);
-firingRatesAverage = nanmean(firingRates, 4);
-
-% time define
-% time = 1:size(firingRates,4);
-time = 1:size(firingRates,3);
 
 % setting random number of repetitions for each neuron and condition
 ifSimultaneousRecording = false;  % change this to simulate simultaneous 
                                  % recordings (they imply the same number 
                                  % of trials for each neuron)
                                  
-% no decision dimension, did not work
-% firingRates = permute(a,[3 1 2 4]); % add one dimension as D, since I dgon't have decisions in my data
-% firingRatesAverage = nanmean(firingRates, 4);
-% time = 1:size(firingRates,3);
 %% Define parameter grouping
 
 % *** Don't change this if you don't know what you are doing! ***
@@ -119,37 +110,42 @@ ifSimultaneousRecording = false;  % change this to simulate simultaneous
 %    [1 2 3] - rest
 % As explained in the eLife paper, we group stimulus with stimulus/time interaction etc.:
 
+%{
+
 % combinedParams = {{1, [1 3]}, {2, [2 3]}, {3}, {[1 2], [1 2 3]}};
 % margNames = {'Stimulus', 'Decision', 'Condition-independent', 'S/D Interaction'};
 % margColours = [23 100 171; 187 20 25; 150 150 150; 114 97 171]/256;
 
-% For two parameters (e.g. stimulus and time, but no decision), we would have
+% check consistency between trialNum and firingRates
+for n = 1:size(firingRates,1)
+    for s = 1:size(firingRates,2)
+        for d = 1:size(firingRates,3)
+            try
+            assert(isempty(find(isnan(firingRates(n,s,d,:,1:trialNum(n,s,d))), 1)), 'Something is wrong!')
+            catch
+                keyboard
+            end
+        end
+    end
+end
+
+%}
+
+
+%%%%%%%%%% For two parameters (e.g. stimulus and time, but no decision), we would have
 % firingRates array of [N S T E] size (one dimension less, and only the following
 % possible marginalizations:
 %    1 - stimulus
 %    2 - time
 %    [1 2] - stimulus/time interaction
+
+% %{
+
 % They could be grouped as follows: 
 combinedParams = {{1, [1 2]}, {2}};
    margNames = {'Stimulus', 'Condition-independent'};
    margColours = [23 100 171; 150 150 150; 114 97 171]/256;
 
-% Time events of interest (e.g. stimulus onset/offset, cues etc.)
-% They are marked on the plots with vertical lines
-timeEvents = time(round(length(time)/2));
-
-% % check consistency between trialNum and firingRates
-% for n = 1:size(firingRates,1)
-%     for s = 1:size(firingRates,2)
-%         for d = 1:size(firingRates,3)
-%             try
-%             assert(isempty(find(isnan(firingRates(n,s,d,:,1:trialNum(n,s,d))), 1)), 'Something is wrong!')
-%             catch
-%                 keyboard
-%             end
-%         end
-%     end
-% end
 
 % check consistency between trialNum and firingRates
 for n = 1:size(firingRates,1)
@@ -162,8 +158,14 @@ for n = 1:size(firingRates,1)
     end
 end
 
-%% Step 1: PCA of the dataset
+%}
 
+% Time events of interest (e.g. stimulus onset/offset, cues etc.)
+% They are marked on the plots with vertical lines
+timeEvents = time(round(length(time)/2));
+
+%% Step 1: PCA of the dataset
+%{
 X = firingRatesAverage(:,:);
 X = bsxfun(@minus, X, mean(X,2));
 
@@ -172,28 +174,28 @@ X = bsxfun(@minus, X, mean(X,2));
 W = W(:,1:20);
 
 % minimal plotting
-dpca_plot(firingRatesAverage, W, W, @dpca_plot_default);
+dpca_plot(pp,firingRatesAverage, W, W, @dpca_plot_default);
 
 % computing explained variance
 explVar = dpca_explainedVariance(firingRatesAverage, W, W, ...
     'combinedParams', combinedParams);
 
 % a bit more informative plotting
-dpca_plot(firingRatesAverage, W, W, @dpca_plot_default, ...
+dpca_plot(pp,firingRatesAverage, W, W, @dpca_plot_default, ...
     'explainedVar', explVar, ...
     'time', time,                        ...
     'timeEvents', timeEvents,               ...
     'marginalizationNames', margNames, ...
     'marginalizationColours', margColours);
 
-
+%}
 %% Step 2: PCA in each marginalization separately
-
-dpca_perMarginalization(firingRatesAverage, @dpca_plot_default, ...
+%{
+dpca_perMarginalization(stimInd,firingRatesAverage, @dpca_plot_default, ...
    'combinedParams', combinedParams);
-
+%}
 %% Step 3: dPCA without regularization and ignoring noise covariance
-
+%{
 % This is the core function.
 % W is the decoder, V is the encoder (ordered by explained variance),
 % whichMarg is an array that tells you which component comes from which
@@ -207,7 +209,7 @@ toc
 explVar = dpca_explainedVariance(firingRatesAverage, W, V, ...
     'combinedParams', combinedParams);
 
-dpca_plot(firingRatesAverage, W, V, @dpca_plot_default, ...
+dpca_plot(pp,firingRatesAverage, W, V, @dpca_plot_default, ...
     'explainedVar', explVar, ...
     'marginalizationNames', margNames, ...
     'marginalizationColours', margColours, ...
@@ -217,9 +219,9 @@ dpca_plot(firingRatesAverage, W, V, @dpca_plot_default, ...
     'timeMarginalization', 3, ...
     'legendSubplot', 16);
 
-
+%}
 %% Step 4: dPCA with regularization
-
+% %{
 % This function takes some minutes to run. It will save the computations 
 % in a .mat file with a given name. Once computed, you can simply load 
 % lambdas out of this file:
@@ -243,10 +245,17 @@ Cnoise = dpca_getNoiseCovariance(firingRatesAverage, ...
     'lambda', optimalLambda, ...
     'Cnoise', Cnoise);
 
+% plot weight distribution of each PC
+figure;
+hist(W(:,1:20));
+SetFigure(15);
+
+
+
 explVar = dpca_explainedVariance(firingRatesAverage, W, V, ...
     'combinedParams', combinedParams);
 
-dpca_plot(firingRatesAverage, W, V, @dpca_plot_default, ...
+dpca_plot(pp,firingRatesAverage, W, V, @dpca_plot_default, ...
     'explainedVar', explVar, ...
     'marginalizationNames', margNames, ...
     'marginalizationColours', margColours, ...
@@ -255,7 +264,7 @@ dpca_plot(firingRatesAverage, W, V, @dpca_plot_default, ...
     'timeEvents', timeEvents,               ...
     'timeMarginalization', 3,           ...
     'legendSubplot', 16);
-
+%}
 %% Optional: estimating "signal variance"
 
 explVar = dpca_explainedVariance(firingRatesAverage, W, V, ...
@@ -266,7 +275,7 @@ explVar = dpca_explainedVariance(firingRatesAverage, W, V, ...
 % That is because it is displaying percentages of (estimated) signal PSTH
 % variances, not total PSTH variances. See paper for more details.
 
-dpca_plot(firingRatesAverage, W, V, @dpca_plot_default, ...
+dpca_plot(pp,firingRatesAverage, W, V, @dpca_plot_default, ...
     'explainedVar', explVar, ...
     'marginalizationNames', margNames, ...
     'marginalizationColours', margColours, ...
@@ -303,7 +312,7 @@ dpca_classificationPlot(accuracy, [], accuracyShuffle, [], decodingClasses)
 
 componentsSignif = dpca_signifComponents(accuracy, accuracyShuffle, whichMarg);
 
-dpca_plot(firingRatesAverage, W, V, @dpca_plot_default, ...
+dpca_plot(pp,firingRatesAverage, W, V, @dpca_plot_default, ...
     'explainedVar', explVar, ...
     'marginalizationNames', margNames, ...
     'marginalizationColours', margColours, ...
@@ -313,3 +322,5 @@ dpca_plot(firingRatesAverage, W, V, @dpca_plot_default, ...
     'timeMarginalization', 3,           ...
     'legendSubplot', 16,                ...
     'componentsSignif', componentsSignif);
+
+end

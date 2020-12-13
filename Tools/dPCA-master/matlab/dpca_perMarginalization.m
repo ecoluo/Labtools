@@ -1,4 +1,4 @@
-function dpca_perMarginalization(Xfull, plotFunction, varargin)
+function dpca_perMarginalization(stimInd,Xfull, plotFunction, varargin)
 
 % dpca_perMarginalization(X, plotFunction, ...) performs PCA in each
 % marginalization of X and plots the components using plotFunction, a
@@ -126,7 +126,11 @@ for i=1:N
         cln{j} = ':';
     end
     
-    plotFunction(Z(cln{:}), options.time, [-yspan yspan]*1.1, vars(i), i, options.timeEvents, [], 1)
+    for ii = 1:length(stimInd)
+        
+    plotFunction(Z(cln{:}), options.time, [-yspan yspan]*1.1, vars(i), i, options.timeEvents, [], 1,stimInd(ii))
+    
+    end
     
     if ~isempty(options.marginalizationNames)
         xx = xlim;

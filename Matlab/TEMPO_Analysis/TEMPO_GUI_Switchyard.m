@@ -65,6 +65,7 @@ switch(action)
 
         elseif str2num(FILE(strfind(FILE,'m')+1:strfind(FILE,'c')-1)) == 5  % Polo
             PATH = 'Z:\Data\MOOG\Polo\raw\';
+%             PATH = 'Z:\Data\MOOG\Chaos\raw\';
             set(PathHandle, 'String', PATH);
             
             %set start and stop timing offsets for analysis - BJP 3/1/00

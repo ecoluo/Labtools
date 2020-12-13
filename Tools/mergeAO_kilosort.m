@@ -40,6 +40,7 @@ switch (action)
     
     case 'load data'
         
+        
         % load spike data
         ori_data  = [];
         progressbar('Load AO .mat files');

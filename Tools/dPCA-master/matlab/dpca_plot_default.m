@@ -1,4 +1,4 @@
-function dpca_plot_default(data, time, yspan, explVar, compNum, events, signif, marg)
+function dpca_plot_default(data, time, yspan, explVar, compNum, events, signif, marg,stimInd)
 
 % Modify this function to adjust how components are plotted.
 %
@@ -21,8 +21,8 @@ if strcmp(data, 'legend')
     % if there is only time and no other parameter - do nothing
     if length(time) == 2
         return
-
-    % if there is one parameter
+        
+        % if there is one parameter
     elseif length(time) == 3
         numOfStimuli = time(2); % time is used to pass size(data) for legend
         colors = lines(numOfStimuli);
@@ -37,9 +37,9 @@ if strcmp(data, 'legend')
         set(gca, 'YTick', [])
         set(gca,'Visible','off')
         return
-
-    % two parameters: stimulus and decision (decision can only have two
-    % values)
+        
+        % two parameters: stimulus and decision (decision can only have two
+        % values)
     elseif length(time) == 4 && time(3) == 2
         numOfStimuli = time(2); % time is used to pass size(data) for legend
         colors = lines(numOfStimuli);
@@ -60,7 +60,7 @@ if strcmp(data, 'legend')
         set(gca,'Visible','off')
         return
         
-    % other cases - do nothing
+        % other cases - do nothing
     else
         return
     end
@@ -96,32 +96,38 @@ end
 if ndims(data) == 2
     % only time - plot it
     plot(time, squeeze(data(1, :)), 'k', 'LineWidth', 2)
-
+    
 elseif ndims(data) == 3
     % different stimuli in different colours
     numOfStimuli = size(data, 2);
-%     plot(time, squeeze(data(1,:,:)), 'LineWidth', 2)    
+    %     plot(time, squeeze(data(1,:,:)), 'LineWidth', 2)
     colors = lines(numOfStimuli);
     colorDefsLBY;
     colors(:,:) = repmat(colorLGray,[size(colors,1),1]);
-
-%     colors(14,:) = colorDRed; colors(10,:) = colorDBlue; % left,right
-%     colors([2,3,9,10,11,17,18,19,25],:) = repmat(colorLBlue,[9,1]);colors([5:7,13:15,21:23],:) = repmat(colorLRed,[9,1]);% left-right
-
     
-%         colors(1,:) = colorDRed; colors(26,:) = colorDBlue; % up,down
-%     colors(2:9,:) = repmat(colorLBlue,[8,1]);colors(18:25,:) = repmat(colorLRed,[8,1]);% up-down
+    switch stimInd
+        case 1
+            
+            colors(14,:) = colorDBlue; colors(10,:) = colorDRed; % left,right
+            colors([5:7,13,15,21:23],:) = repmat(colorLBlue,[8,1]);colors([2,3,9,11,17,18,19,25],:) = repmat(colorLRed,[8,1]);% left-right
+
+        case 2
+            
+            colors(1,:) = colorDBlue; colors(26,:) = colorDRed; % up,down
+            colors(2:9,:) = repmat(colorLBlue,[8,1]);colors(18:25,:) = repmat(colorLRed,[8,1]);% up-down
+            
+        case 3
+            
+            colors(12,:) = colorDBlue; colors(16,:) = colorDRed; % for,back
+            colors([3:5,11,13,19:21],:) = repmat(colorLBlue,[8,1]);colors([7:9,15,17,23:25],:) = repmat(colorLRed,[8,1]);% for-back
+
+    end
     
-    colors(12,:) = colorDRed; colors(16,:) = colorDBlue; % for,back
-    colors([3:5,11:13,19:21],:) = repmat(colorLBlue,[9,1]);colors([7:9,15:17,23:25],:) = repmat(colorLRed,[9,1]);% for-back
-
-
-
-
-    for f=1:numOfStimuli 
+    
+    for f=1:numOfStimuli
         plot(time, squeeze(data(1, f, :)), 'color', colors(f,:), 'LineWidth', 1)
     end
-
+    
 elseif ndims(data) == 4 && size(data,3)==2
     % different stimuli in different colours and binary condition as
     % solid/dashed
@@ -129,25 +135,25 @@ elseif ndims(data) == 4 && size(data,3)==2
     colors = lines(numOfStimuli);
     colorDefsLBY;
     colors(:,:) = repmat(colorLGray,[size(colors,1),1]);
-
+    
     colors(14,:) = colorDRed; colors(10,:) = colorDBlue; % left,right
     colors([2,3,9,10,11,17,18,19,25],:) = repmat(colorLBlue,[9,1]);colors([5:7,13:15,21:23],:) = repmat(colorLRed,[9,1]);% left-right
-
     
-%         colors(1,:) = colorDRed; colors(26,:) = colorDBlue; % up,down
-%     colors(2:9,:) = repmat(colorLBlue,[8,1]);colors(18:25,:) = repmat(colorLRed,[8,1]);% up-down
     
-%     colors(12,:) = colorDRed; colors(16,:) = colorDBlue; % for,back
-%     colors([3:5,11:13,19:21],:) = repmat(colorLBlue,[9,1]);colors([7:9,15:17,23:25],:) = repmat(colorLRed,[9,1]);% for-back
-
-
-
-
-    for f=1:numOfStimuli 
+    %         colors(1,:) = colorDRed; colors(26,:) = colorDBlue; % up,down
+    %     colors(2:9,:) = repmat(colorLBlue,[8,1]);colors(18:25,:) = repmat(colorLRed,[8,1]);% up-down
+    
+    %     colors(12,:) = colorDRed; colors(16,:) = colorDBlue; % for,back
+    %     colors([3:5,11:13,19:21],:) = repmat(colorLBlue,[9,1]);colors([7:9,15:17,23:25],:) = repmat(colorLRed,[9,1]);% for-back
+    
+    
+    
+    
+    for f=1:numOfStimuli
         plot(time, squeeze(data(1, f, 1, :)), 'color', colors(f,:), 'LineWidth', 1)
         plot(time, squeeze(data(1, f, 2, :)), '--', 'color', colors(f,:), 'LineWidth', 1)
     end
-
+    
 else
     % in all other cases pool all conditions and plot them in different
     % colours
@@ -159,22 +165,22 @@ else
     
     colorDefsLBY;
     colors(:,:) = repmat(colorLGray,[size(colors,1),1]);
-
+    
     colors(14,:) = colorDRed; colors(10,:) = colorDBlue; % left,right
     colors([2,3,9,10,11,17,18,19,25],:) = repmat(colorLBlue,[9,1]);colors([5:7,13:15,21:23],:) = repmat(colorLRed,[9,1]);% left-right
-
     
-%         colors(1,:) = colorDRed; colors(26,:) = colorDBlue; % up,down
-%     colors(2:9,:) = repmat(colorLBlue,[8,1]);colors(18:25,:) = repmat(colorLRed,[8,1]);% up-down
     
-%     colors(12,:) = colorDRed; colors(16,:) = colorDBlue; % for,back
-%     colors([3:5,11:13,19:21],:) = repmat(colorLBlue,[9,1]);colors([7:9,15:17,23:25],:) = repmat(colorLRed,[9,1]);% for-back
-
-
-%     plot(time, data, 'LineWidth', 2)    
-for f=1:numOfStimuli 
+    %         colors(1,:) = colorDRed; colors(26,:) = colorDBlue; % up,down
+    %     colors(2:9,:) = repmat(colorLBlue,[8,1]);colors(18:25,:) = repmat(colorLRed,[8,1]);% up-down
+    
+    %     colors(12,:) = colorDRed; colors(16,:) = colorDBlue; % for,back
+    %     colors([3:5,11:13,19:21],:) = repmat(colorLBlue,[9,1]);colors([7:9,15:17,23:25],:) = repmat(colorLRed,[9,1]);% for-back
+    
+    
+    %     plot(time, data, 'LineWidth', 2)
+    for f=1:numOfStimuli
         plot(time, squeeze(data(1, f, 1, :)), 'color', colors(f,:), 'LineWidth', 1)
         plot(time, squeeze(data(1, f, 2, :)), '--', 'color', colors(f,:), 'LineWidth', 1)
-end
+    end
     
 end

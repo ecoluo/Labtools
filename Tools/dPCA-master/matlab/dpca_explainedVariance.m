@@ -182,12 +182,18 @@ if ~isempty(options.Cnoise) && ~isempty(options.numOfTrials)
     explVar.totalVar_noise = sum(diag(options.Cnoise)./Ktilde);
     explVar.totalVar_signal = explVar.totalVar - explVar.totalVar_noise;
     
-    % dirty hack!! do it properly later!
+%     % dirty hack!! do it properly later!
+%     S = size(Xfull,2);
+%     Q = size(Xfull,3);
+%     T = size(Xfull,4);
+%     explVar.totalMarginalizedVar_signal = explVar.totalMarginalizedVar - ...
+%         [(S*T-T) (Q*T-T) (T-1) S*Q*T-S*T-Q*T+T]/(S*Q*T-1) * explVar.totalVar_noise;
+
+% without Decision dimension, LBY 20201207
     S = size(Xfull,2);
-    Q = size(Xfull,3);
-    T = size(Xfull,4);
+    T = size(Xfull,3);
     explVar.totalMarginalizedVar_signal = explVar.totalMarginalizedVar - ...
-        [(S*T-T) (Q*T-T) (T-1) S*Q*T-S*T-Q*T+T]/(S*Q*T-1) * explVar.totalVar_noise;
+        [(S*T-T) (T-1)]/(S*T-1) * explVar.totalVar_noise;
 
     % X = randn(1000,S,Q,T);
     % Xmarg = dpca_marginalize(X, 'combinedParams', combinedParams);

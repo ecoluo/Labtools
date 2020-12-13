@@ -23,8 +23,6 @@ mat_address = {
     
     
     %%%%%%% dPCA
-%     %             'Z:\Data\TEMPO\BATCH\dPCA_PCC1','PSTH_T','3DT';
-%     %         'Z:\Data\TEMPO\BATCH\dPCA_PCC1','PSTH_R','3DR';
     
                 'Z:\Data\TEMPO\BATCH\dPCA_PCC','PSTH_T','3DT';
             'Z:\Data\TEMPO\BATCH\dPCA_PCC','PSTH_R','3DR';
@@ -47,8 +45,8 @@ mat_address = {
     % 不相邻方向
     
     % 3D model delya with A, not free, P = V+0.3
-    'Z:\Data\TEMPO\BATCH\20201007_PCC_delayA_notfree','PSTH_T','3DT';
-    'Z:\Data\TEMPO\BATCH\20201007_PCC_delayA_notfree','PSTH_R','3DR';
+%     'Z:\Data\TEMPO\BATCH\20201007_PCC_delayA_notfree','PSTH_T','3DT';
+%     'Z:\Data\TEMPO\BATCH\20201007_PCC_delayA_notfree','PSTH_R','3DR';
     
     % % %     %-----%% 3D model, out sync,original, not right for spatial
     % % %
@@ -125,6 +123,12 @@ mat_address = {
     %         'Z:\Data\TEMPO\BATCH\20201009_RSC_delayA_notfree','PSTH_R','3DR';
     
     
+    
+    %%%%%%% dPCA
+    
+%                 'Z:\Data\TEMPO\BATCH\dPCA_RSC','PSTH_T','3DT';
+%             'Z:\Data\TEMPO\BATCH\dPCA_RSC','PSTH_R','3DR';
+    
     %%%%%%%%%%%%MSTd%%%%%%%%%%%%%%%%%MSTd%%%%%%%%%%%MSTd%%%%%%%%%%%%%%%MSTd%%%%%%%%%% MSTd
     
     % %     %         'Z:\Data\TEMPO\BATCH\202005_3D&1DModel_Out-Sync_MSTd','PSTH_T','3DT';
@@ -154,6 +158,10 @@ mat_address = {
     % d prime
     %         'Z:\Data\TEMPO\BATCH\MSTd_dPrime','PSTH_T','3DT';
     
+    
+    %%%%%%% dPCA
+    
+%                 'Z:\Data\TEMPO\BATCH\dPCA_MSTd','PSTH_T','3DT';
     
     % dark control
     
@@ -209,6 +217,15 @@ mat_address = {
     %%%%%%%%grating
     %         'Z:\Data\TEMPO\BATCH\RSC_grating','?','grating';
     
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%other areas%%%%%%%%%%%%
+    %%%%%%% FEF pursuit
+    
+%                 'Z:\Data\TEMPO\BATCH\dPCA_FEFp','PSTH_T','3DT';
+                
+    %%%%%%% VIP
+    
+%                 'Z:\Data\TEMPO\BATCH\dPCA_VIP','PSTH_T','3DT';
     
     };
 
@@ -379,6 +396,41 @@ Monkeys{1} = 'Zebulon';
 
 %}
 
+% FEFp
+%{
+mask_all = {
+    strcmp(txt(:,header.Protocol),'3DT') & (strcmp(txt(:,header.Area),'FEFp'));
+    
+    }; % Now no constraint on monkeys
+
+% % Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
+monkey_included_for_loading = [21 26 37];
+Monkeys{21} = 'Zachary';
+Monkeys{26} = 'Baxter';
+Monkeys{37} = 'Montana';
+
+%}
+
+% VIP
+%{
+mask_all = {
+    strcmp(txt(:,header.Protocol),'3DT') & (strcmp(txt(:,header.Area),'VIP'));
+    
+    }; % Now no constraint on monkeys
+
+% Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
+monkey_included_for_loading = [7 14 5 15 16];
+% monkey_included_for_loading = [14 15 16];
+
+Monkeys{7} = 'Jedi';
+Monkeys{5} = 'Chaos';
+
+Monkeys{14} = 'Ullrich';
+Monkeys{15} = 'Ovid';
+Monkeys{16} = 'Priam';
+
+
+%}
 
 monkey_mask_for_loading = false(size(num,1),1);
 for mm = 1:length(monkey_included_for_loading)
@@ -449,7 +501,12 @@ end
         not_match(size(mat_address,1)) = 0;
         
         for major_i = 1:length(group_result) % Major protocol loop
-            group_result(major_i).monkeyID = str2double(cell_true{major_i}(34));
+%             group_result(major_i).monkeyID = str2double(cell_true{major_i}(34));% for monkey name with 1 digit
+% group_result(major_i).monkeyID = str2double(cell_true{major_i}(34:35)); % for monkey name with 2 digits
+temp1 = strfind(cell_true{major_i},'m');
+temp = cell_true{major_i}(temp1(2)+1:strfind(cell_true{major_i},'c')-1);
+group_result(major_i).monkeyID = str2double(temp);
+
             for pp = 1:size(mat_address,1) % pp is the index of cells
                 
                 %%%% Get basic information for cellID
@@ -568,7 +625,7 @@ for i = 1:length(group_result)
                 group_result(i).data_PCA{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_rate_PCA';
                 
                 % %                 group_result(i).rawRate{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_rate;
-                %                 group_result(i).rawRate{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.dPCA;
+                                group_result(i).dPCA{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.dPCA;
                 group_result(i).DDI_bin{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI_bin;
                 %                                 group_result(i).DDI_p_bin{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI_p_bin;
                 %                 group_result(i).d_LR{pp}(ii,:) = group_result(i).mat_raw{pp}{ii}.PSTH.d_LR;
@@ -666,22 +723,26 @@ for pp = 1:size(mat_address,1)
                             
                         end
                         %                                             PSTH{pp}{jj}(i,:) = group_result(i).PSTH{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}; % 1*68
+                        try
                         PSTH{pp}{jj}(i,:,:) = group_result(i).PSTH{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}; % 26*68
                         %                     Rextre{pp}(i,jj) = group_result(i).Rextre{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
+                        catch
+                            keyboard;
+                        end
                         try
-                            PSTH3Dmodel{pp}{i,jj} = group_result(i).PSTH3Dmodel{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
+%                             PSTH3Dmodel{pp}{i,jj} = group_result(i).PSTH3Dmodel{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
                         catch
                             keyboard;
                         end
                         % %                     PSTH1Dmodel{pp}{i,jj} = group_result(i).PSTH1Dmodel{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
                         data_PCA{pp}{jj}{i} = group_result(i).data_PCA{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
                         
-                        %                                             rawRate{pp}{jj}{i} = nan*ones(26,nBins,15);
-                        %                                             for pc = 1:26
-                        %                                             temp11 = group_result(i).rawRate{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}{pc};
-                        %                                             rawRate{pp}{jj}{i}(pc,:,1:size(temp11,2)) = temp11;
-                        %
-                        %                                             end
+                                                                    dPCA_data{pp}{jj}{i} = nan*ones(26,nBinsPCA,15);
+                                                                    for pc = 1:26
+                                                                    temp11 = group_result(i).dPCA{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}{pc};
+                                                                    dPCA_data{pp}{jj}{i}(pc,:,1:size(temp11,2)) = temp11;
+                        
+                                                                    end
                         % % %                     rawRate{pp}{jj}{i} = squeeze(group_result(i).rawRate{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj),:,:));
                         %                                             [DDI_bin{pp}{jj}{i}, indM]= max(group_result(i).DDI_bin{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)});
                         %                                             DDI_p_bin{pp}{jj}{i} = group_result(i).DDI_p_bin{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}(indM);
@@ -698,7 +759,7 @@ for pp = 1:size(mat_address,1)
 end
 
 % for 3D models
-% %{
+%{
 for pp = 1:size(mat_address,1)
     wV_VA_3D{pp} = nan(length(group_result),2);wA_VA_3D{pp} = nan(length(group_result),2);
     wV_VAJ_3D{pp} = nan(length(group_result),2);wA_VAJ_3D{pp} = nan(length(group_result),2);wJ_VAJ_3D{pp} = nan(length(group_result),2);
@@ -1182,13 +1243,21 @@ cell_selection();
         select_tcells_all_monkey = t_cell_selection_criteria{t_cell_selection_num,2};
         
         % -------- Update actual dataset for analysis. --------%
-        %                         monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value') get(findall(gcbf,'tag','Polo_data'),'value')]));
-        monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value') get(findall(gcbf,'tag','Polo_data'),'value') get(findall(gcbf,'tag','WF_data'),'value')]));
-        %         monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value')]));
+%        monkey_included_for_analysis = [7 14 5 15 16]; % for VIP
+
+% 2 monkeys
+%          monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value') get(findall(gcbf,'tag','Polo_data'),'value')]));
+       
+% 3 monkeys
+monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value') get(findall(gcbf,'tag','Polo_data'),'value') get(findall(gcbf,'tag','WF_data'),'value')]));
+
+% 1 monkey
+%         monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value')]));
         monkey_mask_for_analysis = false(length(group_result),1);
         for mm = 1:length(monkey_included_for_analysis)
             monkey_mask_for_analysis = monkey_mask_for_analysis | (cat(1,group_result.monkeyID) == monkey_included_for_analysis(mm));
         end
+        
         
         % -------- Count cell numbers for each monkey.  --------
         cell_nums_toPrint = nan(length(monkey_included_for_loading)*2+2,4);
@@ -1295,6 +1364,7 @@ function_handles = {
     'PCA',@f1p6
     '    ''Eigen-Time''',@f1p6p1;
     '    ''Eigen-Neuron''',@f1p6p2;
+    '    ''dPCA: Eigen-Neuron''',@f1p6p3;
     'Targeted dimensionality reduction',@f1p7;
     '    v&a',@f1p7p1;
     '    ',@f1p7p2;
@@ -3103,8 +3173,8 @@ dataPCA{pp}{jj} = (dataPCA_raw{pp}{jj} - repmat(mean(dataPCA_raw{pp}{jj},1),size
                 end
                 
                 % PCA data顺序：left-right
-                indl = [2,3,9,10,11,17,18,19,25];
-                indr = [5:7,13:15,21:23];
+                indr = [2,3,9,10,11,17,18,19,25];
+                indl = [5:7,13:15,21:23];
                 
                 for ii = 1:denoised_dim
                     for dd = 1:9
@@ -3558,6 +3628,22 @@ dataPCA{pp}{jj} = (dataPCA_raw{pp}{jj} - repmat(mean(dataPCA_raw{pp}{jj},1),size
         SetFigure(12);
         %}
     end
+
+function f1p6p3(debug)      % dPCA,'Eigen-Neuron'
+        if debug  ; dbstack;   keyboard;      end
+        
+%         for pp = 1:size(mat_address,1)
+          for pp = 2
+            for jj = 1
+                temp = dPCA_data{pp}{jj}(select_temporalSig{pp}(:,jj));
+                temp = reshape(cell2mat(temp),26,nBinsPCA,size(temp,2),[]);
+                temp = permute(temp,[3 1 2 4]); % N*S*T*reps
+                dpca_LBY(temp,pp);
+                
+            end
+            
+        end
+end
 
     function f1p7p1(debug)      % Targeted dimensionality reduction, 'v&a'
         if debug  ; dbstack;   keyboard;      end

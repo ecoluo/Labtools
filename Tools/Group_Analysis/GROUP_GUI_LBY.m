@@ -124,6 +124,8 @@ if ismember('control',get(gcf,'currentModifier'))
 winopen('Z:\Data\MOOG\Results\Result_PCall.xlsm'); % all 3D_Tuning neurons(recorded by LBY & TQY)
 % winopen('Z:\Data\MOOG\Results\Result_MST.xlsm');
 % winopen('Z:\Data\MOOG\Results\Result_PCall_control.xlsm');
+% winopen('Z:\Data\MOOG\Results\Result_FEFp.xlsm');
+% winopen('Z:\Data\MOOG\Results\Result_VIP.xlsm');
 
     return;
 end
@@ -135,6 +137,8 @@ set(handles.num_entries,'string',0); drawnow;
 handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_PCall.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string')));
 % handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_MST.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
 % handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_PCall_control.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string')));
+% handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_FEFp.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
+% handles.XlsData = ReadXls('Z:\Data\MOOG\Results\Result_VIP.xlsm',str2num(get(handles.sheetN,'string')),str2num(get(handles.headerN,'string'))); 
 
 handles.N = size(handles.XlsData.num,1);
 
