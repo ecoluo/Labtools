@@ -39,8 +39,7 @@ a = 0;
 
 for i = 2:length(acc)
     
-a = acc(i)*(TEMPO1_Acceleration.times(i)-TEMPO1_Acceleration.times(i-1))+a;
-    vel(i) = a;
+vel(i) = acc(i)*(TEMPO1_Acceleration.times(i)-TEMPO1_Acceleration.times(i-1))+a;
 
 end
 
@@ -77,7 +76,7 @@ ylabel(h(1),'Velocity (m/s) ');
 ylabel(h(2),'Acceleration (m/s^2) ');
 set(gca,'xlim',[0,1.5]);
 xlabel('Time (s)');
-title('Time profile(Real)');
+title('Time profile(Real): Translation');
 SetFigure(25);
 
 % plot figures with smoothing
@@ -100,7 +99,7 @@ set(gca,'xlim',[0,1.5]);
 set(h(1),'ylim',[0 0.3]);
 set(h(1),'ytick',[0 0.1 0.2 0.3]);
 xlabel('Time (s)');
-title('Time profile(Real, with smoothing)');
+title('Time profile(Real, with smoothing): Translation');
 SetFigure(25);
 
 end

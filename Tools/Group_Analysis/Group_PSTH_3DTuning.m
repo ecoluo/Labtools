@@ -18,14 +18,14 @@ mat_address = {
     %     %         'Z:\Data\TEMPO\BATCH\DDI_PCC_all_m6_m5_m4','PSTH_T','3DT';
     %     %     'Z:\Data\TEMPO\BATCH\DDI_PCC_all_m6_m5_m4','PSTH_R','3DR';
     
-    %             'Z:\Data\TEMPO\BATCH\DDI_PCC','PSTH_T','3DT';
-    %         'Z:\Data\TEMPO\BATCH\DDI_PCC','PSTH_R','3DR';
+%                 'Z:\Data\TEMPO\BATCH\DDI_PCC','PSTH_T','3DT';
+%             'Z:\Data\TEMPO\BATCH\DDI_PCC','PSTH_R','3DR';
     
     
     %%%%%%% dPCA
     
-                'Z:\Data\TEMPO\BATCH\dPCA_PCC','PSTH_T','3DT';
-            'Z:\Data\TEMPO\BATCH\dPCA_PCC','PSTH_R','3DR';
+%                 'Z:\Data\TEMPO\BATCH\dPCA_PCC','PSTH_T','3DT';
+%             'Z:\Data\TEMPO\BATCH\dPCA_PCC','PSTH_R','3DR';
     
     
     % %     %     %-----%% 3D&1D model, out sync
@@ -44,9 +44,13 @@ mat_address = {
     %%%%%%%%%%%%%%%%%%%%%%%%%
     % 不相邻方向
     
-    % 3D model delya with A, not free, P = V+0.3
+%     % 3D model delya with A, not free, P = V+0.3
 %     'Z:\Data\TEMPO\BATCH\20201007_PCC_delayA_notfree','PSTH_T','3DT';
 %     'Z:\Data\TEMPO\BATCH\20201007_PCC_delayA_notfree','PSTH_R','3DR';
+
+% 3D model delya with A, not free, P = V+0.3, Laurens
+%     'Z:\Data\TEMPO\BATCH\PCC_Laurens_out_20210109','PSTH_T','3DT';
+%     'Z:\Data\TEMPO\BATCH\PCC_Laurens_out_20210109','PSTH_R','3DR';
     
     % % %     %-----%% 3D model, out sync,original, not right for spatial
     % % %
@@ -76,8 +80,8 @@ mat_address = {
     
     %-----%% 3D& model, sync
     
-    %             'Z:\Data\TEMPO\BATCH\202008_3DModel_Sync_PCC_all_m6_m5_m4','PSTH_T','3DT';
-    %             'Z:\Data\TEMPO\BATCH\202008_3DModel_Sync_PCC_all_m6_m5_m4','PSTH_R','3DR';
+%                 'Z:\Data\TEMPO\BATCH\202008_3DModel_Sync_PCC_all_m6_m5_m4','PSTH_T','3DT';
+%                 'Z:\Data\TEMPO\BATCH\202008_3DModel_Sync_PCC_all_m6_m5_m4','PSTH_R','3DR';
     
     % d prime
     %         'Z:\Data\TEMPO\BATCH\PCC_dPrime','PSTH_T','3DT';
@@ -99,9 +103,9 @@ mat_address = {
     % % %             'Z:\Data\TEMPO\BATCH\DDI_RSC_all_m6_m4','PSTH_T','3DT';
     % % %         'Z:\Data\TEMPO\BATCH\DDI_RSC_all_m6_m4','PSTH_R','3DR';
     
-    %     'Z:\Data\TEMPO\BATCH\DDI_RSC','PSTH_T','3DT';
-    %         'Z:\Data\TEMPO\BATCH\DDI_RSC','PSTH_R','3DR';
-    
+%         'Z:\Data\TEMPO\BATCH\DDI_RSC','PSTH_T','3DT';
+%             'Z:\Data\TEMPO\BATCH\DDI_RSC','PSTH_R','3DR';
+%     
     
     %      %-----%% 3D&1D model, out sync
     % %             'Z:\Data\TEMPO\BATCH\202007_3D&1DModel_Out-Sync_RSC_all_m6_m4','PSTH_T','3DT';
@@ -119,8 +123,8 @@ mat_address = {
     
     
     % 3D model delya with A, not free, P = V+0.3
-    %         'Z:\Data\TEMPO\BATCH\20201009_RSC_delayA_notfree','PSTH_T','3DT';
-    %         'Z:\Data\TEMPO\BATCH\20201009_RSC_delayA_notfree','PSTH_R','3DR';
+            'Z:\Data\TEMPO\BATCH\20201009_RSC_delayA_notfree','PSTH_T','3DT';
+            'Z:\Data\TEMPO\BATCH\20201009_RSC_delayA_notfree','PSTH_R','3DR';
     
     
     
@@ -284,7 +288,7 @@ Monkeys{4} = 'WhiteFang';
 %}
 
 % PCC
-% %{
+%{
 mask_all = {
     strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
     & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu') );
@@ -298,14 +302,89 @@ mask_all = {
     }; % Now no constraint on monkeys
 % Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
 monkey_included_for_loading = [6 5 4];
+% monkey_included_for_loading = [6];
+% monkey_included_for_loading = [5];
+% monkey_included_for_loading = [4];
 Monkeys{5} = 'Polo';
 Monkeys{6} = 'QQ';
 Monkeys{4} = 'WhiteFang';
 
 %}
 
-% RSC
+% PCC left hemi
 %{
+mask_all = {
+    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu')) & (cell2mat(raw(:,header.Hemisphere)) == 1);
+    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu')) & (cell2mat(raw(:,header.Hemisphere)) == 1);
+    
+    }; % Now no constraint on monkeys
+% Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
+monkey_included_for_loading = [6 5 4];
+Monkeys{5} = 'Polo';
+Monkeys{6} = 'QQ';
+Monkeys{4} = 'WhiteFang';
+
+%}
+
+% PCC right hemi
+%{
+mask_all = {
+    strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu')) & (cell2mat(raw(:,header.Hemisphere)) == 2);
+    strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+    & (strcmp(txt(:,header.Area),'PCCl')| strcmp(txt(:,header.Area),'PCCu')) & (cell2mat(raw(:,header.Hemisphere)) == 2);
+    
+    }; % Now no constraint on monkeys
+% Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
+monkey_included_for_loading = [6 5 4];
+Monkeys{5} = 'Polo';
+Monkeys{6} = 'QQ';
+Monkeys{4} = 'WhiteFang';
+
+%}
+
+% RSC, left Hemi
+%{
+    mask_all = {
+        strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+        & strcmp(txt(:,header.Area),'RSC') & (cell2mat(raw(:,header.Hemisphere)) == 1);
+        strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+        & strcmp(txt(:,header.Area),'RSC') & (cell2mat(raw(:,header.Hemisphere)) == 1);
+%     strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%         & strcmp(txt(:,header.Area),'RSC');
+%         strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%         & strcmp(txt(:,header.Area),'RSC');
+        }; % Now no constraint on monkeys
+    
+    % Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
+monkey_included_for_loading = [6 4];
+Monkeys{6} = 'QQ';
+Monkeys{4} = 'WhiteFang';
+%}
+
+% RSC, right Hemi
+%{
+    mask_all = {
+        strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+        & strcmp(txt(:,header.Area),'RSC') & (cell2mat(raw(:,header.Hemisphere)) == 2);
+        strcmp(txt(:,header.Protocol),'3DR') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+        & strcmp(txt(:,header.Area),'RSC') & (cell2mat(raw(:,header.Hemisphere)) == 2);
+%     strcmp(txt(:,header.Protocol),'3DT') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%         & strcmp(txt(:,header.Area),'RSC');
+%         strcmp(txt(:,header.Protocol),'3DR') & strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
+%         & strcmp(txt(:,header.Area),'RSC');
+        }; % Now no constraint on monkeys
+    
+    % Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
+monkey_included_for_loading = [6 4];
+Monkeys{6} = 'QQ';
+Monkeys{4} = 'WhiteFang';
+%}
+
+% RSC
+% %{
     mask_all = {
         strcmp(txt(:,header.Protocol),'3DT') & ~strcmp(txt(:,header.Dark),'1') & ~strcmp(txt(:,header.Sound),'1')...
         & strcmp(txt(:,header.Area),'RSC');
@@ -319,6 +398,8 @@ Monkeys{4} = 'WhiteFang';
     
     % Add flexible monkey mask here (but I've still decided to choose monkey for analysis below). HH20150723
 monkey_included_for_loading = [6 4];
+% monkey_included_for_loading = [6];
+% monkey_included_for_loading = [4];
 Monkeys{6} = 'QQ';
 Monkeys{4} = 'WhiteFang';
 
@@ -617,7 +698,8 @@ for i = 1:length(group_result)
                 group_result(i).responSig{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.respon_sigTrue;
                 %                 group_result(i).PSTH{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_mean_rate_aov_cell;
                 group_result(i).PSTH{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_mean_rate_aov;
-                group_result(i).Rextre{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.maxSpkRealBinMean-group_result(i).mat_raw{pp}{ii}.PSTH.minSpkRealBinMean;
+%                 group_result(i).rawPSTH{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_rate_aov;
+                group_result(i).RextPSTHre{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.maxSpkRealBinMean-group_result(i).mat_raw{pp}{ii}.PSTH.minSpkRealBinMean;
                 group_result(i).PSTH3Dmodel{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH3Dmodel;
                 %                 group_result(i).PSTH1Dmodel{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH1Dmodel;
                 group_result(i).peakT{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.peak;
@@ -625,7 +707,7 @@ for i = 1:length(group_result)
                 group_result(i).data_PCA{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_rate_PCA';
                 
                 % %                 group_result(i).rawRate{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.spk_data_bin_rate;
-                                group_result(i).dPCA{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.dPCA;
+%                                 group_result(i).dPCA{pp}{ii} = group_result(i).mat_raw{pp}{ii}.PSTH.dPCA;
                 group_result(i).DDI_bin{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI_bin;
                 %                                 group_result(i).DDI_p_bin{pp}{ii} = group_result(i).mat_raw{pp}{ii}.DDI_p_bin;
                 %                 group_result(i).d_LR{pp}(ii,:) = group_result(i).mat_raw{pp}{ii}.PSTH.d_LR;
@@ -646,14 +728,20 @@ temp = load('Z:\Data\TEMPO\BATCH\TEMPO1_Acceleration_sigma4_5p_11');
 
 %% Reorganize data into matrices which are easier to plot and compare
 
-
+timeStep = group_result(1).mat_raw{1}{1}.timeStep;
+tOffset1 = group_result(1).mat_raw{1}{1}.tOffset1;
 nBins = group_result(1).mat_raw{1}{1}.nBins;
+% Bin = group_result(1).mat_raw{1}{1}.Bin;
 PCAStep = group_result(1).mat_raw{1}{1}.PCAStep;
 nBinsPCA = group_result(1).mat_raw{1}{1}.nBinsPCA;
 duration = group_result(1).mat_raw{1}{1}.unique_duration; % unit in ms
 totalBinT = group_result(1).mat_raw{1}{1}.unique_duration + group_result(1).mat_raw{1}{1}.tOffset1 + group_result(1).mat_raw{1}{1}.tOffset2;
-stimOnBin = group_result(1).mat_raw{1}{1}.markers{1,3};
-stimOffBin = group_result(1).mat_raw{1}{1}.markers{2,3};
+stimOnBin = floor(tOffset1/timeStep)+1;
+stimOffBin = floor(tOffset1/timeStep)+floor(duration/timeStep);
+aMax = group_result(1).mat_raw{1}{1}.markers{1,2};
+aMin = group_result(1).mat_raw{1}{1}.markers{2,2};
+
+
 % initialize with NaN
 
 for pp = 1:size(mat_address,1)
@@ -725,27 +813,28 @@ for pp = 1:size(mat_address,1)
                         %                                             PSTH{pp}{jj}(i,:) = group_result(i).PSTH{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}; % 1*68
                         try
                         PSTH{pp}{jj}(i,:,:) = group_result(i).PSTH{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}; % 26*68
+%                         rawPSTH{pp}{jj}(i,:,:) = group_result(i).rawPSTH{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}; % 26*68*reps
                         %                     Rextre{pp}(i,jj) = group_result(i).Rextre{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
                         catch
                             keyboard;
                         end
                         try
-%                             PSTH3Dmodel{pp}{i,jj} = group_result(i).PSTH3Dmodel{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
+                            PSTH3Dmodel{pp}{i,jj} = group_result(i).PSTH3Dmodel{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
                         catch
                             keyboard;
                         end
                         % %                     PSTH1Dmodel{pp}{i,jj} = group_result(i).PSTH1Dmodel{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj));
                         data_PCA{pp}{jj}{i} = group_result(i).data_PCA{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)};
                         
-                                                                    dPCA_data{pp}{jj}{i} = nan*ones(26,nBinsPCA,15);
-                                                                    for pc = 1:26
-                                                                    temp11 = group_result(i).dPCA{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}{pc};
-                                                                    dPCA_data{pp}{jj}{i}(pc,:,1:size(temp11,2)) = temp11;
-                        
-                                                                    end
+%                                                                     dPCA_data{pp}{jj}{i} = nan*ones(26,nBinsPCA,15);
+%                                                                     for pc = 1:26
+%                                                                     temp11 = group_result(i).dPCA{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}{pc};
+%                                                                     dPCA_data{pp}{jj}{i}(pc,:,1:size(temp11,2)) = temp11;
+%                          end
+                                                                    
                         % % %                     rawRate{pp}{jj}{i} = squeeze(group_result(i).rawRate{pp}{ii}(find(group_result(i).uStimType{pp}{ii} == jj),:,:));
-                        %                                             [DDI_bin{pp}{jj}{i}, indM]= max(group_result(i).DDI_bin{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)});
-                        %                                             DDI_p_bin{pp}{jj}{i} = group_result(i).DDI_p_bin{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}(indM);
+%                                                                     [DDI_bin{pp}{jj}{i}, indM]= max(group_result(i).DDI_bin{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)});
+%                                                                     DDI_p_bin{pp}{jj}{i} = group_result(i).DDI_p_bin{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}(indM);
                         DDI_bin2{pp}(i,jj) = group_result(i).DDI_bin{pp}{ii}{find(group_result(i).uStimType{pp}{ii} == jj)}(end);
                         %                         d_LR{pp}(i,jj) = group_result(i).d_LR{pp}{find(group_result(i).uStimType{pp}{ii} == jj)};
                         %                     d_UD{pp}(i,jj) = group_result(i).d_UD{pp}{find(group_result(i).uStimType{pp}{ii} == jj)};
@@ -759,7 +848,7 @@ for pp = 1:size(mat_address,1)
 end
 
 % for 3D models
-%{
+% %{
 for pp = 1:size(mat_address,1)
     wV_VA_3D{pp} = nan(length(group_result),2);wA_VA_3D{pp} = nan(length(group_result),2);
     wV_VAJ_3D{pp} = nan(length(group_result),2);wA_VAJ_3D{pp} = nan(length(group_result),2);wJ_VAJ_3D{pp} = nan(length(group_result),2);
@@ -802,6 +891,20 @@ for pp = 1:size(mat_address,1)
         r_PVAJ_VP{pp}{jj} = nan(length(group_result),1);p_PVAJ_VP{pp}{jj} = nan(length(group_result),1);
         r_PVAJ_AP{pp}{jj} = nan(length(group_result),1);p_PVAJ_AP{pp}{jj} = nan(length(group_result),1);
         r_PVAJ_JP{pp}{jj} = nan(length(group_result),1);p_PVAJ_JP{pp}{jj} = nan(length(group_result),1);
+        
+        parr_VA_VA{pp}{jj} = nan(length(group_result),1);parp_VA_VA{pp}{jj} = nan(length(group_result),1);
+        parr_VAJ_VA{pp}{jj} = nan(length(group_result),1);parp_VAJ_VA{pp}{jj} = nan(length(group_result),1);
+        parr_VAJ_VJ{pp}{jj} = nan(length(group_result),1);parp_VAJ_VJ{pp}{jj} = nan(length(group_result),1);
+        parr_VAJ_AJ{pp}{jj} = nan(length(group_result),1);parp_VAJ_AJ{pp}{jj} = nan(length(group_result),1);
+        parr_VAP_VA{pp}{jj} = nan(length(group_result),1);parp_VAP_VA{pp}{jj} = nan(length(group_result),1);
+        parr_VAP_VP{pp}{jj} = nan(length(group_result),1);parp_VAP_VP{pp}{jj} = nan(length(group_result),1);
+        parr_VAP_AP{pp}{jj} = nan(length(group_result),1);parp_VAP_AP{pp}{jj} = nan(length(group_result),1);
+        parr_PVAJ_VA{pp}{jj} = nan(length(group_result),1);parp_PVAJ_VA{pp}{jj} = nan(length(group_result),1);
+        parr_PVAJ_VJ{pp}{jj} = nan(length(group_result),1);parp_PVAJ_VJ{pp}{jj} = nan(length(group_result),1);
+        parr_PVAJ_AJ{pp}{jj} = nan(length(group_result),1);parp_PVAJ_AJ{pp}{jj} = nan(length(group_result),1);
+        parr_PVAJ_VP{pp}{jj} = nan(length(group_result),1);parp_PVAJ_VP{pp}{jj} = nan(length(group_result),1);
+        parr_PVAJ_AP{pp}{jj} = nan(length(group_result),1);parp_PVAJ_AP{pp}{jj} = nan(length(group_result),1);
+        parr_PVAJ_JP{pp}{jj} = nan(length(group_result),1);parp_PVAJ_JP{pp}{jj} = nan(length(group_result),1);
         
         progressbar('model load');
         disp([pp,jj])
@@ -1064,6 +1167,23 @@ for pp = 1:size(mat_address,1)
                     [r,p] = corrcoef(PVAJ_spatial_J{pp}{jj}{i},PVAJ_spatial_P{pp}{jj}{i});
                     r_PVAJ_JP{pp}{jj}(i) = r(1,2);p_PVAJ_JP{pp}{jj}(i) = p(1,2);
                     
+                    
+                    % spatial partial correlation coefficient
+                    r = [];p = [];
+                    [r,p] = partialcorr([PVAJ_spatial_V{pp}{jj}{i},PVAJ_spatial_A{pp}{jj}{i},PVAJ_spatial_J{pp}{jj}{i},PVAJ_spatial_P{pp}{jj}{i}]);
+                    parr_PVAJ_VA{pp}{jj}(i) = r(1,2);
+                    parp_PVAJ_VA{pp}{jj}(i) = p(1,2);
+                    parr_PVAJ_VJ{pp}{jj}(i) = r(1,3);
+                    parp_PVAJ_VJ{pp}{jj}(i) = p(1,3);
+                    parr_PVAJ_AJ{pp}{jj}(i) = r(2,3);
+                    parp_PVAJ_AJ{pp}{jj}(i) = p(2,3);
+                    parr_PVAJ_VP{pp}{jj}(i) = r(1,4);
+                    parp_PVAJ_VP{pp}{jj}(i) = p(1,4);
+                    parr_PVAJ_AP{pp}{jj}(i) = r(2,4);
+                    parp_PVAJ_AP{pp}{jj}(i) = p(2,4);
+                    parr_PVAJ_JP{pp}{jj}(i) = r(3,4);
+                    parp_PVAJ_JP{pp}{jj}(i) = p(3,4);
+                    
                     % Spatial nonlinearity
                     nV_PVAJ_3D{pp}{jj}(i) = Para_3D{pp}{jj}{i,find(strcmp(models,'PVAJ'))}(4);
                     nA_PVAJ_3D{pp}{jj}(i) = Para_3D{pp}{jj}{i,find(strcmp(models,'PVAJ'))}(8);
@@ -1246,10 +1366,10 @@ cell_selection();
 %        monkey_included_for_analysis = [7 14 5 15 16]; % for VIP
 
 % 2 monkeys
-%          monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value') get(findall(gcbf,'tag','Polo_data'),'value')]));
+         monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value') get(findall(gcbf,'tag','Polo_data'),'value')]));
        
 % 3 monkeys
-monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value') get(findall(gcbf,'tag','Polo_data'),'value') get(findall(gcbf,'tag','WF_data'),'value')]));
+% monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value') get(findall(gcbf,'tag','Polo_data'),'value') get(findall(gcbf,'tag','WF_data'),'value')]));
 
 % 1 monkey
 %         monkey_included_for_analysis = monkey_included_for_loading(logical([get(findall(gcbf,'tag','QQ_data'),'value')]));
@@ -1348,6 +1468,7 @@ function_handles = {
     '    Mean PSTH', @f1p1p1;
     '    Peak distribution', @f1p1p2;
     '    PSTH correlation', @f1p1p3;
+    '    PSTH partial correlation', @f1p1p4;
     'Spatial modulation',@f1p1;
     %     '    DDI distribution',@f1p2p1;
     '    DDI distribution at peak time',@f1p2p4;
@@ -1391,6 +1512,9 @@ function_handles = {
     '    Weight distribution (P,V,A,J weight), temp sig + r_squared thre only', @f2p2p6p1p1;
     '    Weight correlation (V,A weight in different models), r_squared thre only', @f2p2p6p1;
     '    Partial R_squared distribution', @f2p2p4;
+    '    Partial correlation of V,A,J,P (PVAJ model)', @f2p2p16;
+    '    Spatial correlation of V,A,J,P (VA, VAP, VAJ, PVAJ model)', @f2p2p16p1;
+    '    Spatial correlation vs weight vs r2: V,A,J,P (PVAJ model)', @f2p2p16p2;
     '    Preferred direction & angle difference ( V vs. A)', @f2p2p2;
     '    Preferred direction & angle difference ( V vs. A), r_squared thre only', @f2p2p2p1;
     '    Preferred direction & angle difference ( V/A vs. J)', @f2p2p7;
@@ -1686,6 +1810,344 @@ colorLBlue = [0 175 194]/255; %浅蓝
         axis off;
         
     end
+
+function f1p1p4(debug)      % PSTH partial correlation
+        if debug  ; dbstack;   keyboard;      end
+
+        xdiff = linspace(0+9,180-9,10);
+        xCorr = linspace(-0.95,0.95,20);
+        
+%         mu = (aMax+aMin)/2/1000;
+mu = 0.75;
+sig = sqrt(sqrt(2))/6;
+nBinsStim = (stimOffBin-stimOnBin)+1;
+        v_timeProfile = vel_profile([mu sig],(1:nBinsStim)*timeStep/1000);
+a_timeProfile = acc_profile([mu sig],(1:nBinsStim)*timeStep/1000);
+j_timeProfile = jerk_profile([mu sig],(1:nBinsStim)*timeStep/1000);
+p_timeProfile = pos_profile([mu sig],(1:nBinsStim)*timeStep/1000);
+        
+for pp = 1:2
+            for jj = 1
+                PSTH_temp{pp}{jj} = PSTH{pp}{jj}(select_temporalSig{pp}(:,jj),:,:);
+                for cell_ind = 1:size(PSTH_temp{pp}{jj},1)
+                for ii = 1:size(PSTH_temp{pp}{jj},2)
+                    try
+                    [temp1,temp2] = partialcorr([squeeze(PSTH_temp{pp}{jj}(cell_ind,ii,stimOnBin:stimOffBin)),v_timeProfile',a_timeProfile',j_timeProfile',p_timeProfile']);
+                    catch
+                        keyboard;
+                    end
+                    r_v{pp,jj}(cell_ind,ii) = temp1(1,2);
+                    p_v{pp,jj}(cell_ind,ii) = temp2(1,2);
+                    r_a{pp,jj}(cell_ind,ii) = temp1(1,3);
+                    p_a{pp,jj}(cell_ind,ii) = temp2(1,3);
+                    r_j{pp,jj}(cell_ind,ii) = temp1(1,4);
+                    p_j{pp,jj}(cell_ind,ii) = temp2(1,4);
+                    r_p{pp,jj}(cell_ind,ii) = temp1(1,5);
+                    p_p{pp,jj}(cell_ind,ii) = temp2(1,5);
+                
+                end
+                
+                % find the maximal direction (1.5s) as the preferred direction 
+                %{
+                [~,dirInd] = max(squeeze(sum(PSTH_temp{pp}{jj}(cell_ind,:,stimOnBin:stimOffBin),3)));
+                p_v_max{pp,jj}(cell_ind) = p_v{pp,jj}(cell_ind,dirInd);
+                p_a_max{pp,jj}(cell_ind) = p_a{pp,jj}(cell_ind,dirInd);
+                p_j_max{pp,jj}(cell_ind) = p_j{pp,jj}(cell_ind,dirInd);
+                p_p_max{pp,jj}(cell_ind) = p_p{pp,jj}(cell_ind,dirInd);
+                r_v_max{pp,jj}(cell_ind) = r_v{pp,jj}(cell_ind,dirInd);
+                r_a_max{pp,jj}(cell_ind) = r_a{pp,jj}(cell_ind,dirInd);
+                r_j_max{pp,jj}(cell_ind) = r_j{pp,jj}(cell_ind,dirInd);
+                r_p_max{pp,jj}(cell_ind) = r_p{pp,jj}(cell_ind,dirInd);
+                
+                %}
+                
+                % fin the maximal one of the four components 
+                %{
+                [tempv,temp(1)] = max(r_v{pp,jj}(cell_ind,:));
+                [tempa,temp(2)] = max(r_a{pp,jj}(cell_ind,:));
+                [tempj,temp(3)] = max(r_j{pp,jj}(cell_ind,:));
+                [tempp,temp(4)] = max(r_p{pp,jj}(cell_ind,:));
+                
+                [~, tempind] = max([tempv,tempa,tempj,tempp]);
+                
+                dirInd = temp(tempind);
+                
+                p_v_max{pp,jj}(cell_ind) = p_v{pp,jj}(cell_ind,dirInd);
+                p_a_max{pp,jj}(cell_ind) = p_a{pp,jj}(cell_ind,dirInd);
+                p_j_max{pp,jj}(cell_ind) = p_j{pp,jj}(cell_ind,dirInd);
+                p_p_max{pp,jj}(cell_ind) = p_p{pp,jj}(cell_ind,dirInd);
+                r_v_max{pp,jj}(cell_ind) = r_v{pp,jj}(cell_ind,dirInd);
+                r_a_max{pp,jj}(cell_ind) = r_a{pp,jj}(cell_ind,dirInd);
+                r_j_max{pp,jj}(cell_ind) = r_j{pp,jj}(cell_ind,dirInd);
+                r_p_max{pp,jj}(cell_ind) = r_p{pp,jj}(cell_ind,dirInd);
+                
+                %}
+                
+                % find the direction of the four components 
+%                 %{
+                [r_v_max{pp,jj}(cell_ind),tempv] = max(r_v{pp,jj}(cell_ind,:));
+                p_v_max{pp,jj}(cell_ind) = p_v{pp,jj}(cell_ind,tempv);
+                [r_a_max{pp,jj}(cell_ind),tempa] = max(r_a{pp,jj}(cell_ind,:));
+                p_a_max{pp,jj}(cell_ind) = p_a{pp,jj}(cell_ind,tempa);
+                [r_j_max{pp,jj}(cell_ind),tempj] = max(r_j{pp,jj}(cell_ind,:));
+                p_j_max{pp,jj}(cell_ind) = p_j{pp,jj}(cell_ind,tempj);
+                [r_p_max{pp,jj}(cell_ind),tempp] = max(r_p{pp,jj}(cell_ind,:));
+                p_p_max{pp,jj}(cell_ind) = p_p{pp,jj}(cell_ind,tempp);
+                
+                angleDiff_VA{pp,jj}(cell_ind) = diff26(tempv,tempa);
+                angleDiff_VJ{pp,jj}(cell_ind) = diff26(tempv,tempj);
+                angleDiff_AJ{pp,jj}(cell_ind) = diff26(tempj,tempa);
+                angleDiff_VP{pp,jj}(cell_ind) = diff26(tempv,tempp);
+                angleDiff_AP{pp,jj}(cell_ind) = diff26(tempp,tempa);
+                angleDiff_JP{pp,jj}(cell_ind) = diff26(tempj,tempp);
+                
+                %}
+
+%{
+                [~,temp] = max(abs(r_v{pp,jj}(cell_ind,:)));
+                p_v_max{pp,jj}(cell_ind) = p_v{pp,jj}(cell_ind,temp);
+                r_v_max{pp,jj}(cell_ind) = r_v{pp,jj}(cell_ind,temp);
+                
+                [~,temp] = max(abs(r_a{pp,jj}(cell_ind,:)));
+                r_a_max{pp,jj}(cell_ind) = r_a{pp,jj}(cell_ind,temp);
+                p_a_max{pp,jj}(cell_ind) = p_a{pp,jj}(cell_ind,temp);
+                
+                [~,temp] = max(abs(r_j{pp,jj}(cell_ind,:)));
+                p_j_max{pp,jj}(cell_ind) = p_j{pp,jj}(cell_ind,temp);
+                r_j_max{pp,jj}(cell_ind) = r_j{pp,jj}(cell_ind,temp);
+                
+                [~,temp] = max(abs(r_p{pp,jj}(cell_ind,:)));
+                p_p_max{pp,jj}(cell_ind) = p_p{pp,jj}(cell_ind,temp);
+                r_p_max{pp,jj}(cell_ind) = r_p{pp,jj}(cell_ind,temp);
+                %}
+                
+                end
+                
+                [n_v{pp}(jj,:), ~] = hist(r_v_max{pp,jj},xCorr);
+                [n_v_sig{pp}(jj,:), ~] = hist(r_v_max{pp,jj}(p_v_max{pp,jj}<0.05),xCorr);
+                [n_a{pp}(jj,:), ~] = hist(r_a_max{pp,jj},xCorr);
+                [n_a_sig{pp}(jj,:), ~] = hist(r_a_max{pp,jj}(p_a_max{pp,jj}<0.05),xCorr);
+                [n_j{pp}(jj,:), ~] = hist(r_j_max{pp,jj},xCorr);
+                [n_j_sig{pp}(jj,:), ~] = hist(r_j_max{pp,jj}(p_j_max{pp,jj}<0.05),xCorr);
+                [n_p{pp}(jj,:), ~] = hist(r_p_max{pp,jj},xCorr);
+                [n_p_sig{pp}(jj,:), ~] = hist(r_p_max{pp,jj}(p_p_max{pp,jj}<0.05),xCorr);
+                
+                threshold = 0.5;
+                
+                
+                
+                angleDiff_VA_sig{pp,jj} = angleDiff_VA{pp,jj}(p_v_max{pp,jj}<0.05 & p_a_max{pp,jj}<0.05);
+                angleDiff_VJ_sig{pp,jj} = angleDiff_VA{pp,jj}(p_v_max{pp,jj}<0.05 & p_j_max{pp,jj}<0.05);
+                angleDiff_AJ_sig{pp,jj} = angleDiff_VA{pp,jj}(p_j_max{pp,jj}<0.05 & p_a_max{pp,jj}<0.05);
+                angleDiff_VP_sig{pp,jj} = angleDiff_VA{pp,jj}(p_v_max{pp,jj}<0.05 & p_p_max{pp,jj}<0.05);
+                angleDiff_AP_sig{pp,jj} = angleDiff_VA{pp,jj}(p_p_max{pp,jj}<0.05 & p_a_max{pp,jj}<0.05);
+                angleDiff_JP_sig{pp,jj} = angleDiff_VA{pp,jj}(p_j_max{pp,jj}<0.05 & p_p_max{pp,jj}<0.05);
+                
+                angleDiff_VA{pp,jj} = angleDiff_VA{pp,jj}(angleDiff_VA{pp,jj}>threshold);
+                angleDiff_VJ{pp,jj} = angleDiff_VJ{pp,jj}(angleDiff_VJ{pp,jj}>threshold);
+                angleDiff_AJ{pp,jj} = angleDiff_AJ{pp,jj}(angleDiff_AJ{pp,jj}>threshold);
+                angleDiff_VP{pp,jj} = angleDiff_VP{pp,jj}(angleDiff_VP{pp,jj}>threshold);
+                angleDiff_AP{pp,jj} = angleDiff_AP{pp,jj}(angleDiff_AP{pp,jj}>threshold);
+                angleDiff_JP{pp,jj} = angleDiff_JP{pp,jj}(angleDiff_JP{pp,jj}>threshold);
+                
+                angleDiff_VA_sig{pp,jj} = angleDiff_VA_sig{pp,jj}(angleDiff_VA_sig{pp,jj}>threshold);
+                angleDiff_VJ_sig{pp,jj} = angleDiff_VJ_sig{pp,jj}(angleDiff_VJ_sig{pp,jj}>threshold);
+                angleDiff_AJ_sig{pp,jj} = angleDiff_AJ_sig{pp,jj}(angleDiff_AJ_sig{pp,jj}>threshold);
+                angleDiff_VP_sig{pp,jj} = angleDiff_VP_sig{pp,jj}(angleDiff_VP_sig{pp,jj}>threshold);
+                angleDiff_AP_sig{pp,jj} = angleDiff_AP_sig{pp,jj}(angleDiff_AP_sig{pp,jj}>threshold);
+                angleDiff_JP_sig{pp,jj} = angleDiff_JP_sig{pp,jj}(angleDiff_JP_sig{pp,jj}>threshold);
+                
+                [n_VA{pp}(jj,:), ~] = hist(angleDiff_VA{pp,jj},xdiff);
+                [n_VA_sig{pp}(jj,:), ~] = hist(angleDiff_VA_sig{pp,jj},xdiff);
+                [n_VJ{pp}(jj,:), ~] = hist(angleDiff_VJ{pp,jj},xdiff);
+                [n_VJ_sig{pp}(jj,:), ~] = hist(angleDiff_VJ_sig{pp,jj},xdiff);
+                [n_AJ{pp}(jj,:), ~] = hist(angleDiff_AJ{pp,jj},xdiff);
+                [n_AJ_sig{pp}(jj,:), ~] = hist(angleDiff_AJ_sig{pp,jj},xdiff);
+                [n_VP{pp}(jj,:), ~] = hist(angleDiff_VP{pp,jj},xdiff);
+                [n_VP_sig{pp}(jj,:), ~] = hist(angleDiff_VP_sig{pp,jj},xdiff);
+                [n_AP{pp}(jj,:), ~] = hist(angleDiff_AP{pp,jj},xdiff);
+                [n_AP_sig{pp}(jj,:), ~] = hist(angleDiff_AP_sig{pp,jj},xdiff);
+                [n_JP{pp}(jj,:), ~] = hist(angleDiff_JP{pp,jj},xdiff);
+                [n_JP_sig{pp}(jj,:), ~] = hist(angleDiff_JP_sig{pp,jj},xdiff);
+                
+%                 rsig_v{pp,jj} = r_v{pp,jj}(p_v{pp,jj}<0.05,:);
+%                 rsig_a{pp,jj} = r_a{pp,jj}(p_a{pp,jj}<0.05,:);
+%                 rsig_j{pp,jj} = r_j{pp,jj}(p_j{pp,jj}<0.05,:);
+%                 rsig_p{pp,jj} = r_p{pp,jj}(p_p{pp,jj}<0.05,:);
+
+            end
+end
+
+        % plot figures
+        %{
+        figure(11);set(figure(11),'name','Partial corr between PSTH & V, A, J, P','unit','normalized','pos',[-0.55 0 0.53 0.8]); clf;
+        [~,h_subplot] = tight_subplot(2,2,0.1,0.1,[0.15 0.02]);
+        xCorr = linspace(-0.95,0.95,20);
+        for pp = 1:2
+            for jj = 1
+
+
+        axes(h_subplot((jj-1)*2+pp));hold on;
+        plot([r_v_max{pp,jj};r_a_max{pp,jj};r_j_max{pp,jj};r_p_max{pp,jj}],'b-o');
+        plot(ones(sum(p_v_max{pp,jj}<0.05),1),r_v_max{pp,jj}(p_v_max{pp,jj}<0.05),'bo','markerfacecolor','b');
+        plot(2*ones(sum(p_a_max{pp,jj}<0.05),1),r_a_max{pp,jj}(p_a_max{pp,jj}<0.05),'bo','markerfacecolor','b');
+        plot(3*ones(sum(p_j_max{pp,jj}<0.05),1),r_j_max{pp,jj}(p_j_max{pp,jj}<0.05),'bo','markerfacecolor','b');
+        plot(4*ones(sum(p_p_max{pp,jj}<0.05),1),r_p_max{pp,jj}(p_p_max{pp,jj}<0.05),'bo','markerfacecolor','b');
+        xlabel('Different components');ylabel('Partial corr coeff');axis on;
+        set(gca,'xlim',[0 5]);set(gca,'xticklabel',{' ','vel','acc','jerk','pos',' '});
+        axis on;
+
+        end
+        end
+        
+        suptitle(['Partial corr between PSTH & V, A, J, P   (Monkey = ',monkey_to_print,')']);
+        SetFigure(15);
+        
+        % text necessary infos
+        
+        h = axes('pos',[0.05 0.4 0.75 0.05]);
+        text(0.3,0,'Translation');text(0.9,0,'Rotation');        
+        axis off;
+        %}
+        
+        %{
+        figure(12);set(figure(12),'name','Partial corr between PSTH & V, A, J, P','unit','normalized','pos',[-0.55 0 0.53 0.8]); clf;
+        [~,h_subplot] = tight_subplot(2,4,0.1,0.1,[0.15 0.02]);
+        xCorr = linspace(-0.95,0.95,20);
+        for pp = 1:2
+            for jj = 1
+
+        axes(h_subplot((pp-1)*4+jj));hold on;
+        hbar = bar(xCorr,n_v{pp}(jj,:));
+        set(hbar,'facecolor','w');
+        hbar = bar(xCorr,n_v_sig{pp}(jj,:));
+        set(hbar,'facecolor','k','edgecolor','k');
+        xlabel('Partial corr coeff,v');ylabel('Cell #');axis on;
+        set(gca,'xlim',[-1 1]);
+        set(gca,'ylim',[0 80]);
+        axis on;
+        
+        axes(h_subplot((pp-1)*4+jj+1));hold on;
+        hbar = bar(xCorr,n_a{pp}(jj,:));
+        set(hbar,'facecolor','w');
+        hbar = bar(xCorr,n_a_sig{pp}(jj,:));
+        set(hbar,'facecolor','k','edgecolor','k');
+        xlabel('Partial corr coeff,a');ylabel('Cell #');axis on;
+        set(gca,'xlim',[-1 1]);
+        set(gca,'ylim',[0 80]);
+        axis on;
+        
+        axes(h_subplot((pp-1)*4+jj+2));hold on;
+        hbar = bar(xCorr,n_j{pp}(jj,:));
+        set(hbar,'facecolor','w');
+        hbar = bar(xCorr,n_j_sig{pp}(jj,:));
+        set(hbar,'facecolor','k','edgecolor','k');
+        xlabel('Partial corr coeff,j');ylabel('Cell #');axis on;
+        set(gca,'xlim',[-1 1]);
+        set(gca,'ylim',[0 80]);
+        axis on;
+        
+        axes(h_subplot((pp-1)*4+jj+3));hold on;
+        hbar = bar(xCorr,n_p{pp}(jj,:));
+        set(hbar,'facecolor','w');
+        hbar = bar(xCorr,n_p_sig{pp}(jj,:));
+        set(hbar,'facecolor','k','edgecolor','k');
+        xlabel('Partial corr coeff,p');ylabel('Cell #');axis on;
+        set(gca,'xlim',[-1 1]);
+        set(gca,'ylim',[0 80]);
+        axis on;
+
+        end
+        end
+        
+        suptitle(['Partial corr between PSTH & V, A, J, P   (Monkey = ',monkey_to_print,')']);
+
+        % text necessary infos
+        h = axes('pos',[0.05 0.1 0.05 0.75]);
+        text(0.2,0.75,'Translation','rotation',90);text(0.2,0.2,'Rotation','rotation',90);axis off;
+        SetFigure(15);
+        %}
+        
+        
+%         %{
+        figure(16);set(figure(16),'name','Difference between the preferred angle of V, A, J, P, used partial corr','unit','normalized','pos',[-0.55 -0.45 0.53 1.5]); clf;
+        [~,h_subplot] = tight_subplot(6,2,0.1,0.1,[0.15 0.02]);
+        for pp = 1:2
+            for jj = 1
+
+        axes(h_subplot((pp-1)+1));hold on;
+        hbar = bar(xdiff,n_VA{pp}(jj,:));
+        set(hbar,'facecolor','w');
+        hbar = bar(xdiff,n_VA_sig{pp}(jj,:));
+        set(hbar,'facecolor','k','edgecolor','k');
+        xlabel('Diff angle, VA');ylabel('Cell #');axis on;
+        set(gca,'xlim',[0 180]);
+%         set(gca,'ylim',[0 80]);
+        axis on;
+        
+        axes(h_subplot((pp-1)+3));hold on;
+        hbar = bar(xdiff,n_VJ{pp}(jj,:));
+        set(hbar,'facecolor','w');
+        hbar = bar(xdiff,n_VJ_sig{pp}(jj,:));
+        set(hbar,'facecolor','k','edgecolor','k');
+        xlabel('Diff angle, VJ');ylabel('Cell #');axis on;
+        set(gca,'xlim',[0 180]);
+%         set(gca,'ylim',[0 80]);
+        axis on;
+        
+        axes(h_subplot((pp-1)+5));hold on;
+        hbar = bar(xdiff,n_AJ{pp}(jj,:));
+        set(hbar,'facecolor','w');
+        hbar = bar(xdiff,n_AJ_sig{pp}(jj,:));
+        set(hbar,'facecolor','k','edgecolor','k');
+        xlabel('Diff angle, AJ');ylabel('Cell #');axis on;
+        set(gca,'xlim',[0 180]);
+%         set(gca,'ylim',[0 80]);
+        axis on;
+        
+        axes(h_subplot((pp-1)+7));hold on;
+        hbar = bar(xdiff,n_VP{pp}(jj,:));
+        set(hbar,'facecolor','w');
+        hbar = bar(xdiff,n_VP_sig{pp}(jj,:));
+        set(hbar,'facecolor','k','edgecolor','k');
+        xlabel('Diff angle, VP');ylabel('Cell #');axis on;
+        set(gca,'xlim',[0 180]);
+%         set(gca,'ylim',[0 80]);
+        axis on;
+        
+        axes(h_subplot((pp-1)+9));hold on;
+        hbar = bar(xdiff,n_AP{pp}(jj,:));
+        set(hbar,'facecolor','w');
+        hbar = bar(xdiff,n_AP_sig{pp}(jj,:));
+        set(hbar,'facecolor','k','edgecolor','k');
+        xlabel('Diff angle, AP');ylabel('Cell #');axis on;
+        set(gca,'xlim',[0 180]);
+%         set(gca,'ylim',[0 80]);
+        axis on;
+        
+        axes(h_subplot((pp-1)+11));hold on;
+        hbar = bar(xdiff,n_JP{pp}(jj,:));
+        set(hbar,'facecolor','w');
+        hbar = bar(xdiff,n_JP_sig{pp}(jj,:));
+        set(hbar,'facecolor','k','edgecolor','k');
+        xlabel('Diff angle, JP');ylabel('Cell #');axis on;
+        set(gca,'xlim',[0 180]);
+%         set(gca,'ylim',[0 80]);
+        axis on;
+        
+         end
+        end
+        
+        suptitle(['Difference between the preferred angle of V, A, J, P, used partial corr   (Monkey = ',monkey_to_print,')']);
+
+        % text necessary infos
+        h = axes('pos',[0.2 0.05 0.75 0.05]);
+        text(0.1,0,'Translation');text(0.7,0,'Rotation');axis off;
+        SetFigure(15);
+        
+        %}
+        
+end
 
     function f1p2p1(debug)      % DDI distribution
         if debug  ; dbstack;   keyboard;      end
@@ -2034,10 +2496,10 @@ DDI_sdPeak_sig{pp}{jj} = [DDI_sPeak_sig{pp}{jj}, DDI_dPeak_early_sig{pp}{jj}];
         %         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         [~,h_subplot] = tight_subplot(2,2,0.1,0.15,[0.1 0.1]);
         %         for pp = 1:size(mat_address,1)
-        for pp = 3:4
+        for pp = 1:2
             for jj = 1:2
                 % for jj = 1
-                axes(h_subplot((jj-1)*2+pp-2));hold on;
+                axes(h_subplot((jj-1)*2+pp));hold on;
                 
                 n_DDI{pp}{jj} = hist(DDI_others2{pp}{jj},xDDI);
                 medianDDI{pp}(jj) = median(DDI_others2{pp}{jj});
@@ -2142,7 +2604,7 @@ DDI_sdPeak_sig{pp}{jj} = [DDI_sPeak_sig{pp}{jj}, DDI_dPeak_early_sig{pp}{jj}];
         if debug  ; dbstack;   keyboard;      end
         
         for pp = 1:size(mat_address,1)
-            for jj = 1
+            for jj = 1:2
                 %                 peakT_plot{pp}{jj} = peakT{pp}{jj}(select_temporalSig{pp}(:,jj));
                 peakT_plot{pp}{jj} = peakT{pp}{jj};
                 %                 preDir_peak_plot{pp}{jj} = preDir_peak{pp}{jj}(select_temporalSig{pp}(:,jj));
@@ -2164,32 +2626,32 @@ DDI_sdPeak_sig{pp}{jj} = [DDI_sPeak_sig{pp}{jj}, DDI_dPeak_early_sig{pp}{jj}];
                 preDir_dPeak_early_ele{pp}{jj} = [];
                 preDir_sPeak_azi{pp}{jj} = [];
                 preDir_sPeak_ele{pp}{jj} = [];
-                %                 for ii = 1:length(dPeakT_late{pp}{jj})
-                %                     dPeakIdx_early{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_early{pp}{jj}(ii));
-                %                     dPeakIdx_late{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_late{pp}{jj}(ii));
-                %                     preDir_dPeak_early{pp}{jj}(:,ii) = preDir_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(:,dPeakIdx_early{pp}{jj}(ii));
-                %                     preDir_dPeak_late{pp}{jj}(:,ii) = preDir_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(:,dPeakIdx_late{pp}{jj}(ii));
-                %                     preDir_dPeak_early_azi{pp}{jj}(ii) = preDir_dPeak_early{pp}{jj}(1,ii);
-                %                     preDir_dPeak_early_ele{pp}{jj}(ii) = preDir_dPeak_early{pp}{jj}(2,ii);
-                %                     preDir_dPeak_late_azi{pp}{jj}(ii) = preDir_dPeak_late{pp}{jj}(1,ii);
-                %                     preDir_dPeak_late_ele{pp}{jj}(ii) = preDir_dPeak_late{pp}{jj}(2,ii);
-                %                 end
+                                for ii = 1:length(dPeakT_late{pp}{jj})
+                                    dPeakIdx_early{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_early{pp}{jj}(ii));
+                                    dPeakIdx_late{pp}{jj}(ii) = find(dPeakT{pp}{jj}(:,ii) == dPeakT_late{pp}{jj}(ii));
+                                    preDir_dPeak_early{pp}{jj}(:,ii) = preDir_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(:,dPeakIdx_early{pp}{jj}(ii));
+                                    preDir_dPeak_late{pp}{jj}(:,ii) = preDir_peak_plot{pp}{jj}{dPeakIdx{pp}{jj}(ii)}(:,dPeakIdx_late{pp}{jj}(ii));
+                                    preDir_dPeak_early_azi{pp}{jj}(ii) = preDir_dPeak_early{pp}{jj}(1,ii);
+                                    preDir_dPeak_early_ele{pp}{jj}(ii) = preDir_dPeak_early{pp}{jj}(2,ii);
+                                    preDir_dPeak_late_azi{pp}{jj}(ii) = preDir_dPeak_late{pp}{jj}(1,ii);
+                                    preDir_dPeak_late_ele{pp}{jj}(ii) = preDir_dPeak_late{pp}{jj}(2,ii);
+                                end
                 
-                %                 preDir_sPeak{pp}{jj} = cell2mat(preDir_peak_plot{pp}{jj}(sPeakIdx{pp}{jj}));
-                %
-                %                 try
-                %                     preDir_sPeak_azi{pp}{jj} = preDir_sPeak{pp}{jj}(1,:);
-                %                     preDir_sPeak_ele{pp}{jj} = preDir_sPeak{pp}{jj}(2,:);
-                %                 catch
-                %                     continue;
-                %                 end
-                %
-                %                 % single peak & early peak of double-peaked cell
-                %
-                %                 preDir_Peak_azi{pp}{jj} = [preDir_sPeak_azi{pp}{jj},preDir_dPeak_early_azi{pp}{jj}];
-                %                 preDir_Peak_azi_trans{pp}{jj} = preDir_Peak_azi{pp}{jj};
-                %                 preDir_Peak_azi_trans{pp}{jj}(preDir_Peak_azi_trans{pp}{jj}>=270) = preDir_Peak_azi_trans{pp}{jj}(preDir_Peak_azi_trans{pp}{jj}>=270) - 360;
-                %                 preDir_Peak_ele{pp}{jj} = [preDir_sPeak_ele{pp}{jj},preDir_dPeak_early_ele{pp}{jj}];
+                                preDir_sPeak{pp}{jj} = cell2mat(preDir_peak_plot{pp}{jj}(sPeakIdx{pp}{jj}));
+                
+                                try
+                                    preDir_sPeak_azi{pp}{jj} = preDir_sPeak{pp}{jj}(1,:);
+                                    preDir_sPeak_ele{pp}{jj} = preDir_sPeak{pp}{jj}(2,:);
+                                catch
+                                    continue;
+                                end
+                
+                                % single peak & early peak of double-peaked cell
+                
+                                preDir_Peak_azi{pp}{jj} = [preDir_sPeak_azi{pp}{jj},preDir_dPeak_early_azi{pp}{jj}];
+                                preDir_Peak_azi_trans{pp}{jj} = preDir_Peak_azi{pp}{jj};
+                                preDir_Peak_azi_trans{pp}{jj}(preDir_Peak_azi_trans{pp}{jj}>=270) = preDir_Peak_azi_trans{pp}{jj}(preDir_Peak_azi_trans{pp}{jj}>=270) - 360;
+                                preDir_Peak_ele{pp}{jj} = [preDir_sPeak_ele{pp}{jj},preDir_dPeak_early_ele{pp}{jj}];
                 %
                 %                 % uniform test
                 %                 %                 [h_s_h(pp,jj),p_s_h(pp,jj)] = UniformTest_LBY(preDir_sPeak_azi{pp}{jj}); % horizontal
@@ -2295,30 +2757,53 @@ DDI_sdPeak_sig{pp}{jj} = [DDI_sPeak_sig{pp}{jj}, DDI_dPeak_early_sig{pp}{jj}];
         SetFigure(12);
         %}
         
-        % plot figures for preferred direction distribution (T & R)(single
-        % peak & early peak of double-peaked cell)
+        
+        %%%%%%%%%%%%%%% for report
+%         %{
+        hl = [];hbar = [];
+        figure(14);set(figure(14),'name','visual Distribution of preferred direction at peak time (Single and Double-peaked cells) ','unit','pixels','pos',[-1070 300 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(1,2,0.2,0.2,[0.1 0.1]);
+LinearCorrelation({preDir_Peak_azi_trans{1}{2},preDir_Peak_azi_trans{2}{2}},{preDir_Peak_ele{1}{2},preDir_Peak_ele{2}{2}},...
+                            'Xlabel','Preferred azimuth (degree)','Ylabel','Preferred elevation (degree)','FaceColors',{'b','r'},'EdgeColors',{'b','r'},'Markers',{'o','^'},...
+                            'LineStyles',{'b--','r--'},'MarkerSize',6,'XHist',nHist,'YHist',nHist,'XHistLim',[-90 270],'YHistLim',[-90 90],'Xlim',[-90 270],'Ylim',[-90 90],...
+                            'LinearCorr',0,'figN',11,'Axes',h_subplot(pp),'LegendOn',0,'YDirR',1,...
+                            'XTick',{[-90 0 90 180 270];{'270','0','90','180','270'}},'YTick',{[-90 -45 0 45 90];{'-90','-45','0','45','90'}});
+                    SetFigure(15);
+                    
+                    hl = [];hbar = [];
+        figure(15);set(figure(15),'name','vesti Distribution of preferred direction at peak time (Single and Double-peaked cells) ','unit','pixels','pos',[-1070 300 1050 600]); clf;
+        [~,h_subplot] = tight_subplot(1,2,0.2,0.2,[0.1 0.1]);
+LinearCorrelation({preDir_Peak_azi_trans{1}{1},preDir_Peak_azi_trans{2}{1}},{preDir_Peak_ele{1}{1},preDir_Peak_ele{2}{1}},...
+                            'Xlabel','Preferred azimuth (degree)','Ylabel','Preferred elevation (degree)','FaceColors',{'b','r'},'EdgeColors',{'b','r'},'Markers',{'o','^'},...
+                            'LineStyles',{'b--','r--'},'MarkerSize',6,'XHist',nHist,'YHist',nHist,'XHistLim',[-90 270],'YHistLim',[-90 90],'Xlim',[-90 270],'Ylim',[-90 90],...
+                            'LinearCorr',0,'figN',11,'Axes',h_subplot(pp),'LegendOn',0,'YDirR',1,...
+                            'XTick',{[-90 0 90 180 270];{'270','0','90','180','270'}},'YTick',{[-90 -45 0 45 90];{'-90','-45','0','45','90'}});
+                    SetFigure(15);
+        
+        %}
+        % plot figures for preferred direction distribution (T & R)(single peak & early peak of double-peaked cell)
         
         hl = [];hbar = [];
         figure(14);set(figure(14),'name','Distribution of preferred direction at peak time (Single and Double-peaked cells) ','unit','pixels','pos',[-1070 300 1050 600]); clf;
         [~,h_subplot] = tight_subplot(1,2,0.2,0.2,[0.1 0.1]);
         
-        %         for pp = 1:size(mat_address,1)
-        %             if ~isempty(preDir_sPeak{pp})
-        %                 %                 hl{pp} = LinearCorrelation(preDir_Peak_azi{pp},preDir_Peak_ele{pp},...
-        %                 %                     'Xlabel','Preferred azimuth (degree)','Ylabel','Preferred elevation (degree)','FaceColors',{'b','r'},'EdgeColors',{'b','r'},'Markers',{'o'},...
-        %                 %                     'LineStyles',{'b--','r--'},'MarkerSize',6,'XHist',nHist,'YHist',nHist,'XHistLim',[0 360],'YHistLim',[-90 90],'Xlim',[0 360],'Ylim',[-90 90],...
-        %                 %                     'LinearCorr',0,'figN',11,'Axes',h_subplot(pp),'LegendOn',0,'YDirR',1,...
-        %                 %                     'XTick',{[0 90 180 270 360];{'0','90','180','270','360'}},'YTick',{[-90 -45 0 45 90];{'-90','-45','0','45','90'}});
-        %                 hl{pp} = LinearCorrelation(preDir_Peak_azi_trans{pp},preDir_Peak_ele{pp},...
-        %                     'Xlabel','Preferred azimuth (degree)','Ylabel','Preferred elevation (degree)','FaceColors',{'b','r'},'EdgeColors',{'b','r'},'Markers',{'o'},...
-        %                     'LineStyles',{'b--','r--'},'MarkerSize',6,'XHist',nHist,'YHist',nHist,'XHistLim',[-90 270],'YHistLim',[-90 90],'Xlim',[-90 270],'Ylim',[-90 90],...
-        %                     'LinearCorr',0,'figN',11,'Axes',h_subplot(pp),'LegendOn',0,'YDirR',1,...
-        %                     'XTick',{[-90 0 90 180 270];{'270','0','90','180','270'}},'YTick',{[-90 -45 0 45 90];{'-90','-45','0','45','90'}});
-        %             end
-        %         end
+                for pp = 1:size(mat_address,1)
+                    if ~isempty(preDir_sPeak{pp})
+                        %                 hl{pp} = LinearCorrelation(preDir_Peak_azi{pp},preDir_Peak_ele{pp},...
+                        %                     'Xlabel','Preferred azimuth (degree)','Ylabel','Preferred elevation (degree)','FaceColors',{'b','r'},'EdgeColors',{'b','r'},'Markers',{'o'},...
+                        %                     'LineStyles',{'b--','r--'},'MarkerSize',6,'XHist',nHist,'YHist',nHist,'XHistLim',[0 360],'YHistLim',[-90 90],'Xlim',[0 360],'Ylim',[-90 90],...
+                        %                     'LinearCorr',0,'figN',11,'Axes',h_subplot(pp),'LegendOn',0,'YDirR',1,...
+                        %                     'XTick',{[0 90 180 270 360];{'0','90','180','270','360'}},'YTick',{[-90 -45 0 45 90];{'-90','-45','0','45','90'}});
+                        hl{pp} = LinearCorrelation(preDir_Peak_azi_trans{pp},preDir_Peak_ele{pp},...
+                            'Xlabel','Preferred azimuth (degree)','Ylabel','Preferred elevation (degree)','FaceColors',{'b','r'},'EdgeColors',{'b','r'},'Markers',{'o'},...
+                            'LineStyles',{'b--','r--'},'MarkerSize',6,'XHist',nHist,'YHist',nHist,'XHistLim',[-90 270],'YHistLim',[-90 90],'Xlim',[-90 270],'Ylim',[-90 90],...
+                            'LinearCorr',0,'figN',11,'Axes',h_subplot(pp),'LegendOn',0,'YDirR',1,...
+                            'XTick',{[-90 0 90 180 270];{'270','0','90','180','270'}},'YTick',{[-90 -45 0 45 90];{'-90','-45','0','45','90'}});
+                    end
+                end
         
         %%%%%%% plot figures according to vestibular & visual
-        % %{
+        %{
         for jj = 1:2
             if ~isempty(preDir_sPeak{jj})
                 %                 hl{jj} = LinearCorrelation(preDir_Peak_azi{jj},preDir_Peak_ele{jj},...
@@ -2343,7 +2828,7 @@ DDI_sdPeak_sig{pp}{jj} = [DDI_sPeak_sig{pp}{jj}, DDI_dPeak_early_sig{pp}{jj}];
         SetFigure(12);
         %}
         
-        %         %{
+                %{
         % plot figures for delta preferred direction distribution (between vestibular & visual)
         hbar = [];
         xdiff = linspace(0,180,12);
@@ -4622,14 +5107,14 @@ end
                     end
                     [n_VA_VA{pp}(jj,:), ~] = hist(RatioVA_VA{pp}{jj},xVA);
                     medianVA_VA{pp}(jj) = median(RatioVA_VA{pp}{jj});
-                    %                     axes(h_subplot((jj-1)*2+pp));hold on;
-                    %                     hbar{1} = bar(xVA,n_VA_VA{pp}(jj,:));
-                    %                     set(hbar{1},'facecolor','k','edgecolor','k');
-                    %                     %             set(gca,'xtick',[]);
-                    %                     xlabel('log(wV/wA)');ylabel('cell #');axis on;
-                    %                     set(gca,'xlim',[min(xVA) max(xVA)]);
-                    %                     plot([medianVA_VA{pp}(jj) medianVA_VA{pp}(jj)],[0 max(n_VA_VA{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    %                     text(medianVA_VA{pp}(jj),max(n_VA_VA{pp}(jj,:))*1.2,num2str(medianVA_VA{pp}(jj)),'color','k','fontsize',8);
+                                        axes(h_subplot((jj-1)*2+pp));hold on;
+                                        hbar{1} = bar(xVA,n_VA_VA{pp}(jj,:));
+                                        set(hbar{1},'facecolor','k','edgecolor','k');
+                                        %             set(gca,'xtick',[]);
+                                        xlabel('log(wV/wA)');ylabel('cell #');axis on;
+                                        set(gca,'xlim',[min(xVA) max(xVA)]);
+                                        plot([medianVA_VA{pp}(jj) medianVA_VA{pp}(jj)],[0 max(n_VA_VA{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                                        text(medianVA_VA{pp}(jj),max(n_VA_VA{pp}(jj,:))*1.2,num2str(medianVA_VA{pp}(jj)),'color','k','fontsize',8);
                 end
             end
             % text necessary infos
@@ -4940,12 +5425,1111 @@ end
         
     end
 
+function f2p2p16(debug)      % Partial correlation of V,A,J,P (PVAJ model)
+        if debug  ; dbstack;   keyboard;      end
+        
+        xDiff = linspace(0,180,11);
+        r2_thre = 0.5;
+xCorr = linspace(-0.95,0.95,20);
+        
+if sum(strcmp(models,'PVAJ'))
+            
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+
+% spatial corr
+                    parr_PVAJ_VA_sig{pp}{jj} = parr_PVAJ_VA{pp}{jj}(parp_PVAJ_VA{pp}{jj}<0.05);
+                    parr_PVAJ_VJ_sig{pp}{jj} = parr_PVAJ_VJ{pp}{jj}(parp_PVAJ_VJ{pp}{jj}<0.05);
+                    parr_PVAJ_AJ_sig{pp}{jj} = parr_PVAJ_AJ{pp}{jj}(parp_PVAJ_AJ{pp}{jj}<0.05);
+                    parr_PVAJ_VP_sig{pp}{jj} = parr_PVAJ_VP{pp}{jj}(parp_PVAJ_VP{pp}{jj}<0.05);
+                    parr_PVAJ_AP_sig{pp}{jj} = parr_PVAJ_AP{pp}{jj}(parp_PVAJ_AP{pp}{jj}<0.05);
+                    parr_PVAJ_JP_sig{pp}{jj} = parr_PVAJ_JP{pp}{jj}(parp_PVAJ_JP{pp}{jj}<0.05);
+                    
+                end
+            end
+                    
+
+            
+            figure(31);set(figure(31),'name','Distribution of partial spatial corr coeff (V&A,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    try
+                        [n_VA_PVAJ{pp}(jj,:), ~] = hist(parr_PVAJ_VA{pp}{jj},xCorr);
+                        [n_VA_PVAJ_sig{pp}(jj,:), ~] = hist(parr_PVAJ_VA_sig{pp}{jj},xCorr);
+                        mediancorr_VA_PVAJ{pp}{jj} = median(parr_PVAJ_VA{pp}{jj});
+                        %                     mediancorr_VA_PVAJ_sig{pp}{jj} = median(parr_PVAJ_VA_sig{pp}{jj});
+                        axes(h_subplot((jj-1)*2+pp));hold on;
+                        hbar = bar(xCorr,n_VA_PVAJ{pp}(jj,:));
+                        set(hbar,'facecolor','w','edgecolor','k');
+                        hbar = bar(xCorr,n_VA_PVAJ_sig{pp}(jj,:));
+                        set(hbar,'facecolor','k','edgecolor','k');
+                        %             set(gca,'xtick',[]);
+                        xlabel('partial spatial corr coeff ( V vs. A)');ylabel('cell #');axis on;
+%                         set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                        plot([mediancorr_VA_PVAJ{pp}{jj} mediancorr_VA_PVAJ{pp}{jj}],[0 max(n_VA_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                        text(mediancorr_VA_PVAJ{pp}{jj},max(n_VA_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VA_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    catch
+                        keyboard;
+                    end
+                end
+            end
+            suptitle(['Distribution of partial spatial corr coeff (V&A,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            figure(32);set(figure(32),'name','Distribution of partial spatial corr coeff (V&J,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_VJ_PVAJ{pp}(jj,:), ~] = hist(parr_PVAJ_VJ{pp}{jj},xCorr);
+                    [n_VJ_PVAJ_sig{pp}(jj,:), ~] = hist(parr_PVAJ_VJ_sig{pp}{jj},xCorr);
+                    mediancorr_VJ_PVAJ{pp}{jj} = median(parr_PVAJ_VJ{pp}{jj});
+                    %                     mediancorr_VJ_PVAJ_sig{pp}{jj} = median(r_PVAJ_VJ_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_VJ_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_VJ_PVAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('partial spatial corr coeff ( V vs. J)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_VJ_PVAJ{pp}{jj} mediancorr_VJ_PVAJ{pp}{jj}],[0 max(n_VJ_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_VJ_PVAJ{pp}{jj},max(n_VJ_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VJ_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of partial spatial corr coeff (V&J,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            figure(33);set(figure(33),'name','Distribution of partial spatial corr coeff (A&J,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_AJ_PVAJ{pp}(jj,:), ~] = hist(parr_PVAJ_AJ{pp}{jj},xCorr);
+                    [n_AJ_PVAJ_sig{pp}(jj,:), ~] = hist(parr_PVAJ_AJ_sig{pp}{jj},xCorr);
+                    mediancorr_AJ_PVAJ{pp}{jj} = median(parr_PVAJ_AJ{pp}{jj});
+                    %                     mediancorr_AJ_PVAJ_sig{pp}{jj} = median(r_PVAJ_AJ_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_AJ_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_AJ_PVAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('partial spatial corr coeff ( A vs. J)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_AJ_PVAJ{pp}{jj} mediancorr_AJ_PVAJ{pp}{jj}],[0 max(n_AJ_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_AJ_PVAJ{pp}{jj},max(n_AJ_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_AJ_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of partial spatial corr coeff (A&J,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            figure(34);set(figure(34),'name','Distribution of partial spatial corr coeff (V&P,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_VP_PVAJ{pp}(jj,:), ~] = hist(parr_PVAJ_VP{pp}{jj},xCorr);
+                    [n_VP_PVAJ_sig{pp}(jj,:), ~] = hist(parr_PVAJ_VP_sig{pp}{jj},xCorr);
+                    mediancorr_VP_PVAJ{pp}{jj} = median(parr_PVAJ_VP{pp}{jj});
+                    %                     mediancorr_VP_PVAJ_sig{pp}{jj} = median(parr_PVAJ_VP_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_VP_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_VP_PVAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('partial spatial corr coeff ( V vs. P)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_VP_PVAJ{pp}{jj} mediancorr_VP_PVAJ{pp}{jj}],[0 max(n_VP_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_VP_PVAJ{pp}{jj},max(n_VP_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VP_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of partial spatial corr coeff (V&P,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            figure(35);set(figure(35),'name','Distribution of partial spatial corr coeff (A&P,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_AP_PVAJ{pp}(jj,:), ~] = hist(parr_PVAJ_AP{pp}{jj},xCorr);
+                    [n_AP_PVAJ_sig{pp}(jj,:), ~] = hist(parr_PVAJ_AP_sig{pp}{jj},xCorr);
+                    mediancorr_AP_PVAJ{pp}{jj} = median(parr_PVAJ_AP{pp}{jj});
+                    %                     mediancorr_AP_PVAJ_sig{pp}{jj} = median(parparr_PVAJ_AP_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_AP_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_AP_PVAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('partial spatial corr coeff ( A vs. P)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_AP_PVAJ{pp}{jj} mediancorr_AP_PVAJ{pp}{jj}],[0 max(n_AP_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_AP_PVAJ{pp}{jj},max(n_AP_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_AP_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of partial spatial corr coeff (A&P,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            figure(36);set(figure(36),'name','Distribution of partial spatial corr coeff (J&P,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_JP_PVAJ{pp}(jj,:), ~] = hist(parr_PVAJ_JP{pp}{jj},xCorr);
+                    [n_JP_PVAJ_sig{pp}(jj,:), ~] = hist(parr_PVAJ_JP_sig{pp}{jj},xCorr);
+                    mediancorr_JP_PVAJ{pp}{jj} = median(parr_PVAJ_JP{pp}{jj});
+                    %                     mediancorr_JP_PVAJ_sig{pp}{jj} = median(parr_PVAJ_JP_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_JP_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_JP_PVAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('partial spatial corr coeff ( J vs. P)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_JP_PVAJ{pp}{jj} mediancorr_JP_PVAJ{pp}{jj}],[0 max(n_JP_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_JP_PVAJ{pp}{jj},max(n_JP_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_JP_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of partial spatial corr coeff (J&P,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+end
+
+end
+        
+function f2p2p16p1(debug)      % Spatial correlation of V,A,J,P
+        if debug  ; dbstack;   keyboard;      end
+        
+        xDiff = linspace(0,180,11);
+        r2_thre = 0.5;
+%         xCorr = linspace(-0.05,1.05,12);
+xCorr = linspace(-0.95,0.95,20);
+
+if sum(strcmp(models,'VA'))
+    
+    for pp = 1:size(mat_address,1)
+                %             for pp = 1:2
+                for jj = 1
+                    
+                    % spatial corr
+                    r_VA_VA_plot{pp}{jj} = r_VA_VA{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_VA_VA_sig{pp}{jj} = r_VA_VA_plot{pp}{jj}(p_VA_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VA = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'VA')));
+                    r2_VA_sig = r2_VA(p_VA_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    
+                    r_VA_VA_plot{pp}{jj} = r_VA_VA_plot{pp}{jj}(r2_VA>r2_thre);
+                    r_VA_VA_sig{pp}{jj} = r_VA_VA_sig{pp}{jj}(r2_VA_sig>r2_thre);
+                    
+                    
+                end
+    end
+    
+    
+     figure(39);set(figure(39),'name','Distribution of spatial corr coeff (V&A,VA model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_VA_VA{pp}(jj,:), ~] = hist(r_VA_VA_plot{pp}{jj},xCorr);
+                    [n_VA_VA_sig{pp}(jj,:), ~] = hist(r_VA_VA_sig{pp}{jj},xCorr);
+                    mediancorr_VA_VA{pp}{jj} = nanmedian(r_VA_VA_plot{pp}{jj});
+                    %                     mediancorr_VA_VA_sig{pp}{jj} = median(r_VA_VA_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_VA_VA{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_VA_VA_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( V vs. A)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_VA_VA{pp}{jj} mediancorr_VA_VA{pp}{jj}],[0 max(n_VA_VA_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_VA_VA{pp}{jj},max(n_VA_VA_sig{pp}(jj,:))*1.2,num2str(mediancorr_VA_VA{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (V&A,VA model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+end
+
+if sum(strcmp(models,'VAJ'))
+    for pp = 1:size(mat_address,1)
+                %             for pp = 1:2
+                for jj = 1
+                    
+                    % spatial corr
+                    r_VAJ_VA_plot{pp}{jj} = r_VAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_VAJ_VJ_plot{pp}{jj} = r_VAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_VAJ_AJ_plot{pp}{jj} = r_VAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    
+                    r_VAJ_VA_sig{pp}{jj} = r_VAJ_VA_plot{pp}{jj}(p_VAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_VAJ_VJ_sig{pp}{jj} = r_VAJ_VJ_plot{pp}{jj}(p_VAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_VAJ_AJ_sig{pp}{jj} = r_VAJ_AJ_plot{pp}{jj}(p_VAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAJ = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'VAJ')));
+                    r2_VAJ_VA_sig = r2_VAJ(p_VAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_VAJ_VJ_sig = r2_VAJ(p_VAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_VAJ_AJ_sig = r2_VAJ(p_VAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    
+                    r_VAJ_VA_plot{pp}{jj} = r_VAJ_VA_plot{pp}{jj}(r2_VAJ>r2_thre);
+                    r_VAJ_VJ_plot{pp}{jj} = r_VAJ_VJ_plot{pp}{jj}(r2_VAJ>r2_thre);
+                    r_VAJ_AJ_plot{pp}{jj} = r_VAJ_AJ_plot{pp}{jj}(r2_VAJ>r2_thre);
+                    
+                    r_VAJ_VA_sig{pp}{jj} = r_VAJ_VA_sig{pp}{jj}(r2_VAJ_VA_sig>r2_thre);
+                    r_VAJ_VJ_sig{pp}{jj} = r_VAJ_VJ_sig{pp}{jj}(r2_VAJ_VJ_sig>r2_thre);
+                    r_VAJ_AJ_sig{pp}{jj} = r_VAJ_AJ_sig{pp}{jj}(r2_VAJ_AJ_sig>r2_thre);
+                    
+                    
+                    
+                end
+    end
+    
+                            figure(38);set(figure(38),'name','Distribution of spatial corr coeff (V&A,VAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_VA_VAJ{pp}(jj,:), ~] = hist(r_VAJ_VA_plot{pp}{jj},xCorr);
+                    [n_VA_VAJ_sig{pp}(jj,:), ~] = hist(r_VAJ_VA_sig{pp}{jj},xCorr);
+                    mediancorr_VA_VAJ{pp}{jj} = median(r_VAJ_VA_plot{pp}{jj});
+                    %                     mediancorr_VA_VAJ_sig{pp}{jj} = median(r_VAJ_VA_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_VA_VAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_VA_VAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( V vs. A)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_VA_VAJ{pp}{jj} mediancorr_VA_VAJ{pp}{jj}],[0 max(n_VA_VAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_VA_VAJ{pp}{jj},max(n_VA_VAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VA_VAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (V&A,VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+          
+            figure(40);set(figure(40),'name','Distribution of spatial corr coeff (V&J,VAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_VJ_VAJ{pp}(jj,:), ~] = hist(r_VAJ_VJ_plot{pp}{jj},xCorr);
+                    [n_VJ_VAJ_sig{pp}(jj,:), ~] = hist(r_VAJ_VJ_sig{pp}{jj},xCorr);
+                    mediancorr_VJ_VAJ{pp}{jj} = median(r_VAJ_VJ_plot{pp}{jj});
+                    %                     mediancorr_VJ_VAJ_sig{pp}{jj} = median(r_VAJ_VJ_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_VJ_VAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_VJ_VAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( V vs. J)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_VJ_VAJ{pp}{jj} mediancorr_VJ_VAJ{pp}{jj}],[0 max(n_VJ_VAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_VJ_VAJ{pp}{jj},max(n_VJ_VAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VJ_VAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (V&J,VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            figure(41);set(figure(41),'name','Distribution of spatial corr coeff (A&J,VAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_AJ_VAJ{pp}(jj,:), ~] = hist(r_VAJ_AJ_plot{pp}{jj},xCorr);
+                    [n_AJ_VAJ_sig{pp}(jj,:), ~] = hist(r_VAJ_AJ_sig{pp}{jj},xCorr);
+                    mediancorr_AJ_VAJ{pp}{jj} = median(r_VAJ_AJ_plot{pp}{jj});
+                    %                     mediancorr_AJ_VAJ_sig{pp}{jj} = median(r_VAJ_AJ_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_AJ_VAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_AJ_VAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( A vs. J)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_AJ_VAJ{pp}{jj} mediancorr_AJ_VAJ{pp}{jj}],[0 max(n_AJ_VAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_AJ_VAJ{pp}{jj},max(n_AJ_VAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_AJ_VAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (A&J,VAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+    
+    
+end
+
+
+if sum(strcmp(models,'VAP'))
+    
+    for pp = 1:size(mat_address,1)
+                %             for pp = 1:2
+                for jj = 1
+                    
+                     % spatial corr
+                    r_VAP_VA_plot{pp}{jj} = r_VAP_VA{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_VAP_VP_plot{pp}{jj} = r_VAP_VP{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_VAP_AP_plot{pp}{jj} = r_VAP_AP{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    
+                    r_VAP_VA_sig{pp}{jj} = r_VAP_VA_plot{pp}{jj}(p_VAP_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_VAP_VP_sig{pp}{jj} = r_VAP_VP_plot{pp}{jj}(p_VAP_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_VAP_AP_sig{pp}{jj} = r_VAP_AP_plot{pp}{jj}(p_VAP_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_VAP = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'VAP')));
+                    r2_VAP_VA_sig = r2_VAP(p_VAP_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_VAP_VP_sig = r2_VAP(p_VAP_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_VAP_AP_sig = r2_VAP(p_VAP_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    
+                    r_VAP_VA_plot{pp}{jj} = r_VAP_VA_plot{pp}{jj}(r2_VAP>r2_thre);
+                    r_VAP_VP_plot{pp}{jj} = r_VAP_VP_plot{pp}{jj}(r2_VAP>r2_thre);
+                    r_VAP_AP_plot{pp}{jj} = r_VAP_AP_plot{pp}{jj}(r2_VAP>r2_thre);
+                    
+                    r_VAP_VA_sig{pp}{jj} = r_VAP_VA_sig{pp}{jj}(r2_VAP_VA_sig>r2_thre);
+                    r_VAP_VP_sig{pp}{jj} = r_VAP_VP_sig{pp}{jj}(r2_VAP_VP_sig>r2_thre);
+                    r_VAP_AP_sig{pp}{jj} = r_VAP_AP_sig{pp}{jj}(r2_VAP_AP_sig>r2_thre);
+                    
+                end
+    end
+    
+                figure(37);set(figure(37),'name','Distribution of spatial corr coeff (V&A,VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_VA_VAP{pp}(jj,:), ~] = hist(r_VAP_VA_plot{pp}{jj},xCorr);
+                    [n_VA_VAP_sig{pp}(jj,:), ~] = hist(r_VAP_VA_sig{pp}{jj},xCorr);
+                    mediancorr_VA_VAP{pp}{jj} = median(r_VAP_VA_plot{pp}{jj});
+                    %                     mediancorr_VA_VAP_sig{pp}{jj} = median(r_VAP_VA_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_VA_VAP{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_VA_VAP_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( V vs. A)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_VA_VAP{pp}{jj} mediancorr_VA_VAP{pp}{jj}],[0 max(n_VA_VAP_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_VA_VAP{pp}{jj},max(n_VA_VAP_sig{pp}(jj,:))*1.2,num2str(mediancorr_VA_VAP{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (V&A,VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+        
+            
+            figure(42);set(figure(42),'name','Distribution of spatial corr coeff (V&P,VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_VP_VAP{pp}(jj,:), ~] = hist(r_VAP_VP_plot{pp}{jj},xCorr);
+                    [n_VP_VAP_sig{pp}(jj,:), ~] = hist(r_VAP_VP_sig{pp}{jj},xCorr);
+                    mediancorr_VP_VAP{pp}{jj} = median(r_VAP_VP_plot{pp}{jj});
+                    %                     mediancorr_VP_VAP_sig{pp}{jj} = median(r_VAP_VP_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_VP_VAP{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_VP_VAP_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( V vs. P)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_VP_VAP{pp}{jj} mediancorr_VP_VAP{pp}{jj}],[0 max(n_VP_VAP_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_VP_VAP{pp}{jj},max(n_VP_VAP_sig{pp}(jj,:))*1.2,num2str(mediancorr_VP_VAP{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (V&P,VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+           
+            figure(43);set(figure(43),'name','Distribution of spatial corr coeff (A&P,VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_AP_VAP{pp}(jj,:), ~] = hist(r_VAP_AP_plot{pp}{jj},xCorr);
+                    [n_AP_VAP_sig{pp}(jj,:), ~] = hist(r_VAP_AP_sig{pp}{jj},xCorr);
+                    mediancorr_AP_VAP{pp}{jj} = median(r_VAP_AP_plot{pp}{jj});
+                    %                     mediancorr_AP_VAP_sig{pp}{jj} = median(r_VAP_AP_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_AP_VAP{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_AP_VAP_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( A vs. P)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_AP_VAP{pp}{jj} mediancorr_AP_VAP{pp}{jj}],[0 max(n_AP_VAP_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_AP_VAP{pp}{jj},max(n_AP_VAP_sig{pp}(jj,:))*1.2,num2str(mediancorr_AP_VAP{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (A&P,VAP model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+    
+end
+
+
+if sum(strcmp(models,'PVAJ'))
+    for pp = 1:size(mat_address,1)
+                %             for pp = 1:2
+                for jj = 1
+                    
+                    % spatial corr
+                    
+                    r_PVAJ_VA_plot{pp}{jj} = r_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_PVAJ_VP_plot{pp}{jj} = r_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_PVAJ_AP_plot{pp}{jj} = r_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_PVAJ_VJ_plot{pp}{jj} = r_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_PVAJ_AJ_plot{pp}{jj} = r_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_PVAJ_JP_plot{pp}{jj} = r_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    
+                    r_PVAJ_VA_sig{pp}{jj} = r_PVAJ_VA_plot{pp}{jj}(p_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_PVAJ_VJ_sig{pp}{jj} = r_PVAJ_VJ_plot{pp}{jj}(p_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_PVAJ_AJ_sig{pp}{jj} = r_PVAJ_AJ_plot{pp}{jj}(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_PVAJ_VP_sig{pp}{jj} = r_PVAJ_VP_plot{pp}{jj}(p_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_PVAJ_AP_sig{pp}{jj} = r_PVAJ_AP_plot{pp}{jj}(p_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_PVAJ_JP_sig{pp}{jj} = r_PVAJ_JP_plot{pp}{jj}(p_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'PVAJ')));
+                    r2_PVAJ_VA_sig = r2_PVAJ(p_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_PVAJ_VP_sig = r2_PVAJ(p_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_PVAJ_AP_sig = r2_PVAJ(p_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_PVAJ_VJ_sig = r2_PVAJ(p_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_PVAJ_JP_sig = r2_PVAJ(p_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_PVAJ_AJ_sig = r2_PVAJ(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    
+                    r_PVAJ_VA_plot{pp}{jj} = r_PVAJ_VA_plot{pp}{jj}(r2_PVAJ>r2_thre);
+                    r_PVAJ_VP_plot{pp}{jj} = r_PVAJ_VP_plot{pp}{jj}(r2_PVAJ>r2_thre);
+                    r_PVAJ_AP_plot{pp}{jj} = r_PVAJ_AP_plot{pp}{jj}(r2_PVAJ>r2_thre);
+                    r_PVAJ_VJ_plot{pp}{jj} = r_PVAJ_VJ_plot{pp}{jj}(r2_PVAJ>r2_thre);
+                    r_PVAJ_JP_plot{pp}{jj} = r_PVAJ_JP_plot{pp}{jj}(r2_PVAJ>r2_thre);
+                    r_PVAJ_AJ_plot{pp}{jj} = r_PVAJ_AJ_plot{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                    r_PVAJ_VA_sig{pp}{jj} = r_PVAJ_VA_sig{pp}{jj}(r2_PVAJ_VA_sig>r2_thre);
+                    r_PVAJ_VP_sig{pp}{jj} = r_PVAJ_VP_sig{pp}{jj}(r2_PVAJ_VP_sig>r2_thre);
+                    r_PVAJ_AP_sig{pp}{jj} = r_PVAJ_AP_sig{pp}{jj}(r2_PVAJ_AP_sig>r2_thre);
+                    r_PVAJ_VJ_sig{pp}{jj} = r_PVAJ_VJ_sig{pp}{jj}(r2_PVAJ_VJ_sig>r2_thre);
+                    r_PVAJ_JP_sig{pp}{jj} = r_PVAJ_JP_sig{pp}{jj}(r2_PVAJ_JP_sig>r2_thre);
+                    r_PVAJ_AJ_sig{pp}{jj} = r_PVAJ_AJ_sig{pp}{jj}(r2_PVAJ_AJ_sig>r2_thre);
+                    
+                end
+    end
+    
+    figure(31);set(figure(31),'name','Distribution of spatial corr coeff (V&A,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    try
+                        [n_VA_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_VA_plot{pp}{jj},xCorr);
+                        [n_VA_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_VA_sig{pp}{jj},xCorr);
+                        mediancorr_VA_PVAJ{pp}{jj} = median(r_PVAJ_VA_plot{pp}{jj});
+                        %                     mediancorr_VA_PVAJ_sig{pp}{jj} = median(r_PVAJ_VA_sig{pp}{jj});
+                        axes(h_subplot((jj-1)*2+pp));hold on;
+                        hbar = bar(xCorr,n_VA_PVAJ{pp}(jj,:));
+                        set(hbar,'facecolor','w','edgecolor','k');
+                        hbar = bar(xCorr,n_VA_PVAJ_sig{pp}(jj,:));
+                        set(hbar,'facecolor','k','edgecolor','k');
+                        %             set(gca,'xtick',[]);
+                        xlabel('spatial corr coeff ( V vs. A)');ylabel('cell #');axis on;
+%                         set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                        plot([mediancorr_VA_PVAJ{pp}{jj} mediancorr_VA_PVAJ{pp}{jj}],[0 max(n_VA_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                        text(mediancorr_VA_PVAJ{pp}{jj},max(n_VA_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VA_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    catch
+                        keyboard;
+                    end
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (V&A,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            figure(32);set(figure(32),'name','Distribution of spatial corr coeff (V&J,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_VJ_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_VJ_plot{pp}{jj},xCorr);
+                    [n_VJ_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_VJ_sig{pp}{jj},xCorr);
+                    mediancorr_VJ_PVAJ{pp}{jj} = median(r_PVAJ_VJ_plot{pp}{jj});
+                    %                     mediancorr_VJ_PVAJ_sig{pp}{jj} = median(r_PVAJ_VJ_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_VJ_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_VJ_PVAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( V vs. J)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_VJ_PVAJ{pp}{jj} mediancorr_VJ_PVAJ{pp}{jj}],[0 max(n_VJ_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_VJ_PVAJ{pp}{jj},max(n_VJ_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VJ_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (V&J,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            figure(33);set(figure(33),'name','Distribution of spatial corr coeff (A&J,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_AJ_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_AJ_plot{pp}{jj},xCorr);
+                    [n_AJ_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_AJ_sig{pp}{jj},xCorr);
+                    mediancorr_AJ_PVAJ{pp}{jj} = median(r_PVAJ_AJ_plot{pp}{jj});
+                    %                     mediancorr_AJ_PVAJ_sig{pp}{jj} = median(r_PVAJ_AJ_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_AJ_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_AJ_PVAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( A vs. J)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_AJ_PVAJ{pp}{jj} mediancorr_AJ_PVAJ{pp}{jj}],[0 max(n_AJ_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_AJ_PVAJ{pp}{jj},max(n_AJ_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_AJ_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (A&J,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            figure(34);set(figure(34),'name','Distribution of spatial corr coeff (V&P,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_VP_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_VP_plot{pp}{jj},xCorr);
+                    [n_VP_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_VP_sig{pp}{jj},xCorr);
+                    mediancorr_VP_PVAJ{pp}{jj} = median(r_PVAJ_VP_plot{pp}{jj});
+                    %                     mediancorr_VP_PVAJ_sig{pp}{jj} = median(r_PVAJ_VP_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_VP_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_VP_PVAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( V vs. P)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_VP_PVAJ{pp}{jj} mediancorr_VP_PVAJ{pp}{jj}],[0 max(n_VP_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_VP_PVAJ{pp}{jj},max(n_VP_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VP_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (V&P,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            figure(35);set(figure(35),'name','Distribution of spatial corr coeff (A&P,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_AP_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_AP_plot{pp}{jj},xCorr);
+                    [n_AP_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_AP_sig{pp}{jj},xCorr);
+                    mediancorr_AP_PVAJ{pp}{jj} = median(r_PVAJ_AP_plot{pp}{jj});
+                    %                     mediancorr_AP_PVAJ_sig{pp}{jj} = median(r_PVAJ_AP_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_AP_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_AP_PVAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( A vs. P)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_AP_PVAJ{pp}{jj} mediancorr_AP_PVAJ{pp}{jj}],[0 max(n_AP_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_AP_PVAJ{pp}{jj},max(n_AP_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_AP_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (A&P,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            figure(36);set(figure(36),'name','Distribution of spatial corr coeff (J&P,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
+            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    [n_JP_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_JP_plot{pp}{jj},xCorr);
+                    [n_JP_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_JP_sig{pp}{jj},xCorr);
+                    mediancorr_JP_PVAJ{pp}{jj} = median(r_PVAJ_JP_plot{pp}{jj});
+                    %                     mediancorr_JP_PVAJ_sig{pp}{jj} = median(r_PVAJ_JP_sig{pp}{jj});
+                    axes(h_subplot((jj-1)*2+pp));hold on;
+                    hbar = bar(xCorr,n_JP_PVAJ{pp}(jj,:));
+                    set(hbar,'facecolor','w','edgecolor','k');
+                    hbar = bar(xCorr,n_JP_PVAJ_sig{pp}(jj,:));
+                    set(hbar,'facecolor','k','edgecolor','k');
+                    %             set(gca,'xtick',[]);
+                    xlabel('spatial corr coeff ( J vs. P)');ylabel('cell #');axis on;
+%                     set(gca,'xlim',[0 1]);
+set(gca,'xlim',[-1 1]);
+                    plot([mediancorr_JP_PVAJ{pp}{jj} mediancorr_JP_PVAJ{pp}{jj}],[0 max(n_JP_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+                    text(mediancorr_JP_PVAJ{pp}{jj},max(n_JP_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_JP_PVAJ{pp}{jj}),'color','k','fontsize',8);
+                    
+                end
+            end
+            suptitle(['Distribution of spatial corr coeff (J&P,PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+    
+end
+
+
+end
+
+function f2p2p16p2(debug)      % Spatial correlation vs weight vs r2: V,A,J,P (PVAJ model)
+        if debug  ; dbstack;   keyboard;      end
+        
+        xDiff = linspace(0,180,11);
+        r2_thre = 0.7;
+%         xCorr = linspace(-0.05,1.05,12);
+xCorr = linspace(-0.95,0.95,20);
+condi = {'translation','rotation'};
+
+if sum(strcmp(models,'PVAJ'))
+    for pp = 1:size(mat_address,1)
+                %             for pp = 1:2
+                for jj = 1
+                    
+                    % spatial corr
+                    
+                    r_PVAJ_VA_plot{pp}{jj} = r_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_PVAJ_VP_plot{pp}{jj} = r_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_PVAJ_AP_plot{pp}{jj} = r_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_PVAJ_VJ_plot{pp}{jj} = r_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_PVAJ_AJ_plot{pp}{jj} = r_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    r_PVAJ_JP_plot{pp}{jj} = r_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj));
+                    
+                    r_PVAJ_VA_sig{pp}{jj} = r_PVAJ_VA_plot{pp}{jj}(p_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_PVAJ_VJ_sig{pp}{jj} = r_PVAJ_VJ_plot{pp}{jj}(p_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_PVAJ_AJ_sig{pp}{jj} = r_PVAJ_AJ_plot{pp}{jj}(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_PVAJ_VP_sig{pp}{jj} = r_PVAJ_VP_plot{pp}{jj}(p_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_PVAJ_AP_sig{pp}{jj} = r_PVAJ_AP_plot{pp}{jj}(p_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r_PVAJ_JP_sig{pp}{jj} = r_PVAJ_JP_plot{pp}{jj}(p_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    
+                    % only use which r2 > threshold (0.5)
+                    r2_PVAJ{pp}{jj} = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'PVAJ')));
+                    r2_PVAJ_VA_sig{pp}{jj} = r2_PVAJ{pp}{jj}(p_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_PVAJ_VP_sig{pp}{jj} = r2_PVAJ{pp}{jj}(p_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_PVAJ_AP_sig{pp}{jj} = r2_PVAJ{pp}{jj}(p_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_PVAJ_VJ_sig{pp}{jj} = r2_PVAJ{pp}{jj}(p_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_PVAJ_JP_sig{pp}{jj} = r2_PVAJ{pp}{jj}(p_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    r2_PVAJ_AJ_sig{pp}{jj} = r2_PVAJ{pp}{jj}(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05);
+                    
+                    r_PVAJ_VA_plot{pp}{jj} = r_PVAJ_VA_plot{pp}{jj}(r2_PVAJ{pp}{jj}>r2_thre);
+                    r_PVAJ_VP_plot{pp}{jj} = r_PVAJ_VP_plot{pp}{jj}(r2_PVAJ{pp}{jj}>r2_thre);
+                    r_PVAJ_AP_plot{pp}{jj} = r_PVAJ_AP_plot{pp}{jj}(r2_PVAJ{pp}{jj}>r2_thre);
+                    r_PVAJ_VJ_plot{pp}{jj} = r_PVAJ_VJ_plot{pp}{jj}(r2_PVAJ{pp}{jj}>r2_thre);
+                    r_PVAJ_JP_plot{pp}{jj} = r_PVAJ_JP_plot{pp}{jj}(r2_PVAJ{pp}{jj}>r2_thre);
+                    r_PVAJ_AJ_plot{pp}{jj} = r_PVAJ_AJ_plot{pp}{jj}(r2_PVAJ{pp}{jj}>r2_thre);
+                    
+                    r_PVAJ_VA_sig{pp}{jj} = r_PVAJ_VA_sig{pp}{jj}(r2_PVAJ_VA_sig{pp}{jj}>r2_thre);
+                    r_PVAJ_VP_sig{pp}{jj} = r_PVAJ_VP_sig{pp}{jj}(r2_PVAJ_VP_sig{pp}{jj}>r2_thre);
+                    r_PVAJ_AP_sig{pp}{jj} = r_PVAJ_AP_sig{pp}{jj}(r2_PVAJ_AP_sig{pp}{jj}>r2_thre);
+                    r_PVAJ_VJ_sig{pp}{jj} = r_PVAJ_VJ_sig{pp}{jj}(r2_PVAJ_VJ_sig{pp}{jj}>r2_thre);
+                    r_PVAJ_JP_sig{pp}{jj} = r_PVAJ_JP_sig{pp}{jj}(r2_PVAJ_JP_sig{pp}{jj}>r2_thre);
+                    r_PVAJ_AJ_sig{pp}{jj} = r_PVAJ_AJ_sig{pp}{jj}(r2_PVAJ_AJ_sig{pp}{jj}>r2_thre);
+                    
+                    % weight
+                    wV_PVAJ_plot{pp}{jj} = wV_PVAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wA_PVAJ_plot{pp}{jj} = wA_PVAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wJ_PVAJ_plot{pp}{jj} = wJ_PVAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    wP_PVAJ_plot{pp}{jj} = wP_PVAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
+                    
+                    wV_PVAJ_plot_notsig{pp}{jj} = wV_PVAJ_plot{pp}{jj}(r2_PVAJ{pp}{jj}>r2_thre);
+                    wA_PVAJ_plot_notsig{pp}{jj} = wA_PVAJ_plot{pp}{jj}(r2_PVAJ{pp}{jj}>r2_thre);
+                    wJ_PVAJ_plot_notsig{pp}{jj} = wJ_PVAJ_plot{pp}{jj}(r2_PVAJ{pp}{jj}>r2_thre);
+                    wP_PVAJ_plot_notsig{pp}{jj} = wP_PVAJ_plot{pp}{jj}(r2_PVAJ{pp}{jj}>r2_thre);
+                    
+%                     wV_PVAJ_plot_sig{pp}{jj} = wV_PVAJ_plot_sig{pp}{jj}(r2_PVAJ>r2_thre);
+%                     wA_PVAJ_plot_sig{pp}{jj} = wA_PVAJ_plot_sig{pp}{jj}(r2_PVAJ>r2_thre);
+%                     wJ_PVAJ_plot_sig{pp}{jj} = wJ_PVAJ_plot_sig{pp}{jj}(r2_PVAJ>r2_thre);
+%                     wP_PVAJ_plot_sig{pp}{jj} = wP_PVAJ_plot_sig{pp}{jj}(r2_PVAJ>r2_thre);
+                    
+                end
+    end
+    
+     %%%%%%%%% r2
+%{
+    figure(31);set(figure(31),'name',['Spatial corr coeff vs weight (PVAJ model)',condi{pp}],'unit','normalized' ,'pos',[-0.55 -0.5 0.3 1.5]); clf;
+            [~,h_subplot] = tight_subplot(6,2,0.02,0.03,[0.05 0.02]);
+            for pp = 1:size(mat_address,1)
+                for jj = 1
+                    try
+                        axes(h_subplot(pp));hold on;
+                        plot(r_PVAJ_VA_plot{pp}{jj},r2_PVAJ{pp}{jj},'bo');
+                        plot(r_PVAJ_VA_sig{pp}{jj},r2_PVAJ_VA_sig{pp}{jj},'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VA_');ylabel('r2');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 1]);
+                        
+                        axes(h_subplot(pp+2));hold on;
+                        plot(r_PVAJ_VJ_plot{pp}{jj},r2_PVAJ{pp}{jj},'bo');
+                        plot(r_PVAJ_VJ_sig{pp}{jj},r2_PVAJ_VJ_sig{pp}{jj},'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VJ_');ylabel('r2');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 1]);
+                        
+                        axes(h_subplot(pp+4));hold on;
+                        plot(r_PVAJ_AJ_plot{pp}{jj},r2_PVAJ{pp}{jj},'bo');
+                        plot(r_PVAJ_AJ_sig{pp}{jj},r2_PVAJ_AJ_sig{pp}{jj},'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _AJ_');ylabel('r2');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 1]);
+                        
+                        axes(h_subplot(pp+6));hold on;
+                        plot(r_PVAJ_VP_plot{pp}{jj},r2_PVAJ{pp}{jj},'bo');
+                        plot(r_PVAJ_VP_sig{pp}{jj},r2_PVAJ_VP_sig{pp}{jj},'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VP_');ylabel('r2');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 1]);
+                        
+                        axes(h_subplot(pp+8));hold on;
+                        plot(r_PVAJ_AP_plot{pp}{jj},r2_PVAJ{pp}{jj},'bo');
+                        plot(r_PVAJ_AP_sig{pp}{jj},r2_PVAJ_AP_sig{pp}{jj},'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _AP_');ylabel('r2');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 1]);
+                        
+                        
+                        axes(h_subplot(pp+10));hold on;
+                        plot(r_PVAJ_JP_plot{pp}{jj},r2_PVAJ{pp}{jj},'bo');
+                        plot(r_PVAJ_JP_sig{pp}{jj},r2_PVAJ_JP_sig{pp}{jj},'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _JP_');ylabel('r2');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 1]);
+                        
+                        catch
+                        keyboard;
+                    end
+                end
+            end
+            suptitle(['Spatial corr coeff vs r2 (PVAJ model) (Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            
+            
+            %}
+            
+            %%%%%%% weight
+            
+%             %{
+            for pp = 1:size(mat_address,1)
+                figure(50+pp);set(figure(50+pp),'name',['Spatial corr coeff vs weight (PVAJ model)',condi{pp}],'unit','normalized' ,'pos',[-0.55 -0.5 0.55 1.5]); clf;
+                [~,h_subplot] = tight_subplot(6,4,0.02,0.05,[0.05 0.02]);
+                jj = 1;
+                    try
+                        %%%% velocity
+                        axes(h_subplot(1));hold on;
+                        plot(r_PVAJ_VA_plot{pp}{jj},wV_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VA_sig{pp}{jj},wV_PVAJ_plot{pp}{jj}(p_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VA_');ylabel('wV');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(5));hold on;
+                        plot(r_PVAJ_VJ_plot{pp}{jj},wV_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VJ_sig{pp}{jj},wV_PVAJ_plot{pp}{jj}(p_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VJ_');ylabel('wV');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(9));hold on;
+                        plot(r_PVAJ_AJ_plot{pp}{jj},wV_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_AJ_sig{pp}{jj},wV_PVAJ_plot{pp}{jj}(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _AJ_');ylabel('wV');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(13));hold on;
+                        plot(r_PVAJ_VP_plot{pp}{jj},wV_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VP_sig{pp}{jj},wV_PVAJ_plot{pp}{jj}(p_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VP_');ylabel('wV');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(17));hold on;
+                        plot(r_PVAJ_AP_plot{pp}{jj},wV_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_AP_sig{pp}{jj},wV_PVAJ_plot{pp}{jj}(p_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _AP_');ylabel('wV');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(21));hold on;
+                        plot(r_PVAJ_JP_plot{pp}{jj},wV_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_JP_sig{pp}{jj},wV_PVAJ_plot{pp}{jj}(p_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _JP_');ylabel('wV');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        
+                        %%%% wA
+                        axes(h_subplot(2));hold on;
+                        plot(r_PVAJ_VA_plot{pp}{jj},wA_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VA_sig{pp}{jj},wA_PVAJ_plot{pp}{jj}(p_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VA_');ylabel('wA');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(6));hold on;
+                        plot(r_PVAJ_VJ_plot{pp}{jj},wA_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VJ_sig{pp}{jj},wA_PVAJ_plot{pp}{jj}(p_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VJ_');ylabel('wA');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(10));hold on;
+                        plot(r_PVAJ_AJ_plot{pp}{jj},wA_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_AJ_sig{pp}{jj},wA_PVAJ_plot{pp}{jj}(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _AJ_');ylabel('wA');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(14));hold on;
+                        plot(r_PVAJ_VP_plot{pp}{jj},wA_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VP_sig{pp}{jj},wA_PVAJ_plot{pp}{jj}(p_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VP_');ylabel('wA');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(18));hold on;
+                        plot(r_PVAJ_AP_plot{pp}{jj},wA_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_AP_sig{pp}{jj},wA_PVAJ_plot{pp}{jj}(p_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _AP_');ylabel('wA');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(22));hold on;
+                        plot(r_PVAJ_JP_plot{pp}{jj},wA_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_JP_sig{pp}{jj},wA_PVAJ_plot{pp}{jj}(p_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _JP_');ylabel('wA');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        %%%% wJ
+                        axes(h_subplot(3));hold on;
+                        plot(r_PVAJ_VA_plot{pp}{jj},wJ_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VA_sig{pp}{jj},wJ_PVAJ_plot{pp}{jj}(p_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VA_');ylabel('wJ');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(7));hold on;
+                        plot(r_PVAJ_VJ_plot{pp}{jj},wJ_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VJ_sig{pp}{jj},wJ_PVAJ_plot{pp}{jj}(p_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VJ_');ylabel('wJ');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(11));hold on;
+                        plot(r_PVAJ_AJ_plot{pp}{jj},wJ_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_AJ_sig{pp}{jj},wJ_PVAJ_plot{pp}{jj}(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _AJ_');ylabel('wJ');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(15));hold on;
+                        plot(r_PVAJ_VP_plot{pp}{jj},wJ_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VP_sig{pp}{jj},wJ_PVAJ_plot{pp}{jj}(p_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VP_');ylabel('wJ');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(19));hold on;
+                        plot(r_PVAJ_AP_plot{pp}{jj},wJ_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_AP_sig{pp}{jj},wJ_PVAJ_plot{pp}{jj}(p_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _AP_');ylabel('wJ');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(23));hold on;
+                        plot(r_PVAJ_JP_plot{pp}{jj},wJ_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_JP_sig{pp}{jj},wJ_PVAJ_plot{pp}{jj}(p_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _JP_');ylabel('wJ');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        %%%% wP
+                        axes(h_subplot(4));hold on;
+                        plot(r_PVAJ_VA_plot{pp}{jj},wP_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VA_sig{pp}{jj},wP_PVAJ_plot{pp}{jj}(p_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VA_');ylabel('wP');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(8));hold on;
+                        plot(r_PVAJ_VJ_plot{pp}{jj},wP_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VJ_sig{pp}{jj},wP_PVAJ_plot{pp}{jj}(p_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VJ_');ylabel('wP');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(12));hold on;
+                        plot(r_PVAJ_AJ_plot{pp}{jj},wP_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_AJ_sig{pp}{jj},wP_PVAJ_plot{pp}{jj}(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _AJ_');ylabel('wP');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(16));hold on;
+                        plot(r_PVAJ_VP_plot{pp}{jj},wP_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_VP_sig{pp}{jj},wP_PVAJ_plot{pp}{jj}(p_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _VP_');ylabel('wP');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(20));hold on;
+                        plot(r_PVAJ_AP_plot{pp}{jj},wP_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_AP_sig{pp}{jj},wP_PVAJ_plot{pp}{jj}(p_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _AP_');ylabel('wP');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        axes(h_subplot(24));hold on;
+                        plot(r_PVAJ_JP_plot{pp}{jj},wP_PVAJ_plot_notsig{pp}{jj},'bo');
+                        plot(r_PVAJ_JP_sig{pp}{jj},wP_PVAJ_plot{pp}{jj}(p_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('Spatial corr, _JP_');ylabel('wP');
+                        axis on;axis square;
+                        set(gca,'ylim',[0 0.6]);
+                        
+                        
+                        catch
+                        keyboard;
+                    end
+                    
+                suptitle(['Spatial corr coeff vs weight (PVAJ model),' ,condi{pp} '(Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+                
+            end
+      
+            %}
+ 
+            % 
+             %{
+            
+                figure(70);set(figure(70),'name',['Spatial corr coeff vs weight (PVAJ model)'],'unit','normalized' ,'pos',[-0.55 -0.5 0.55 1.5]); clf;
+                [~,h_subplot] = tight_subplot(6,2,0.02,0.05,[0.05 0.02]);
+                for pp = 1:size(mat_address,1)
+                jj = 1;
+                    try
+
+                        axes(h_subplot(pp));hold on;
+                   wV_sig{pp}{jj} = wV_PVAJ_plot{pp}{jj}(p_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+                        wA_sig{pp}{jj} = wA_PVAJ_plot{pp}{jj}(p_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+%                         contourf(wV_sig{pp}{jj},wA_sig{pp}{jj},r_PVAJ_VA_sig{pp}{jj},'linecolor','w','linestyle','none','linewidth',3);
+                        plot3(wV_sig{pp}{jj},wA_sig{pp}{jj},r_PVAJ_VA_sig{pp}{jj},'bo');
+%                         plot(r_PVAJ_VA_plot{pp}{jj},wV_PVAJ_plot_notsig{pp}{jj},'bo');
+%                         plot(r_PVAJ_VA_sig{pp}{jj},wV_PVAJ_plot{pp}{jj}(p_PVAJ_VA{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre),'bo','markerfacecolor','b');
+                        xlabel('wV');ylabel('wA');zlabel('VA');
+                        axis on;axis square;view(3);
+%                         set(gca,'ylim',[0 0.6]);
+
+                        
+                        axes(h_subplot(pp+2));hold on;
+                        wV_sig{pp}{jj} = wV_PVAJ_plot{pp}{jj}(p_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+wJ_sig{pp}{jj} = wJ_PVAJ_plot{pp}{jj}(p_PVAJ_VJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+                         plot3(wV_sig{pp}{jj},wJ_sig{pp}{jj},r_PVAJ_VJ_sig{pp}{jj},'bo');
+                         xlabel('wV');ylabel('wJ');zlabel('VJ');
+                        axis on;axis square;view(3);
+                        
+                        axes(h_subplot(pp+4));hold on;
+                        wJ_sig{pp}{jj} = wJ_PVAJ_plot{pp}{jj}(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+wA_sig{pp}{jj} = wA_PVAJ_plot{pp}{jj}(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+                         plot3(wA_sig{pp}{jj},wJ_sig{pp}{jj},r_PVAJ_AJ_sig{pp}{jj},'bo');
+                         xlabel('wA');ylabel('wJ');zlabel('AJ');
+                        axis on;axis square;view(3);
+                        
+                        axes(h_subplot(pp+6));hold on;
+                        wP_sig{pp}{jj} = wP_PVAJ_plot{pp}{jj}(p_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);                                              
+wV_sig{pp}{jj} = wV_PVAJ_plot{pp}{jj}(p_PVAJ_VP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+                         plot3(wV_sig{pp}{jj},wP_sig{pp}{jj},r_PVAJ_VP_sig{pp}{jj},'bo');
+                         xlabel('wV');ylabel('wP');zlabel('VP');
+                        axis on;axis square;view(3);
+                        
+                       axes(h_subplot(pp+8));hold on;
+                        wA_sig{pp}{jj} = wA_PVAJ_plot{pp}{jj}(p_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+wP_sig{pp}{jj} = wP_PVAJ_plot{pp}{jj}(p_PVAJ_AP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+                         plot3(wA_sig{pp}{jj},wP_sig{pp}{jj},r_PVAJ_AP_sig{pp}{jj},'bo');
+                         xlabel('wA');ylabel('wP');zlabel('AP');
+                        axis on;axis square;view(3);
+                        
+                        axes(h_subplot(pp+10));hold on;
+                        wJ_sig{pp}{jj} = wJ_PVAJ_plot{pp}{jj}(p_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+                        wP_sig{pp}{jj} = wP_PVAJ_plot{pp}{jj}(p_PVAJ_JP{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+                         plot3(wJ_sig{pp}{jj},wP_sig{pp}{jj},r_PVAJ_JP_sig{pp}{jj},'bo');
+                         xlabel('wJ');ylabel('wP');zlabel('JP');
+                        axis on;axis square;view(3);
+                        
+                        catch
+                        keyboard;
+                    end
+
+            end
+      suptitle(['Spatial corr coeff vs weight (PVAJ model),' ,condi{pp} '(Monkey = ',monkey_to_print,')']);
+            SetFigure(12);
+            %}
+            
+    
+            % color, AJ
+            
+            %{
+            figure;
+            for pp = 1:size(mat_address,1)
+                jj = 1;
+                wJ_sig{pp}{jj} = wJ_PVAJ_plot{pp}{jj}(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+wA_sig{pp}{jj} = wA_PVAJ_plot{pp}{jj}(p_PVAJ_AJ{pp}{jj}(select_temporalSig{pp}(:,jj))<0.05 & r2_PVAJ{pp}{jj}>r2_thre);
+                         
+                subplot(1,2,pp);
+                scatter(wA_sig{pp}{jj},wJ_sig{pp}{jj},[],r_PVAJ_AJ_sig{pp}{jj});
+                colorbar;xlabel('wA');ylabel('wJ');
+                axis square;
+            end
+            
+            %}
+            
+end
+
+
+end
+
+    
     function f2p2p2(debug)      % Preferred direction & angle difference distribution ( V vs. A)
         if debug  ; dbstack;   keyboard;      end
         
         xDiff = linspace(0,180,11);
         r2_thre = 0.5;
-        xCorr = linspace(-0.05,1.05,12);
+%         xCorr = linspace(-0.05,1.05,12);
+xCorr = linspace(-0.95,0.95,20);
         
         %{
         % PD VA model vs PVAJ model
@@ -5101,8 +6685,7 @@ end
                     preDir_A_VA_azi{pp}{jj} = preDir_A_VA_azi{pp}{jj}(r2_VA>r2_thre);
                     preDir_A_VA_ele{pp}{jj} = preDir_A_VA_ele{pp}{jj}(r2_VA>r2_thre);
                     
-                    % spatial corr
-                    r_VA_VA_sig{pp}{jj} = r_VA_VA{pp}{jj}(p_VA_VA{pp}{jj}<0.05);
+                    
                     
                     
                     %                     %{
@@ -5190,29 +6773,7 @@ end
             suptitle(['Distribution of the difference between preferred directions (V&A,VA model) (Monkey = ',monkey_to_print,')']);
             SetFigure(12);
             
-            figure(39);set(figure(39),'name','Distribution of spatial corr coeff (V&A,VA model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_VA_VA{pp}(jj,:), ~] = hist(r_VA_VA{pp}{jj},xCorr);
-                    [n_VA_VA_sig{pp}(jj,:), ~] = hist(r_VA_VA_sig{pp}{jj},xCorr);
-                    mediancorr_VA_VA{pp}{jj} = nanmedian(r_VA_VA{pp}{jj});
-                    %                     mediancorr_VA_VA_sig{pp}{jj} = median(r_VA_VA_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_VA_VA{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_VA_VA_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( V vs. A)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_VA_VA{pp}{jj} mediancorr_VA_VA{pp}{jj}],[0 max(n_VA_VA_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_VA_VA{pp}{jj},max(n_VA_VA_sig{pp}(jj,:))*1.2,num2str(mediancorr_VA_VA{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (V&A,VA model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
+            
         end
         
         
@@ -5245,13 +6806,7 @@ end
                     %                     preDir_A_PVAJ_azi_sig{pp}{jj} = preDir_A_PVAJ_azi_sig{pp}{jj}(r2_PVAJ>r2_thre);
                     %                     preDir_A_PVAJ_ele_sig{pp}{jj} = preDir_A_PVAJ_ele_sig{pp}{jj}(r2_PVAJ>r2_thre);
                     %
-                    % spatial corr
-                    r_PVAJ_VA_sig{pp}{jj} = r_PVAJ_VA{pp}{jj}(p_PVAJ_VA{pp}{jj}<0.05);
-                    r_PVAJ_VJ_sig{pp}{jj} = r_PVAJ_VJ{pp}{jj}(p_PVAJ_VJ{pp}{jj}<0.05);
-                    r_PVAJ_AJ_sig{pp}{jj} = r_PVAJ_AJ{pp}{jj}(p_PVAJ_AJ{pp}{jj}<0.05);
-                    r_PVAJ_VP_sig{pp}{jj} = r_PVAJ_VP{pp}{jj}(p_PVAJ_VP{pp}{jj}<0.05);
-                    r_PVAJ_AP_sig{pp}{jj} = r_PVAJ_AP{pp}{jj}(p_PVAJ_AP{pp}{jj}<0.05);
-                    r_PVAJ_JP_sig{pp}{jj} = r_PVAJ_JP{pp}{jj}(p_PVAJ_JP{pp}{jj}<0.05);
+                    
                     
                     
                     % spatial tuning significance
@@ -5322,157 +6877,7 @@ end
             suptitle(['Distribution of the difference between preferred directions (V&A,PVAJ model) (Monkey = ',monkey_to_print,')']);
             SetFigure(12);
             
-            figure(31);set(figure(31),'name','Distribution of spatial corr coeff (V&A,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    try
-                        [n_VA_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_VA{pp}{jj},xCorr);
-                        [n_VA_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_VA_sig{pp}{jj},xCorr);
-                        mediancorr_VA_PVAJ{pp}{jj} = median(r_PVAJ_VA{pp}{jj});
-                        %                     mediancorr_VA_PVAJ_sig{pp}{jj} = median(r_PVAJ_VA_sig{pp}{jj});
-                        axes(h_subplot((jj-1)*2+pp));hold on;
-                        hbar = bar(xCorr,n_VA_PVAJ{pp}(jj,:));
-                        set(hbar,'facecolor','w','edgecolor','k');
-                        hbar = bar(xCorr,n_VA_PVAJ_sig{pp}(jj,:));
-                        set(hbar,'facecolor','k','edgecolor','k');
-                        %             set(gca,'xtick',[]);
-                        xlabel('spatial corr coeff ( V vs. A)');ylabel('cell #');axis on;
-                        set(gca,'xlim',[0 1]);
-                        plot([mediancorr_VA_PVAJ{pp}{jj} mediancorr_VA_PVAJ{pp}{jj}],[0 max(n_VA_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                        text(mediancorr_VA_PVAJ{pp}{jj},max(n_VA_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VA_PVAJ{pp}{jj}),'color','k','fontsize',8);
-                    catch
-                        keyboard;
-                    end
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (V&A,PVAJ model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
-            
-            
-            figure(32);set(figure(32),'name','Distribution of spatial corr coeff (V&J,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_VJ_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_VJ{pp}{jj},xCorr);
-                    [n_VJ_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_VJ_sig{pp}{jj},xCorr);
-                    mediancorr_VJ_PVAJ{pp}{jj} = median(r_PVAJ_VJ{pp}{jj});
-                    %                     mediancorr_VJ_PVAJ_sig{pp}{jj} = median(r_PVAJ_VJ_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_VJ_PVAJ{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_VJ_PVAJ_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( V vs. J)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_VJ_PVAJ{pp}{jj} mediancorr_VJ_PVAJ{pp}{jj}],[0 max(n_VJ_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_VJ_PVAJ{pp}{jj},max(n_VJ_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VJ_PVAJ{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (V&J,PVAJ model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
-            
-            
-            figure(33);set(figure(33),'name','Distribution of spatial corr coeff (A&J,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_AJ_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_AJ{pp}{jj},xCorr);
-                    [n_AJ_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_AJ_sig{pp}{jj},xCorr);
-                    mediancorr_AJ_PVAJ{pp}{jj} = median(r_PVAJ_AJ{pp}{jj});
-                    %                     mediancorr_AJ_PVAJ_sig{pp}{jj} = median(r_PVAJ_AJ_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_AJ_PVAJ{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_AJ_PVAJ_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( A vs. J)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_AJ_PVAJ{pp}{jj} mediancorr_AJ_PVAJ{pp}{jj}],[0 max(n_AJ_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_AJ_PVAJ{pp}{jj},max(n_AJ_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_AJ_PVAJ{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (A&J,PVAJ model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
-            
-            
-            figure(34);set(figure(34),'name','Distribution of spatial corr coeff (V&P,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_VP_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_VP{pp}{jj},xCorr);
-                    [n_VP_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_VP_sig{pp}{jj},xCorr);
-                    mediancorr_VP_PVAJ{pp}{jj} = median(r_PVAJ_VP{pp}{jj});
-                    %                     mediancorr_VP_PVAJ_sig{pp}{jj} = median(r_PVAJ_VP_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_VP_PVAJ{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_VP_PVAJ_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( V vs. P)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_VP_PVAJ{pp}{jj} mediancorr_VP_PVAJ{pp}{jj}],[0 max(n_VP_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_VP_PVAJ{pp}{jj},max(n_VP_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VP_PVAJ{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (V&P,PVAJ model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
-            
-            
-            figure(35);set(figure(35),'name','Distribution of spatial corr coeff (A&P,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_AP_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_AP{pp}{jj},xCorr);
-                    [n_AP_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_AP_sig{pp}{jj},xCorr);
-                    mediancorr_AP_PVAJ{pp}{jj} = median(r_PVAJ_AP{pp}{jj});
-                    %                     mediancorr_AP_PVAJ_sig{pp}{jj} = median(r_PVAJ_AP_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_AP_PVAJ{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_AP_PVAJ_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( A vs. P)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_AP_PVAJ{pp}{jj} mediancorr_AP_PVAJ{pp}{jj}],[0 max(n_AP_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_AP_PVAJ{pp}{jj},max(n_AP_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_AP_PVAJ{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (A&P,PVAJ model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
-            
-            
-            figure(36);set(figure(36),'name','Distribution of spatial corr coeff (J&P,PVAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_JP_PVAJ{pp}(jj,:), ~] = hist(r_PVAJ_JP{pp}{jj},xCorr);
-                    [n_JP_PVAJ_sig{pp}(jj,:), ~] = hist(r_PVAJ_JP_sig{pp}{jj},xCorr);
-                    mediancorr_JP_PVAJ{pp}{jj} = median(r_PVAJ_JP{pp}{jj});
-                    %                     mediancorr_JP_PVAJ_sig{pp}{jj} = median(r_PVAJ_JP_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_JP_PVAJ{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_JP_PVAJ_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( J vs. P)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_JP_PVAJ{pp}{jj} mediancorr_JP_PVAJ{pp}{jj}],[0 max(n_JP_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_JP_PVAJ{pp}{jj},max(n_JP_PVAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_JP_PVAJ{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (J&P,PVAJ model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
+           
             
         end
         
@@ -5493,11 +6898,6 @@ end
                     preDir_A_VAJ_azi{pp}{jj} = preDir_A_VAJ_azi{pp}{jj}(r2_VAJ>r2_thre);
                     preDir_A_VAJ_ele{pp}{jj} = preDir_A_VAJ_ele{pp}{jj}(r2_VAJ>r2_thre);
                     
-                    % spatial corr
-                    
-                    r_VAJ_VA_sig{pp}{jj} = r_VAJ_VA{pp}{jj}(p_VAJ_VA{pp}{jj}<0.05);
-                    r_VAJ_VJ_sig{pp}{jj} = r_VAJ_VJ{pp}{jj}(p_VAJ_VJ{pp}{jj}<0.05);
-                    r_VAJ_AJ_sig{pp}{jj} = r_VAJ_AJ{pp}{jj}(p_VAJ_AJ{pp}{jj}<0.05);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
@@ -5551,82 +6951,6 @@ end
             suptitle(['Distribution of the difference between preferred directions (V&A,VAJ model) (Monkey = ',monkey_to_print,')']);
             SetFigure(12);
             
-            figure(38);set(figure(38),'name','Distribution of spatial corr coeff (V&A,VAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_VA_VAJ{pp}(jj,:), ~] = hist(r_VAJ_VA{pp}{jj},xCorr);
-                    [n_VA_VAJ_sig{pp}(jj,:), ~] = hist(r_VAJ_VA_sig{pp}{jj},xCorr);
-                    mediancorr_VA_VAJ{pp}{jj} = median(r_VAJ_VA{pp}{jj});
-                    %                     mediancorr_VA_VAJ_sig{pp}{jj} = median(r_VAJ_VA_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_VA_VAJ{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_VA_VAJ_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( V vs. A)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_VA_VAJ{pp}{jj} mediancorr_VA_VAJ{pp}{jj}],[0 max(n_VA_VAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_VA_VAJ{pp}{jj},max(n_VA_VAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VA_VAJ{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (V&A,VAJ model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
-            
-            
-            
-            
-            
-            figure(40);set(figure(40),'name','Distribution of spatial corr coeff (V&J,VAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_VJ_VAJ{pp}(jj,:), ~] = hist(r_VAJ_VJ{pp}{jj},xCorr);
-                    [n_VJ_VAJ_sig{pp}(jj,:), ~] = hist(r_VAJ_VJ_sig{pp}{jj},xCorr);
-                    mediancorr_VJ_VAJ{pp}{jj} = median(r_VAJ_VJ{pp}{jj});
-                    %                     mediancorr_VJ_VAJ_sig{pp}{jj} = median(r_VAJ_VJ_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_VJ_VAJ{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_VJ_VAJ_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( V vs. J)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_VJ_VAJ{pp}{jj} mediancorr_VJ_VAJ{pp}{jj}],[0 max(n_VJ_VAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_VJ_VAJ{pp}{jj},max(n_VJ_VAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_VJ_VAJ{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (V&J,VAJ model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
-            
-            
-            figure(41);set(figure(41),'name','Distribution of spatial corr coeff (A&J,VAJ model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_AJ_VAJ{pp}(jj,:), ~] = hist(r_VAJ_AJ{pp}{jj},xCorr);
-                    [n_AJ_VAJ_sig{pp}(jj,:), ~] = hist(r_VAJ_AJ_sig{pp}{jj},xCorr);
-                    mediancorr_AJ_VAJ{pp}{jj} = median(r_VAJ_AJ{pp}{jj});
-                    %                     mediancorr_AJ_VAJ_sig{pp}{jj} = median(r_VAJ_AJ_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_AJ_VAJ{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_AJ_VAJ_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( A vs. J)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_AJ_VAJ{pp}{jj} mediancorr_AJ_VAJ{pp}{jj}],[0 max(n_AJ_VAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_AJ_VAJ{pp}{jj},max(n_AJ_VAJ_sig{pp}(jj,:))*1.2,num2str(mediancorr_AJ_VAJ{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (A&J,VAJ model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
             
         end
         
@@ -5647,11 +6971,7 @@ end
                     preDir_A_VAP_azi{pp}{jj} = preDir_A_VAP_azi{pp}{jj}(r2_VAP>r2_thre);
                     preDir_A_VAP_ele{pp}{jj} = preDir_A_VAP_ele{pp}{jj}(r2_VAP>r2_thre);
                     
-                    % spatial corr
                     
-                    r_VAP_VA_sig{pp}{jj} = r_VAP_VA{pp}{jj}(p_VAP_VA{pp}{jj}<0.05);
-                    r_VAP_VP_sig{pp}{jj} = r_VAP_VP{pp}{jj}(p_VAP_VP{pp}{jj}<0.05);
-                    r_VAP_AP_sig{pp}{jj} = r_VAP_AP{pp}{jj}(p_VAP_AP{pp}{jj}<0.05);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
@@ -5704,85 +7024,7 @@ end
             end
             suptitle(['Distribution of the difference between preferred directions (V&A,VAP model) (Monkey = ',monkey_to_print,')']);
             SetFigure(12);
-            
-            figure(37);set(figure(37),'name','Distribution of spatial corr coeff (V&A,VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_VA_VAP{pp}(jj,:), ~] = hist(r_VAP_VA{pp}{jj},xCorr);
-                    [n_VA_VAP_sig{pp}(jj,:), ~] = hist(r_VAP_VA_sig{pp}{jj},xCorr);
-                    mediancorr_VA_VAP{pp}{jj} = median(r_VAP_VA{pp}{jj});
-                    %                     mediancorr_VA_VAP_sig{pp}{jj} = median(r_VAP_VA_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_VA_VAP{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_VA_VAP_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( V vs. A)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_VA_VAP{pp}{jj} mediancorr_VA_VAP{pp}{jj}],[0 max(n_VA_VAP_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_VA_VAP{pp}{jj},max(n_VA_VAP_sig{pp}(jj,:))*1.2,num2str(mediancorr_VA_VAP{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (V&A,VAP model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
-            
-            
-            
-            
-            figure(42);set(figure(42),'name','Distribution of spatial corr coeff (V&P,VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_VP_VAP{pp}(jj,:), ~] = hist(r_VAP_VP{pp}{jj},xCorr);
-                    [n_VP_VAP_sig{pp}(jj,:), ~] = hist(r_VAP_VP_sig{pp}{jj},xCorr);
-                    mediancorr_VP_VAP{pp}{jj} = median(r_VAP_VP{pp}{jj});
-                    %                     mediancorr_VP_VAP_sig{pp}{jj} = median(r_VAP_VP_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_VP_VAP{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_VP_VAP_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( V vs. P)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_VP_VAP{pp}{jj} mediancorr_VP_VAP{pp}{jj}],[0 max(n_VP_VAP_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_VP_VAP{pp}{jj},max(n_VP_VAP_sig{pp}(jj,:))*1.2,num2str(mediancorr_VP_VAP{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (V&P,VAP model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
-            
-            
-            
-            
-            
-            figure(43);set(figure(43),'name','Distribution of spatial corr coeff (A&P,VAP model)','unit','normalized' ,'pos',[-0.55 -0.2 0.5 0.3]); clf;
-            [~,h_subplot] = tight_subplot(2,2,0.15,0.2,[0.1 0.02]);
-            for pp = 1:size(mat_address,1)
-                for jj = 1
-                    [n_AP_VAP{pp}(jj,:), ~] = hist(r_VAP_AP{pp}{jj},xCorr);
-                    [n_AP_VAP_sig{pp}(jj,:), ~] = hist(r_VAP_AP_sig{pp}{jj},xCorr);
-                    mediancorr_AP_VAP{pp}{jj} = median(r_VAP_AP{pp}{jj});
-                    %                     mediancorr_AP_VAP_sig{pp}{jj} = median(r_VAP_AP_sig{pp}{jj});
-                    axes(h_subplot((jj-1)*2+pp));hold on;
-                    hbar = bar(xCorr,n_AP_VAP{pp}(jj,:));
-                    set(hbar,'facecolor','w','edgecolor','k');
-                    hbar = bar(xCorr,n_AP_VAP_sig{pp}(jj,:));
-                    set(hbar,'facecolor','k','edgecolor','k');
-                    %             set(gca,'xtick',[]);
-                    xlabel('spatial corr coeff ( A vs. P)');ylabel('cell #');axis on;
-                    set(gca,'xlim',[0 1]);
-                    plot([mediancorr_AP_VAP{pp}{jj} mediancorr_AP_VAP{pp}{jj}],[0 max(n_AP_VAP_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(mediancorr_AP_VAP{pp}{jj},max(n_AP_VAP_sig{pp}(jj,:))*1.2,num2str(mediancorr_AP_VAP{pp}{jj}),'color','k','fontsize',8);
-                    
-                end
-            end
-            suptitle(['Distribution of spatial corr coeff (A&P,VAP model) (Monkey = ',monkey_to_print,')']);
-            SetFigure(12);
+
         end
         
     end
@@ -6170,29 +7412,29 @@ end
                     
                     
                     angleDiff_VJ_PVAJ_plot{pp}{jj} = angleDiff_VJ_PVAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
-                    angleDiff_VJ_PVAJ_plot_sig{pp}{jj} = angleDiff_VJ_PVAJ_plot{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_A{pp}{jj});
+%                     angleDiff_VJ_PVAJ_plot_sig{pp}{jj} = angleDiff_VJ_PVAJ_plot{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_A{pp}{jj});
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'PVAJ')));
                     angleDiff_VJ_PVAJ_plot{pp}{jj} = angleDiff_VJ_PVAJ_plot{pp}{jj}(r2_PVAJ>r2_thre);
-                    angleDiff_VJ_PVAJ_plot_sig{pp}{jj} = angleDiff_VJ_PVAJ_plot_sig{pp}{jj}(r2_PVAJ>r2_thre);
+%                     angleDiff_VJ_PVAJ_plot_sig{pp}{jj} = angleDiff_VJ_PVAJ_plot_sig{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     [n_Diff_VJ_PVAJ{pp}(jj,:), ~] = hist(angleDiff_VJ_PVAJ_plot{pp}{jj},xDiff);
                     medianDiff_VJ_PVAJ{pp}(jj) = median(angleDiff_VJ_PVAJ_plot{pp}{jj});
-                    [n_Diff_VJ_PVAJ_sig{pp}(jj,:), ~] = hist(angleDiff_VJ_PVAJ_plot_sig{pp}{jj},xDiff);
-                    medianDiff_VJ_PVAJ_sig{pp}(jj) = median(angleDiff_VJ_PVAJ_plot_sig{pp}{jj});
+%                     [n_Diff_VJ_PVAJ_sig{pp}(jj,:), ~] = hist(angleDiff_VJ_PVAJ_plot_sig{pp}{jj},xDiff);
+%                     medianDiff_VJ_PVAJ_sig{pp}(jj) = median(angleDiff_VJ_PVAJ_plot_sig{pp}{jj});
                     axes(h_subplot((jj-1)*2+pp));hold on;
                     hbar = bar(xDiff,n_Diff_VJ_PVAJ{pp}(jj,:));
                     set(hbar,'facecolor','k','edgecolor','k');
-                    hbarsig = bar(xDiff,n_Diff_VJ_PVAJ_sig{pp}(jj,:));
-                    set(hbarsig,'facecolor','k','edgecolor','k');
+%                     hbarsig = bar(xDiff,n_Diff_VJ_PVAJ_sig{pp}(jj,:));
+%                     set(hbarsig,'facecolor','k','edgecolor','k');
                     %             set(gca,'xtick',[]);
                     xlabel('Angle diff ( V vs. J)');ylabel('cell #');axis on;
                     set(gca,'xlim',[0-30 180+30]);
                     %                     plot([medianDiff_VJ_PVAJ{pp}(jj) medianDiff_VJ_PVAJ{pp}(jj)],[0 max(n_Diff_VJ_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
                     %                     text(medianDiff_VJ_PVAJ{pp}(jj),max(n_Diff_VJ_PVAJ{pp}(jj,:))*1.2,num2str(medianDiff_VJ_PVAJ{pp}(jj)),'color','k','fontsize',8);
-                    plot([medianDiff_VJ_PVAJ_sig{pp}(jj) medianDiff_VJ_PVAJ_sig{pp}(jj)],[0 max(n_Diff_VJ_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(medianDiff_VJ_PVAJ_sig{pp}(jj),max(n_Diff_VJ_PVAJ_sig{pp}(jj,:))*1.2,num2str(medianDiff_VJ_PVAJ_sig{pp}(jj)),'color','k','fontsize',8);
+%                     plot([medianDiff_VJ_PVAJ_sig{pp}(jj) medianDiff_VJ_PVAJ_sig{pp}(jj)],[0 max(n_Diff_VJ_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+%                     text(medianDiff_VJ_PVAJ_sig{pp}(jj),max(n_Diff_VJ_PVAJ_sig{pp}(jj,:))*1.2,num2str(medianDiff_VJ_PVAJ_sig{pp}(jj)),'color','k','fontsize',8);
                     
                 end
             end
@@ -6209,11 +7451,11 @@ end
                     preDir_A_PVAJ_ele{pp}{jj} = preDir_A_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),2);
                     preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),1);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_3D{pp}{jj}(select_temporalSig{pp}(:,jj),2);
-                    % use uniform test as spatial sig
-                    preDir_A_PVAJ_azi_sig{pp}{jj} = preDir_A_PVAJ_azi{pp}{jj}(PVAJ_spatialSig_A{pp}{jj}&PVAJ_spatialSig_P{pp}{jj});
-                    preDir_A_PVAJ_ele_sig{pp}{jj} = preDir_A_PVAJ_ele{pp}{jj}(PVAJ_spatialSig_A{pp}{jj}&PVAJ_spatialSig_P{pp}{jj});
-                    preDir_J_PVAJ_azi_sig{pp}{jj} = preDir_J_PVAJ_azi{pp}{jj}(PVAJ_spatialSig_A{pp}{jj}&PVAJ_spatialSig_P{pp}{jj});
-                    preDir_J_PVAJ_ele_sig{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(PVAJ_spatialSig_A{pp}{jj}&PVAJ_spatialSig_P{pp}{jj});
+%                     % use uniform test as spatial sig
+%                     preDir_A_PVAJ_azi_sig{pp}{jj} = preDir_A_PVAJ_azi{pp}{jj}(PVAJ_spatialSig_A{pp}{jj}&PVAJ_spatialSig_P{pp}{jj});
+%                     preDir_A_PVAJ_ele_sig{pp}{jj} = preDir_A_PVAJ_ele{pp}{jj}(PVAJ_spatialSig_A{pp}{jj}&PVAJ_spatialSig_P{pp}{jj});
+%                     preDir_J_PVAJ_azi_sig{pp}{jj} = preDir_J_PVAJ_azi{pp}{jj}(PVAJ_spatialSig_A{pp}{jj}&PVAJ_spatialSig_P{pp}{jj});
+%                     preDir_J_PVAJ_ele_sig{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(PVAJ_spatialSig_A{pp}{jj}&PVAJ_spatialSig_P{pp}{jj});
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'PVAJ')));
@@ -6222,15 +7464,15 @@ end
                     preDir_J_PVAJ_azi{pp}{jj} = preDir_J_PVAJ_azi{pp}{jj}(r2_PVAJ>r2_thre);
                     preDir_J_PVAJ_ele{pp}{jj} = preDir_J_PVAJ_ele{pp}{jj}(r2_PVAJ>r2_thre);
                     
-                    preDir_A_PVAJ_azi_sig{pp}{jj} = preDir_A_PVAJ_azi_sig{pp}{jj}(r2_PVAJ>r2_thre);
-                    preDir_A_PVAJ_ele_sig{pp}{jj} = preDir_A_PVAJ_ele_sig{pp}{jj}(r2_PVAJ>r2_thre);
-                    preDir_J_PVAJ_azi_sig{pp}{jj} = preDir_J_PVAJ_azi_sig{pp}{jj}(r2_PVAJ>r2_thre);
-                    preDir_J_PVAJ_ele_sig{pp}{jj} = preDir_J_PVAJ_ele_sig{pp}{jj}(r2_PVAJ>r2_thre);
+%                     preDir_A_PVAJ_azi_sig{pp}{jj} = preDir_A_PVAJ_azi_sig{pp}{jj}(r2_PVAJ>r2_thre);
+%                     preDir_A_PVAJ_ele_sig{pp}{jj} = preDir_A_PVAJ_ele_sig{pp}{jj}(r2_PVAJ>r2_thre);
+%                     preDir_J_PVAJ_azi_sig{pp}{jj} = preDir_J_PVAJ_azi_sig{pp}{jj}(r2_PVAJ>r2_thre);
+%                     preDir_J_PVAJ_ele_sig{pp}{jj} = preDir_J_PVAJ_ele_sig{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     axes(h_subplot((pp-1)*2+jj));hold on;
                     plot([0 360],[0 360],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_PVAJ_azi{pp}{jj},preDir_J_PVAJ_azi{pp}{jj},'o','markeredgecolor','k');
-                    plot(preDir_A_PVAJ_azi_sig{pp}{jj},preDir_J_PVAJ_azi_sig{pp}{jj},'o','markeredgecolor','k','markerfacecolor','k');
+%                     plot(preDir_A_PVAJ_azi_sig{pp}{jj},preDir_J_PVAJ_azi_sig{pp}{jj},'o','markeredgecolor','k','markerfacecolor','k');
                     % linear regression
                     preDir_A_J_PVAJ_azi{pp}{jj} = polyfit(preDir_A_PVAJ_azi{pp}{jj}, preDir_J_PVAJ_azi{pp}{jj}, 1);
                     plot(preDir_A_PVAJ_azi{pp}{jj}, polyval(preDir_A_J_PVAJ_azi{pp}{jj}, preDir_A_PVAJ_azi{pp}{jj}),'color',colors{jj},'linewidth',3);
@@ -6242,7 +7484,7 @@ end
                     axes(h_subplot((pp-1)*2+jj+4));hold on;
                     plot([-90 90],[-90 90],'-','color',[0.7 0.7 0.7]);
                     plot(preDir_A_PVAJ_ele{pp}{jj},preDir_J_PVAJ_ele{pp}{jj},'o','markeredgecolor','k');
-                    plot(preDir_A_PVAJ_ele_sig{pp}{jj},preDir_J_PVAJ_ele_sig{pp}{jj},'o','markeredgecolor','k','markerfacecolor','k');
+%                     plot(preDir_A_PVAJ_ele_sig{pp}{jj},preDir_J_PVAJ_ele_sig{pp}{jj},'o','markeredgecolor','k','markerfacecolor','k');
                     
                     % linear regression
                     preDir_A_J_PVAJ_ele{pp}{jj} = polyfit(preDir_A_PVAJ_ele{pp}{jj}, preDir_J_PVAJ_ele{pp}{jj}, 1);
@@ -6274,29 +7516,29 @@ end
                     
                     
                     angleDiff_AJ_PVAJ_plot{pp}{jj} = angleDiff_AJ_PVAJ_3D{pp}(select_temporalSig{pp}(:,jj),jj);
-                    angleDiff_AJ_PVAJ_plot_sig{pp}{jj} = angleDiff_AJ_PVAJ_plot{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_A{pp}{jj});
+%                     angleDiff_AJ_PVAJ_plot_sig{pp}{jj} = angleDiff_AJ_PVAJ_plot{pp}{jj}(PVAJ_spatialSig_V{pp}{jj}&PVAJ_spatialSig_A{pp}{jj});
                     
                     % only use which r2 > threshold (0.5)
                     r2_PVAJ = R2_3D{pp}{jj}(select_temporalSig{pp}(:,jj),find(strcmp(models,'PVAJ')));
                     angleDiff_AJ_PVAJ_plot{pp}{jj} = angleDiff_AJ_PVAJ_plot{pp}{jj}(r2_PVAJ>r2_thre);
-                    angleDiff_AJ_PVAJ_plot_sig{pp}{jj} = angleDiff_AJ_PVAJ_plot_sig{pp}{jj}(r2_PVAJ>r2_thre);
+%                     angleDiff_AJ_PVAJ_plot_sig{pp}{jj} = angleDiff_AJ_PVAJ_plot_sig{pp}{jj}(r2_PVAJ>r2_thre);
                     
                     [n_Diff_AJ_PVAJ{pp}(jj,:), ~] = hist(angleDiff_AJ_PVAJ_plot{pp}{jj},xDiff);
                     medianDiff_AJ_PVAJ{pp}(jj) = median(angleDiff_AJ_PVAJ_plot{pp}{jj});
-                    [n_Diff_AJ_PVAJ_sig{pp}(jj,:), ~] = hist(angleDiff_AJ_PVAJ_plot_sig{pp}{jj},xDiff);
-                    medianDiff_AJ_PVAJ_sig{pp}(jj) = median(angleDiff_AJ_PVAJ_plot_sig{pp}{jj});
+%                     [n_Diff_AJ_PVAJ_sig{pp}(jj,:), ~] = hist(angleDiff_AJ_PVAJ_plot_sig{pp}{jj},xDiff);
+%                     medianDiff_AJ_PVAJ_sig{pp}(jj) = median(angleDiff_AJ_PVAJ_plot_sig{pp}{jj});
                     axes(h_subplot((jj-1)*2+pp));hold on;
                     hbar = bar(xDiff,n_Diff_AJ_PVAJ{pp}(jj,:));
                     set(hbar,'facecolor','k','edgecolor','k');
-                    hbarsig = bar(xDiff,n_Diff_AJ_PVAJ_sig{pp}(jj,:));
-                    set(hbarsig,'facecolor','k','edgecolor','k');
+%                     hbarsig = bar(xDiff,n_Diff_AJ_PVAJ_sig{pp}(jj,:));
+%                     set(hbarsig,'facecolor','k','edgecolor','k');
                     %             set(gca,'xtick',[]);
                     xlabel('Angle diff ( A vs. J)');ylabel('cell #');axis on;
                     set(gca,'xlim',[0-30 180+30]);
                     %                     plot([medianDiff_AJ_PVAJ{pp}(jj) medianDiff_AJ_PVAJ{pp}(jj)],[0 max(n_Diff_AJ_PVAJ{pp}(jj,:))*1.1],'k--','linewidth',1.5);
                     %                     text(medianDiff_AJ_PVAJ{pp}(jj),max(n_Diff_AJ_PVAJ{pp}(jj,:))*1.2,num2str(medianDiff_AJ_PVAJ{pp}(jj)),'color','k','fontsize',8);
-                    plot([medianDiff_AJ_PVAJ_sig{pp}(jj) medianDiff_AJ_PVAJ_sig{pp}(jj)],[0 max(n_Diff_AJ_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
-                    text(medianDiff_AJ_PVAJ_sig{pp}(jj),max(n_Diff_AJ_PVAJ_sig{pp}(jj,:))*1.2,num2str(medianDiff_AJ_PVAJ_sig{pp}(jj)),'color','k','fontsize',8);
+%                     plot([medianDiff_AJ_PVAJ_sig{pp}(jj) medianDiff_AJ_PVAJ_sig{pp}(jj)],[0 max(n_Diff_AJ_PVAJ_sig{pp}(jj,:))*1.1],'k--','linewidth',1.5);
+%                     text(medianDiff_AJ_PVAJ_sig{pp}(jj),max(n_Diff_AJ_PVAJ_sig{pp}(jj,:))*1.2,num2str(medianDiff_AJ_PVAJ_sig{pp}(jj)),'color','k','fontsize',8);
                 end
             end
             suptitle(['Distribution of the difference between preferred directions (A&J,PVAJ model) (Monkey = ',monkey_to_print,')']);

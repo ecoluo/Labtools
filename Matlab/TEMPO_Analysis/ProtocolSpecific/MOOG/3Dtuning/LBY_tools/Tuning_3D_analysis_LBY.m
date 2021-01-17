@@ -43,6 +43,7 @@ switch PSTH.monkey_inx
         PSTH.monkey = 'MSTd';
 end
 
+numOfDir = 26;
 
 %% get data
 % stimulus type,azi,ele,amp and duration
@@ -56,7 +57,7 @@ switch Protocol
     case DIRECTION_TUNING_3D % for translation
         trials = 1:size(data.moog_params,2); % the No. of all trials
         % find the trials for analysis
-        temp_trials = trials( (data.moog_params(AZIMUTH,trials,MOOG) ~= data.one_time_params(NULL_VALUE)) ); % 26*rept trials
+        temp_trials = trials( (data.moog_params(AZIMUTH,trials,MOOG) ~= data.one_time_params(NULL_VALUE)) ); % numOfDir*rept trials
         temp_stimType = data.moog_params(STIM_TYPE,temp_trials,MOOG);
         unique_stimType = munique(temp_stimType');
         trials = 1:size(data.moog_params,2);		% a vector of trial indices
@@ -91,7 +92,7 @@ switch Protocol
     case ROTATION_TUNING_3D % for rotation
         trials = 1:size(data.moog_params,2); % the No. of all trials
         % find the trials for analysis
-        temp_trials = trials(find( (data.moog_params(ROT_AZIMUTH,trials,MOOG) ~= data.one_time_params(NULL_VALUE)) )); % 26*rept trials
+        temp_trials = trials(find( (data.moog_params(ROT_AZIMUTH,trials,MOOG) ~= data.one_time_params(NULL_VALUE)) )); % numOfDir*rept trials
         temp_stimType = data.moog_params(STIM_TYPE,temp_trials,MOOG);
         unique_stimType = munique(temp_stimType');
         trials = 1:size(data.moog_params,2);		% a vector of trial indices
@@ -150,7 +151,7 @@ spike_data = squeeze(data.spike_data(SpikeChan,:,real_trials)); % sipke data in 
 spike_data( spike_data > 100 ) = 1; % something is absolutely wrong, recorrect to 1
 spon_spk_data = squeeze(data.spike_data(SpikeChan,:,spon_trials));
 
-max_reps = ceil(sum(real_trials)/length(unique_stimType)/26); % fake max repetations
+max_reps = ceil(sum(real_trials)/length(unique_stimType)/numOfDir); % fake max repetations
 %% pack data for PSTH, modeling and analysis
 % conditions: k=1,2,3
 % Elevation: j= -90,-45,0,45,90 (up->down)
@@ -224,7 +225,7 @@ for k = 1:length(unique_stimType)
     PSTH.spk_data_bin_mean_rate_ste{k} = [];
     PSTH.spk_data_bin_rate_aov{k} = [];% for PSTH ANOVA
     
-    PSTH.spk_data_bin_rate_aov{k} = nan*ones(26,nBins,max_reps);
+    PSTH.spk_data_bin_rate_aov{k} = nan*ones(numOfDir,nBins,max_reps);
     
     for j = 1:length(unique_elevation)
         for i = 1:length(unique_azimuth)
@@ -324,7 +325,7 @@ for k = 1:length(unique_stimType)
     end
     spk_data_count_rate_anova_trans{k} = reshape(cell2mat(spk_data_count_rate_anova(k,:)),[numReps(k),length(spk_data_count_rate_anova(k,:))]);
     p_anova_dire(k) = anova1(spk_data_count_rate_anova_trans{k},'','off'); % tuning anova
-    resp_std(k) = sum(resp_sse(k,:))/(sum(resp_trialnum(k,:))-26);
+    resp_std(k) = sum(resp_sse(k,:))/(sum(resp_trialnum(k,:))-numOfDir);
     DDI(k) = (maxSpkRealMean(k)-minSpkRealMean(k))/(maxSpkRealMean(k)-minSpkRealMean(k)+2*sqrt(resp_std(k)));
     [Azi, Ele, Amp] = vectorsum(PSTH.spk_data_vector{k}(:,:));
     preferDire{k} = [Azi, Ele, Amp];
@@ -550,7 +551,7 @@ for k = 1:length(unique_stimType)
             
             try
                 p_anova_dire_t{k}(pt) = anova1(squeeze(PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:))','','off'); % tuning anova
-                resp_std_t{k}(pt) = sum(resp_sse_t{k}(:,pt))/(sum(resp_trialnum_t{k}(:,pt))-26);
+                resp_std_t{k}(pt) = sum(resp_sse_t{k}(:,pt))/(sum(resp_trialnum_t{k}(:,pt))-numOfDir);
                 maxSpkRealMean_t{k}(pt) = max(max(nanmean((PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:)),3)));
                 minSpkRealMean_t{k}(pt) = min(min(nanmean((PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:)),3)));
                 DDI_t{k}(pt) = (maxSpkRealMean_t{k}(pt)-minSpkRealMean_t{k}(pt))/(maxSpkRealMean_t{k}(pt)-minSpkRealMean_t{k}(pt)+2*sqrt(resp_std_t{k}(pt)));
@@ -561,8 +562,8 @@ for k = 1:length(unique_stimType)
                     temp = squeeze(PSTH.spk_data_bin_rate_aov{k}(:,PSTH.peak{k}(pt),:));
                     
                     temp = temp(:);
-                    temp = temp(randperm(26*size(PSTH.spk_data_bin_rate_aov{k},3)));
-                    temp = reshape(temp,26,[]);
+                    temp = temp(randperm(numOfDir*size(PSTH.spk_data_bin_rate_aov{k},3)));
+                    temp = reshape(temp,numOfDir,[]);
                     temp = nanmean(temp,2);
                     maxSpkRealMean_perm_t{k}(nn,pt) = max(temp);
                     minSpkRealMean_perm_t{k}(nn,pt) = min(temp);
@@ -602,7 +603,7 @@ eleMin = 6 - eleMax;
             end
 
             p_anova_dire_bin{k} = anova1(squeeze(PSTH.spk_data_bin_rate_aov{k}(:,pt,:))','','off'); % tuning anova
-            resp_std_bin{k} = sum(resp_sse_bin{k}(:))/(sum(resp_trialnum_bin{k}(:))-26);
+            resp_std_bin{k} = sum(resp_sse_bin{k}(:))/(sum(resp_trialnum_bin{k}(:))-numOfDir);
             maxSpkRealMean_bin{k} = PSTH.spk_data_bin_mean_rate{k}(eleMax,aziMax,pt);
             minSpkRealMean_bin1{k} = PSTH.spk_data_bin_mean_rate{k}(eleMin,aziMin,pt);
             minSpkRealMean_bin2{k} = min(min(PSTH.spk_data_bin_mean_rate{k}(:,:,pt)));
@@ -615,8 +616,8 @@ eleMin = 6 - eleMax;
             for nn = 1 : num_perm
                 temp = squeeze(PSTH.spk_data_bin_rate_aov{k}(:,pt,:));
                 temp = temp(:);
-                temp = temp(randperm(26*size(PSTH.spk_data_bin_rate_aov{k},3)));
-                temp = reshape(temp,26,[]);
+                temp = temp(randperm(numOfDir*size(PSTH.spk_data_bin_rate_aov{k},3)));
+                temp = reshape(temp,numOfDir,[]);
                 temp = nanmean(temp,2);
                 maxSpkRealMean_perm_bin{k}(nn) = max(temp);
                 minSpkRealMean_perm_bin{k}(nn) = min(temp);
@@ -652,7 +653,7 @@ eleMin = 6 - eleMax;
         end
         try
             p_anova_dire_bin{k}(pt) = anova1(squeeze(PSTH.spk_data_bin_rate_aov{k}(:,pt,:))','','off'); % tuning anova
-            resp_std_bin{k}(pt) = sum(resp_sse_bin{k}(:,pt))/(sum(resp_trialnum_bin{k}(:,pt))-26);
+            resp_std_bin{k}(pt) = sum(resp_sse_bin{k}(:,pt))/(sum(resp_trialnum_bin{k}(:,pt))-numOfDir);
             maxSpkRealMean_bin{k}(pt) = max(max(nanmean((PSTH.spk_data_bin_rate_aov{k}(:,pt,:)),3)));
             minSpkRealMean_bin{k}(pt) = min(min(nanmean((PSTH.spk_data_bin_rate_aov{k}(:,pt,:)),3)));
             DDI_bin{k}(pt) = (maxSpkRealMean_bin{k}(pt)-minSpkRealMean_bin{k}(pt))/(maxSpkRealMean_bin{k}(pt)-minSpkRealMean_bin{k}(pt)+2*sqrt(resp_std_bin{k}(pt)));
@@ -662,8 +663,8 @@ eleMin = 6 - eleMax;
             for nn = 1 : num_perm
                 temp = squeeze(PSTH.spk_data_bin_rate_aov{k}(:,pt,:));
                 temp = temp(:);
-                temp = temp(randperm(26*size(PSTH.spk_data_bin_rate_aov{k},3)));
-                temp = reshape(temp,26,[]);
+                temp = temp(randperm(numOfDir*size(PSTH.spk_data_bin_rate_aov{k},3)));
+                temp = reshape(temp,numOfDir,[]);
                 temp = nanmean(temp,2);
                 maxSpkRealMean_perm_bin{k}(nn,pt) = max(temp);
                 minSpkRealMean_perm_bin{k}(nn,pt) = min(temp);
@@ -732,10 +733,10 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 model_catg = [];
 %% 3D models nalysis
 
-%{
-% model_catg = 'Sync model'; % tau is the same
+% %{
+model_catg = 'Sync model'; % tau is the same
 
-model_catg = 'Out-sync model'; % each component has its own tau
+% model_catg = 'Out-sync model'; % each component has its own tau
 
 % models = {'VA','VO','AO'};
 % models_color = {'k','r',colorDBlue};
@@ -747,8 +748,8 @@ model_catg = 'Out-sync model'; % each component has its own tau
 % models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
 % models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
 
-models = {'PVAJ'};
-models_color = {'k'};
+% models = {'PVAJ'};
+% models_color = {'k'};
 
 % models = {'PVAJ','VA'};
 % models_color = {'k','k'};
@@ -759,8 +760,8 @@ models_color = {'k'};
 % models = {'VAJ'};
 % models_color = {'k'};
 
-% models = {'VA','VAJ','VAP','PVAJ'};
-% models_color = {'k','k','k','k'};
+models = {'VA','VAJ','VAP','PVAJ'};
+models_color = {'k','k','k','k'};
 
 % models = {'VAJ','VAP','PVAJ'};
 % models_color = {'k','k','k'};
@@ -771,8 +772,8 @@ reps = 20;
 
 % reps = 2;
 
-% for k = 1:length(unique_stimType)
-for k = 1
+for k = 1:length(unique_stimType)
+% for k = 1
         if PSTH.respon_sigTrue(k) == 1
     
     % fit data with raw PSTH data or - spon data
@@ -1235,7 +1236,7 @@ end
 % keyboard;
 result = PackResult(FILE, PATH, SpikeChan, unique_stimType,Protocol, ... % Obligatory!!
     unique_azimuth, unique_elevation, unique_amplitude, unique_duration,...   % paras' info of trial
-    markers,...
+    markers,aMax,aMin,...
     timeWin, timeStep, tOffset1, tOffset2,nBins,Bin,PCAStep,PCAWin,nBinsPCA, ... % PSTH slide window info
     meanSpon, p_anova_dire, DDI,preferDire,PSTH,p_anova_dire_t,DDI_t,DDI_p_t,DDI_bin,DDI_p_bin,preferDire_t, ... % PSTH and mean FR info
     PSTH3Dmodel,PSTH1Dmodel); % model info

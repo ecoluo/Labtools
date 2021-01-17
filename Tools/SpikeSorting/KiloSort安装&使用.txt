@@ -1,0 +1,52 @@
+对于offline spike sorting的软件，在我调查过几个软件（Wave_clus, MKSort, Spike2, Plexon, KiloSort）之后，目前发现Neuropixel使用的KiloSort比较适合我们。
+
+其代码详见：
+1. 第一代 KiloSort：
+https://github.com/cortex-lab/KiloSort
+2. 第二代 KiloSort2：
+https://github.com/MouseLand/Kilosort2
+
+安装过程可能会遇到一些问题，所以我重新写了一下步骤和需要注意的问题：
+1. 首先安装MATLAB R2016b 以上版本。
+（我在share下的MATLAB文件夹中放了很多版本的MATLAB，但不推荐2019，尝试过找不到对应版本的后续软件），然后安装对应MATLAB版本的visual studio。
+（例如，我安装了MATLAB R2018b 和 visual studio 2013 community）
+注意安装顺序，先MATLAB，后visual studio。
+
+2. 在MATLAB改变compiler：
+>> mex -setup C++
+如果这一步报错，说明没有安装好对应版本的visual studio，可以根据提示安装好对应版本。
+然后选择版本
+>> mex -setup:'C:\Program Files\MATLAB\R2018b\bin\win64\mexopts\msvcpp2013.xml' C++
+
+3. 安装MATLAB&系统对应版本的cuda，比如我安装的是 cuda 9.1，这里还需要注意你的显卡驱动支持的cuda版本。(如果有问题，下一步会有提示)
+注意：Toolbox需要的GPU计算能力在3以上。
+
+4. 将从github上下载的KiloSort的路径加到MATLAB的路径，运行mexGPUall
+>> mexGPUall
+如果报错，会提示你对应的cuda版本是什么。
+
+5. 安装Anaconda，在Anaconda上安装Phy，详见：
+https://phy.readthedocs.io/en/latest/installation/ （理论上有这个就够了）
+https://github.com/cortex-lab/phy
+https://github.com/kwikteam/phy-contrib/blob/master/docs/template-gui.md 
+
+6. 安装用于Python Numpy和MATLAB之间转换的package， 详见：
+https://github.com/kwikteam/npy-matlab
+记得测试。
+
+7. 测试KiloSort
+用eMouse文件夹进行测试。
+>> master_eMouse
+可以得到最终的结果，然后用Phy可以进行编辑和查看等操作。
+在KiloSort2中可以在MATLAB中用kilosort命令的GUI直接进行查看，但是不能编辑。
+
+8. 如何把我们用AO记录的mpx文件转化为kilosort适用的格式？
+可以参见我之前写的一个GUI（SpikeSortingAO_k_GUI.m） https://github.com/ecoluo/Labtools/tree/master/Tools
+另外，由于linear array记录的数据与单电极的细微差异，我们的loadSortData、TEMPO_GUI等一系列文件都需要进行修改。
+我已经写好了目前可以使用的版本，虽然在运行速度上还有很多可以改进的地方，但是目前测试没有问题，欢迎大家试用。
+
+PS. 多通道记录的spike sorting中有一些很人为的地方，还需要多多考虑。
+
+有什么问题欢迎随时交流~ 
+@Bingyu 
+ 

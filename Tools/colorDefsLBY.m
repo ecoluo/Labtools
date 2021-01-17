@@ -4,7 +4,8 @@
 colorDGray = [90 90 90]/255; 
 colorLGray = [150 150 150]/255;
 colorDRed = [232 62 69]/255; %…Ó∫Ï
-colorLRed = [228 13 81]/255; %«≥∫Ï
+% colorLRed = [228 13 81]/255; %«≥∫Ï
+colorLRed =  [0.8 0.5 0.5]; %«≥∫Ï
 colorDBlue = [23 111 192]/255; %…Ó¿∂
 colorLBlue = [0 175 194]/255; %«≥¿∂
 colorDGreen = [76 190 87]/255; %…Ó¬Ã

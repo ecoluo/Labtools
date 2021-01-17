@@ -366,7 +366,7 @@ if paras.Results.XHist
         
         axis tight;
         xlim(xlims);
-        set(gca,'ylim',[0 10]);
+%         set(gca,'ylim',[0 10]);
     end
 end
 
@@ -422,7 +422,7 @@ if 1
         
         axis tight;
         xlim(ylims);
-        set(gca,'ylim',[0 15]);
+%         set(gca,'ylim',[0 15]);
     end
 end
 

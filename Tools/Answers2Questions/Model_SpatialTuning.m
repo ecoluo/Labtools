@@ -1,6 +1,6 @@
 % LBY 20180105
 
-% %{
+%{
 % close all;
 clear all;
 theta =-pi:0.1:pi;
@@ -40,7 +40,7 @@ SetFigure(25);
 
 clear all;
 theta =0:0.1:pi;
-oo = -2:0.2:2;
+oo = -1:0.2:0;
 x = cos(theta);
 pc = 0;
 

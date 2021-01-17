@@ -740,8 +740,8 @@ if isempty(findstr(fileName,'\'))    % If the directory has been ignored...
     
     monkeyN = str2num(fileName(strfind(fileName,'m')+1:strfind(fileName,'c')-1));
     switch monkeyN
-        case 2
-            handles.dataPath = 'Z:\Data\MOOG\Hetao\raw\';
+        case 4
+            handles.dataPath = 'Z:\Data\MOOG\baiya\raw\';
         case 5
             handles.dataPath = 'Z:\Data\MOOG\Polo\raw\';
         case 10
