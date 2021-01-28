@@ -198,13 +198,14 @@ stimOffBin = floor(tOffset1/timeStep)+floor(temp_duration(1)/timeStep);  % relat
 tBeg = 250; % in ms
 tEnd = 250; % in ms
 
-% % for d-prime,PCC
-% tBeg = 350; % in ms
-% tEnd = 600; % in ms
+% for d-prime,PCC
+tBeg = 200; % in ms.
+
+tEnd = 700; % in ms
 
 % V, A time profile
 mu = (aMax+aMin)/2/1000;
-sig = sqrt(sqrt(2))/6;
+sig = 1.5/2/4.5; % sig =  duration/2/num_of_sigma
 v_timeProfile = [ones(1,stimOnBin-1)*vel_profile([mu sig],stimOnBin*timeStep/1000),vel_profile([mu sig],(stimOnBin:stimOffBin)*timeStep/1000),ones(1,nBins-stimOffBin)*vel_profile([mu sig],stimOffBin*timeStep/1000)];
 a_timeProfile = [ones(1,stimOnBin-1)*acc_profile([mu sig],stimOnBin*timeStep/1000),acc_profile([mu sig],(stimOnBin:stimOffBin)*timeStep/1000),ones(1,nBins-stimOffBin)*acc_profile([mu sig],stimOffBin*timeStep/1000)];
 
@@ -293,7 +294,7 @@ for k = 1:length(unique_stimType)
             PSTH.spk_data_bin_mean_rate_ste{k}(j,i,:) = spk_data_bin_mean_rate_std{k}(j,i,:)/sqrt(size(PSTH.spk_data_bin_rate{k,j,i}(1,:),2));
             
             % pack data for contour
-            PSTH.spk_data_count_rate{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOffT(1)-tEnd,:),1)/((unique_duration(1,1)-tBeg-tEnd)/(tEnd -tBeg)); % rates
+            PSTH.spk_data_count_rate{k,j,i} = sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOffT(1)-tEnd,:),1)/((unique_duration(1,1)-tBeg-tEnd)/1000); % rates
             PSTH.spk_data_count_mean_rate{k}(j,i) = mean(PSTH.spk_data_count_rate{k,j,i}(:));% for countour plot and ANOVA
             spk_data_count_mean_rate_std{k}(j,i) = std(PSTH.spk_data_count_rate{k,j,i}(:));% for d-prime
             
@@ -733,7 +734,7 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 model_catg = [];
 %% 3D models nalysis
 
-% %{
+%{
 model_catg = 'Sync model'; % tau is the same
 
 % model_catg = 'Out-sync model'; % each component has its own tau
@@ -1238,7 +1239,7 @@ result = PackResult(FILE, PATH, SpikeChan, unique_stimType,Protocol, ... % Oblig
     unique_azimuth, unique_elevation, unique_amplitude, unique_duration,...   % paras' info of trial
     markers,aMax,aMin,...
     timeWin, timeStep, tOffset1, tOffset2,nBins,Bin,PCAStep,PCAWin,nBinsPCA, ... % PSTH slide window info
-    meanSpon, p_anova_dire, DDI,preferDire,PSTH,p_anova_dire_t,DDI_t,DDI_p_t,DDI_bin,DDI_p_bin,preferDire_t, ... % PSTH and mean FR info
+    meanSpon,spk_data_count_rate_anova, p_anova_dire, DDI,preferDire,PSTH,p_anova_dire_t,DDI_t,DDI_p_t,DDI_bin,DDI_p_bin,preferDire_t, ... % PSTH and mean FR info
     PSTH3Dmodel,PSTH1Dmodel); % model info
 
 switch Protocol

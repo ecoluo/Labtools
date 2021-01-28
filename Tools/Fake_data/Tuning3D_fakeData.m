@@ -22,7 +22,7 @@ coord = [-90 -45 0 45 90 270 225 180 135 90 45 0 315];
 
 maxSPK = 30; % the max value of spike
 mu = duration/2;
-sig = sqrt(sqrt(2))/6;
+sig = 1.5/2/4.5; % sig =  duration/2/num_of_sigma
 
 preDir = [68 20]; % [azimuth, elevation]
 preDir_V = [0 30]; % [azimuth, elevation]

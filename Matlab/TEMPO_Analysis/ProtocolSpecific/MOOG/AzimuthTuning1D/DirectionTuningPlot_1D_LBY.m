@@ -169,7 +169,7 @@ tEnd = 250; % in ms
 
 % V, A time profile
 mu = (aMax+aMin)/2/1000;
-% sig = sqrt(sqrt(2))/6*4.5;
+% sig = 1.5/2/4.5; % sig =  duration/2/num_of_sigma
 sig = unique_duration/1000/2./nSigmas;
 for cc = 1:length(sig)
     v_timeProfile{cc} = [ones(1,stimOnBin-1)*vel_profile([mu sig(cc)],stimOnBin*timeStep/1000),vel_profile([mu sig(cc)],(stimOnBin:stimOffBin)*timeStep/1000),ones(1,nBins-stimOffBin)*vel_profile([mu sig(cc)],stimOffBin*timeStep/1000)];

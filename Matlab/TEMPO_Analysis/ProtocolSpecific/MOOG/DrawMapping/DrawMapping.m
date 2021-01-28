@@ -696,7 +696,7 @@ switch monkey_hemis{monkey_hemi}
     case 'Polo_L'
         
         %  Polo_left
-        %{
+%         %{
         
         % Header
         toPlotTypes3D = [PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?
@@ -728,7 +728,7 @@ switch monkey_hemis{monkey_hemi}
     case 'Polo_R'
         
         %  Polo_right
-        %{
+%         %{
         
         % Header
         toPlotTypes3D = [PCC RSC IPS B3a];    % Which area types do we want to plot in 3D plot?

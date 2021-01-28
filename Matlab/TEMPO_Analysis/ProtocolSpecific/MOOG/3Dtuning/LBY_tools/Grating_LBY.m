@@ -136,7 +136,7 @@ tEnd = 250; % in ms
 
 % V, A time profile
 mu = (aMax+aMin)/2/1000;
-sig = sqrt(sqrt(2))/6;
+sig = 1.5/2/4.5; % sig =  duration/2/num_of_sigma
 v_timeProfile = [ones(1,stimOnBin-1)*vel_profile([mu sig],stimOnBin*timeStep/1000),vel_profile([mu sig],(stimOnBin:stimOffBin)*timeStep/1000),ones(1,nBins-stimOffBin)*vel_profile([mu sig],stimOffBin*timeStep/1000)];
 a_timeProfile = [ones(1,stimOnBin-1)*acc_profile([mu sig],stimOnBin*timeStep/1000),acc_profile([mu sig],(stimOnBin:stimOffBin)*timeStep/1000),ones(1,nBins-stimOffBin)*acc_profile([mu sig],stimOffBin*timeStep/1000)];
 

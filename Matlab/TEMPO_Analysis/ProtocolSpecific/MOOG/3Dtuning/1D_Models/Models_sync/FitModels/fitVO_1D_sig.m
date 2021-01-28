@@ -21,7 +21,7 @@ time = (1: (stimOffBin - stimOnBin +1))' /(stimOffBin - stimOnBin +1)*duration/1
 st_data = [u_azi;time]; % spatial_time data, transform to this form for fitting
 
 % fitting initial parameters
-% sig = sqrt(sqrt(2))/6;
+% sig = 1.5/2/4.5; % sig =  duration/2/num_of_sigma
 baseline = spon;
 acc_max = aMax/1000; % transfer unit from ms to s
 acc_min = aMin/1000; % transfer unit from ms to s

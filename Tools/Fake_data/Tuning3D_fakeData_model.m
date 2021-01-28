@@ -19,7 +19,7 @@ coord = [-90 -45 0 45 90 270 225 180 135 90 45 0 315];
 
 maxSPK = 80; % the max value of spike
 mu = duration/2;
-sig = sqrt(sqrt(2))/6;
+sig = 1.5/2/4.5; % sig =  duration/2/num_of_sigma
 
 %%% change here
 progressbar('fake data & model fitting');

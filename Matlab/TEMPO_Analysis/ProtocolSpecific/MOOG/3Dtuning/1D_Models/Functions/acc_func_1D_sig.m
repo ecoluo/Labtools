@@ -5,7 +5,7 @@ function respon = acc_func_1D_sig(a,t)
 
 mu = a(1);
 sig = a(end);
-% sig = sqrt(sqrt(2))/6;
+% sig = 1.5/2/4.5; % sig =  duration/2/num_of_sigma
 % b = a(end); % add for threshold LBY20180105
 
 % Original
