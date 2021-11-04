@@ -39,7 +39,8 @@ a = 0;
 
 for i = 2:length(acc)
     
-vel(i) = acc(i)*(TEMPO1_Acceleration.times(i)-TEMPO1_Acceleration.times(i-1))+a;
+a = acc(i)*(TEMPO1_Acceleration.times(i)-TEMPO1_Acceleration.times(i-1))+a;
+vel(i) = a;
 
 end
 
@@ -51,14 +52,14 @@ time_vel = TEMPO1_Acceleration.times(3:duration*2000+2);
 time_acc = TEMPO1_Acceleration.times(3:duration*2000+2);
 veloc = vel([3:duration*2000+2]+delay);
 accel = acc([3:duration*2000+2]+delay);
-[~,vMaxT] = max(veloc); vMaxT = vMaxT/2
-[~,aMaxT] = max(accel); aMaxT = aMaxT/2
-[~,aMinT] = min(accel); aMinT = aMinT/2
+[~,vMaxT] = max(veloc); vMaxT = vMaxT/2;
+[~,aMaxT] = max(accel); aMaxT = aMaxT/2;
+[~,aMinT] = min(accel); aMinT = aMinT/2;
 velSmooth = smooth(veloc,100);
 accSmooth = smooth(accel,100);
-[~,vMaxTSmooth] = max(velSmooth); vMaxTSmooth = vMaxTSmooth/2
-[~,aMaxTSmooth] = max(accSmooth); aMaxTSmooth = aMaxTSmooth/2
-[~,aMinTSmooth] = min(accSmooth); aMinTSmooth = aMinTSmooth/2
+[~,vMaxTSmooth] = max(velSmooth); vMaxTSmooth = vMaxTSmooth/2;
+[~,aMaxTSmooth] = max(accSmooth); aMaxTSmooth = aMaxTSmooth/2;
+[~,aMinTSmooth] = min(accSmooth); aMinTSmooth = aMinTSmooth/2;
 
 
 figure(3);clf;

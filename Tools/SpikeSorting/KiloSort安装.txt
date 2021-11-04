@@ -29,6 +29,7 @@ https://github.com/MouseLand/Kilosort2
 https://phy.readthedocs.io/en/latest/installation/ （理论上有这个就够了）
 https://github.com/cortex-lab/phy
 https://github.com/kwikteam/phy-contrib/blob/master/docs/template-gui.md 
+运行指令出现GUI界面： phy template-gui params.py
 
 6. 安装用于Python Numpy和MATLAB之间转换的package， 详见：
 https://github.com/kwikteam/npy-matlab

@@ -43,7 +43,7 @@ switch PSTH.monkey_inx
         PSTH.monkey = 'MSTd';
 end
 
-numOfDir = 26;
+numOfDir = 6;
 
 %% get data
 % stimulus type,azi,ele,amp and duration
@@ -251,8 +251,8 @@ for k = 1:length(unique_stimType)
                 %                 PSTH.spk_data_bin_rate_aov{k,pc} = [];% for PSTH ANOVA
                 
                 try
-                    spk_data_count_rate_anova{k,pc} =  sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOffT(1)-tEnd,:),1)/((unique_duration(1,1)-tBeg-tEnd)/1000);
-                    spk_data_anova{k}(pc) = sum(spk_data_count_rate_anova{k,pc});
+%                     spk_data_count_rate_anova{k,pc} =  sum(spk_data{k,j,i}(stimOnT(1)+tBeg:stimOffT(1)-tEnd,:),1)/((unique_duration(1,1)-tBeg-tEnd)/1000);
+%                     spk_data_anova{k}(pc) = sum(spk_data_count_rate_anova{k,pc});
                 catch
                     keyboard;
                 end
@@ -540,7 +540,7 @@ for k = 1:length(unique_stimType)
         end
         PSTH.NoPeaks(k) = length(PSTH.peak{k});
         
-        
+        PSTH.spon_spk_data_bin_rate
         
         % calculate DDI for each peak time
 %         %{
@@ -725,7 +725,7 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 
 % preferDirectionOfTime;
 % CosineTuningPlot;
-% PSTH_3D_Tuning; % plot PSTHs across sessions;
+PSTH_3D_Tuning; % plot PSTHs across sessions;
 % Contour_3D_Tuning; % plot countour figures;
 % Contour_3D_Tuning_GIF; % plot countour figures(PD across time);
 % spatial_tuning;
@@ -734,7 +734,7 @@ Bin = [nBins,(stimOnT(1)-PSTH_onT+timeStep)/timeStep,(stimOffT(1)-PSTH_onT+timeS
 model_catg = [];
 %% 3D models nalysis
 
-%{
+% %{
 model_catg = 'Sync model'; % tau is the same
 
 % model_catg = 'Out-sync model'; % each component has its own tau
@@ -751,18 +751,18 @@ model_catg = 'Sync model'; % tau is the same
 
 % models = {'PVAJ'};
 % models_color = {'k'};
-
+% 
 % models = {'PVAJ','VA'};
 % models_color = {'k','k'};
-
+% 
 % models = {'VA'};
 % models_color = {'k'};
 
-% models = {'VAJ'};
-% models_color = {'k'};
-
-models = {'VA','VAJ','VAP','PVAJ'};
-models_color = {'k','k','k','k'};
+models = {'VAJ'};
+models_color = {'k'};
+% 
+% models = {'VA','VAJ','VAP','PVAJ'};
+% models_color = {'k','k','k','k'};
 
 % models = {'VAJ','VAP','PVAJ'};
 % models_color = {'k','k','k'};
@@ -773,8 +773,8 @@ reps = 20;
 
 % reps = 2;
 
-for k = 1:length(unique_stimType)
-% for k = 1
+% for k = 1:length(unique_stimType)
+for k = 1
         if PSTH.respon_sigTrue(k) == 1
     
     % fit data with raw PSTH data or - spon data
@@ -1009,14 +1009,14 @@ model_catg = 'Out-sync model'; % each component has its own tau
 % models = {'VO','AO','VJ','AJ','VP','AP'};
 % models_color = {'r',colorDBlue,colorLRed,colorLBlue,colorLRed,colorLBlue};
 
-models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
-models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
+% models = {'VO','AO','VA','VJ','AJ','VP','AP','VAP','VAJ','PVAJ'};
+% models_color = {'r',colorDBlue,colorDGreen,colorLRed,colorLBlue,colorLRed,colorLRed,'k','k','k'};
 
 % models = {'PVAJ'};
 % models_color = {'k'};
 
-% models = {'VAJ','VA'};
-% models_color = {'k','g'};
+models = {'VAJ','VA'};
+models_color = {'k','g'};
 %
 % models = {'VA','VAJ','VAP','PVAJ'};
 % models_color = {'k','k','k','k'};

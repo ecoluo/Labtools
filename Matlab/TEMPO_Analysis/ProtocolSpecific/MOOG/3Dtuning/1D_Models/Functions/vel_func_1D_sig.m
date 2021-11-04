@@ -9,5 +9,7 @@ sig = a(end);
 
 respon = exp((-(t-mu).^2)./(2*sig.^2));
 respon = respon./(max(respon)-min(respon));
+% respon = mapminmax(respon',0,1)';
+
 
 end

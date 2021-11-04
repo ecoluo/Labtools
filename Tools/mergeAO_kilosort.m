@@ -19,7 +19,7 @@ chOrder = [9,10,11,12,13,14,15,16,8,7,6,5,4,3,2,1]; % True order of your electro
 
 PathHandle = findobj(gcbf, 'Tag', 'Pathname');pathname = get(PathHandle,'string');
 SaveHandle = findobj(gcbf, 'Tag', 'SavePath');savepath = get(SaveHandle,'string');
-FileHandle = findobj(gcbf, 'Tag', 'Filename');cellname = pathname(end-8:end);
+FileHandle = findobj(gcbf, 'Tag', 'Filename');cellname = pathname(strfind(pathname, 'm'):end);
 ChHandle = findobj(gcbf, 'Tag', 'channel number');chN = str2num(get(ChHandle,'string')); % the number of channels
 infoHandle = findall(gcbf,'tag','InfoShowPanel');
 
@@ -120,7 +120,8 @@ switch (action)
         % Save the time info, in s
         SPKtBegin = ori_data{1}.CSPK_001.TimeBegin;
         SPKtEnd = ori_data{end}.CSPK_001.TimeEnd;
-        SPK_dur = SPKtEnd - SPKtBegin + 1;
+%         SPK_dur = SPKtEnd - SPKtBegin + 1;
+        SPK_dur = SPKtEnd - SPKtBegin;
         save([cellname,'_TimeDuration'],'SPK_dur');
         
         % Merge digital marker files
@@ -174,7 +175,7 @@ switch (action)
         % save as different format for different spike sorting algorithms
         % ÏÈÍÚ‚€¿Ó
         
-    case 'combine tasks'
+    case 'combine tasks' % combine spike data of different block(run) 
         
         clear ori_data; % Or "out of memory"
         

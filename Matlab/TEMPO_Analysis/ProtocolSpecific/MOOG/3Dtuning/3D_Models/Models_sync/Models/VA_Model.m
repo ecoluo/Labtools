@@ -16,7 +16,7 @@ t = st_data(14:end);
 vel_time = vel_func(a(3), t);
 % spatial profiles
 ele_azi_v = cos_tuning(a(4:7), [u_ele; u_azi]);
-ele_azi_v = reshape(ele_azi_v, length(u_azi), length(u_ele));
+ele_azi_v = reshape(ele_azi_v, length(u_azi), length(u_esle));
 
 % acceleration model
 %time profile

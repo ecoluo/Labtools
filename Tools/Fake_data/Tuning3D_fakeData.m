@@ -4,6 +4,7 @@
 % a = 2 -> % velocity dominated, no direction tuning
 % a = 3 -> % acceleration dominated,directionally tuned
 % a = 4 -> % acceleration dominated, no direction tuning
+% a = 7 -> % PVAJ, with direction tuning
 
 function Tuning3D_fakeData(a)
 clc;
@@ -13,9 +14,21 @@ if nargin == 0
     a = 7;
 end;
 
-meanSpon = 10;
+% FileN = 'PLargeNLarge_1'; % the saved name
+% FileN = 'PLargeNSmall_1'; % the saved name
+% FileN = 'PSmallNLarge_1'; % the saved name
+FileN = 'PSmallNSmall_1'; % the saved name
+% FileN = 'PVAJaverageNSmall_1'; % the saved name
+% FileN = 'test';
+
+wV = 0.2;
+wA = 0.5;
+wJ = 0.2;
+wP = 0.1;
+
+meanSpon = 20;
 duration = 1.5;
-bin = 60;
+bin = 59;
 step = duration/bin;
 t = 0:step:duration;
 coord = [-90 -45 0 45 90 270 225 180 135 90 45 0 315];
@@ -23,23 +36,25 @@ coord = [-90 -45 0 45 90 270 225 180 135 90 45 0 315];
 maxSPK = 30; % the max value of spike
 mu = duration/2;
 sig = 1.5/2/4.5; % sig =  duration/2/num_of_sigma
+noiseSmall = rand(8,5,bin+1)*maxSPK/20;
+noiseBig = rand(8,5,bin+1)*maxSPK/20;
 
 preDir = [68 20]; % [azimuth, elevation]
 preDir_V = [0 30]; % [azimuth, elevation]
-preDir_A = [60 0]; % [azimuth, elevation]
-preDir_J = [90 0]; % [azimuth, elevation]
-preDir_P = [40 -90]; % [azimuth, elevation]
+preDir_A = [0 30]; % [azimuth, elevation]
+preDir_J = [0 30]; % [azimuth, elevation]
+preDir_P = [0 30]; % [azimuth, elevation]
 
 switch a
-%     %{
+    %     %{
     case 1 % velocity dominated, directionally tuned
         
         R = exp((-(t-mu).^2)./(2*sig.^2));
         spatialTuning = abs(cosTuning(preDir, coord))+0.1; % +0.1 for value==0
-spatialTuning = linspace(0,2,40);
+        spatialTuning = linspace(0,2,40);
         Respon = repmat(R,length(spatialTuning),1) .* (repmat(spatialTuning,length(R),1))';
         Respon = reshape(Respon,[8 5 length(R)])*(maxSPK/max(max(max(Respon))));
-% 
+        %
     case 2 % velocity dominated, no direction tuning
         
         R = exp((-(t-mu).^2)./(2*sig.^2));
@@ -67,7 +82,7 @@ spatialTuning = linspace(0,2,40);
         %         Respon = Respon .*signS;
         Respon = reshape(Respon,[8 5 length(R)])*(maxSPK/max(max(max(Respon))));
         
-
+        
     case 4 % acceleration dominated, no direction tuning
         
         R = -(t-mu)./sig.^2.*exp((-(t-mu).^2)./(2*sig.^2));
@@ -121,9 +136,9 @@ spatialTuning = linspace(0,2,40);
         wV = 0.5;
         wA = 0.5;
         Respon = ResponV.*wV+ResponA.*wA+meanSpon;
-   
+        
         %}
-    
+        
     case 7 % V&A&J&P, all direction tuned, with respective weight)
         
         %----- velocity
@@ -186,12 +201,14 @@ spatialTuning = linspace(0,2,40);
         ResponP = reshape(ResponP,[8 5 length(Rp)])*(maxSPK/max(max(max(ResponP))));
         
         % V&A (weight)
-        wV = 0.1;
-        wA = 0.5;
-        wJ = 0.4;
-        wP = 0;
+        %         wV = 0.1;
+        %         wA = 0.1;
+        %         wJ = 0.1;
+        %         wP = 0.7;
         Respon = ResponV.*wV+ResponA.*wA+ResponJ.*wJ+ResponP.*wP+meanSpon;
-    %{    
+        %         Respon = Respon + noiseSmall;
+        Respon = Respon + noiseBig;
+        %{
     case 8 % Jerk, direction tuning
         
         Rj = ((t-mu).^2-sig.^2)./sig.^4.*exp((-(t-mu).^2)./(2*sig.^2));
@@ -228,49 +245,54 @@ spatialTuning = linspace(0,2,40);
         end
         
         Respon = reshape(ResponP,[8 5 length(Rp)])*(maxSPK/max(max(max(ResponP))));
-       %} 
+        %}
         
-        case 8 % velocity dominated, with jitters in time
+    case 8 % velocity dominated, with jitters in time
         
         R = exp((-(t-mu).^2)./(2*sig.^2));
-%         jitter = round((rand(1,40)-0.5)*length(R)/duration/2); % 
+        %         jitter = round((rand(1,40)-0.5)*length(R)/duration/2); %
         jitter = round(linspace(-0.2,0.2,40)*length(R)/duration); % +0.1 for value==0
-%         jitter([6:10 end-5:end]) = 0;
-%         jitter([16:20 end-15:end-19]) = 0;
+        %         jitter([6:10 end-5:end]) = 0;
+        %         jitter([16:20 end-15:end-19]) = 0;
         Respon = repmat(R,length(jitter),1);
         
         for ii = 1:40
             
             Respon(ii,:) = circshift(Respon(ii,:),[0 jitter(ii)]);
             if jitter(ii)>0
-            Respon(ii,1:jitter(ii)) = zeros(1,length(jitter(ii)));
+                Respon(ii,1:jitter(ii)) = zeros(1,length(jitter(ii)));
             else
                 Respon(ii,end+jitter(ii):end) = zeros(1,length(jitter(ii)));
             end
         end
         
-%         Respon = reshape(Respon,[8 5 length(R)])*(maxSPK/max(max(max(Respon))));
-
+        %         Respon = reshape(Respon,[8 5 length(R)])*(maxSPK/max(max(max(Respon))));
+        
 end
 
-save('Z:\Labtools\Tools\Fake_data\Faked neurons V1\v2','Respon');
+save(['Z:\Labtools\Tools\Fake_data\Partial\',FileN],'Respon','wA','wV','wJ','wP');
 %% fit models
-%{
+% %{
+duration = duration*1000;
 reps = 20;
 stimOnBin = 1;
 stimOffBin = bin+1;
-aMax = duration/4*1000;
-aMin = duration*3/4*1000;
+% aMax = duration/4*1000;
+% aMin = duration*3/4*1000;
+aMax = 580;
+aMin = 910;
 fitData = permute(Respon,[2 1 3]);
-spatialData = squeeze(sum(fitData,3));
+spatialData = squeeze(sum(fitData,3))/size(fitData,3);
 % models = {'VA','AO'};
 % models_color = {'k','g'};
 models = {'PVAJ'};
 models_color = {'k'};
+% models = {'VA'};
 % models = {'AO'};
 % models_color = {'g'};
 stimTypeInx = 1;
-model_catg = 'Out-sync model'; % each component has its own tau
+% model_catg = 'Out-sync model'; % each component has its own tau
+model_catg = 'Sync model'; % all components have the same tau
 
 % [PSTH3Dmodel.modelFitRespon_VA,PSTH3Dmodel.modelFit_VA,PSTH3Dmodel.modelFit_spatial,PSTH3Dmodel.modelFitPara_VA,PSTH3Dmodel.BIC_VA,PSTH3Dmodel.RSquared_VA,PSTH3Dmodel.rss_VA,PSTH3Dmodel.time]=fitVA(meanSpon,fitData,spatialData,bin+1,reps,stimOnBin,stimOffBin,aMax,aMin);
 % for m_inx = 1:length(models)
@@ -289,7 +311,7 @@ switch model_catg
             % [PSTH3Dmodel{1}.modelFitRespon_VO,PSTH3Dmodel{1}.modelFitPara_VO,PSTH3Dmodel{1}.BIC_VO,PSTH3Dmodel{1}.RSquared_VO,PSTH3Dmodel{1}.rss_VO,PSTH3Dmodel{1}.time]=fitVO(meanSpon,PSTH_data,spatial_data,nBins,reps,stimOnBin,stimOffBin,aMax,aMin);
         end
     case 'Out-sync model'
-%         keyboard;
+        %         keyboard;
         for m_inx = 1:length(models)
             eval(['[PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFitRespon_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFit_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFit_spatial',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.modelFitPara_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.BIC_',models{m_inx},...
                 ',PSTH3Dmodel{',num2str(stimTypeInx),'}.RSquared_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.rss_',models{m_inx},',PSTH3Dmodel{',num2str(stimTypeInx),'}.time]=fit',models{m_inx},'_O',...
@@ -298,6 +320,20 @@ switch model_catg
         end
 end
 
+PSTH3Dmodel{stimTypeInx}.PVAJ_wP = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21))*PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(20);
+PSTH3Dmodel{stimTypeInx}.PVAJ_wV = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21))*(1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(20));
+PSTH3Dmodel{stimTypeInx}.PVAJ_wA = (1-PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22))*PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(21);
+PSTH3Dmodel{stimTypeInx}.PVAJ_wJ = PSTH3Dmodel{stimTypeInx}.modelFitPara_PVAJ(22);
+
+[r,p] = partialcorr([fitData(:),PSTH3Dmodel{stimTypeInx}.modelFit_PVAJ.V(:),PSTH3Dmodel{stimTypeInx}.modelFit_PVAJ.A(:),PSTH3Dmodel{stimTypeInx}.modelFit_PVAJ.J(:),PSTH3Dmodel{stimTypeInx}.modelFit_PVAJ.P(:)]);
+
+PSTH3Dmodel{stimTypeInx}.parrV = [r(1,2),p(1,2)];
+PSTH3Dmodel{stimTypeInx}.parrA = [r(1,3),p(1,3)];
+PSTH3Dmodel{stimTypeInx}.parrJ = [r(1,4),p(1,4)];
+PSTH3Dmodel{stimTypeInx}.parrP = [r(1,5),p(1,5)];
+
+duration = duration/1000;
+save(['Z:\Labtools\Tools\Fake_data\Partial\',FileN,'_PSTH3Dmodel'],'PSTH3Dmodel');
 %}
 
 %% figures;
@@ -310,7 +346,7 @@ markers = {
     };
 
 %% Original data
-% 
+%
 % figure(103);
 % set(gcf,'pos',[30 50 1000 500]);
 % clf;
@@ -370,8 +406,20 @@ set(gca,'xtick',[],'xticklabel',[]);
 
 % spontaneous
 %     axes(h_subplot(1+(1-1)*9));
+axes('unit','pixels','pos',[60 700 800 80]);
+xlim([0,100]);
+ylim([0,10]);
+text(10,15,['r^2 PVAJ = ',num2str(PSTH3Dmodel{stimTypeInx}.RSquared_PVAJ)],'fontsize',12);
+text(10,10,['Faked data: wV = ',num2str(wV),'wA = ',num2str(wA),'wJ = ',num2str(wJ),'wP = ',num2str(wP)],'fontsize',12);
+text(10,5,['Fitted data: wV = ',num2str(PSTH3Dmodel{stimTypeInx}.PVAJ_wV),'wA = ',num2str(PSTH3Dmodel{stimTypeInx}.PVAJ_wA),'wJ = ',num2str(PSTH3Dmodel{stimTypeInx}.PVAJ_wJ),'wP = ',num2str(PSTH3Dmodel{stimTypeInx}.PVAJ_wP)],'fontsize',12);
+text(10,0,['Fitted data: rV = ',num2str(PSTH3Dmodel{stimTypeInx}.parrV(1)),'rA = ',num2str(PSTH3Dmodel{stimTypeInx}.parrA(1)),'rJ = ',num2str(PSTH3Dmodel{stimTypeInx}.parrJ(1)),'rP = ',num2str(PSTH3Dmodel{stimTypeInx}.parrP(1))],'fontsize',12);
+text(10,-5,['Parc p: pV = ',num2str(PSTH3Dmodel{stimTypeInx}.parrV(2)),'pA = ',num2str(PSTH3Dmodel{stimTypeInx}.parrA(2)),'pJ = ',num2str(PSTH3Dmodel{stimTypeInx}.parrJ(2)),'pP = ',num2str(PSTH3Dmodel{stimTypeInx}.parrP(2))],'fontsize',12);
+axis off;
+% save the figure
+set(gcf,'paperpositionmode','auto');
+saveas(gcf,['Z:\Labtools\Tools\Fake_data\Partial\',FileN], 'emf');
 
-keyboard;
+% keyboard;
 %% model figures
 %{
 for m_inx = 1:length(models)
@@ -384,7 +432,7 @@ for m_inx = 1:length(models)
         for i = 1:8
             axes(h_subplot(i+(j-1)*8));
             bar(squeeze(Respon(i,j,:)),'facecolor',colorLGray,'edgecolor',colorLGray);hold on;
-            eval(['h = plot(squeeze(PSTH3Dmodel.modelFitRespon_',models{m_inx},'(',num2str(i),',',num2str(j),',:)));']);
+            eval(['h = plot(squeeze(PSTH3Dmodel{1}.modelFitRespon_',models{m_inx},'(',num2str(i),',',num2str(j),',:)));']);
             set(h,'linestyle','-','linewidth',2,'color',models_color{m_inx});
             %         plot(squeeze(PSTH3Dmodel.modelFitRespon_VA(i,j,:)),'k','linewidth',1.5);
             hold on;
@@ -427,6 +475,8 @@ for m_inx = 1:length(models)
     set(gca,'ylim',[0 max(Respon(:))],'xlim',[1 size(Respon,3)]);
     SetFigure(15);
     set(gca,'xtick',[],'xticklabel',[]);
+    
+    
 end
 %}
 %% model figures for V & A respectively
@@ -538,7 +588,7 @@ SetFigure(15);
 set(gca,'xtick',[],'xticklabel',[]);
 
 %}
-keyboard;
+% keyboard;
 end
 
 

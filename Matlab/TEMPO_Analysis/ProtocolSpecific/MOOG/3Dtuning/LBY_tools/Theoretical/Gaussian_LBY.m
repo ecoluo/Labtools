@@ -6,15 +6,19 @@ clear all;
 colorDefsLBY;
 duration = 1.5; % unit in s
 num_sigs = 4.5;
-amp = 8; % unit in m(translation) or deg(rotation)
+amp = 0.11; % unit in m(translation) or deg(rotation)
 step = 0.0005;
 t = 0:step:duration;
 
 % --------------------  The Equations -------------------- %
 
 %pos = ampl*0.5*(erf(2*num_sigs1/3*(t-1)) + 1); % Gu
-pos = amp*0.5*(erf(sqrt(2)*num_sigs*(t-duration/2)/duration) + 1); % HH
-%pos = ampl*normcdf(t,1,1/num_sigs);
+
+% pos = amp*0.5*(erf(sqrt(2)*num_sigs*(t-duration/2)/duration) + 1); % HH
+
+% pos = amp*(-1/2*(cos(pi/duration*t))+0.5); % velocity = sin; vel = sin(pi/duration*t);
+% pos = ampl*normcdf(t,1,1/num_sigs);
+
 veloc = diff(pos)/step;
 accel = diff(veloc)/step;
 jerk = diff(accel)/step;

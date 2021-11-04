@@ -71,7 +71,7 @@ UB = [10 360 90 2];
 [~, max_idx] = max(spatial_data(:));
 [max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
 
-param = [0 u_ele(max_idx_e) u_azi(max_idx_a) 0.5];
+param = [0.01 u_ele(max_idx_e) u_azi(max_idx_a) 0.5];
 %}
 
 %{
@@ -114,7 +114,7 @@ init_param(1,:) = param;
 LB = [0.25*A, ...`  %1  A amplitude
     0, ...          %2  R_0 baseline
     mu+advance, ...         %3  mu_0
-    -1, ...      %4  n
+    0.001, ...      %4  n
     0, ...          %5  a_0
     -90, ...      %6  e_0
     0,...       %7
@@ -123,7 +123,7 @@ LB = [0.25*A, ...`  %1  A amplitude
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
     mu+delay, ...     %3  mu_0
-    1, ...         %4  n
+    10, ...         %4  n
     360, ...       %5  a_0
     90, ...       %6  e_0
     1,...       %7

@@ -1,5 +1,4 @@
 % fit Velocity-acceleration model for 3D tuning
-
 % time (unit: s)
 % spon: spontaneous firing rate
 % PSTH_data: PSTH data with sliding windows

@@ -439,7 +439,7 @@ end
 %}
 
 % % ------ fig.140 plot V,A spatial tuning for VA models (Contour, use fitted data) ------%
-% %{
+%{
 if sum(ismember(models,'VA')) ~= 0
     components = {'V','A'};
     figure(140);clf;set(gcf,'pos',[120 200 1400 750]);
@@ -692,7 +692,7 @@ end
 
 
 % ------ fig.170 plot V,A,J for VAJ model (PSTH) ------%
-%{
+% %{
 if sum(ismember(models,'VAJ')) ~= 0
     components = {'V','A','J'};
     color_com = {'r',colorDBlue,colorDOrange};

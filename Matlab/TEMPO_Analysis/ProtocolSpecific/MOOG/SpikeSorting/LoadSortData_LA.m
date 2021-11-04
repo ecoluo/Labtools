@@ -104,7 +104,7 @@ function BrowseButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-dfltDir = 'Z:\Data\MOOG\Qiaoqiao\raw\LA\';% Default data directory
+dfltDir = 'Z:\Data\MOOG\baiya\raw\LA\';% Default data directory
 cd(dfltDir);
 
 % Locate the batch file and check if anything was chosen.
@@ -214,11 +214,13 @@ CHAN3.sr = SPK_fs;
 
 % load the groups of each cluster ('good' for SU, 'mua' for MU, 'noise' for noise)
 
-fid = fopen(['C:\data\',dataFileName(1:strfind(dataFileName, 'r')-1),'\cluster_group.tsv']);
+% fid = fopen(['C:\data\',dataFileName(1:strfind(dataFileName, 'r')-1),'\cluster_group.tsv']);
+fid = fopen(['C:\data\',dataFileName(1:strfind(dataFileName, 'r')-1),'\cluster_KSLabel.tsv']);
 cGroup = textscan(fid, '%f %s', 'HeaderLines', 1);
 fclose(fid);
 % find the good (single units) spikes
 goodMarkersInd = cGroup{1,1}(strcmp(cGroup{1,2}, 'good'));
+
 
 % load the clusters and times of each spike
 
@@ -244,7 +246,9 @@ CHAN3.timings = time/CHAN3.sr; % unit in s
 %}
 
 %find the timings of the SelectNeuronID of real SU
-SelectNeuronID = goodMarkersInd
+% SelectNeuronID = goodMarkersInd +1 % +1 bcs matlab start from 1
+SelectNeuronID = goodMarkersInd 
+
 for k=1:length(SelectNeuronID)
     Index = find(clusters==SelectNeuronID(k));
     Neuron(k).SpikeTiming = CHAN3.timings(Index);
@@ -439,9 +443,14 @@ for k= length(SelectNeuronID) :-1: 1
     
     % Find the waveform of the template of each cluster
     WaveFormTempl = [];
-    clusterInxTemp = find(clusters == SelectNeuronID(k));
+clusterInxTemp = find(clusters == SelectNeuronID(k));
     clusterInx = templatesInx(clusterInxTemp(1));
-    WaveFormTempl = templates(clusterInx,:,1);
+    try
+%     WaveFormTempl = templates(clusterInx,:,1);
+WaveFormTempl = templates(clusterInx+1,:,1);
+    catch
+        keyboard;
+    end
     spsData2(k).WaveFormTempl = WaveFormTempl;
     
     % Signal-to-Noise Ratio, it's not a good way
@@ -580,6 +589,8 @@ if isempty(findstr(fileName,'\'))    % If the directory has been ignored...
             handles.dataPath = 'Z:\Data\MOOG\Polo\raw\LA\';
         case 6
             handles.dataPath = 'Z:\Data\MOOG\Qiaoqiao\raw\LA\';
+        case 4
+            handles.dataPath = 'Z:\Data\MOOG\baiya\raw\LA\';
             
     end
     

@@ -51,8 +51,8 @@ options = optimset('Display', 'off', 'MaxIter', 5000);
 R_0 = baseline;
 A = t_A*s_A;
 mu_0 = mu;
-a_n = 0;
-j_n = 0;
+a_n = 1;
+j_n = 1;
 [~, max_idx] = max(spatial_data(:));
 [max_idx_a, max_idx_e] = ind2sub(size(spatial_data), max_idx);
 a_e_0 = u_ele(max_idx_e);
@@ -85,11 +85,11 @@ init_param(1,:) = param;
 LB = [0.25*A, ...`  %1  A
     0, ...          %2  R_0
     mu+advance, ...       %3  mu_t
-    -1, ...      %4  n
+    0.001, ...      %4  n
     0, ...          %5  a_0
     -90, ...      %6  e_0
     0,...          %7 v_DC
-    -1, ...      %8 a_n
+    0.001, ...      %8 a_n
     0, ...          %9 a_a_0
     -90, ...      %10 a_e_0
     0, ...         %11 a_DC
@@ -98,11 +98,11 @@ LB = [0.25*A, ...`  %1  A
 UB = [4*A, ...      %1  A
     300, ...        %2  R_0
     mu+delay, ...      %3  mu_t
-    1, ...         %4  n
+    10, ...         %4  n
     360, ...       %5  a_0
     90, ...       %6  e_0
     1,...          %7 v_DC
-    1, ...        %8 a_n
+    10, ...        %8 a_n
     360, ...      %9 a_a_0
     90, ...      %10 a_e_0
     1 ...         %11 a_DC
