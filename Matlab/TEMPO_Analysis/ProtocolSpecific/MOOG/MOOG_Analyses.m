@@ -9,6 +9,15 @@ global JustEditIt;
 switch(Analysis{1})
     %%%%%%%%%%%%%%% Frequently used by LBY%%%%%%%%%%%%%%%%
     
+    %-----------------    fUS    -------------------%
+    
+    case 'functional Ultrasound Imaging'
+        if JustEditIt == 1
+            edit fUS_LBY;
+        else
+            fUS_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
+        end
+    
     %-----------------    3D Tuning    -------------------%
     
     case '3D Tuning Analysis_LBY'

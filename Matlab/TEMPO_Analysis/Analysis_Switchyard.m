@@ -75,7 +75,7 @@ if (~isempty(data.eye_data))
     %the function will load in the parameters and compute the calibrated eye positions, and then store
     %them back in the 'data' structure for use elsewhere.  Added 12/6/00 by GCD
     data.eye_calib_done = 0;  % set this flag to zero; it can be used elsewhere to check if there are calibrated signals
-    %    [caldata, doneflag] = LoadEyeCalibration(data, PATH, FILE);
+    %    [caldata, doneflag] = LoadEyeCalibration(data, P                                  ATH, FILE);
     [caldata, doneflag] = LoadEyeCalibration_NonLin(data, PATH, FILE);
     data.eye_positions_calibrated = caldata;
     data.eye_calib_done = doneflag;

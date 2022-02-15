@@ -4,21 +4,32 @@
 
 % clear;clc;
 
+% fileN = 'm4c242r5';cd('Z:\Data\MOOG\baiya\Ultrasound');
+fileN = 'm21c2r1';cd('Z:\Data\MOOG\Jannabi\Ultrasound');
+unique_duration = 1.5;
+
 %read the image
-% fileN = 'm4c242r5';
 head = spm_vol([fileN,'.nii']); %change the name of the image
 img= spm_read_vols(head);
-img4d=permute(img,[1 3 2 4]); % permute the dimension of x and y
+img4d=permute(img,[1 3 2 4]); % permute the dimension of y and z
 
 % change some parameters here
-totalT = 255; % the duration of whole exp time, unit in s
-onset=0:12.75:totalT-1; %stim onset time
-duration=1.5/300*totalT; % the duration of each stim, unit in s
+% totalT = 255; % the duration of whole exp time, unit in s
+% reps = 20; % repitition
+% outT = 300; % true stim time outside fUS
+% duration=1.5/outT*totalT; % the duration of each stim, unit in s
 
+totalT = 290; % the duration of whole exp time, unit in s
+reps = 20; % repitition
+outT = 300; % true stim time outside fUS
+
+duration=unique_duration/outT*totalT; % the duration of each stim, unit in s
+onset=0:(totalT/reps):totalT-1; %stim onset time
+scannum = 1;
 nFr = length(head); % number of image frames
 stimu=zeros(nFr,1); % initialize stim with 0
 sampleT = totalT/nFr; % time for each image
-%TR=0.4;
+TR=0.4;
 
 % upsample stim to sampling rate of images
 onsetframe=fix(onset*nFr/totalT)+1; % +1 for first image is 1 but not 0

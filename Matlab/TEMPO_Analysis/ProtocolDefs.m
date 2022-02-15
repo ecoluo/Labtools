@@ -60,7 +60,8 @@ MEMORY_SACCADE = 125; %Added by Tunde for Adhira
 %%for Adhira and Yun --- Tunde 05/10/11
 VISUAL_MOTION_PURSUIT_GALVO_LOWSPEED = 201; %
 VISUAL_MOTION_PURSUIT_GALVO_HIGHSPEED = 127; %,   //202
-ROTATION_DISCRIM = 128; %     //LBY changed 20181117
+% ROTATION_DISCRIM = 128; %     //LBY changed 20181117
+HEADING_OPTICFLOW_AUDIO_DISCRIM = 128; %     //LBY changed for audio protocol(LQY) 20211216
 ROTATION_DISCRIM_FIXONLY = 129; %   //LBY changed 20181118
 GRATING = 130;
 
@@ -231,7 +232,7 @@ protocol_names(126) = {
 
 protocol_names(128:130) = {
     'MOOG: AZ_TUNUNG_W_PURSUIT_VISUAL'
-    'MOOG: Rotation discrimination'
+    'MOOG: audio discrimination'
     'MOOG: Rotation fix only'
     }; %Added by LBY 20181118
 
@@ -516,6 +517,11 @@ moog_keywords{num_keys}='GRATE_FREQ';			GRATE_FREQ=num_keys; 			num_keys=num_key
 moog_keywords{num_keys}='GRATE_WIDTH';			    GRATE_WIDTH=num_keys; 			    num_keys=num_keys+1;
 moog_keywords{num_keys}='GRATE_HEIGHT';			    GRATE_HEIGHT=num_keys; 			    num_keys=num_keys+1;
 moog_keywords{num_keys}='STIMULUS_TYPE';			    STIMULUS_TYPE=num_keys; 			    num_keys=num_keys+1;
+
+% for functional Ultrasound imaging LBY 20211216
+moog_keywords{num_keys}='TRIAL_START_TIME';			    TRIAL_START_TIME=num_keys; 			    num_keys=num_keys+1;
+moog_keywords{num_keys}='inter_trial_time';			    inter_trial_time=num_keys; 			    num_keys=num_keys+1;
+
 
 NUM_MOOG_PARAMS = num_keys - 1;
 
@@ -974,6 +980,12 @@ analysis_strings{GRATING + 1} = ...
     'Grating vs optic flow (LBY)',
     '',
     };
+% add audio protocal (128) from LQY, LBY 20211216
+analysis_strings{HEADING_OPTICFLOW_AUDIO_DISCRIM + 1} = ...
+    {
+    'fUS_LBY',
+    '',
+    };
 analysis_strings{ROTATION_TUNING_3D + 1} = ...
     {
     '3D Tuning Analysis_LBY',
@@ -1042,6 +1054,8 @@ analysis_strings{HEADING_DISCRIM + 1} = ...
     'HeadingDis_cum_pairwiseunits_yong',
     'HeadingDis_cum_pairwiseunits_sam',
     };
+% changd this bcs add another audio protocal from LQY, LBY 20211216
+%{
 analysis_strings{ROTATION_DISCRIM + 1} = ...
     {  'Plot Psychometric_LBY',
     'Plot CP_LBY',
@@ -1050,6 +1064,7 @@ analysis_strings{ROTATION_DISCRIM + 1} = ...
     'Plot CP_shiftwindow_HH',
     'Plot Psychometric',
     };
+%}
 analysis_strings{HEADING_DISCRIM_FIXONLY + 1} = ...
     {   'Plot local tuning',
     'Plot Accelerometer_cum',
@@ -1135,6 +1150,7 @@ analysis_strings{DIRECTION_REVCORR + 1} = ...
     };
 analysis_strings{AZIMUTH_TUNING_1D + 1} = ...
     {
+    'functional Ultrasound Imaging',
     'Plot PSTH_LBY',
     'Plot Tuning Azimuth_HH',
     'Plot Tuning Azimuth PSTH_HH'

@@ -18,8 +18,9 @@ colorDefsLBY;
 % load('Z:\LBY\System\20200323_e0_a90_T_sigma4');
 % TEMPO1_Acceleration = Average3_acc_T_sigma4_20200323_90degree__Ch1;
 
-load('Z:\LBY\System\20200323_e0_a90_T_sigma6');
-TEMPO1_Acceleration = Average2_acc_T_sigma6_20200323_90degree_1__Ch1;
+% load('Z:\LBY\System\20200323_e0_a90_T_sigma6');
+% TEMPO1_Acceleration = Average2_acc_T_sigma6_20200323_90degree_1__Ch1;
+
 
 % load('Z:\LBY\System\change_sigmas\acc_T_sigma6_20200408_90degree_amp10.mat');
 % TEMPO1_Acceleration = Average1_acc_T_sigma6_20200408_90degree_amp10__Ch1;
@@ -27,8 +28,12 @@ TEMPO1_Acceleration = Average2_acc_T_sigma6_20200323_90degree_1__Ch1;
 % load('Z:\LBY\System\change_sigmas\acc_T_sigma2_7_20200408_90degree_amp24.mat');
 % TEMPO1_Acceleration = Average1_acc_T_sigma2_7_20200408_90degree_amp24__Ch1;
 
+load('Z:\LBY\System\sig6_delay2_return8_dur2');
+TEMPO1_Acceleration = Average3_sig6_delay2_return8_dur2__Ch1;
+
 % system_delay = 0.17; % unit in s
-duration = 1.5; % unit in s
+% duration = 1.5; % unit in s
+duration = 2; % unit in s
 
 % the sensitivity of this accelerator is 400mV/g
 acc = (TEMPO1_Acceleration.values-mean(TEMPO1_Acceleration.values))/0.4*9.8;
@@ -47,10 +52,10 @@ end
 % time_acc = TEMPO1_Acceleration.times(system_delay*2000+2:(system_delay+duration)*2000+2)-system_delay;
 % veloc = vel(system_delay*2000+2:(system_delay+duration)*2000+2);
 % accel = acc(system_delay*2000+2:(system_delay+duration)*2000+2);
-time_vel = TEMPO1_Acceleration.times(3:duration*2000+2);
-time_acc = TEMPO1_Acceleration.times(3:duration*2000+2);
-veloc = vel(3:duration*2000+2);
-accel = acc(3:duration*2000+2);
+time_vel = TEMPO1_Acceleration.times(3:duration*(1/TEMPO1_Acceleration.interval)+2);
+time_acc = TEMPO1_Acceleration.times(3:duration*(1/TEMPO1_Acceleration.interval)+2);
+veloc = vel(3:duration*(1/TEMPO1_Acceleration.interval)+2);
+accel = acc(3:duration*(1/TEMPO1_Acceleration.interval)+2);
 [vMax,vMaxT] = max(veloc); 
 vMax
 vMaxT = vMaxT/2
@@ -98,7 +103,7 @@ set(h(2),'yColor',colorDBlue);
 ylabel(h(1),'Velocity (m/s) ');
 ylabel(h(2),'Acceleration (m/s^2) ');
 set(h(1),'ylim',[0 0.3]);
-set(gca,'xlim',[0,1.5]);
+set(gca,'xlim',[0,duration]);
 xlabel('Time (s)');
 title('Time profile(Real, with smoothing)');
 SetFigure(25);

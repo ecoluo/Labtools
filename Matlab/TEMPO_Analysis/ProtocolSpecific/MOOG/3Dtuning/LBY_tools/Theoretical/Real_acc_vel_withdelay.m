@@ -48,10 +48,10 @@ end
 % time_acc = TEMPO1_Acceleration.times(system_delay*2000+2:(system_delay+duration)*2000+2)-system_delay;
 % veloc = vel(system_delay*2000+2:(system_delay+duration)*2000+2);
 % accel = acc(system_delay*2000+2:(system_delay+duration)*2000+2);
-time_vel = TEMPO1_Acceleration.times(3:duration*2000+2);
-time_acc = TEMPO1_Acceleration.times(3:duration*2000+2);
-veloc = vel([3:duration*2000+2]+delay);
-accel = acc([3:duration*2000+2]+delay);
+time_vel = TEMPO1_Acceleration.times(3:duration*(1/TEMPO1_Acceleration.interval)+2);
+time_acc = TEMPO1_Acceleration.times(3:duration*(1/TEMPO1_Acceleration.interval)+2);
+veloc = vel([3:duration*(1/TEMPO1_Acceleration.interval)+2]+delay);
+accel = acc([3:duration*(1/TEMPO1_Acceleration.interval)+2]+delay);
 [~,vMaxT] = max(veloc); vMaxT = vMaxT/2;
 [~,aMaxT] = max(accel); aMaxT = aMaxT/2;
 [~,aMinT] = min(accel); aMinT = aMinT/2;

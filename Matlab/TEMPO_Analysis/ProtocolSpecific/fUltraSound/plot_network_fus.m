@@ -1,4 +1,4 @@
-function [sum_image ,network_color, handle_1, handle_2] = plot_network_fus(anatomical_file,anatomical,network_mask,threshold,neg_threshold,mask_scaling,invert_anatomical_colors,anatomical_scaling)
+function [sum_image ,network_color, handle_1, handle_2] = plot_network_fus(stimType,azi,anatomical_file,anatomical,network_mask,threshold,neg_threshold,mask_scaling,invert_anatomical_colors,anatomical_scaling)
 % PLOT_NETWORK  Plots a network over an anatomical image
 %
 % Requires network_color.mat
@@ -238,14 +238,14 @@ anatomical(network_mask ~= 0) = 0;
 %     error('None of anatomical image to be shown.');
 % end
 sum_image = network_mask + anatomical;
-temp = strfind(anatomical_file,'.nii');
-tempN = anatomical_file(8:temp-1);
+temp = strfind(anatomical_file,'_');
+tempN = anatomical_file(8:temp(2)-1);
 if (nargout == 0) || (nargout >= 3)
     % Show the scale
-    handle_1 = figure;imagesc(network_mask_orig);colorbar;colormap('jet');axis equal;axis off;title(['Correlation map: ',tempN]);
-    saveas(handle_1,['Z:\LBY\Recording data\fUS\corr_' tempN], 'jpg');
+    handle_1 = figure;imagesc(network_mask_orig);colorbar;colormap('jet');axis equal;axis off;title(['Correlation map: ',tempN,' ',stimType,' ',num2str(azi),'deg']);
+    saveas(handle_1,['Z:\LBY\Recording data\fUS\corr_' ,tempN,'_',stimType,'_azi',num2str(azi)], 'jpg');
     % Show the image %modify by bobinshi
-    handle_2 = figure;imagesc(sum_image,[0 3]);colormap(network_color);axis equal;axis off;title(['Correlation map with anatomical image: ',tempN]);
-    saveas(handle_2,['Z:\LBY\Recording data\fUS\corrAnatomy_' tempN], 'jpg');
+    handle_2 = figure;imagesc(sum_image,[0 3]);colormap(network_color);axis equal;axis off;title(['Correlation map with anatomical image: ',tempN,' ',stimType,' ',num2str(azi),'deg']);
+    saveas(handle_2,['Z:\LBY\Recording data\fUS\corrAnatomy_' ,tempN,'_',stimType,'_azi',num2str(azi)], 'jpg');
     %handle_2 = figure;imshow(sum_image,[0 3]); colormap(network_color);axis equal;axis off;
 end

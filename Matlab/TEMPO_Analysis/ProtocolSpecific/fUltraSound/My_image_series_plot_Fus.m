@@ -1,4 +1,4 @@
-function [ handle_1, handle_2] = My_image_series_plot_Fus(anatomical_file,network_mask_file,threshold,neg_threshold,cluster,mask_scaling,rows,columns,spacing)
+function [ handle_1, handle_2] = My_image_series_plot_Fus(stimType,azi,anatomical_file,network_mask_file,threshold,neg_threshold,cluster,mask_scaling,rows,columns,spacing)
 % IMAGE_SERIES_PLOT_NETWORK
 % Plots a network against an anatomical image, as a filmstrip of images.
 % Q.v. plot_network.m and image_series.m
@@ -62,4 +62,4 @@ network_image_series = image_series(network_mask,rows,columns,spacing);
 % Plot tiled images on tiled background
 network_image_series(network_image_series == min(network_image_series(:))) = 0;
 network_image_series(network_image_series == min(network_image_series(:))) = 0;
-[~, ~, handle_1, handle_2] = plot_network_fus(anatomical_file,anatomical_image_series,network_image_series,threshold,neg_threshold,mask_scaling);
+[~, ~, handle_1, handle_2] = plot_network_fus(stimType,azi,anatomical_file,anatomical_image_series,network_image_series,threshold,neg_threshold,mask_scaling);

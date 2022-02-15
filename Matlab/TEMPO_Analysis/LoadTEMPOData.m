@@ -150,6 +150,11 @@ else
         all_trials = 1:size(temp2,3);	%list of indices for all trials; GCD changed this 5/18/04 to deal with a strange data file that had extra trial in event channel; should be OK this way
     end
     good_trials = find(temp3(:,:,:) == SUCCESS_CD);
+    % calculate time points for each trial LBY 20211216
+    visOn = find(temp3(:,:,:) == VSTIM_ON_CD);
+    visOff = find(temp3(:,:,:) == VSTIM_OFF_CD);
+    
+    
     fprintf('Success/Total Trials = %g / %g\n',length(good_trials),num_trials);  % HH20130825
     
     good_trials = ceil(good_trials/good_data.htb_header{EVENT_DB}.period);  %these are now trial indices
