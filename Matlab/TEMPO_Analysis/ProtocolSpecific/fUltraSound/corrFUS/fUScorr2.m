@@ -36,7 +36,7 @@ for i=1:np
 end
 %}
 %%
-%{
+% %{
 % show the doppler signals
 averagedatarot=rot90(averagedata,-1);
 figure,imagesc(mapcor);colormap (jet);axis off;caxis([-0.1 0.6]);
@@ -99,11 +99,15 @@ stimulus_paradigm(nonStim)=NaN;
 stimulus_paradigm(stiposition)=scale1;
 
 % plot all signals
-F=figure;plot(signalmeanpercent) 
+F=figure;set(F,'Position',[10,200,1700,300]);
+plot(signalmeanpercent); % plot raw signals 
 axis([0 length(signalmeanpercent) scale1 scale2]);
 hold on
 plot(stimulus_paradigm,'linewidth',5,'color','r');
-title('Power doppler signal');ylabel('%signal change');xlabel('time (image frame)');
+title('Power doppler signal');ylabel('%signal change');xlabel('time (s)');
+% xlabel('time (image frame)');
+xstep = 20;% set the step of x axis as 20s
+set(gca,'xtick',0:1/TR*xstep:length(stimulus_paradigm));set(gca,'xticklabel',(0:1/TR*xstep:length(stimulus_paradigm))*TR); 
 set (F,'Position',[50,500,1500,250]);
 SetFigure(15);
 saveas(F,['Z:\LBY\Recording data\fUS\',fileN,'ROI_1'],'jpg');
@@ -115,9 +119,11 @@ for ii = 1:reps
 end
 meanstimPS = mean(stimPS,1);
 ste = std(stimPS,0,1)/sqrt(reps);
-F2 = figure;shadedErrorBar(1:size(stimPS,2),meanstimPS,ste,'lineprops','k-','transparent',1);
-title(['Mean power doppler signal: ', num2str(reps), ' reps']);ylabel('% signal change');xlabel('Time from stim on (image frame)');
-set (F2,'Position',[50,500,500,500]);
+F2 = figure;set(F2,'Position',[100,100,1200,800]);
+shadedErrorBar(0:size(stimPS,2)-1,meanstimPS,ste,'lineprops','k-','transparent',1);
+title(['Mean power doppler signal: ', num2str(reps), ' reps']);ylabel('% signal change');xlabel('Time from stim on (s)');
+xstep = 2;% set the step of x axis as 2s
+set(gca,'xtick',0:1/TR*xstep:size(stimPS,2));set(gca,'xticklabel',(0:1/TR*xstep:size(stimPS,2))*TR); 
 SetFigure(15);
 saveas(F2,['Z:\LBY\Recording data\fUS\',fileN,'ROI_1_mean'],'jpg');
 % close all;

@@ -70,7 +70,8 @@ end
 
 if (~isempty(data.eye_data))
     %add the compute eye pos function here
-    data.eye_positions = ComputeMeanEyePos(data, num_trials, StartCode, StopCode, StartOffsetBin, StopOffsetBin);
+%     data.eye_positions = ComputeMeanEyePos(data, num_trials, StartCode, StopCode, StartOffsetBin, StopOffsetBin);
+data.eye_positions = 0;
     %this next function checks to see if there is an eye calibration parameter file.  IF it exists,
     %the function will load in the parameters and compute the calibrated eye positions, and then store
     %them back in the 'data' structure for use elsewhere.  Added 12/6/00 by GCD
@@ -84,6 +85,10 @@ end
 switch(Protocol)		%call a .m file that contains protocol-specific analysis routines
     
     %%%%%%%%%%%%%% Frequently used %%%%%%%%%%%%%%%%%%
+    case SINUSOID_BF
+        MOOG_Analyses(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffsetBin, StopOffsetBin, StartEventBin, StopEventBin, PATH, FILE, batch_flag);
+    case SINUSOID_LR
+        MOOG_Analyses(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffsetBin, StopOffsetBin, StartEventBin, StopEventBin, PATH, FILE, batch_flag);
     case AZIMUTH_TUNING_1D
         MOOG_Analyses(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffsetBin, StopOffsetBin, StartEventBin, StopEventBin, PATH, FILE, batch_flag);
     case DIRECTION_TUNING_3D

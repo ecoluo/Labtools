@@ -51,7 +51,7 @@ HEADING_DISCRIM_2I = 115;
 SINUSOID = 116; %added by ASB
 HEADING_DISCRIM_LIP = 117; %added by Tunde 06/20/08
 PURSUIT_HEADING_DISCRIM = 118; %added by Yong 11/18/09
-AZ_1D_VARY_FIX_HEADEYE = 119; %added by CRF 03/05/10
+% AZ_1D_VARY_FIX_HEADEYE = 119; %added by CRF 03/05/10
 ADAPT_HEADING_DISCRIM = 121; % added by Tunde 11/06/09
 AZIMUTH_TUNING_1D_TRAP = 123; % added by Yong 07/29/10
 DELAYED_SACCADE = 111;
@@ -63,11 +63,17 @@ VISUAL_MOTION_PURSUIT_GALVO_HIGHSPEED = 127; %,   //202
 % ROTATION_DISCRIM = 128; %     //LBY changed 20181117
 HEADING_OPTICFLOW_AUDIO_DISCRIM = 128; %     //LBY changed for audio protocol(LQY) 20211216
 ROTATION_DISCRIM_FIXONLY = 129; %   //LBY changed 20181118
-GRATING = 130;
+GRATING = 130;  %//LBY changed 20221028
+GRATING = 140;
 
 % Defines for REVCORR protocols.
 NUM_REVCORR_PROTOCOLS = 1;
 DIRECTION_REVCORR = 106;
+
+SINUSOID_LR = 119;
+SINUSOID_BF = 120;
+AZIMUTH_TUNING_1D_REPEAT = 131; % LBY changed 20221028
+AZIMUTH_TUNING_1D_REPEAT_VIS = 132; % LBY changed 20221028
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BINDING PROTOCOLS
 %% ADDED BY BJP 1/3/01
@@ -210,9 +216,17 @@ protocol_names(119) = {
     'MOOG: PURSUIT_HEADING_DISCRIM'
     }; %Added by GY 11/18/2009
 
+% protocol_names(120) = {
+%     'MOOG: AZ_1D_VARY_FIX_HEADEYE'
+%     }; %Added by CRF 3/05/2010
+
 protocol_names(120) = {
-    'MOOG: AZ_1D_VARY_FIX_HEADEYE'
-    }; %Added by CRF 3/05/2010
+    'SINUSOID_LR'
+    }; %Added by LBY
+
+protocol_names(121) = {
+    'SINUSOID_BF'
+    }; %Added by LBY
 
 protocol_names(122) = {
     'MOOG: ADAPTATION'
@@ -240,7 +254,13 @@ protocol_names(131) = {
     'MOOG: GRATING'
     }; %Added by LBY 20200310
 
+protocol_names(132) = {
+    'AZIMUTH_TUNING_1D_REPEAT'
+    }; %Added by LBY 20221028
 
+protocol_names(133) = {
+    'AZIMUTH_TUNING_1D_REPEAT_VIS'
+    }; %Added by LBY 20221028
 
 
 %%% added by BJP 1/3/01
@@ -520,6 +540,7 @@ moog_keywords{num_keys}='STIMULUS_TYPE';			    STIMULUS_TYPE=num_keys; 			    nu
 
 % for functional Ultrasound imaging LBY 20211216
 moog_keywords{num_keys}='TRIAL_START_TIME';			    TRIAL_START_TIME=num_keys; 			    num_keys=num_keys+1;
+moog_keywords{num_keys}='BLOCK_START_TIME';			    BLOCK_START_TIME=num_keys; 			    num_keys=num_keys+1;
 moog_keywords{num_keys}='inter_trial_time';			    inter_trial_time=num_keys; 			    num_keys=num_keys+1;
 
 
@@ -1151,6 +1172,8 @@ analysis_strings{DIRECTION_REVCORR + 1} = ...
 analysis_strings{AZIMUTH_TUNING_1D + 1} = ...
     {
     'functional Ultrasound Imaging',
+    'f Ultrasound Imaging: passive',
+    'Eyetrace fUS',
     'Plot PSTH_LBY',
     'Plot Tuning Azimuth_HH',
     'Plot Tuning Azimuth PSTH_HH'
@@ -1199,10 +1222,42 @@ analysis_strings{PURSUIT_HEADING_DISCRIM + 1} = ...
     'Plot PURSUIT_HEADING_eyemovement',
     }; %Added by GY 11/18/2009
 
-analysis_strings{AZ_1D_VARY_FIX_HEADEYE + 1} = ...
+analysis_strings{SINUSOID_LR + 1} = ...
     {
-    'Plot 1D Fixation Tuning Curves_Azimuth Head-Eye'
-    }; %Added by CRF 03/05/2010
+    'f Ultrasound Imaging: passive',
+    'functional Ultrasound Imaging',
+    'Eyetrace fUS',
+    'Plot PSTH_LBY',
+    };
+
+analysis_strings{SINUSOID_BF + 1} = ...
+    {
+    'f Ultrasound Imaging: passive',
+    'functional Ultrasound Imaging',
+    'Eyetrace fUS',
+    'Plot PSTH_LBY',
+    };
+
+analysis_strings{AZIMUTH_TUNING_1D_REPEAT + 1} = ...
+    {
+    'f Ultrasound Imaging: passive',
+    'functional Ultrasound Imaging',
+    'Eyetrace fUS',
+    'Plot PSTH_LBY',
+    };
+
+analysis_strings{AZIMUTH_TUNING_1D_REPEAT_VIS + 1} = ...
+    {
+    'f Ultrasound Imaging: passive',
+    'functional Ultrasound Imaging',
+    'Eyetrace fUS',
+    'Plot PSTH_LBY',
+    };
+
+% analysis_strings{AZ_1D_VARY_FIX_HEADEYE + 1} = ...
+%     {
+%     'Plot 1D Fixation Tuning Curves_Azimuth Head-Eye'
+%     }; %Added by CRF 03/05/2010
 
 analysis_strings{AZIMUTH_TUNING_1D_TRAP + 1} = ...
     {

@@ -1,9 +1,9 @@
-% analyze functional Ultrasound imaging
+% analyze functional Ultrasound imaging without staring at the fixation point
 % @LBY, Gu lab, 202112
 
 
 
-function fUS_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, ~, StopOffset, PATH, FILE, batch_flag)
+function fUS_LBY_passive(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, ~, StopOffset, PATH, FILE, batch_flag)
 
 % tic;
 
@@ -17,7 +17,7 @@ ProtocolDefs;
 
 stimType{1}='Vestibular';
 stimType{2}='Visual';
-stimType{3}='VestiVis';
+stimType{3}='Combined';
 stimType{5}='Sound';
 stimType{4}='null';
 
@@ -42,7 +42,8 @@ end
 trials = 1:size(data.moog_params,2); % the No. of all trials
 % find the trials for analysis
 temp_trials = trials( (data.moog_params(AZIMUTH,trials,MOOG) ~= data.one_time_params(NULL_VALUE)) ); % numOfDir*rept trials
-
+temp_stimType = data.moog_params(STIM_TYPE,temp_trials,MOOG);
+unique_stimType = munique(temp_stimType');
 trials = 1:size(data.moog_params,2); % a vector of trial indices
 
 % If length(BegTrial) > 1 and all elements are positive, they are trials to be included.
@@ -69,17 +70,14 @@ real_trials = select_trials & (~(data.moog_params(AZIMUTH,trials,MOOG) == data.o
 temp_azimuth = data.moog_params(AZIMUTH,real_trials,MOOG);
 temp_elevation = data.moog_params(ELEVATION,real_trials,MOOG);
 temp_duration = data.moog_params(DURATION,real_trials,MOOG); % in ms
-block_start_time = data.moog_params(BLOCK_START_TIME,real_trials,MOOG); % in ms
 temp_start_time = data.moog_params(TRIAL_START_TIME,real_trials,MOOG); % in ms
-temp_start_time = (temp_start_time-block_start_time(1))/1000; % in s
-
-temp_stimType = data.moog_params(STIM_TYPE,real_trials,MOOG);
-timeIdx = 0.96;
+temp_start_time = (temp_start_time-temp_start_time(1))/1000; % in s
 
 unique_duration = munique(temp_duration')/1000; % in sunique_azimuth = munique(temp_azimuth');
 unique_azimuth = munique(temp_azimuth');
 unique_elevation = munique(temp_elevation');
 unique_stimType = munique(temp_stimType');
+
 %% pack data
 
 for k = 1:length(unique_stimType)
@@ -106,14 +104,17 @@ head = spm_vol([fileN,'.nii']); %change the name of the image
 img = spm_read_vols(head); % img: [x,y,z,t]
 img4d = permute(img,[1 3 2 4]); % permute the dimension of y and z; img4d: [x,z,y,t]
 
+% change some parameters here
+totalT = 340; % the duration of whole exp time, unit in s, shown in the fUS machine
+outT = 349; % true stim time outside fUS
+timeIdx = 334/349;
+
 reps = length(start_time{1,1}); % repitition
 duration=unique_duration*timeIdx; % the duration of each stim, unit in s
-% duration=(unique_duration+2)/outT*totalT; % the duration of each stim, unit in s
 % onset=0:(totalT/reps):totalT-1; %stim onset time
 
 scannum = 1;
 nFr = length(head); % number of image frames
-% sampleT = totalT/nFr; % time for each image
 TR=0.4;
 
 %% Filter and averages N scans of the same session.
@@ -125,7 +126,6 @@ rejThre = 0.1;
 for i=1:scannum
     [h,ratioRejected,outliers]=MydataStability(img4d);
     saveas(h,['Z:\LBY\Recording data\fUS\rejection_', num2str(round(ratioRejected*100)),'_',fileN,'_',num2str(scannum)], 'jpg');
-    close('gcf');
     % option 1: ask if the data worth to be analysed
     %{
     acc=input('accepted? [y/n] ','s');
@@ -163,7 +163,7 @@ for k = 1:length(unique_stimType)
     for i = 1:length(unique_azimuth)
          % initialize stim with 0
         onset = start_time{k,i}*timeIdx;
-        onsetframe=fix(onset/TR)+1; % +1 for first image is 1 but not 0
+        onsetframe=fix(onset*nFr/totalT)+1; % +1 for first image is 1 but not 0
         % % upsample stim to sampling rate of images
         % onsetiter=1;
         % for iter=1:length(stimu)

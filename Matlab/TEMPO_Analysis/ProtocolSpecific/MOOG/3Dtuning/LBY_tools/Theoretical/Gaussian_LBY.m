@@ -4,8 +4,8 @@
 
 clear all;
 colorDefsLBY;
-duration = 2.8; % unit in s
-num_sigs = 8;
+duration = 1.5; % unit in s
+num_sigs = 4.5;
 amp = 0.11; % unit in m(translation) or deg(rotation)
 step = 0.0005;
 t = 0:step:duration;

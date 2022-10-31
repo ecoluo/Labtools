@@ -17,6 +17,22 @@ switch(Analysis{1})
         else
             fUS_LBY(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
         end
+        
+    case 'Eyetrace fUS'
+        if JustEditIt == 1
+            edit Eyetrace_fUS;
+        else
+            Eyetrace_fUS(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
+        end
+        
+    %-----------------    fUS passive   -------------------%
+    
+    case 'f Ultrasound Imaging: passive'
+        if JustEditIt == 1
+            edit fUS_LBY_passive;
+        else
+            fUS_LBY_passive(data, Protocol, Analysis, SpikeChan, StartCode, StopCode, BegTrial, EndTrial, StartOffset, StopOffset, PATH, FILE, batch_flag);
+        end
     
     %-----------------    3D Tuning    -------------------%
     
